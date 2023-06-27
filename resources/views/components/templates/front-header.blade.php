@@ -16,6 +16,9 @@
                 <a href="" class="mr-2 btn-icon_transparent"><i class="fa-solid fa-magnifying-glass"></i></a>
                 <a href="@if(auth()->guest()) {{ route('fo.sign') }} @else {{ route('fo.profile') }} @endif" class="mr-4 btn-icon_transparent"><i class="fa-solid fa-user"></i></a>
                 <button onclick="window.location='{{ route('fo.contact') }}'" class="btn-filled_secondary"><i class="fa-solid fa-comment mr-3"></i>Contactez-nous</button>
+                @if(!auth()->guest())
+                    <a href="{{ route('logout') }}" class="ml-2 btn-icon_transparent" title="Se déconnecter"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>
+                @endif
             </div>
         </div>
     </div>

@@ -13,8 +13,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $settings = DB::table('general_settings')->where('id', 1)->first();
-        View::share('settingGlobal', $settings);
+        if($this->app->resolved('db')) {
+            $settings = DB::table('general_settings')->where('id', 1)->first();
+            if($settings) {
+                View::share('settingGlobal', $settings);
+            }
+        }
+
     }
 
     /**
