@@ -1,0 +1,39 @@
+Korolev Light
+font-family: "korolev", sans-serif;
+font-weight: 300;
+font-style: normal;
+
+Korolev Light Italic
+font-family: "korolev", sans-serif;
+font-weight: 300;
+font-style: italic;
+
+Korolev Medium
+font-family: "korolev", sans-serif;
+font-weight: 500;
+font-style: normal;
+
+Korolev Medium Italic
+font-family: "korolev", sans-serif;
+font-weight: 500;
+font-style: italic;
+
+Korolev Bold
+font-family: "korolev", sans-serif;
+font-weight: 700;
+font-style: normal;
+
+Korolev Bold Italic
+font-family: "korolev", sans-serif;
+font-weight: 700;
+font-style: italic;
+
+Korolev Compressed Medium
+font-family: "korolev-compressed", sans-serif;
+font-weight: 500;
+font-style: normal;
+
+Korolev Compressed Bold
+font-family: "korolev-compressed", sans-serif;
+font-weight: 700;
+font-style: normal;

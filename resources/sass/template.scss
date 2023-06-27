@@ -1,0 +1,27 @@
+/*
+* This file used for default attributes
+*/
+
+// Use color-scheme file
+@use 'color-scheme' as t;
+
+// ----------- Aligns & Sizes
+.force-center {
+    text-align: center;
+    text-align: -webkit-center;
+    text-align: -moz-center;
+}
+.width-300 {
+    width: 300px;
+}
+.width-400 {
+    width: 400px;
+}
+.width-500 {
+    width: 500px;
+}
+
+// ------------ Texts
+h1, h2, h3, h4, h5, h6, p, a, span, table, button, input, select, label, textarea {
+    font-family: t.$font-korolev;
+}

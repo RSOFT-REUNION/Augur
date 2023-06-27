@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Models;
+
+// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+
+class User extends Authenticatable
+{
+    use HasApiTokens, HasFactory, Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
+
+    // Show user follow with icons
+    public function newsletterIcon()
+    {
+        if($this->newsletter) {
+            return '<i class="fa-solid fa-check-to-slot text-green-500"></i>';
+        } else {
+            return '<i class="fa-solid fa-rectangle-xmark text-red-500"></i>';
+        }
+    }
+
+    // Get Created_at with the good date format
+    public function getCreatedAt()
+    {
+        return date('d/m/Y', strtotime($this->created_at));
+    }
+}
