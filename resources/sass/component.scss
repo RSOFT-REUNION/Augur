@@ -106,6 +106,7 @@
     border: 1px solid rgba(t.$black, 0.1);
     box-shadow: 0 4px 10px rgba(t.$black, 0.1);
     transition-duration: 300ms;
+    z-index: 999;
     &:hover {
         transform: scale(1.1);
     }
@@ -245,6 +246,12 @@
     }
     .entry-content {
         padding-top: 30px;
+        h2 {
+            color: t.$bleu;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
     }
 }
 #front-footer {
@@ -372,6 +379,33 @@
         }
     }
 }
+.container-shop_admin {
+    border-radius: 10px;
+    border: 1px solid transparent;
+    background-color: t.$gris-light;
+    overflow: hidden;
+    position: relative;
+    transition-duration: 300ms;
+    &:hover {
+        transform: scale(1.01);
+        cursor: pointer;
+        border: 1px solid rgba(t.$black, 0.1);
+    }
+    img {
+        background-size: cover;
+        max-width: 500px;
+    }
+    h2 {
+        font-size: 32px;
+        font-weight: 700;
+        color: t.$bleu;
+    }
+    h3 {
+        font-weight: 300;
+        font-size: 20px;
+    }
+
+}
 
 // ----------- Grids
 .dash-grid_item {
@@ -461,6 +495,18 @@
                 background-size: cover;
                 background-position: center;
             }
+        }
+        hr {
+            color: rgba(t.$black, 0.1);
+        }
+        h2 {
+            color: t.$bleu;
+            font-size: 18px;
+            text-align: center;
+        }
+        .image-preview {
+            border-radius: 10px;
+            box-shadow: 0 4px 13px rgba(t.$black, 0.4);
         }
     }
     .entry-footer {
@@ -658,5 +704,13 @@
     font-size: 25px;
     padding: 15px 22px;
     border-radius: 100%;
+}
+.text-line_input {
+    border-bottom: 1px solid rgba(t.$black, 0.1);
+    padding-bottom: 10px;
+    p {
+        color: rgba(t.$black, 0.5);
+        font-size: 14px;
+    }
 }
 

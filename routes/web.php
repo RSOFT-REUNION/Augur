@@ -47,6 +47,9 @@ Route::group([
         Route::post('/labels-&-engagements/modification/{id}', [LabelController::class, 'edit'])->name('bo.labels.edit.post');
         Route::get('/produits', [BackController::class, 'showProducts'])->name('bo.products.list');
         Route::get('/reglages-general', [SettingController::class, 'showGeneralSetting'])->name('bo.setting.general');
+        Route::get('/reglages-magasins', [SettingController::class, 'showShopSetting'])->name('bo.setting.shop');
+        Route::get('/reglages-magasins/create-part-2-{id}', [SettingController::class, 'showShopCreatePart2'])->name('bo.setting.shop.create');
+        Route::post('/reglages-magasins/create-part-2-{id}', [SettingController::class, 'postShopCreatePart2']);
     });
 });
 

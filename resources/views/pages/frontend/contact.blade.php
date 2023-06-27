@@ -75,7 +75,25 @@
                     </form>
                 </div>
                 <div class="flex-1 ml-2">
-                    <h2>Retrouvez-nous</h2>
+                    @if($shops->count() > 0)
+                        <h2>Retrouvez-nous</h2>
+                        <ul class="mt-3">
+                            @foreach($shops as $shop)
+                                <li class="mb-2">{{$shop->address}}, {{ $shop->postal_code }} {{$shop->city}}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                    <h2 class="mt-10">Nous joindre</h2>
+                    <ul class="mt-3">
+                        <li class="mb-2">contact@augur.re</li>
+                        <li>0262 00 00 00</li>
+                    </ul>
+                    <h2 class="mt-10">Nos réseaux sociaux</h2>
+                    <div class="inline-flex items-center mt-3">
+                        <a href="" class="inline-flex items-center"><i class="fa-brands fa-twitter fa-2x mr-2"></i>@augur</a>
+                        <a href="" class="inline-flex items-center ml-4"><i class="fa-brands fa-instagram fa-2x mr-2"></i>@augur</a>
+                        <a href="" class="inline-flex items-center ml-4"><i class="fa-brands fa-facebook fa-2x mr-2"></i>@augur</a>
+                    </div>
                 </div>
             </div>
         </div>

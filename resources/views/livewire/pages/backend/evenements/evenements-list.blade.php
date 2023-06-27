@@ -35,8 +35,6 @@
                             </div>
                         </div>
                     </div>
-                @else
-                    <p class="empty-text">Aucune animation actuellement en cours</p>
                 @endif
             @endforeach
             {{-- Olds evenements --}}
@@ -57,7 +55,7 @@
                     </thead>
                     <tbody>
                     @foreach($evenements as $ev)
-                        @if($ev->date < \Carbon\Carbon::now() || $ev->start_date < \Carbon\Carbon::now())
+                        @if($ev->date < \Carbon\Carbon::now() && $ev->start_date < \Carbon\Carbon::now())
                             <tr>
                                 <td>{{ $ev->id }}</td>
                                 <td>{{ $ev->title }}</td>

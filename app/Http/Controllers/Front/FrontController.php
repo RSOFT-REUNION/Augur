@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Activity;
 use App\Models\Contact;
 use App\Models\Label;
+use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -121,6 +122,7 @@ class FrontController extends Controller
     public function showContact()
     {
         $data = [];
+        $data['shops'] = Shop::orderBy('title', 'asc')->get();
         return view('pages.frontend.contact', $data);
     }
 
@@ -174,6 +176,10 @@ class FrontController extends Controller
         $contact->subject = $request->subject;
         $contact->message = $request->message;
         if($contact->save()){
+            $activity = new Activity;
+            $activity->message = $contact->lastname.' '.$contact->firstname.' vous a envoyé un message !';
+            $activity->save();
+
             return redirect()->route('fo.contact')->with('success', 'Votre message à été envoyé avec succés, nous reprendrons contact avec vous rapidement !');
         }
     }

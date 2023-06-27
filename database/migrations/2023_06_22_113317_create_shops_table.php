@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('cover')->nullable();
             $table->string('address');
             $table->string('postal_code');
             $table->string('city');
-            $table->string('cover')->nullable();
             $table->text('description')->nullable();
+            $table->text('schedules')->nullable();
+            $table->text('page_content')->nullable();
             $table->timestamps();
         });
     }

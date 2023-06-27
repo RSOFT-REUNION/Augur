@@ -64,10 +64,17 @@
             <hr/>
         </div>
         @foreach($activities as $activity)
-            <div class="list-box">
+            <div class="list-box mt-2">
                 <div class="flex items-center">
                     <div class="flex-1">
-                        <p>@if($activity->type == 0) <i class="fa-solid fa-circle-plus mr-3"></i> @endif {{ $activity->message }}</p>
+                        <p>
+                            @if($activity->type == 0)
+                                <i class="fa-solid fa-circle-plus mr-3"></i>
+                            @elseif($activity->type == 1)
+                                <i class="fa-solid fa-comment mr-3"></i>
+                            @endif
+                            {{ $activity->message }}
+                        </p>
                     </div>
                     <div class="flex-none">
                         <p class="text-gray-500">{{ $activity->getDate() }}</p>
