@@ -11,6 +11,9 @@
                 <div class="px-5 pb-5">
                     <h1>De nouvelles fonctionnalités arrivent !</h1>
                     <p class="mt-3">Nous sommes en cours de test de nouvelles fonctionnalités, votre site sera de nouveau disponible dans peu de temps !</p>
+                    <div class="mt-5">
+                        <button onclick="Livewire.emit('openModal', 'popups.frontend.sign-maintenance')" class="btn-filled_secondary">Je fais partie de l'organisation</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -25,6 +28,9 @@
                 <div class="px-5 pb-5">
                     <h1>Site en cours de maintenance !</h1>
                     <p class="mt-3">Votre site Aügur est actuellement en cours de maintenance. Nous nous efforçons de le rendre à nouveau disponible !</p>
+                    <div class="mt-5 text-center">
+                        <button onclick="Livewire.emit('openModal', 'popups.frontend.sign-maintenance')" class="btn-filled_secondary">Je fais partie de l'organisation</button>
+                    </div>
                 </div>
             </div>
         </div>
