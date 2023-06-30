@@ -16,6 +16,15 @@ return new class extends Migration
             $table->boolean('site_active')->default(1);
             $table->integer('maintenance_type')->default(1);
             $table->string('site_version')->default("1.0.0");
+            $table->text('legal_mention')->nullable();
+            $table->text('conditions')->nullable();
+            $table->string('main_email')->nullable();
+            $table->string('main_phone')->nullable();
+            $table->string('social_facebook')->nullable();
+            $table->string('social_insta')->nullable();
+            $table->string('social_twitter')->nullable();
+            $table->string('social_youtube')->nullable();
+            $table->string('social_linkedin')->nullable();
             $table->timestamps();
         });
     }

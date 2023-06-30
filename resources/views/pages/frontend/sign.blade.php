@@ -8,6 +8,9 @@
 
 @section('content-template')
     <main role="main">
+        <div class="text-center">
+            <h1>Connexion / Inscription</h1>
+        </div>
         @livewire('components.alert-messages')
         <div class="container mx-auto my-10">
             <div class="flex items-center">
@@ -39,18 +42,18 @@
                             @if($errors->has('log_password'))
                                 <p class="text-input-error">{{ $errors->first('log_password') }}</p>
                             @endif
-                            <div class="mt-4 mx-2">
+                            {{--<div class="mt-4 mx-2">
                                 <div>
                                     <input type="checkbox" name="rembember" id="rembember">
                                     <label for="rembember" class="pl-2">Je souvenir de moi</label>
                                 </div>
-                            </div>
+                            </div>--}}
                             <div class="mt-5 force-center">
                                 <button type="submit" class="btn-filled_secondary block w-full">Se connecter</button>
                             </div>
-                            <div class="mt-3 text-center">
+                            {{--<div class="mt-3 text-center">
                                 <a href="" class="hover:text-amber-400">Mot de passe oublié ?</a>
-                            </div>
+                            </div>--}}
                         </form>
                     </div>
                 </div>

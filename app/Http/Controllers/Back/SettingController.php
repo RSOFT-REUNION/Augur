@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
+use App\Models\GeneralSetting;
 use App\Models\Shop;
 use Illuminate\Http\Request;
 
@@ -43,6 +44,42 @@ class SettingController extends Controller
         if($shop->update()) {
             return redirect()->route('bo.setting.shop');
         } else {
+        }
+    }
+
+    public function showLegalMentions()
+    {
+        $data = [];
+        $data['group'] = 'settings';
+        $data['item'] = 'legal';
+        $data['setting'] = GeneralSetting::where('id', 1)->first();
+        return view('pages.backend.settings.legal-mentions', $data);
+    }
+
+    public function postLegalMention(Request $request)
+    {
+        $setting = GeneralSetting::where('id', 1)->first();
+        $setting->legal_mention = $request->legal;
+        if($setting->update()) {
+            return redirect()->route('bo.setting.legal')->with('success', 'Vos mentions légales ont bien été mise à jour');
+        }
+    }
+
+    public function showConditions()
+    {
+        $data = [];
+        $data['group'] = 'settings';
+        $data['item'] = 'conditions';
+        $data['setting'] = GeneralSetting::where('id', 1)->first();
+        return view('pages.backend.settings.conditions', $data);
+    }
+
+    public function postConditions(Request $request)
+    {
+        $setting = GeneralSetting::where('id', 1)->first();
+        $setting->conditions = $request->conditions;
+        if($setting->update()) {
+            return redirect()->route('bo.setting.conditions')->with('success', 'Vos conditions générales d\'utilisation ont bien été mise à jour');
         }
     }
 }

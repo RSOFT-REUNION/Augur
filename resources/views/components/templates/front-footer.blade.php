@@ -9,29 +9,31 @@
                     <h2>Informations</h2>
                     <ul>
                         <li><a href="" class="">À propos de nous</a></li>
-                        <li><a href="" class="">Nos magasins</a></li>
-                        <li><a href="" class="">Mentions légales</a></li>
-                        <li><a href="" class="">Conditions générales d'utilisation</a></li>
+                        <li><a href="{{ route('fo.shops.list') }}">Nos magasins</a></li>
+                        <li><a href="{{ route('fo.legal') }}">Mentions légales</a></li>
+                        <li><a href="{{ route('fo.conditions') }}">Conditions générales d'utilisation</a></li>
                     </ul>
                 </div>
                 <div>
                     <h2>Mes informations</h2>
                     <ul>
                         @if(auth()->guest())
-                            <li><a href="" class="">Connexion / Inscription</a></li>
+                            <li><a href="{{ route('fo.sign') }}">Connexion / Inscription</a></li>
                         @else
-                            <li><a href="" class="">Mes informations</a></li>
-                            <li><a href="" class="">Nos activités</a></li>
+                            <li><a href="{{ route('fo.profile') }}">Mes informations</a></li>
+                            <li><a href="">Télécharger mes données</a></li>
+                            <li><a href="">Supprimer mes données</a></li>
+                            <li><a href="{{ route('logout') }}">Me déconnecter</a></li>
                         @endif
                     </ul>
                 </div>
                 <div>
                     <h2>Liens rapide</h2>
                     <ul>
-                        <li><a href="" class="">Animations</a></li>
-                        <li><a href="" class="">Nos labels</a></li>
-                        <li><a href="" class="">Nos engagements</a></li>
-                        <li><a href="" class="">Nos produits</a></li>
+                        <li><a href="{{ route('fo.contact') }}">Nous contacter</a></li>
+                        <li><a href="{{ route('fo.evenements') }}">Nos animations</a></li>
+                        <li><a href="{{ route('fo.labels.list') }}">Nos labels</a></li>
+                        <li><a href="">Nos produits</a></li>
                     </ul>
                 </div>
             </div>

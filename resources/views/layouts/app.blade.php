@@ -28,6 +28,7 @@
     @livewireStyles
 </head>
 <body class="antialiased">
+
     {{-- Contents --}}
     @yield('content-app')
     {{-- Scripts --}}

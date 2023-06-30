@@ -126,8 +126,8 @@
                                 <option value="{{ $shop->id }}">{{ $shop->title }}</option>
                             @endforeach
                         </select>
-                        @if($errors->has('end_time'))
-                            <p class="text-input-error">{{ $errors->first('end_time') }}</p>
+                        @if($errors->has('shop'))
+                            <p class="text-input-error">{{ $errors->first('shop') }}</p>
                         @endif
                     </div>
                 </div>

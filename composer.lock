@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "473a07daef5739504fee4897725648ce",
+    "content-hash": "da6db54316c00bdbc1a7a1bbc454eee5",
     "packages": [
         {
             "name": "brick/math",
@@ -973,6 +973,50 @@
                 }
             ],
             "time": "2021-10-07T12:57:01+00:00"
+        },
+        {
+            "name": "justijndepover/laravel-cookie-consent",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/justijndepover/laravel-cookie-consent.git",
+                "reference": "48ebbf6d093f3a89ca87bbf193dc0c577672eab7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/justijndepover/laravel-cookie-consent/zipball/48ebbf6d093f3a89ca87bbf193dc0c577672eab7",
+                "reference": "48ebbf6d093f3a89ca87bbf193dc0c577672eab7",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Justijndepover\\CookieConsent\\CookieConsentServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Justijndepover\\CookieConsent\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Justijn Depover",
+                    "email": "justijndepover@gmail.com"
+                }
+            ],
+            "description": "Make your Laravel application comply with the EU cookie law.",
+            "support": {
+                "issues": "https://github.com/justijndepover/laravel-cookie-consent/issues",
+                "source": "https://github.com/justijndepover/laravel-cookie-consent/tree/0.2.0"
+            },
+            "time": "2021-04-10T15:16:24+00:00"
         },
         {
             "name": "laravel/framework",

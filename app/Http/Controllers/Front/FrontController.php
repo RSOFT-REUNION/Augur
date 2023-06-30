@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
+use App\Mail\User\CreateAccount;
 use App\Models\Activity;
+use App\Models\CarouselMain;
 use App\Models\Contact;
 use App\Models\Label;
+use App\Models\Pages;
 use App\Models\Shop;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class FrontController extends Controller
@@ -16,15 +20,25 @@ class FrontController extends Controller
     // Maintenance page
     public function showMaintenance()
     {
-        $data = [];
-        return view('pages.maintenance_page', $data);
+        if(view()->shared('settingGlobal')->site_active == 1) {
+            return redirect()->route('fo.home');
+        } else {
+            if(!auth()->guest() && auth()->user()->team == 1) {
+                return redirect()->route('fo.home');
+            } else {
+                return view('pages.maintenance_page');
+            }
+        }
+
     }
 
     // Show Home page
     public function showHome()
     {
         $data = [];
+        $data['active'] = 'home';
         $data['labels'] = Label::where('show_home', 1)->get();
+        $data['mainCarousel'] = CarouselMain::orderBy('id', 'asc')->get();
         return view('pages.frontend.home', $data);
     }
 
@@ -33,7 +47,9 @@ class FrontController extends Controller
      */
     public function showSign()
     {
-        return view('pages.frontend.sign');
+        $data = [];
+        $data['active'] = 'profile';
+        return view('pages.frontend.sign', $data);
     }
 
     /*
@@ -69,7 +85,7 @@ class FrontController extends Controller
             $user->firstname = $request->firstname;
             $user->email = strtolower($request->email);
             $user->password = bcrypt($request->password);
-            if($request->newsletter == 1) {
+            if($request->newsletter) {
                 $user->newsletter = 1;
             }
             if($user->save()) {
@@ -77,6 +93,7 @@ class FrontController extends Controller
                 $activity->message = $user->lastname.' '.$user->firstname.' viens de s\'inscrire !';
                 $activity->save();
 
+                Mail::to($user->email)->send(new CreateAccount($user));
                 return redirect()->route('fo.home')->with('success', 'Votre compte à été correctement créé. Je vous invite à vous connecter !');
             }
         } elseif ($action === 'login') {
@@ -110,6 +127,7 @@ class FrontController extends Controller
     public function showProfile()
     {
         $data = [];
+        $data['active'] = 'profile';
         $data['me'] = auth()->user();
         return view('pages.frontend.profile.profile', $data);
     }
@@ -122,6 +140,7 @@ class FrontController extends Controller
     public function showContact()
     {
         $data = [];
+        $data['active'] = 'contact';
         $data['shops'] = Shop::orderBy('title', 'asc')->get();
         return view('pages.frontend.contact', $data);
     }
@@ -182,5 +201,57 @@ class FrontController extends Controller
 
             return redirect()->route('fo.contact')->with('success', 'Votre message à été envoyé avec succés, nous reprendrons contact avec vous rapidement !');
         }
+    }
+
+    public function showEvenementPage()
+    {
+        $data = [];
+        $data['active'] = 'evenement';
+        return view('pages.frontend.evenements', $data);
+    }
+
+    public function showLegalMentions()
+    {
+        $data = [];
+        $data['active'] = 'mentions';
+        return view('pages.frontend.legal-mentions', $data);
+    }
+
+    public function showConditions()
+    {
+        $data = [];
+        $data['active'] = 'mentions';
+        return view('pages.frontend.conditions', $data);
+    }
+
+    public function showLabelList()
+    {
+        $data = [];
+        $data['active'] = 'label';
+        return view('pages.frontend.labels.label-list', $data);
+    }
+
+    public function showLabelSingle($slug)
+    {
+        $data = [];
+        $data['active'] = 'label';
+        $data['label'] = Label::where('slug', $slug)->first();
+        return view('pages.frontend.labels.label', $data);
+    }
+
+    public function showShopList()
+    {
+        $data = [];
+        $data['active'] = 'shop';
+        $data['shops'] = Shop::orderBy('title', 'asc')->get();
+        return view('pages.frontend.shops.shops-list', $data);
+    }
+
+    public function showAbout()
+    {
+        $data = [];
+        $data['active'] = 'about';
+        $data['page'] = Pages::where('key', 'about')->first();
+        return view('pages.frontend.about', $data);
     }
 }

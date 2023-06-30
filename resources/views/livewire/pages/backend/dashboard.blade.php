@@ -26,33 +26,56 @@
 
         {{-- Grids --}}
         <div class="grid grid-cols-4 gap-10 mt-9">
-            <div class="dash-grid_item row-span-2">
-                TESt
+            <div class="dash-grid_item row-span-2 text-center">
+                <h2><i class="fa-solid fa-comments mr-3"></i>{{ $evenements->count() }}</h2>
+                <p>Message de contact</p>
+                <div class="list mt-5">
+                    <ul>
+                        @foreach($contacts as $contact)
+                            <li>{{ $contact->lastname }} {{ $contact->firstname }} le {{ $contact->getDate() }}</li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
-            <div class="dash-grid_item text-center">
+            <div class="dash-grid_item text-center" role="button" data-href="{{ route('bo.evenements') }}">
                 <h2><i class="fa-solid fa-calendar-week mr-3"></i>{{ $evenements->count() }}</h2>
                 <p>Événements</p>
             </div>
             <div class="dash-grid_item col-span-2">
-                <div class="flex items-center">
-                    <div class="flex-none">
-                        <div id="grid_picture" style="background-image: url('{{ asset('images/assets/add_evenments.jpg') }}')"></div>
+                @if($evenementsNow->count() > 0)
+                    @foreach($evenementsNow as $ev)
+                        <div class="flex items-center" role="button" data-href="{{ route('bo.evenements') }}">
+                            <div class="flex-none">
+                                <div id="grid_picture" style="background-image: url('{{ asset('storage/images/evenements/'. $ev->cover) }}')"></div>
+                            </div>
+                            <div class="flex-1 ml-5">
+                                <h3>{{ $ev->title }}</h3>
+                                <p>{{ \Illuminate\Support\Str::limit($ev->description_short) }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="flex items-center" role="button" data-href="{{ route('bo.evenements') }}">
+                        <div class="flex-none">
+                            <div id="grid_picture" style="background-image: url('{{ asset('images/assets/add_evenments.jpg') }}')"></div>
+                        </div>
+                        <div class="flex-1 ml-5">
+                            <h3>Vous n'avez pas d'événements en cours</h3>
+                            <p>Lorsque vous avez des événements en cours, vous pourrez suivre en temps réel leurs statuts et le nombre de participants directement ici.</p>
+                        </div>
                     </div>
-                    <div class="flex-1 ml-5">
-                        <h3>Vous n'avez pas d'événements en cours</h3>
-                        <p>Lorsque vous avez des événements en cours, vous pourrez suivre en temps réel leurs statuts et le nombre de participants directement ici.</p>
-                    </div>
-                </div>
+                @endif
+
             </div>
-            <div class="dash-grid_item text-center">
+            <div class="dash-grid_item text-center" role="button" data-href="{{ route('bo.labels') }}">
                 <h2><i class="fa-solid fa-ribbon mr-3"></i>{{ $labels->count() }}</h2>
                 <p>Labels</p>
             </div>
-            <div class="dash-grid_item text-center">
+            <div class="dash-grid_item text-center" role="button" data-href="{{ route('bo.customers') }}">
                 <h2><i class="fa-solid fa-users mr-3"></i>{{ $customers->count() }}</h2>
                 <p>Clients</p>
             </div>
-            <div class="dash-grid_item text-center">
+            <div class="dash-grid_item text-center" role="button" data-href="{{ route('bo.evenements') }}">
                 <h2><i class="fa-solid fa-leaf mr-3"></i>14</h2>
                 <p>Produits</p>
             </div>

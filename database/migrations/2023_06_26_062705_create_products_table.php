@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('title')->unique();
             $table->string('image_name')->default('image_none.jpg');
             $table->text('description')->nullable();
-            $table->foreignId('family_id')->nullable()->constrained('product_families', 'id');
-            $table->boolean('active')->default(1);
+            $table->string('family')->nullable();
+            $table->boolean('active')->default(0);
             $table->timestamps();
         });
     }

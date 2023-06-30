@@ -2,10 +2,10 @@
     <div class="flex flex-col h-screen">
         <div class="flex-none">
             <div class="force-center">
-                <object data="{{ asset('images/logos/AUGUR_GRIS.svg') }}" width="200px"></object>
+{{--                <object data="{{ asset('images/logos/AUGUR_GRIS.svg') }}" width="200px"></object>--}}
             </div>
         </div>
-        <div class="grow">
+        <div class="grow mt-3">
             <div class="entry-content">
                 @livewire('components.back.sidebar-nav', ['group' => $group, 'item' => $item])
             </div>

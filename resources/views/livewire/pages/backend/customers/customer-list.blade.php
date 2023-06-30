@@ -28,7 +28,7 @@
                     </thead>
                     <tbody>
                     @foreach($customers as $customer)
-                        <tr role="button" class="hover:text-blue-800" data-href="{{ route('bo.customers.single', $customer->id) }}">
+                        <tr role="button" class="hover:text-blue-800" data-href="#">
                             <td>{{ $customer->id }}</td>
                             <td>{{ $customer->customer_code }}</td>
                             <td>{{ $customer->lastname }}</td>

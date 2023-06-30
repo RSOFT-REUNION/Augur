@@ -11,13 +11,13 @@
         <div class="text-line_input">
             <div class="flex items-center">
                 <div class="flex-1">
-                    <h3>Passer le site en maintenance</h3>
-                    <p>Votre site ne sera plus accessible pour les personne ne faisant pas partie de votre organisation</p>
+                    <h3>Site actif</h3>
+                    <p>En le désactivant, votre site ne sera plus accessible pour les personne ne faisant pas partie de votre organisation</p>
                 </div>
                 <div class="flex-none">
                     <label for="maintenance_mode" class="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" wire:click="maintenance_mode" id="maintenance_mode" class="sr-only peer">
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <input type="checkbox" wire:click="updateMaintenanceMode" id="maintenance_mode" class="sr-only peer" @if($this->maintenance_mode == 1) checked @endif>
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
                     </label>
                 </div>
             </div>
@@ -29,16 +29,58 @@
                     <p>Sélectionnez la raison de votre maintenance</p>
                 </div>
                 <div class="flex-none">
-                    <form class="inline-flex items-center">
+                    <form wire:submit.prevent="updateMaintenanceType" class="inline-flex items-center">
                         @csrf
                         <div class="textfield">
-                            <select wire:model="mainteance_type" class="focus:outline-none">
+                            <select wire:model="maintenance_type" class="focus:outline-none">
                                 <option value="">-- Sélectionnez un type --</option>
                                 <option value="1">Maintenance pour test de nouvelles fonctionnalités</option>
                                 <option value="2">Maintenance pour correction</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn-icon_secondary ml-2"><i class="fa-solid fa-floppy-disk"></i></button>
+                        @if($settingGlobal->maintenance_type != $maintenance_type)
+                            <button type="submit" class="btn-icon_secondary ml-2"><i class="fa-solid fa-floppy-disk"></i></button>
+                        @endif
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="text-line_input mt-2">
+            <div class="flex items-center">
+                <div class="flex-1">
+                    <h3>Adresse e-mail principal</h3>
+                    <p>Cette adresse e-mail sera visible sur votre site pour tout les utilisateurs</p>
+                </div>
+                <div class="flex-none">
+                    <form wire:submit.prevent="updateMainEmail" class="inline-flex items-center">
+                        @csrf
+                        <div class="textfield">
+                            <input type="text" wire:model="main_email" placeholder="Adresse e-mail principal" class="focus:outline-none">
+                        </div>
+                        @if($settingGlobal->main_email != $main_email)
+                            <button type="submit" class="btn-icon_secondary ml-2"><i class="fa-solid fa-floppy-disk"></i></button>
+                        @endif
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="text-line_input mt-2">
+            <div class="flex items-center">
+                <div class="flex-1">
+                    <h3>Numéro de téléphone principal</h3>
+                    <p>Ce numéro sera visible sur votre site pour tout les utilisateurs</p>
+                </div>
+                <div class="flex-none">
+                    <form wire:submit.prevent="updateMainPhone" class="inline-flex items-center">
+                        @csrf
+                        <div class="textfield">
+                            <input type="text" wire:model="main_phone" placeholder="Numéro de téléphone principal" class="focus:outline-none">
+                        </div>
+                        @if($settingGlobal->main_phone != $main_phone)
+                            <button type="submit" class="btn-icon_secondary ml-2"><i class="fa-solid fa-floppy-disk"></i></button>
+                        @endif
                     </form>
 
                 </div>

@@ -4,10 +4,6 @@
             <h1>Animations</h1>
         </div>
         <div class="flex-none inline-flex items-center">
-            <div class="textfield-line">
-                <label for="search"><i class="fa-solid fa-magnifying-glass"></i></label>
-                <input type="text" placeholder="Rechercher..." wire:model="search" class="focus:outline-none" role="searchbox">
-            </div>
         </div>
     </div>
     <div class="entry-content">
@@ -15,7 +11,7 @@
         @if($evenements->count() > 0)
             @foreach($evenements as $ev)
                 @if($ev->date > \Carbon\Carbon::now() || $ev->start_date > \Carbon\Carbon::now())
-                    <div class="back_card_evenement">
+                    <div class="back_card_evenement mb-2">
                         <div class="flex items-center">
                             <div class="flex-none mr-2">
                                 <img src="{{ asset('storage/images/evenements/'. $ev->cover) }}">
@@ -28,8 +24,9 @@
                                         <h3>Le {{ $ev->getDate() }} de {{ $ev->start_time }} à {{ $ev->end_time }}</h3>
                                     </div>
                                     <div class="flex-none">
-                                        <button onclick="" class="btn-outline_primary mr-2"><i class="fa-solid fa-trash"></i></button>
-                                        <button onclick="" class="btn-filled_secondary"><i class="fa-solid fa-pen-to-square mr-3"></i>Modifier</button>
+                                        <button wire:click="deleteEvenement({{ $ev->id }})" class="btn-outline_primary mr-2"><i class="fa-solid fa-trash"></i></button>
+                                        <button wire:click="deleteEvenement({{ $ev->id }})" class="btn-outline_primary mr-2"><i class="fa-solid fa-trash"></i></button>
+                                        <button wire:click="editEvenement({{ $ev->id }})" class="btn-filled_secondary"><i class="fa-solid fa-pen-to-square mr-3"></i>Modifier le contenue</button>
                                     </div>
                                 </div>
                             </div>

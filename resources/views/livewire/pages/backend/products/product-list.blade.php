@@ -13,7 +13,7 @@
     </div>
     <div class="entry-content">
         <div class="container-float">
-            <button onclick="window.location='{{ route('bo.labels.add') }}'" class="btn-container-float-gray mr-2" title="Importer"><i class="fa-solid fa-upload"></i></button>
+            <button wire:click="" class="btn-container-float-gray mr-2" title="Importer"><i class="fa-solid fa-upload"></i></button>
             <button onclick="Livewire.emit('openModal', 'popups.backend.products.add-product')" class="btn-container-float"><i class="fa-solid fa-plus mr-3"></i>Ajouter</button>
         </div>
 

@@ -56,6 +56,7 @@ class AddEvenement extends ModalComponent
         }
         $anim->description_short = $this->description_small;
         if($this->more_day) {
+            $anim->date = $this->start_date;
             $anim->start_date = $this->start_date;
             $anim->end_date = $this->end_date;
             $anim->one_day = 0;

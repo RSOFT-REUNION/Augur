@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Contact extends Model
 {
     use HasFactory;
+
+    public function getDate()
+    {
+        return date('d/m/Y H:i', strtotime($this->created_at));
+    }
 }
