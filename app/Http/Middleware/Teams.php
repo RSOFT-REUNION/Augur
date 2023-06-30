@@ -15,7 +15,7 @@ class Teams
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->team == 1) {
+        if(!auth()->guest() && auth()->user()->team == 1) {
             return $next($request);
         } else {
             return redirect()->route('fo.profile')->with('error', "Vous n'avez pas accès a cette espace.");
