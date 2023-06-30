@@ -10,7 +10,7 @@
             </div>
         </div>
         <div class="entry-content">
-            <p class="empty-text">Cette fonctionnalité arrivent très vite !</p>
+            <p class="empty-text">Cette fonctionnalité arrive très vite !</p>
         </div>
     </main>
 @endsection

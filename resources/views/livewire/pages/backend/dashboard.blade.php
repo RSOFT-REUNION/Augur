@@ -16,7 +16,7 @@
             <div class="flex items-center">
                 <div class="flex-1 inline-flex items-center">
                     <i class="fa-solid fa-star mr-3"></i>
-                    <p>Bienvenue sur votre nouveau site AÜGUR, si vous avez besoin d'aide n'hésitez pas à nous contacter !</p>
+                    <p>Bienvenue sur votre nouveau site AÜGUR, si vous avez besoin d'aide, n'hésitez pas à nous contacter !</p>
                 </div>
                 <div class="flex-none">
                     <button onclick="" class="btn-outline_primary">Contacter le support<i class="fa-solid fa-circle-question ml-3"></i></button>
@@ -60,7 +60,7 @@
                             <div id="grid_picture" style="background-image: url('{{ asset('images/assets/add_evenments.jpg') }}')"></div>
                         </div>
                         <div class="flex-1 ml-5">
-                            <h3>Vous n'avez pas d'événements en cours</h3>
+                            <h3>Vous n'avez pas d'événements en cours.</h3>
                             <p>Lorsque vous avez des événements en cours, vous pourrez suivre en temps réel leurs statuts et le nombre de participants directement ici.</p>
                         </div>
                     </div>

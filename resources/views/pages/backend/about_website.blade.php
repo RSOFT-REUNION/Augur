@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="entry-content">
-            <p class="empty-text">Cette fonctionnalité est a venir !</p>
+            <p class="empty-text">Cette fonctionnalité est à venir !</p>
         </div>
     </main>
 @endsection

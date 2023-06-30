@@ -51,11 +51,11 @@
                             </div>
                             <div class="grid_white">
                                 <h3>Aügur souhaite privilégier</h3>
-                                <p>dès que possibile, les produits<br>Origine Réunion & Origine France</p>
+                                <p>dès que possible, les produits<br>Origine Réunion & Origine France.</p>
                             </div>
                             <div class="grid_yellow">
                                 <h3>Aügur s'engage sur la traçabilité</h3>
-                                <p>des produits vendus, et sur une transparence<br>totale de l'information</p>
+                                <p>des produits vendus, et sur une transparence<br>totale de l'information.</p>
                             </div>
                             <div class="grid_yellow">
                                 <h3>Aügur s'engage aux côtés des<br>consommateurs réunionnais</h3>
@@ -78,7 +78,7 @@
                 <div class="text-center">
                     <h2 class="title-H2">Les magasins AÜGUR</h2>
                     <p class="mt-10">
-                        Rendez-nous visite dans nos différent magasin AÜGUR et découvrez nos meilleurs produits !
+                        Rendez-nous visite dans nos différents magasins AÜGUR et découvrez nos meilleurs produits !
                     </p>
                     <button onclick="window.location='{{ route('fo.shops.list') }}'" class="btn-filled_secondary mt-10"><i class="fa-solid fa-location-dot mr-3"></i>Trouver le magasin le plus proche de chez moi</button>
                 </div>
