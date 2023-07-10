@@ -21,7 +21,7 @@ class Search extends ModalComponent
         if (strlen($this->search) > 2) {
             $label_table = Label::where('title', 'like', $query)->get();
             $evenement_table = Evenement::where('title', 'like', $query)->get();
-            $product_table = Product::where('title', 'like', $query)->get();
+            $product_table = Product::where('title', 'like', $query)->orWhere('tags', 'like', $query)->orWhere('labels', 'like', $query)->get();
             if($label_table) {
                 $this->jobsLabel = $label_table;
             }

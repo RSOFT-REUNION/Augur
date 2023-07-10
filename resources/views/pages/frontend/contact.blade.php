@@ -7,8 +7,8 @@
                 <h1>Contact</h1>
                 <h3>Nous joindre facilement</h3>
             </div>
-            <div class="my-20 flex">
-                <div class="flex-1 mr-2 force-center">
+            <div class="my-20 flex flex-col lg:flex-row">
+                <div class="flex-1 mt-10 lg:mt-0 lg:mr-2 force-center order-2 lg:order-1">
                     <h2>Ecrivez-nous</h2>
                     <form method="POST" class="width-500 text-left">
                         @csrf
@@ -35,7 +35,7 @@
                                 @endif
                             </div>
                         @endif
-                        <div class="textfield mt-2">
+                        <div class="textfield mt-2 order-1">
                             <label for="subject">Sujet<span class="text-red-500">*</span></label>
                             <input type="text" id="subject" name="subject" placeholder="Entrez le sujet de votre message" class="@if($errors->has('subject'))textfield-error @endif" value="{{ old('subject') }}">
                             @if($errors->has('subject'))
@@ -62,7 +62,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="flex-1 ml-2">
+                <div class="flex-1 lg:ml-2 lg:order-2 text-center lg:text-left">
                     @if($shops->count() > 0)
                         <h2>Retrouvez-nous</h2>
                         <ul class="mt-3">
@@ -82,12 +82,26 @@
                             @endif
                         </ul>
                     @endif
-                    <h2 class="mt-10">Nos réseaux sociaux</h2>
-                    <div class="inline-flex items-center mt-3">
-                        <a href="" class="inline-flex items-center"><i class="fa-brands fa-twitter fa-2x mr-2"></i>@augur</a>
-                        <a href="" class="inline-flex items-center ml-4"><i class="fa-brands fa-instagram fa-2x mr-2"></i>@augur</a>
-                        <a href="" class="inline-flex items-center ml-4"><i class="fa-brands fa-facebook fa-2x mr-2"></i>@augur</a>
-                    </div>
+                    @if($settingGlobal->social_facebook || $settingGlobal->social_insta || $settingGlobal->social_twitter || $settingGlobal->social_youtube || $settingGlobal->social_linkedin)
+                        <h2 class="mt-10">Nos réseaux sociaux</h2>
+                        <div class="inline-flex items-center mt-3">
+                            @if($settingGlobal->social_twitter)
+                                <a href="{{ $settingGlobal->social_twitter }}" class="mr-2"><i class="fa-brands fa-twitter fa-2x"></i></a>
+                            @endif
+                            @if($settingGlobal->social_linkedin)
+                                <a href="{{ $settingGlobal->social_linkedin }}" class="mr-2"><i class="fa-brands fa-linkedin fa-2x"></i></a>
+                            @endif
+                            @if($settingGlobal->social_youtube)
+                                <a href="{{ $settingGlobal->social_youtube }}" class="mr-2"><i class="fa-brands fa-youtube fa-2x"></i></a>
+                            @endif
+                            @if($settingGlobal->social_insta)
+                                <a href="{{ $settingGlobal->social_insta }}" class="mr-2"><i class="fa-brands fa-instagram fa-2x"></i></a>
+                            @endif
+                            @if($settingGlobal->social_facebook)
+                                <a href="{{ $settingGlobal->social_facebook }}" class="mr-2"><i class="fa-brands fa-facebook fa-2x"></i></a>
+                            @endif
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

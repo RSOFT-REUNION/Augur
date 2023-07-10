@@ -28,7 +28,7 @@
                         <div class="flex flex-col h-full">
                             <div class="flex-1">
                                 <div class="force-center">
-                                    <img src="{{ asset('storage/images/labels/'. $label->logo) }}" width="100px">
+                                    <img src="{{ asset('storage/medias/'. $label->getPicture()) }}" width="100px">
                                 </div>
                             </div>
                             <div class="flex-none">
@@ -39,7 +39,9 @@
                 @endforeach
             </div>
             <div class="mt-3">
-                {{ $labels->links() }}
+                @if(strlen($search) < 3)
+                    {{ $labels->links() }}
+                @endif
             </div>
         @else
             <p class="empty-text">Vous n'avez pas encore créer de labels</p>

@@ -20,7 +20,7 @@
                 <p class="bg-blue-300 px-3 py-2 rounded-lg text-blue-800 mb-5"><i class="fa-solid fa-star mr-3"></i>De nouvelles fonctionnalités vont bientôt arriver pour ce module !</p>
                 @if($mainCarousel->count() > 0)
                     @foreach($mainCarousel as $car)
-                        <div class="container-carousel_list" style="background-image: url('{{ asset('storage/images/medias/'. $car->cover) }}')">
+                        <div class="container-carousel_list" style="background-image: url('{{ asset('storage/medias/'. $car->getPicture()) }}')">
                             <div class="buttons">
                                 <button wire:click="deleteCarousel({{ $car->id }})" class="btn-icon_secondary"><i class="fa-solid fa-trash"></i></button>
                             </div>

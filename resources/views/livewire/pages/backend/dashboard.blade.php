@@ -1,13 +1,13 @@
-<div>
+<div class="mb-10">
     <div class="entry-header flex items-center">
         <div class="flex-1">
             <h1>Tableau de bord</h1>
         </div>
         <div class="flex-none">
-            <div class="textfield-line">
+            {{--<div class="textfield-line">
                 <label for="search"><i class="fa-solid fa-magnifying-glass"></i></label>
                 <input type="text" placeholder="Rechercher..." class="focus:outline-none" role="searchbox">
-            </div>
+            </div>--}}
         </div>
     </div>
     <div class="entry-content">
@@ -19,7 +19,7 @@
                     <p>Bienvenue sur votre nouveau site AÜGUR, si vous avez besoin d'aide, n'hésitez pas à nous contacter !</p>
                 </div>
                 <div class="flex-none">
-                    <button onclick="" class="btn-outline_primary">Contacter le support<i class="fa-solid fa-circle-question ml-3"></i></button>
+                    <button onclick="Livewire.emit('openModal', 'popups.backend.support-message')" class="btn-outline_primary">Contacter le support<i class="fa-solid fa-circle-question ml-3"></i></button>
                 </div>
             </div>
         </div>
@@ -27,7 +27,7 @@
         {{-- Grids --}}
         <div class="grid grid-cols-4 gap-10 mt-9">
             <div class="dash-grid_item row-span-2 text-center">
-                <h2><i class="fa-solid fa-comments mr-3"></i>{{ $evenements->count() }}</h2>
+                <h2><i class="fa-solid fa-comments mr-3"></i>{{ $contacts->count() }}</h2>
                 <p>Message de contact</p>
                 <div class="list mt-5">
                     <ul>
@@ -46,7 +46,7 @@
                     @foreach($evenementsNow as $ev)
                         <div class="flex items-center" role="button" data-href="{{ route('bo.evenements') }}">
                             <div class="flex-none">
-                                <div id="grid_picture" style="background-image: url('{{ asset('storage/images/evenements/'. $ev->cover) }}')"></div>
+                                <div id="grid_picture" style="background-image: url('{{ asset('storage/medias/'. $ev->getPicture()) }}')"></div>
                             </div>
                             <div class="flex-1 ml-5">
                                 <h3>{{ $ev->title }}</h3>
@@ -61,7 +61,6 @@
                         </div>
                         <div class="flex-1 ml-5">
                             <h3>Vous n'avez pas d'événements en cours.</h3>
-                            <p>Lorsque vous avez des événements en cours, vous pourrez suivre en temps réel leurs statuts et le nombre de participants directement ici.</p>
                         </div>
                     </div>
                 @endif
@@ -75,8 +74,8 @@
                 <h2><i class="fa-solid fa-users mr-3"></i>{{ $customers->count() }}</h2>
                 <p>Clients</p>
             </div>
-            <div class="dash-grid_item text-center" role="button" data-href="{{ route('bo.evenements') }}">
-                <h2><i class="fa-solid fa-leaf mr-3"></i>14</h2>
+            <div class="dash-grid_item text-center" role="button" data-href="{{ route('bo.products.list') }}">
+                <h2><i class="fa-solid fa-leaf mr-3"></i>{{ $products->count() }}</h2>
                 <p>Produits</p>
             </div>
         </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Popups\Backend\Pages;
 
 use App\Models\CarouselMain;
+use App\Models\Media;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use LivewireUI\Modal\ModalComponent;
@@ -31,11 +32,17 @@ class AddPictureCarousel extends ModalComponent
     {
         $this->validate();
 
+        $media = new Media;
+        $media->title = 'main-carousel-'.str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->key)).'.'.$this->cover->extension();
+        $media->key = 'main-carousel-'.str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->key));
+        $media->alt = 'main-carousel-'.$this->key;
+        $media->save();
+
         $carousel = new CarouselMain;
         $carousel->key = strtoupper($this->key);
-        $carousel->cover = 'main-carousel-'.str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->key)).'.'.$this->cover->extension();
+        $carousel->media_id = $media->id;
         if($carousel->save()) {
-            $this->cover->storeAs('public/images/medias', 'main-carousel-'.str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->key)). '.' . $this->cover->extension());
+            $this->cover->storeAs('public/medias', 'main-carousel-'.str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->key)). '.' . $this->cover->extension());
             return redirect()->route('bo.pages.general');
         }
     }

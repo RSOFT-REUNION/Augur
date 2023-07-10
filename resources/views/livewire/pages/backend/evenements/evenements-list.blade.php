@@ -14,19 +14,25 @@
                     <div class="back_card_evenement mb-2">
                         <div class="flex items-center">
                             <div class="flex-none mr-2">
-                                <img src="{{ asset('storage/images/evenements/'. $ev->cover) }}">
+                                <img src="{{ asset('storage/medias/'. $ev->getPicture()) }}">
                             </div>
                             <div class="flex-1 ml-10 pr-10">
                                 <h2>{{ $ev->title }}</h2>
                                 <p class="my-4">{{ $ev->description_short }}</p>
                                 <div class="flex items-center">
                                     <div class="flex-1">
-                                        <h3>Le {{ $ev->getDate() }} de {{ $ev->start_time }} à {{ $ev->end_time }}</h3>
+                                        @if($ev->one_day == 1)
+                                            <h3>Le {{ $ev->getDate() }}</h3>
+                                            <p class="text-sm">De {{ $ev->start_time }} à {{ $ev->end_time }} | <i class="fa-solid fa-location-dot mx-2"></i>{{ $ev->getShop() }}</p>
+                                        @else
+                                            <h3>Du {{ $ev->getDate() }}</h3>
+                                            <p class="text-sm">De {{ $ev->start_time }} à {{ $ev->end_time }} | <i class="fa-solid fa-location-dot mx-2"></i>{{ $ev->getShop() }}</p>
+                                        @endif
                                     </div>
                                     <div class="flex-none">
-                                        <button wire:click="deleteEvenement({{ $ev->id }})" class="btn-outline_primary mr-2"><i class="fa-solid fa-trash"></i></button>
-                                        <button wire:click="deleteEvenement({{ $ev->id }})" class="btn-outline_primary mr-2"><i class="fa-solid fa-trash"></i></button>
-                                        <button wire:click="editEvenement({{ $ev->id }})" class="btn-filled_secondary"><i class="fa-solid fa-pen-to-square mr-3"></i>Modifier le contenue</button>
+                                        <button wire:click="editEvenement({{ $ev->id }})" class="btn-filled_secondary mr-1"><i class="fa-solid fa-eye mr-3"></i>Voir</button>
+                                        <button wire:click="editEvenement({{ $ev->id }})" title="Modifier l'évènement" class="btn-outline_primary mr-1"><i class="fa-solid fa-pen"></i></button>
+                                        <button wire:click="deleteEvenement({{ $ev->id }})" class="btn-outline_primary"><i class="fa-solid fa-trash"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -35,36 +41,39 @@
                 @endif
             @endforeach
             {{-- Olds evenements --}}
-            <div class="title-line_big">
-                <h2>Anciens événements</h2>
-                <hr/>
-            </div>
-            <div class="table-primary">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Titre</th>
-                        <th>Date de l'évenement</th>
-                        <th>Heures</th>
-                        <th>Magasins</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($evenements as $ev)
-                        @if($ev->date < \Carbon\Carbon::now() && $ev->start_date < \Carbon\Carbon::now())
-                            <tr>
-                                <td>{{ $ev->id }}</td>
-                                <td>{{ $ev->title }}</td>
-                                <td>{{ $ev->getDate() }}</td>
-                                <td>De {{ $ev->start_time }} à {{ $ev->end_time }}</td>
-                                <td>{{ $ev->getShop() }}</td>
-                            </tr>
-                        @endif
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
+            @if($old_evenements->count() > 0)
+                <div class="title-line_big">
+                    <h2>Anciens événements</h2>
+                    <hr/>
+                </div>
+                <div class="table-primary">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Titre</th>
+                            <th>Date de l'évenement</th>
+                            <th>Heures</th>
+                            <th>Magasins</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($evenements as $ev)
+                            @if($ev->date < \Carbon\Carbon::now() && $ev->start_date < \Carbon\Carbon::now())
+                                <tr>
+                                    <td>{{ $ev->id }}</td>
+                                    <td>{{ $ev->title }}</td>
+                                    <td>{{ $ev->getDate() }}</td>
+                                    <td>De <b>{{ $ev->start_time }}</b> à <b>{{ $ev->end_time }}</b></td>
+                                    <td>{{ $ev->getShop() }}</td>
+                                </tr>
+                            @endif
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
+
         @else
             <p class="empty-text">Aucune animation n'a été créée</p>
         @endif

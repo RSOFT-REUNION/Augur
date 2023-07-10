@@ -16,7 +16,7 @@
                 <hr/>
             </div>
             <li><a href="{{ route('bo.pages.general') }}" class="btn-sidebar @if($item == 'pages') btn-sidebar_active @endif"><i class="fa-solid fa-pager mr-3"></i>Mes pages</a></li>
-            <li><a href="{{ route('bo.media') }}" class="btn-sidebar @if($item == 'media') btn-sidebar_active @endif"><i class="fa-solid fa-image mr-3"></i>Médias</a></li>
+{{--            <li><a href="{{ route('bo.media') }}" class="btn-sidebar @if($item == 'media') btn-sidebar_active @endif"><i class="fa-solid fa-image mr-3"></i>Médias</a></li>--}}
             <div class="title-line">
                 <h2>Mon entreprise</h2>
                 <hr/>

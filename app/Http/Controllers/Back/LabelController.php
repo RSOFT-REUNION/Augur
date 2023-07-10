@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Label;
+use App\Models\Media;
 use Illuminate\Http\Request;
 
 class LabelController extends Controller
@@ -68,13 +69,19 @@ class LabelController extends Controller
             'description.required' => "Le contenu est obligatoire.",
         ]);
 
+        $media = new Media;
+        $media->title = str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($request->title)).'.'.$request->cover->extension();
+        $media->key = str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($request->title));
+        $media->alt = $request->title;
+        $media->save();
+
         $label = new Label;
         $label->title = $request->title;
         $label->slug = $correct_title;
-        $label->logo = $correct_title.'.'. $request->file('cover')->extension();
+        $label->media_id = $media->id;
         $label->content = $request->description;
         if($label->save()){
-            $request->cover->storeAs('public/images/labels', $correct_title. '.' . $request->file('cover')->extension());
+            $request->cover->storeAs('public/medias', $correct_title. '.' . $request->file('cover')->extension());
             return redirect()->route('bo.labels')->with('success', 'Votre label a bien été créé');
         }
     }

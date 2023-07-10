@@ -4,13 +4,13 @@
         <h3>Des labels certifiés</h3>
     </div>
     <div class="my-20">
-        <div class="grid grid-cols-4 gap-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
             @foreach($labels as $label)
                 <div class="front-grid_label" role="button" data-href="{{ route('fo.label', ['slug' => $label->slug]) }}">
                     <div class="flex flex-col h-full">
                         <div class="flex-1 flex h-full">
                             <div class="m-auto">
-                                <img src="{{ asset('storage/images/labels/'. $label->logo) }}"/>
+                                <img src="{{ asset('storage/medias/'. $label->getPicture()) }}"/>
                             </div>
                         </div>
                         <div class="flex-none">

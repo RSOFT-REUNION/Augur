@@ -390,6 +390,45 @@
         border-bottom: 2px solid t.$jaune;
     }
 }
+#front-header_mobile {
+    border-top: 20px solid t.$bleu;
+    padding: 15px;
+    #logo-header_mobile {
+        width: 125px;
+        position: absolute;
+        margin-top: -45px;
+        z-index: 1;
+    }
+    .active {
+        font-weight: 700;
+        border-bottom: 2px solid t.$jaune;
+    }
+    .menu_sidebar {
+        z-index: 999;
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(t.$black, 0.3);
+        .container-sidebar {
+            z-index: 9999;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 70%;
+            background-color: t.$white;
+            box-shadow: 0 4px 10px rgba(t.$black, 0.4);
+            .btn-sidebar_mobile {
+                display: block;
+                padding: 10px 20px;
+                border: 1px solid t.$gris-light;
+                border-radius: 10px;
+            }
+        }
+    }
+}
 .container-filled {
     background-color: t.$gris-light;
     padding: 10px;
@@ -403,7 +442,7 @@
         width: 400px;
     }
     h2 {
-        font-size: 27px;
+        font-size: 27px!important;
         font-weight: 700;
         color: t.$bleu;
     }
@@ -563,7 +602,7 @@
 .container-carousel_list {
     position: relative;
     margin-inline: auto;
-    width: 50%;
+    width: 70%;
     height: 300px;
     background-size: cover;
     border-radius: 10px;
@@ -586,6 +625,42 @@
     }
     .title-H2 {
         color: t.$white!important;
+    }
+}
+.old_evenements-list {
+    display: none;
+    .evenement_items {
+        background-color: t.$gris-light;
+        padding: 10px 20px;
+        border-radius: 10px;
+        margin-bottom: 10px;
+    }
+}
+.radio_picture {
+    border-radius: 10px;
+    max-height: 150px;
+    overflow: hidden;
+    transition-duration: 300ms;
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(t.$black, 0.3);
+    }
+    input {
+        display: none;
+        cursor: pointer;
+    }
+    label {
+        background-size: cover!important;
+    }
+
+}
+.profile_evenements-list {
+    background-color: t.$gris-light;
+    padding: 10px 30px;
+    border-radius: 10px;
+    img {
+        width: 100px;
+        border-radius: 5px;
     }
 }
 
@@ -666,6 +741,25 @@
     }
     img {
         max-height: 250px;
+    }
+}
+.front-grid_product {
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: t.$white;
+    transition-duration: 300ms;
+    border: 2px solid t.$gris-light;
+    &:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(t.$black, 0.2);
+    }
+    img {
+        min-height: 200px;
+        max-height: 220px;
+        background-size: auto;
+    }
+    h2 {
+        font-size: 18px!important;
     }
 }
 .grid-engagement {
@@ -756,6 +850,11 @@
             color: t.$bleu;
             font-size: 18px;
             text-align: center;
+        }
+        h3 {
+            color: t.$bleu;
+            font-size: 25px;
+            font-weight: bold;
         }
         .image-preview {
             border-radius: 10px;
@@ -917,6 +1016,18 @@
         margin-left: 10px;
     }
 }
+.textfield-line-white {
+    background-color: t.$white;
+    padding: 7px 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(t.$black, 0.1);
+    input {
+        background-color: transparent;
+        font-family: t.$font-korolev;
+        font-weight: 300;
+        margin-left: 10px;
+    }
+}
 .textfield {
     label {
         padding-bottom: 3px;
@@ -928,6 +1039,28 @@
         border: 1px solid rgba(t.$black, 0.1);
         border-radius: 5px;
         background-color: t.$gris-light;
+        padding: 7px 15px;
+        &::placeholder {
+            font-weight: 300;
+        }
+    }
+    .text-input-error {
+        color: red;
+        font-size: 14px;
+        padding-left: 10px;
+    }
+}
+.textfield-white {
+    label {
+        padding-bottom: 3px;
+        padding-left: 10px;
+    }
+    input, textarea, select {
+        display: block;
+        width: 100%;
+        border: 1px solid rgba(t.$black, 0.1);
+        border-radius: 5px;
+        background-color: t.$white;
         padding: 7px 15px;
         &::placeholder {
             font-weight: 300;

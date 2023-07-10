@@ -22,7 +22,7 @@
                 <h1>{{ $label->title }}</h1>
             </div>
             <div class="force-center my-10">
-                <img src="{{ asset('storage/images/labels/'. $label->logo) }}" width="300px"/>
+                <img src="{{ asset('storage/medias/'. $label->getPicture()) }}" width="300px"/>
             </div>
             <div class="tiny-content mb-20">
                 {!! $label->content !!}

@@ -11,10 +11,19 @@
     </div>
     <div class="entry-content">
         <div class="force-center">
-            <img src="{{ asset('storage/images/evenements/'. $evenement->cover) }}" class="image-preview"/>
+            <img src="{{ asset('storage/medias/'. $evenement->getPicture()) }}" class="image-preview"/>
         </div>
-        <div class="my-10 tiny-content">
-            <p>{{ $evenement->description_short }}</p>
+        <div class="my-10">
+            <h3>Résumé</h3>
+            <div class="mt-3 bg-gray-100 px-4 py-2 rounded-lg">
+                <p>{{ $evenement->description_short }}</p>
+            </div>
+        </div>
+        <div class="my-10">
+            <h3>Description</h3>
+            <div class="tiny-content">
+                {!! $evenement->page_content !!}
+            </div>
         </div>
     </div>
 </div>

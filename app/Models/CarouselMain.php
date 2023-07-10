@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class CarouselMain extends Model
 {
     use HasFactory;
+
+    public function getPicture()
+    {
+        if($this->media_id) {
+            return Media::where('id', $this->media_id)->first()->title;
+        } else {
+            return 'none_picture.svg';
+        }
+    }
 }

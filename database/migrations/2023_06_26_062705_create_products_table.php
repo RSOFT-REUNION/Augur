@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
-            $table->string('image_name')->default('image_none.jpg');
+            $table->foreignId('media_id')->nullable()->constrained('media', 'id');
             $table->text('description')->nullable();
-            $table->string('family')->nullable();
+            $table->string('tags')->nullable();
+            $table->string('labels')->nullable();
             $table->boolean('active')->default(0);
             $table->timestamps();
         });

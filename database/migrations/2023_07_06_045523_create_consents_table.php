@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_families', function (Blueprint $table) {
+        Schema::create('consents', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->unique();
-            $table->text('description')->nullable();
-            $table->boolean('active')->default(1);
+            $table->boolean('cookie_consent')->default(0);
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_families');
+        Schema::dropIfExists('consents');
     }
 };

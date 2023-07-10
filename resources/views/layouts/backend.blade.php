@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content-app')
-    <div id="backend_page">
+    <div id="backend_page" class="hidden lg:block">
         <div class="flex">
             <div class="flex-none">
                 @include('components.templates.back-sidebar')
@@ -15,6 +15,16 @@
                     </div>
                 @endif
                 @yield('content-template')
+            </div>
+        </div>
+    </div>
+    <div class="lg:hidden">
+        <div class="flex h-screen">
+            <div class="m-auto">
+                <div class="force-center">
+                    <img src="{{ asset('images/logos/AUGUR_GRIS.svg') }}" width="300px">
+                </div>
+                <p class="bg-gray-100 px-2 py-1 mx-10 rounded-lg text-center text-gray-500">Le back-office n'est pas accessible depuis un mobile ou une tablette, merci de vous connecter depuis un PC</p>
             </div>
         </div>
     </div>

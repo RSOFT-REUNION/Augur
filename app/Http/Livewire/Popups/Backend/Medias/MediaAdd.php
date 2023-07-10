@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Popups\Backend\Medias;
 
 use App\Models\Media;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use LivewireUI\Modal\ModalComponent;
@@ -11,13 +12,11 @@ class MediaAdd extends ModalComponent
 {
     use WithFileUploads;
 
-    public $picture, $type, $title, $key;
+    public $picture, $title;
 
     protected $rules = [
         'title' => 'required|string',
-        'key' => 'nullable|unique:media,key',
         'picture' => 'required|image',
-        'type' => 'required'
     ];
 
     protected $messages = [
@@ -25,7 +24,6 @@ class MediaAdd extends ModalComponent
         'title.string' => "Le titre n'est pas conforme.",
         'picture.required' => "La photo est obligatoire.",
         'picture.image' => "Il ne s'agit pas d'une image.",
-        'type.required' => "Le type est obligatoire.",
     ];
 
     public function updated($title)
@@ -37,24 +35,14 @@ class MediaAdd extends ModalComponent
     {
         $this->validate();
         $verifiedTitle = str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title));
-        $verifiedKey = str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->key));
 
         $media = new Media;
-        if($this->key) {
-            $media->key = $verifiedKey;
-        } else {
-            $media->key = $verifiedTitle;
-        }
-        $media->type = $this->type;
+        $media->key = Str::random(10);
         $media->alt = $verifiedTitle;
-        $media->title = $this->title;
-        $media->picture = $verifiedTitle.'.'.$this->picture->extension();
-        if($this->type == 1) {
-            $media->url = 'storage/images/products/'.$verifiedTitle.'.'.$this->picture->extension();
-        } elseif ($this->type == 2) {
-            $media->url = 'storage/images/labels/'.$verifiedTitle.'.'.$this->picture->extension();
-        } elseif ($this->type == 2) {
-            $media->url = 'storage/images/shops/'.$verifiedTitle.'.'.$this->picture->extension();
+        $media->title = $this->title. '.' . $this->picture->extension();
+        if($media->save()) {
+            $this->picture->storeAs('public/medias', $verifiedTitle. '.' . $this->picture->extension());
+            return redirect()->route('bo.media')->with('success', 'Votre photo a été ajouté avec succées !');
         }
 
     }
