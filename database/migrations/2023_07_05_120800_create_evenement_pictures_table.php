@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_evenements', function (Blueprint $table) {
+        Schema::create('evenement_pictures', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users', 'id');
             $table->foreignId('evenement_id')->constrained('evenements', 'id');
+            $table->foreignId('media_id')->constrained('media', 'id');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_evenements');
+        Schema::dropIfExists('evenement_pictures');
     }
 };

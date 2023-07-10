@@ -37,7 +37,9 @@ class BackController extends Controller
         return view('pages.backend.customers.customer-single', $data);
     }
 
-    // Show evenements page
+    /*
+     * ----------------- EVENEMENTS
+     */
     public function showEvenements()
     {
         $data = [];
@@ -53,6 +55,16 @@ class BackController extends Controller
         $data['item'] = 'evenement';
         $data['evenement'] = Evenement::where('id', $id)->first();
         return view('pages.backend.evenements.evenement-edit', $data);
+    }
+
+    public function editEvenements($id)
+    {
+        $evenement = Evenement::where('id', $id)->first();
+        $evenement->page_content = request('page_content');
+        if($evenement->save())
+        {
+            return redirect()->route('bo.evenements');
+        }
     }
 
     // Show product list page
@@ -78,6 +90,13 @@ class BackController extends Controller
         $data['group'] = 'backend';
         $data['item'] = 'recette';
         return view('pages.backend.recettes.recettes', $data);
+    }
+    public function showAddRecettes()
+    {
+        $data = [];
+        $data['group'] = 'backend';
+        $data['item'] = 'recette';
+        return view('pages.backend.recettes.recettes-add', $data);
     }
 
     public function showTeam()

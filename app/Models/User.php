@@ -47,9 +47,9 @@ class User extends Authenticatable
     public function newsletterIcon()
     {
         if($this->newsletter) {
-            return '<i class="fa-solid fa-check-to-slot text-green-500"></i>';
+            return 'Abonné';
         } else {
-            return '<i class="fa-solid fa-rectangle-xmark text-red-500"></i>';
+            return 'Non abonné';
         }
     }
 

@@ -11,7 +11,7 @@
     </div>
     <div class="entry-content">
         <div class="force-center">
-            <img src="{{ asset('storage/images/labels/'. $label->logo) }}" width="250px" />
+            <img src="{{ asset('storage/medias/'. $label->getPicture()) }}" width="250px" />
         </div>
         <div class="tiny-content mt-5">
             {!! $label->content !!}

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('shops', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('cover')->nullable();
+            $table->foreignId('media_id')->nullable()->constrained('media', 'id');
             $table->string('address');
             $table->string('postal_code');
             $table->string('city');

@@ -12,7 +12,8 @@ export default defineConfig({
                 'resources/sass/responsive.scss',
                 'resources/js/app.js',
                 'resources/js/functions.js',
-                'resources/js/tinyMCE.js'
+                'resources/js/tinyMCE.js',
+                'resources/js/screenDetect.js',
             ],
             refresh: true,
         }),

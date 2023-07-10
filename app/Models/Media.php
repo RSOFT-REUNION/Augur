@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Media extends Model
 {
     use HasFactory;
+
+    public function getDate()
+    {
+        return date('d/m/Y', strtotime($this->created_at));
+    }
 }

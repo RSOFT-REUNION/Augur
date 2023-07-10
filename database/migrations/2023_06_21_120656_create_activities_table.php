@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('type')->default(0); // 0 = Infos; 1 = Errors
             $table->string('message');
+            $table->boolean('read')->default(0);
             $table->timestamps();
         });
     }

@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Popups\Backend\Evenements;
 
 use App\Models\Evenement;
+use App\Models\Media;
 use App\Models\Shop;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use LivewireUI\Modal\ModalComponent;
@@ -49,10 +51,18 @@ class AddEvenement extends ModalComponent
     {
         $this->validate();
 
+        if($this->cover) {
+            $media = new Media;
+            $media->title = str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title)).'.'.$this->cover->extension();
+            $media->key = Str::random(10);
+            $media->alt = $this->title;
+            $media->save();
+        }
+
         $anim = new Evenement;
         $anim->title = $this->title;
         if($this->cover) {
-            $anim->cover = str_replace($this->characters, $this->correct_characters, strtolower($this->title)). '.' . $this->cover->extension();
+            $anim->media_id = $media->id;
         }
         $anim->description_short = $this->description_small;
         if($this->more_day) {
@@ -73,7 +83,7 @@ class AddEvenement extends ModalComponent
         if($anim->save())
         {
             if($this->cover) {
-                $this->cover->storeAs('public/images/evenements', str_replace($this->characters, $this->correct_characters, strtolower($this->title)). '.' . $this->cover->extension());
+                $this->cover->storeAs('public/medias', str_replace($this->characters, $this->correct_characters, strtolower($this->title)). '.' . $this->cover->extension());
             }
             return redirect()->route('bo.evenements')->with('success', 'Votre évenement '. $anim->title .' a bien été créé !');
         }

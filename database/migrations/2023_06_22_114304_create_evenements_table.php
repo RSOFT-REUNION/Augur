@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->integer('state')->default(0);
             $table->string('title');
-            $table->string('cover')->nullable();
+            $table->foreignId('media_id')->constrained('media', 'id');
             $table->text('description_short');
+            $table->text('page_content')->nullable();
             $table->timestamp('date')->nullable();
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();

@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Mail\User\CreateAccount;
+use App\Mail\User\DeleteAccount;
 use App\Models\Activity;
 use App\Models\CarouselMain;
+use App\Models\Consent;
 use App\Models\Contact;
+use App\Models\EvenementUser;
 use App\Models\Label;
 use App\Models\Pages;
 use App\Models\Shop;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
@@ -30,6 +34,19 @@ class FrontController extends Controller
             }
         }
 
+    }
+
+    public function connectMaintenance(Request $request)
+    {
+        $result = auth()->attempt([
+            'email' => strtolower($request->email),
+            'password' => $request->password
+        ]);
+        if($result) {
+            return redirect()->route('fo.home');
+        } else {
+            return back()->with('error', 'Votre adresse e-mail ou votre mot de passe est incorrect.');
+        }
     }
 
     // Show Home page
@@ -93,8 +110,17 @@ class FrontController extends Controller
                 $activity->message = $user->lastname.' '.$user->firstname.' viens de s\'inscrire !';
                 $activity->save();
 
-                Mail::to($user->email)->send(new CreateAccount($user));
-                return redirect()->route('fo.home')->with('success', 'Votre compte à été correctement créé. Je vous invite à vous connecter !');
+//                Mail::to($user->email)->send(new CreateAccount($user));
+
+                $result = auth()->attempt([
+                    'email' => strtolower($request->email),
+                    'password' => $request->password
+                ]);
+                if($result) {
+                    return redirect()->route('fo.profile')->with('success', 'Votre compte à été correctement créé.');
+                } else {
+                    return redirect()->route('fo.home')->with('success', 'Votre compte à été correctement créé. Je vous invite à vous connecter !');
+                }
             }
         } elseif ($action === 'login') {
             // Action de connexion
@@ -119,6 +145,31 @@ class FrontController extends Controller
         return redirect()->route('fo.home');
     }
 
+    public function deletedAccount()
+    {
+        $random = Str::random(5);
+        $user = User::where('id', auth()->user()->id)->first();
+
+        $activity = new Activity;
+        $activity->message = $user->lastname.' '.$user->firstname.' a supprimé complètement son compte !';
+        $activity->save();
+
+        if(Mail::to($user->email)->send(new DeleteAccount($user))) {
+            $user->team = 0;
+            $user->lastname = 'DELETED';
+            $user->firstname = 'deleted';
+            $user->email = $random.'@deleted.fr';
+            $user->password = bcrypt($random);
+            $user->newsletter = 0;
+            $user->deleted = 1;
+            $user->deleted_at = Carbon::now();
+            if($user->update()) {
+                auth()->logout();
+                return redirect()->route('fo.home')->with('success', 'Votre compte ainsi que vos données ont bien été supprimé !');
+            }
+        }
+    }
+
     // ------------------------ Profile
 
     /*
@@ -129,6 +180,7 @@ class FrontController extends Controller
         $data = [];
         $data['active'] = 'profile';
         $data['me'] = auth()->user();
+        $data['participations'] = EvenementUser::where('user_id', auth()->user()->id)->orderBy('created_at', 'desc')->get();
         return view('pages.frontend.profile.profile', $data);
     }
 
@@ -253,5 +305,12 @@ class FrontController extends Controller
         $data['active'] = 'about';
         $data['page'] = Pages::where('key', 'about')->first();
         return view('pages.frontend.about', $data);
+    }
+
+    public function showProductList()
+    {
+        $data = [];
+        $data['active'] = 'products';
+        return view('pages.frontend.products', $data);
     }
 }

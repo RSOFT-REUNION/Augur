@@ -9,11 +9,11 @@
         @if($shops->count() > 0)
             <ul>
                 @foreach($shops as $shop)
-                    <li>
-                        <div class="container-shop_admin">
+                    <li class="mb-3">
+                        <div class="container-shop_admin" role="button" data-href="{{ route('bo.setting.shop.create', ['id' => $shop->id]) }}">
                             <div class="flex items-center">
                                 <div class="flex-none">
-                                    <img src="{{ asset('storage/images/shops/'. $shop->cover) }}">
+                                    <img src="{{ asset('storage/medias/'. $shop->getPicture()) }}">
                                 </div>
                                 <div class="grow px-5">
                                     <h2>{{ $shop->title }}</h2>

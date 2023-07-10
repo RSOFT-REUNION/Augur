@@ -6,6 +6,7 @@ use App\Mail\Evenement\DeleteEvenement;
 use App\Models\Evenement;
 use App\Models\User;
 use App\Models\UserEvenement;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
@@ -33,6 +34,7 @@ class EvenementsList extends Component
     {
         $data = [];
         $data['evenements'] = Evenement::orderBy('created_at', 'desc')->get();
+        $data['old_evenements'] = Evenement::where('date', '<', Carbon::now())->orderBy('created_at', 'desc')->get();
         return view('livewire.pages.backend.evenements.evenements-list', $data);
     }
 }

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('active')->default(1);
             $table->string('key');
-            $table->string('cover');
+            $table->foreignId('media_id')->constrained('media', 'id');
             $table->string('title')->nullable();
             $table->string('subtitle')->nullable();
             $table->string('link')->nullable();

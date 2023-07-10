@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Popups\Backend\Settings;
 
+use App\Models\Media;
 use App\Models\Shop;
 use Illuminate\Support\Facades\View;
 use Livewire\WithFileUploads;
@@ -44,10 +45,18 @@ class AddShop extends ModalComponent
     {
         $this->validate();
 
+        if($this->cover) {
+            $media = new Media;
+            $media->title = str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title)).'.'.$this->cover->extension();
+            $media->key = str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title));
+            $media->alt = $this->title;
+            $media->save();
+        }
+
         $shop = new Shop;
         $shop->title = $this->title;
         if($this->cover) {
-            $shop->cover = str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title)).'.'.$this->cover->extension();
+            $shop->media_id = $media->id;
         }
         $shop->description = $this->description;
         $shop->address = $this->address;
@@ -57,8 +66,12 @@ class AddShop extends ModalComponent
         {
             if($this->cover)
             {
-                $this->cover->storeAs('public/images/shops', str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title)). '.' . $this->cover->extension());
+                $this->cover->storeAs('public/medias', str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title)). '.' . $this->cover->extension());
             }
+            return redirect()->route('bo.setting.shop.create', ['id' => $shop->id]);
+        } else {
+            $med = Media::where('id', $media->id)->first();
+            $med->delete();
             return redirect()->route('bo.setting.shop.create', ['id' => $shop->id]);
         }
 

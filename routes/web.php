@@ -17,12 +17,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('/mail', function () {
+/*Route::get('/mail', function () {
     $markdown = new \Illuminate\Mail\Markdown(view(), config('mail.markdown'));
-    return $markdown->render('emails.users.createAccount');
-});
+    return $markdown->render('emails.support.message');
+});*/
+Route::post('/update-screensize', 'ScreenSizeController@update')->name('update-screensize');
 
+Route::post('/consent', [FrontController::class, 'consentCookie'])->name('consent');
 Route::get('/maintenance', [FrontController::class, 'showMaintenance'])->name('maintenance');
+Route::post('/maintenance', [FrontController::class, 'connectMaintenance']);
 
 Route::group([
     'middleware' => 'App\Http\Middleware\Maintenance',
@@ -39,16 +42,18 @@ Route::group([
     Route::get('/labels/{slug}', [FrontController::class, 'showLabelSingle'])->name('fo.label');
     Route::get('/nos-magasins', [FrontController::class, 'showShopList'])->name('fo.shops.list');
     Route::get('/qui-sommes-nous', [FrontController::class, 'showAbout'])->name('fo.about');
+    Route::get('/produits', [FrontController::class, 'showProductList'])->name('fo.products');
 
     Route::group([
         'middleware' => 'App\Http\Middleware\Users'
     ], function () {
         Route::get('/deconnexion', [FrontController::class, 'logout'])->name('logout');
         Route::get('/mon-profil', [FrontController::class, 'showProfile'])->name('fo.profile');
+        Route::get('/suppression-de-mes-données', [FrontController::class, 'deletedAccount'])->name('account.delete');
     });
 
     Route::group([
-        'middleware' => 'App\Http\Middleware\Teams'
+        'middleware' => 'App\Http\Middleware\Teams',
     ], function (){
         Route::prefix('/espace-personnel')->group(function () {
             Route::get('/', [BackController::class, 'showDashboard'])->name('bo.dashboard');
@@ -57,6 +62,7 @@ Route::group([
             Route::get('/clients/{id}', [BackController::class, 'showCustomerSingle'])->name('bo.customers.single');
             Route::get('/animations', [BackController::class, 'showEvenements'])->name('bo.evenements');
             Route::get('/animations/modification-{id}', [BackController::class, 'showEditEvenements'])->name('bo.evenements.edit');
+            Route::post('/animations/modification-{id}', [BackController::class, 'editEvenements'])->name('bo.evenements.edit.post');
             Route::get('/labels-&-engagements', [LabelController::class, 'showList'])->name('bo.labels');
             Route::get('/labels-&-engagements/creation', [LabelController::class, 'showAdd'])->name('bo.labels.add');
             Route::post('/labels-&-engagements/creation', [LabelController::class, 'create'])->name('bo.labels.add.post');
@@ -75,6 +81,7 @@ Route::group([
             Route::get('/mes-pages/a-propos', [PagesController::class, 'showAbout'])->name('bo.pages.about');
             Route::post('/mes-pages/a-propos', [PagesController::class, 'postAbout']);
             Route::get('/recettes', [BackController::class, 'showRecettes'])->name('bo.recette');
+            Route::get('/recettes/ajout', [BackController::class, 'showAddRecettes'])->name('bo.recette.add');
             Route::get('/equipe', [BackController::class, 'showTeam'])->name('bo.team');
             Route::get('/medias', [BackController::class, 'showMedias'])->name('bo.media');
         });

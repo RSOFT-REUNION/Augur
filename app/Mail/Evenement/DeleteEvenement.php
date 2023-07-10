@@ -32,9 +32,9 @@ class DeleteEvenement extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address('no-reply@augur.re', 'AÜGUR'),
+            from: new Address('contact@augur.re', 'AÜGUR'),
             replyTo: [
-                new Address('no-reply@augur.re', 'AÜGUR'),
+                new Address('contact@augur.re', 'AÜGUR'),
             ],
             subject: 'AÜGUR - Annulation d\'un évènement',
         );

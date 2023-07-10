@@ -8,49 +8,71 @@
             </div>
         </form>
     </div>
-    <div class="entry-content">
-        @if(count($this->jobsLabel) > 0)
-            <div class="mb-5">
-                <h2>Les labels</h2>
-                <div class="mt-4 grid grid-cols-4 gap-4">
-                    @foreach($jobsLabel as $label)
-                        <div class="small-label" role="button" data-href="{{ route('fo.label', ['slug' => $label->slug]) }}">
-                            <div class="flex flex-col h-full">
-                                <div class="flex-1 flex h-full">
-                                    <div class="m-auto">
-                                        <img src="{{ asset('storage/images/labels/'. $label->logo) }}"/>
+    @if(count($this->jobsLabel) > 0 || count($this->jobsEvenement) > 0)
+        <div class="entry-content">
+            @if(count($this->jobsLabel) > 0)
+                <div class="mb-5">
+                    <h2>Les labels</h2>
+                    <div class="mt-4 grid grid-cols-4 gap-4">
+                        @foreach($jobsLabel as $label)
+                            <div class="small-label" role="button" data-href="{{ route('fo.label', ['slug' => $label->slug]) }}">
+                                <div class="flex flex-col h-full">
+                                    <div class="flex-1 flex h-full">
+                                        <div class="m-auto">
+                                            <img src="{{ asset('storage/medias/'. $label->getPicture()) }}"/>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="flex-none">
-                                    <h3>{{ $label->title }}</h3>
+                                    <div class="flex-none">
+                                        <h3>{{ $label->title }}</h3>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        @endif
-
-        @if(count($this->jobsEvenement) > 0)
-            <div>
-                <h2>Les animations</h2>
-                <div class="mt-4">
-                    <ul>
-                        @foreach($jobsEvenement as $evenement)
-                            <li class="small-evenement">
-                                <div class="flex items-center" role="button" data-href="{{ route('fo.evenements') }}">
-                                    <div class="flex-none">
-                                        <img src="{{ asset('storage/images/evenements/'. $evenement->cover) }}"/>
+            @endif
+            @if(count($this->jobsEvenement) > 0)
+                <div>
+                    <h2>Les animations</h2>
+                    <div class="mt-4">
+                        <ul>
+                            @foreach($jobsEvenement as $evenement)
+                                <li class="small-evenement">
+                                    <div class="flex items-center" role="button" data-href="{{ route('fo.evenements') }}">
+                                        <div class="flex-none">
+                                            <img src="{{ asset('storage/medias/'. $evenement->getPicture()) }}"/>
+                                        </div>
+                                        <div class="flex-1">
+                                            <p>{{ $evenement->title }}</p>
+                                        </div>
                                     </div>
-                                    <div class="flex-1">
-                                        <p>{{ $evenement->title }}</p>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endif
+            @if(count($this->jobsProduct) > 0)
+                <div>
+                    <h2>Les produits</h2>
+                    <div class="mt-4 grid grid-cols-4 gap-4">
+                        @foreach($jobsProduct as $product)
+                            <div class="small-label" role="button" data-href="">
+                                <div class="flex flex-col h-full">
+                                    <div class="flex-1 flex h-full">
+                                        <div class="m-auto">
+                                            <img src="{{ asset('storage/medias/'. $product->getPicture()) }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="flex-none">
+                                        <h3>{{ $product->title }}</h3>
                                     </div>
                                 </div>
-                            </li>
+                            </div>
                         @endforeach
-                    </ul>
+                    </div>
                 </div>
-            </div>
-        @endif
-    </div>
+            @endif
+        </div>
+    @endif
 </div>

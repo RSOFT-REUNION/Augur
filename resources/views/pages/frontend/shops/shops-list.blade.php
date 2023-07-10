@@ -20,17 +20,17 @@
             </div>
             <div class="my-20">
                 @foreach($shops as $shop)
-                    <div class="container-shop">
-                        <div class="flex items-center">
+                    <div class="container-shop mb-3">
+                        <div class="flex flex-col lg:flex-row items-center">
                             <div class="flex-none">
-                                <img src="{{ asset('storage/images/shops/'. $shop->cover) }}">
+                                <img src="{{ asset('storage/medias/'. $shop->getPicture()) }}">
                             </div>
-                            <div class="grow px-5">
+                            <div class="grow lg:px-5 text-center lg:text-left">
                                 <h2>{{ $shop->title }}</h2>
                                 <h3>{{ $shop->address }} - {{ $shop->city }} ({{ $shop->postal_code }})</h3>
                                 <p class="mt-5">{{ $shop->description }}</p>
                             </div>
-                            <div class="flex-none border-l border-gray-200 px-5">
+                            <div class="flex-none lg:border-l lg:border-gray-200 text-center lg:text-left mb-5 lg:px-5 lg:mb-0">
                                 {!! $shop->schedules !!}
                                 <div class="text-center mt-3">
                                     <button onclick="window.location.href = 'https://www.google.com/maps?q={{ $shop->address }}';" class="btn-filled_secondary"><i class="fa-solid fa-location-dot mr-3"></i>Itinéraire</button>

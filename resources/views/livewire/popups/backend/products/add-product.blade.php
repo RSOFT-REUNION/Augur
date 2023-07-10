@@ -15,6 +15,9 @@
         </p>
         <form wire:submit.prevent="create" enctype="multipart/form-data" class="mt-3">
             @csrf
+            @if($image)
+                <img src="{{ $image->temporaryUrl() }}" class="image-preview  mb-4">
+            @endif
             <div class="textfield">
                 <label for="title">Nom du produit<span class="text-red-500">*</span></label>
                 <input type="text" id="title" wire:model="title" name="title" placeholder="Entrez le nom du produit" class="@if($errors->has('title'))textfield-error @endif" value="{{ old('title') }}">
@@ -27,6 +30,20 @@
                 <input type="file" id="image" wire:model="image" name="image" class="@if($errors->has('image'))textfield-error @endif" value="{{ old('image') }}">
                 @if($errors->has('image'))
                     <p class="text-input-error">{{ $errors->first('image') }}</p>
+                @endif
+            </div>
+            <div class="textfield mt-2">
+                <label for="tags">Étiquettes <span class="text-sm bg-gray-200 py-1 px-2 rounded-lg">liste séparée par ;</span> </label>
+                <input type="text" id="tags" wire:model="tags" name="tags" placeholder="Entrez des étiquettes et séparé les par des ;" class="mt-2 @if($errors->has('tags'))textfield-error @endif" value="{{ old('tags') }}">
+                @if($errors->has('tags'))
+                    <p class="text-input-error">{{ $errors->first('tags') }}</p>
+                @endif
+            </div>
+            <div class="textfield mt-2">
+                <label for="labels">Labels concernés (éviter les fautes) <span class="text-sm bg-gray-200 py-1 px-2 rounded-lg">liste séparée par ;</span> </label>
+                <input type="text" id="labels" wire:model="labels" name="labels" placeholder="Entrez des labels et séparé les par des ;" class="mt-2 @if($errors->has('labels'))textfield-error @endif" value="{{ old('labels') }}">
+                @if($errors->has('labels'))
+                    <p class="text-input-error">{{ $errors->first('labels') }}</p>
                 @endif
             </div>
             <div class="textfield mt-2">

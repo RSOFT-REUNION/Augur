@@ -30,7 +30,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $characters = ["é", "è", "ê", "ë", "à", "'", "\"", "«", "»", "<", ">", " ", "_", "&", "ç", "î", "ï", "ô", "ö", "/", "[", "(", ")", "]", "{", "}"];
         $correct_characters = ["e", "e", "e", "e", "a", "-", "-", "-", "-", "-", "-", "-", "-", "and", "c", "i", "i", "o", "o", "-", "-", "-", "-", "-", "-", "-"];
-
         View::share('characters', $characters);
         View::share('correct_characters', $correct_characters);
     }

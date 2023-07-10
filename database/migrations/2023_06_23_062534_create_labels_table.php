@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title')->unique();
             $table->string('slug')->unique();
-            $table->string('logo')->nullable();
+            $table->foreignId('media_id')->constrained('media', 'id');
             $table->text('content');
             $table->boolean('show_home')->default(0);
             $table->timestamps();

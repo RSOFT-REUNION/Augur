@@ -11,7 +11,7 @@ class Evenement extends Model
 
     public function getDate()
     {
-        if(!$this->more_date) {
+        if($this->one_day) {
             return date('d/m/Y', strtotime($this->date));
         } else {
             return date('d/m/Y', strtotime($this->start_date)). ' au '. date('d/m/Y', strtotime($this->end_date)) ;
@@ -24,6 +24,15 @@ class Evenement extends Model
             return Shop::where('id', $this->shop_id)->first()->title;
         } else {
             return "Tous les magasins";
+        }
+    }
+
+    public function getPicture()
+    {
+        if($this->media_id) {
+            return Media::where('id', $this->media_id)->first()->title;
+        } else {
+            return 'none_picture.svg';
         }
     }
 }

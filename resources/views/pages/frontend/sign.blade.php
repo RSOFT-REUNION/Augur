@@ -8,12 +8,9 @@
 
 @section('content-template')
     <main role="main">
-        <div class="text-center">
-            <h1>Connexion / Inscription</h1>
-        </div>
         @livewire('components.alert-messages')
         <div class="container mx-auto my-10">
-            <div class="flex items-center">
+            <div class="items-center hidden xl:flex">
                 <div class="flex-1 px-4">
                     <h2 class="text-center">Connexion à votre compte</h2>
                 </div>
@@ -21,9 +18,12 @@
                     <h2 class="text-center">Créer un compte</h2>
                 </div>
             </div>
-            <div class="flex items-center">
-                <div class="flex-1 px-4">
+            <div class="flex flex-col xl:flex-row items-center">
+                <div class="flex-1 xl:px-4">
                     {{-- Login form --}}
+                    <div class="block xl:hidden">
+                        <h2 class="text-center">Connexion à votre compte</h2>
+                    </div>
                     <div class="force-center mt-10">
                         <form method="POST" action="{{ route('fo.sign.handle') }}" class="width-500 text-left">
                             @csrf
@@ -57,8 +57,11 @@
                         </form>
                     </div>
                 </div>
-                <div class="flex-1 px-4 border-l border-gray-200">
+                <div class="flex-1 mt-10 pt-10 xl:px-4 border-t xl:border-l xl:border-t-0 xl:mt-0 xl:pt-0 border-gray-200">
                     {{-- Register form --}}
+                    <div class="block xl:hidden">
+                        <h2 class="text-center">Créer un compte</h2>
+                    </div>
                     <div class="force-center mt-10">
                         <form method="POST" action="{{ route('fo.sign.handle') }}" class="width-500 text-left">
                             @csrf
@@ -84,14 +87,14 @@
                                     <p class="text-input-error">{{ $errors->first('email') }}</p>
                                 @endif
                             </div>
-                            <div class="flex mt-2">
-                                <div class="flex-1 mr-1">
+                            <div class="flex flex-col md:flex-row mt-2">
+                                <div class="flex-1 md:mr-1">
                                     <div class="textfield">
                                         <label for="password">Mot de passe<span class="text-red-500">*</span></label>
                                         <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" class="@if($errors->has('password'))textfield-error @endif">
                                     </div>
                                 </div>
-                                <div class="flex-1 ml-1">
+                                <div class="flex-1 mt-2 md:mt-0 md:ml-1">
                                     <div class="textfield">
                                         <label for="password_confirmation">Mot de passe (confirmation)<span class="text-red-500">*</span></label>
                                         <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Entrez votre mot de passe" class="@if($errors->has('password'))textfield-error @endif">

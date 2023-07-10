@@ -26,6 +26,11 @@
                     <p class="text-input-error">{{ $errors->first('password') }}</p>
                 @endif
             </div>
+            @if($errors->has('email') || $errors->has('email'))
+                <div class="bg-red-100 px-3 py-1 text-sm mt-2 rounded-lg">
+                    <p>Vous ne semblez pas faire partie de l'organisation ou bien vous vous êtes trompé dans vos identifiants</p>
+                </div>
+            @endif
             <div class="mt-5 text-right">
                 <button type="submit" class="btn-filled_secondary">Se connecter</button>
             </div>
