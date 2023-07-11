@@ -54,7 +54,7 @@
             </div>
             <div class="carousel-scroll_line">
                 @foreach($oldEvenements as $oldEv)
-                    <div onclick="Livewire.emit('openModal', 'popups.frontend.evenements.popup-evenement', {{ json_encode(['evenement_id' => $oldEv->id]) }})" style="background-image: url('{{ asset('storage/medias'. $oldEv->getPicture()) }}')">
+                    <div onclick="Livewire.emit('openModal', 'popups.frontend.evenements.popup-evenement', {{ json_encode(['evenement_id' => $oldEv->id]) }})" style="background-image: url('{{ asset('storage/medias/'. $oldEv->getPicture()) }}')">
                         <h5>{{ $oldEv->title }}</h5>
                     </div>
                 @endforeach

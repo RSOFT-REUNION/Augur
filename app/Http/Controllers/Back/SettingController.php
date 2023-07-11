@@ -40,6 +40,10 @@ class SettingController extends Controller
     {
         $shop = Shop::where('id', $request->shop_id)->first();
         $shop->schedules = $request->schedules;
+        $shop->title = $request->title;
+        $shop->address = $request->address;
+        $shop->postal_code = $request->postal_code;
+        $shop->city = $request->city;
         $shop->page_content = $request->page_content;
         if($shop->update()) {
             return redirect()->route('bo.setting.shop');

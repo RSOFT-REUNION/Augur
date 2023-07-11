@@ -8,7 +8,7 @@
             </div>
         </form>
     </div>
-    @if(count($this->jobsLabel) > 0 || count($this->jobsEvenement) > 0)
+    @if(count($this->jobsLabel) > 0 || count($this->jobsEvenement) > 0 || count($this->jobsProduct))
         <div class="entry-content">
             @if(count($this->jobsLabel) > 0)
                 <div class="mb-5">
@@ -55,22 +55,24 @@
             @if(count($this->jobsProduct) > 0)
                 <div>
                     <h2>Les produits</h2>
-                    <div class="mt-4 grid grid-cols-4 gap-4">
+                    <ul class="mt-4">
                         @foreach($jobsProduct as $product)
-                            <div class="small-label" role="button" data-href="">
-                                <div class="flex flex-col h-full">
-                                    <div class="flex-1 flex h-full">
-                                        <div class="m-auto">
-                                            <img src="{{ asset('storage/medias/'. $product->getPicture()) }}"/>
-                                        </div>
-                                    </div>
+                            <li class="small-evenement mb-1">
+                                <div class="flex items-center" role="button" data-href="{{ route('fo.products') }}">
                                     <div class="flex-none">
-                                        <h3>{{ $product->title }}</h3>
+                                        @if($product->picture != null)
+                                            <img src="{{ asset('storage/products/'. $product->picture) }}"/>
+                                        @else
+                                            <img src="{{ asset('storage/medias/none_picture.svg') }}"/>
+                                        @endif
+                                    </div>
+                                    <div class="flex-1">
+                                        <p>{{ $product->title }}</p>
                                     </div>
                                 </div>
-                            </div>
+                            </li>
                         @endforeach
-                    </div>
+                    </ul>
                 </div>
             @endif
         </div>

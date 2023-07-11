@@ -5,9 +5,11 @@ namespace App\Http\Livewire\Pages\Backend\Products;
 use App\Models\Label;
 use App\Models\Product;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ProductList extends Component
 {
+    use WithPagination;
     public $search = '';
     public $jobs = [];
     public function updatedSearch()

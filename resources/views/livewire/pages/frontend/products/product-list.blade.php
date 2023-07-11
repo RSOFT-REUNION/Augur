@@ -15,33 +15,50 @@
                 <div class="front-grid_product">
                     <div class="flex flex-col h-full">
                         <div class="flex-1 flex h-full">
-                            <div class="m-auto">
-                                <img src="{{ asset('storage/products/'. $product->picture) }}"/>
+                            <div class="mx-auto">
+                                @if($product->picture != null)
+                                    <img src="{{ asset('storage/products/'. $product->picture) }}"/>
+                                @else
+                                    <img src="{{ asset('storage/medias/none_picture.svg') }}"/>
+                                @endif
                             </div>
                         </div>
                         <div class="flex-none py-3 px-5">
                             <div class="inline-flex items-center mb-3">
-                                @foreach($product->getTags() as $tag)
-                                    @if($tag == 'BIO')
-                                        <object data="{{ asset('images/assets/icon_bio.svg') }}" width="50px"></object>
-                                    @endif
-                                    @if($tag == 'VEGAN')
-                                        <object data="{{ asset('images/assets/icon_vegan.svg') }}" width="50px"></object>
-                                    @endif
-                                    @if($tag != 'BIO' && $tag != 'VEGAN')
-                                        <span class="bg-gray-100 mr-1 px-2 py-1 rounded-lg">
-                                            {{ $tag }}
-                                        </span>
-                                    @endif
+                                @foreach($labels as $label)
+                                    @foreach($product->getLabels() as $lab)
+                                        @if($lab == $label->title)
+                                            <object data="{{ asset('storage/medias/'. $label->getPicture()) }}" width="100px"></object>
+                                        @endif
+                                    @endforeach
                                 @endforeach
                             </div>
                             <h2>{{ $product->title }}</h2>
+                            <!--
+                            <div class="inline-flex items-center mb-3">
+                                @if(count($product->getTags()) > 0)
+                                    @foreach($product->getTags() as $tag)
+                                        @if($tag == 'BIO')
+                                            <object data="{{ asset('images/assets/icon_bio.svg') }}" width="50px"></object>
+                                        @endif
+                                        @if($tag == 'VEGAN')
+                                            <object data="{{ asset('images/assets/icon_vegan.svg') }}" width="50px"></object>
+                                        @endif
+                                        @if($tag != 'BIO' && $tag != 'VEGAN')
+                                            <span class="bg-gray-100 mr-1 px-2 py-1 rounded-lg">
+                                                {{ $tag }}
+                                            </span>
+                                        @endif
+                                    @endforeach
+                                @endif
+                            </div>
+                            -->
                         </div>
                     </div>
                 </div>
             @endforeach
         </div>
-        <div class="mt-3">
+        <div class="mt-5">
             {{ $products->links() }}
         </div>
 

@@ -15,8 +15,8 @@
                 <div class="flex-1 inline-flex items-center">
                     <a href="{{ route('fo.home') }}" title="Retourner au site"><img src="{{ asset('images/logos/AUGUR_icon_fill_Jaune.svg') }}" width="40px"></a>
                     <div class="text-white ml-3">
-                        <h3>Administrateur</h3>
-                        <p>brian@rsoft.re</p>
+                        <h3>{{ auth()->user()->lastname }} {{ auth()->user()->firstname }}</h3>
+                        <p>{{ auth()->user()->email }}</p>
                     </div>
                 </div>
                 <div class="flex-none">

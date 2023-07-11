@@ -7,6 +7,12 @@ use Livewire\Component;
 
 class Shops extends Component
 {
+    public function delete($id)
+    {
+        $shop = Shop::where('id', $id)->first();
+        $shop->delete();
+        return redirect()->route('bo.setting.shop');
+    }
     public function render()
     {
         $data = [];

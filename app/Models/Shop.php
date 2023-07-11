@@ -17,4 +17,14 @@ class Shop extends Model
             return 'none_picture.svg';
         }
     }
+
+    public function isUsed()
+    {
+        $evenements = Evenement::where('shop_id', $this->id)->get();
+        if($evenements->count() > 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 }

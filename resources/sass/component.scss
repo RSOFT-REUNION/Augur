@@ -523,30 +523,11 @@
 }
 .container-shop_admin {
     border-radius: 10px;
-    border: 1px solid transparent;
-    background-color: t.$gris-light;
     overflow: hidden;
-    position: relative;
-    transition-duration: 300ms;
-    &:hover {
-        transform: scale(1.01);
-        cursor: pointer;
-        border: 1px solid rgba(t.$black, 0.1);
-    }
-    img {
-        background-size: cover;
-        max-width: 500px;
-    }
+    background-color: t.$gris-light;
     h2 {
-        font-size: 32px;
-        font-weight: 700;
-        color: t.$bleu;
+        font-size: 25px!important;
     }
-    h3 {
-        font-weight: 300;
-        font-size: 20px;
-    }
-
 }
 .container-shop {
     border-radius: 10px;
@@ -663,6 +644,36 @@
     img {
         width: 100px;
         border-radius: 5px;
+    }
+}
+.container-version_actual {
+    .container-version-header {
+        background-color: t.$bleu;
+        color: t.$white;
+        padding: 20px 30px;
+        border-radius: 10px;
+        h4 {
+            color: t.$white!important;
+            font-size: 20px;
+            font-weight: 700;
+        }
+    }
+    .container-version-content {
+        background-color: t.$gris-light;
+        padding: 20px 30px;
+        margin-top: 10px;
+        border-radius: 10px;
+        h5 {
+            color: t.$bleu;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        li {
+            list-style: disc;
+            margin-left: 30px;
+            margin-bottom: 3px;
+        }
     }
 }
 

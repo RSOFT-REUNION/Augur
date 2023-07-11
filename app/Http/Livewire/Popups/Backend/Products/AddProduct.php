@@ -37,14 +37,14 @@ class AddProduct extends ModalComponent
         $product->title = $this->title;
         $product->description = $this->description;
         if($this->image) {
-            $product->picture = $this->title. $this->image->extension();
+            $product->picture = $this->title.'.'.$this->image->extension();
         }
         $product->tags = strtoupper($this->tags);
         $product->labels = $this->labels;
         $product->active = 1;
         if($product->save()) {
             if($this->image) {
-                $this->image->storeAs('public/products', $this->title. $this->image->extension());
+                $this->image->storeAs('public/products', $this->title.'.'.$this->image->extension());
             }
             return redirect()->route('bo.products.list');
         }

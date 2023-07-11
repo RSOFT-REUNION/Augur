@@ -10,18 +10,20 @@
             <ul>
                 @foreach($shops as $shop)
                     <li class="mb-3">
-                        <div class="container-shop_admin" role="button" data-href="{{ route('bo.setting.shop.create', ['id' => $shop->id]) }}">
+                        <div class="container-shop_admin">
                             <div class="flex items-center">
-                                <div class="flex-none">
+                                <div class="flex-none w-1/3">
                                     <img src="{{ asset('storage/medias/'. $shop->getPicture()) }}">
                                 </div>
-                                <div class="grow px-5">
+                                <div class="flex-1 ml-5">
                                     <h2>{{ $shop->title }}</h2>
-                                    <h3>{{ $shop->address }} - {{ $shop->city }} ({{ $shop->postal_code }})</h3>
-                                    <p class="mt-5">{{ $shop->description }}</p>
-                                </div>
-                                <div class="flex-none border-l border-gray-200 px-5">
-                                    {!! $shop->schedules !!}
+                                    <h3>{{ $shop->address }}, {{ $shop->postal_code }} ({{ $shop->city }})</h3>
+                                    <div class="mt-10">
+                                        <a href="{{ route('bo.setting.shop.create', ['id' => $shop->id]) }}" class="btn-filled_secondary"><i class="fa-solid fa-pen-to-square"></i>Modifier</a>
+                                        @if($shop->isUsed() == 0)
+                                            <a wire:click="delete({{ $shop->id }})" class="btn-icon_transparent"><i class="fa-solid fa-trash"></i></a>
+                                        @endif
+                                    </div>
                                 </div>
                             </div>
                         </div>
