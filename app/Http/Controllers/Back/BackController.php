@@ -57,11 +57,41 @@ class BackController extends Controller
         return view('pages.backend.evenements.evenement-edit', $data);
     }
 
-    public function editEvenements($id)
+    public function editEvenements(Request $request, $id)
     {
+        $request->validate([
+            'title' => ['required'],
+            'description' => ['required'],
+        ]);
         $evenement = Evenement::where('id', $id)->first();
-        $evenement->page_content = request('page_content');
-        if($evenement->save())
+        if($evenement->title != $request->title) {
+            $evenement->title = $request->title;
+        }
+        if($evenement->description_short != $request->description) {
+            $evenement->description_short = $request->description;
+        }
+        if($evenement->one_day == 1) {
+            if($evenement->date != $request->date) {
+                $evenement->date = $request->date;
+            }
+        } else {
+            if($evenement->start_date != $request->start_date) {
+                $evenement->start_date = $request->start_date;
+            }
+            if($evenement->end_date != $request->end_date) {
+                $evenement->end_date = $request->end_date;
+            }
+        }
+        if($evenement->start_time != $request->start_time) {
+            $evenement->start_time = $request->start_time;
+        }
+        if($evenement->end_time != $request->end_time) {
+            $evenement->end_time = $request->end_time;
+        }
+        if($evenement->page_content != $request->page_content) {
+            $evenement->page_content = request('page_content');
+        }
+        if($evenement->update())
         {
             return redirect()->route('bo.evenements');
         }

@@ -33,26 +33,18 @@ class AddProduct extends ModalComponent
     {
         $this->validate();
 
-        if($this->image) {
-            $media = new Media;
-            $media->title = str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title)).'.'.$this->image->extension();
-            $media->key = Str::random(10);
-            $media->alt = $this->title;
-            $media->save();
-        }
-
         $product = new Product;
         $product->title = $this->title;
         $product->description = $this->description;
         if($this->image) {
-            $product->media_id = $media->id;
+            $product->picture = $this->title. $this->image->extension();
         }
         $product->tags = strtoupper($this->tags);
         $product->labels = $this->labels;
         $product->active = 1;
         if($product->save()) {
             if($this->image) {
-                $this->image->storeAs('public/medias', str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title)). '.' . $this->image->extension());
+                $this->image->storeAs('public/products', $this->title. $this->image->extension());
             }
             return redirect()->route('bo.products.list');
         }

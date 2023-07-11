@@ -23,6 +23,10 @@
                 </div>
             </div>
         </div>
+        
+        <div class="px-4 py-2 bg-red-500 text-white rounded-lg mt-2">
+        	<p>Des modifications et des corrections sont en cours ce jour !</p>
+        </div>
 
         {{-- Grids --}}
         <div class="grid grid-cols-4 gap-10 mt-9">

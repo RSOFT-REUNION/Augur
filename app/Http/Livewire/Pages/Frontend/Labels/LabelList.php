@@ -12,7 +12,7 @@ class LabelList extends Component
     public function render()
     {
         $data = [];
-        $data['labels'] = Label::orderBy('title', 'asc')->paginate(15);
+        $data['labels'] = Label::orderBy('title', 'asc')->paginate(16);
         return view('livewire.pages.frontend.labels.label-list', $data);
     }
 }

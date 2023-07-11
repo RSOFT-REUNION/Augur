@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
-            $table->foreignId('media_id')->nullable()->constrained('media', 'id'); // a modifier
+            $table->string('picture')->nullable();
             $table->text('description')->nullable();
             $table->string('tags')->nullable();
             $table->string('labels')->nullable();

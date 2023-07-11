@@ -123,6 +123,7 @@
     }
 }
 #btn_floating-blue {
+    z-index: 9999;
     position: fixed;
     bottom: 0;
     right: 0;
@@ -153,6 +154,7 @@
     }
 }
 .btn-container-float {
+    z-index: 9999;
     background-color: t.$jaune;
     padding: 10px 15px;
     font-size: 18px;

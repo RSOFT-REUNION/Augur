@@ -20,11 +20,8 @@ class ProductImport implements ToCollection, WithBatchInserts, WithStartRow
         {
             if($value[1] != null) {
                 $product = Product::where('title', $value[0])->first();
-                $media = Media::where('title', $value[1])->first();
                 if($product) {
-                    if($media) {
-                        $product->media_id = $media->id;
-                    }
+
                     $product->description = $value[2];
                     $product->tags = strtoupper($value[3]);
                     $product->labels = $value[4];
@@ -33,9 +30,7 @@ class ProductImport implements ToCollection, WithBatchInserts, WithStartRow
                 } else {
                     $pro = new Product;
                     $pro->title = $value[0];
-                    if($media) {
-                        $pro->media_id = $media->id;
-                    }
+                    $pro->picture = $value[1];
                     $pro->description = $value[2];
                     $pro->tags = strtoupper($value[3]);
                     $pro->labels = $value[4];

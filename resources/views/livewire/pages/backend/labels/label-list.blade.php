@@ -11,7 +11,7 @@
             <p class="bg-gray-100 block py-2 px-4 rounded-lg ml-2">{{ $labels->count() }}</p>
         </div>
     </div>
-    <div class="entry-content">
+    <div class="entry-content mb-20">
         <button onclick="window.location='{{ route('bo.labels.add') }}'" id="btn_floating"><i class="fa-solid fa-plus mr-3"></i>Ajouter</button>
         @if($labels->count() > 0)
             @if($labels_up > 0)

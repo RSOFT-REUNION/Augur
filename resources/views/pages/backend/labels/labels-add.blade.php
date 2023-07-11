@@ -32,6 +32,11 @@
                         <p class="text-input-error">{{ $errors->first('cover') }}</p>
                     @endif
                 </div>
+                @if($label)
+                    <div class="bg-yellow-200 px-2 py-1 text-sm mt-1 rounded-md">
+                        <p>Si vous ne souhaitez pas modifier le logo de votre label, veuillez laisser cette zone vide.</p>
+                    </div>
+                @endif
                 <div class="textfield mt-2">
                     <label for="description">Contenu du label<span class="text-red-500">*</span></label>
                     <textarea name="description" id="description" class="tiny">@if($label) {{ $label_content }} @else {{ old('description') }} @endif</textarea>

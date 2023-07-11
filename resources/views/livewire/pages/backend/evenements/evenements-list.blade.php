@@ -30,8 +30,7 @@
                                         @endif
                                     </div>
                                     <div class="flex-none">
-                                        <button wire:click="editEvenement({{ $ev->id }})" class="btn-filled_secondary mr-1"><i class="fa-solid fa-eye mr-3"></i>Voir</button>
-                                        <button wire:click="editEvenement({{ $ev->id }})" title="Modifier l'évènement" class="btn-outline_primary mr-1"><i class="fa-solid fa-pen"></i></button>
+                                        <button wire:click="editEvenement({{ $ev->id }})" title="Modifier l'évènement" class="btn-filled_secondary mr-1"><i class="fa-solid fa-pen mr-2"></i>Modifier</button>
                                         <button wire:click="deleteEvenement({{ $ev->id }})" class="btn-outline_primary"><i class="fa-solid fa-trash"></i></button>
                                     </div>
                                 </div>

@@ -100,16 +100,24 @@ class LabelController extends Controller
             'description.required' => "Le contenu est obligatoire.",
         ]);
 
+        if($request->cover) {
+            $media = new Media;
+            $media->title = str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($request->title)).'.'.$request->cover->extension();
+            $media->key = str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($request->title));
+            $media->alt = $request->title;
+            $media->save();
+        }
+
         if($request->title != $label->title) {
             $label->title = $request->title;
         }
         $label->content = $request->description;
         if($request->cover) {
-            $label->logo = $correct_title.'.'. $request->file('cover')->extension();
+            $label->media_id = $media->id;
         }
         if($label->update()){
             if($request->cover) {
-                $request->cover->storeAs('public/images/labels', $correct_title. '.' . $request->file('cover')->extension());
+                $request->cover->storeAs('public/medias', $correct_title. '.' . $request->file('cover')->extension());
             }
             return redirect()->route('bo.labels')->with('success', 'Votre label a bien été modifié');
         }

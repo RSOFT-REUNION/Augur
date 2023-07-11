@@ -16,7 +16,7 @@
                     <div class="flex flex-col h-full">
                         <div class="flex-1 flex h-full">
                             <div class="m-auto">
-                                <img src="{{ asset('storage/medias/'. $product->getPicture()) }}"/>
+                                <img src="{{ asset('storage/products/'. $product->picture) }}"/>
                             </div>
                         </div>
                         <div class="flex-none py-3 px-5">
