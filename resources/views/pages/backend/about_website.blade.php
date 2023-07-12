@@ -16,6 +16,31 @@
                 <div class="container-version-header">
                     <div class="flex items-center">
                         <div class="flex-1">
+                            <h4>Version 1.2 <span class="px-3 py-1 rounded-lg bg-blue-300 text-sm text-black ml-4"><i class="fa-solid fa-wrench mr-2"></i>Mise à jour mineur</span></h4>
+                        </div>
+                        <div class="flex-none">
+                            <p>13/07/2023</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-version-content">
+                    <h5><i class="fa-solid fa-file-lines mr-2"></i>Page d'accueil</h5>
+                    <ul>
+                        <li><span class="text-sm bg-green-200 text-green-800 py-1 px-2 rounded-md">Nouveautés</span> Ajout de la notion <b>"Qui sommes-nous"</b> au niveau du premier point visible. (Modifiable depuis les "pages")</li>
+                    </ul>
+                    <h5 class="mt-5"><i class="fa-solid fa-file-lines mr-2"></i>Les produits</h5>
+                    <ul>
+                        <li><span class="text-sm bg-green-200 text-green-800 py-1 px-2 rounded-md">Nouveautés</span> Ajout de la notion <b>des univers</b>. <i>(Chaque articles doit être configuré dans un univers)</i></li>
+                        <li>Modification de l'affichage des produits</li>
+                    </ul>
+                </div>
+            </div>
+
+            {{-- Version old --}}
+            <div class="container-version_old mt-5">
+                <div class="container-version-header">
+                    <div class="flex items-center">
+                        <div class="flex-1">
                             <h4>Version 1.1.1 <span class="px-3 py-1 rounded-lg bg-yellow-300 text-sm text-black ml-4"><i class="fa-solid fa-person-digging mr-2"></i>Correctif</span></h4>
                         </div>
                         <div class="flex-none">

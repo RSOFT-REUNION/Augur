@@ -661,7 +661,39 @@
     .container-version-content {
         background-color: t.$gris-light;
         padding: 20px 30px;
+        margin-left: 30px;
         margin-top: 10px;
+        border-radius: 10px;
+        h5 {
+            color: t.$bleu;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        li {
+            list-style: disc;
+            margin-left: 30px;
+            margin-bottom: 3px;
+        }
+    }
+}
+.container-version_old {
+    .container-version-header {
+        background-color: rgba(t.$black, 0.5);
+        color: t.$white;
+        padding: 20px 30px;
+        border-radius: 10px;
+        h4 {
+            color: t.$white!important;
+            font-size: 20px;
+            font-weight: 700;
+        }
+    }
+    .container-version-content {
+        background-color: t.$gris-light;
+        padding: 20px 30px;
+        margin-top: 10px;
+        margin-left: 30px;
         border-radius: 10px;
         h5 {
             color: t.$bleu;
