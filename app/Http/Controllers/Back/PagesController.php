@@ -42,4 +42,31 @@ class PagesController extends Controller
             }
         }
     }
+
+    public function showHome()
+    {
+        $data = [];
+        $data['group'] = 'pages';
+        $data['item'] = 'homepage';
+        $data['page'] = Pages::where('key', 'home')->first();
+        return view('pages.backend.pages.home', $data);
+    }
+
+    public function postHome(Request $request)
+    {
+        $page = Pages::where('key', 'home')->first();
+        if($page) {
+            $page->content = $request->page_content;
+            if($page->update()) {
+                return redirect()->route('bo.pages.home');
+            }
+        } else {
+            $p = new Pages;
+            $p->key = 'home';
+            $p->content = $request->page_content;
+            if($p->save()) {
+                return redirect()->route('bo.pages.about');
+            }
+        }
+    }
 }

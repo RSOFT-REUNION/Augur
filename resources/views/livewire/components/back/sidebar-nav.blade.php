@@ -29,6 +29,7 @@
         <ul>
             <li><a href="{{ route('bo.dashboard') }}" class="btn-sidebar_back mb-3"><i class="fa-solid fa-arrow-left-long mr-3"></i>Retour</a></li>
             <li><a href="{{ route('bo.setting.general') }}" class="btn-sidebar @if($item == 'home') btn-sidebar_active @endif"><i class="fa-solid fa-sliders mr-3"></i>Général</a></li>
+            <li><a href="{{ route('bo.setting.infos') }}" class="btn-sidebar @if($item == 'info') btn-sidebar_active @endif"><i class="fa-solid fa-info-circle mr-3"></i>Informations</a></li>
             <li><a href="{{ route('bo.setting.shop') }}" class="btn-sidebar @if($item == 'shop') btn-sidebar_active @endif"><i class="fa-solid fa-shop mr-3"></i>Magasins</a></li>
             <li><a href="{{ route('bo.setting.legal') }}" class="btn-sidebar @if($item == 'legal') btn-sidebar_active @endif"><i class="fa-solid fa-file-contract mr-3"></i>Mentions légales</a></li>
             <li><a href="{{ route('bo.setting.conditions') }}" class="btn-sidebar @if($item == 'conditions') btn-sidebar_active @endif"><i class="fa-solid fa-users-viewfinder mr-3"></i>CGU</a></li>
@@ -37,7 +38,8 @@
         <ul>
             <li><a href="{{ route('bo.dashboard') }}" class="btn-sidebar_back mb-3"><i class="fa-solid fa-arrow-left-long mr-3"></i>Retour</a></li>
             <li><a href="{{ route('bo.pages.general') }}" class="btn-sidebar @if($item == 'home') btn-sidebar_active @endif"><i class="fa-solid fa-sliders mr-3"></i>Général</a></li>
-            <li><a href="{{ route('bo.pages.about') }}" class="btn-sidebar @if($item == 'about') btn-sidebar_active @endif"><i class="fa-solid fa-circle-info mr-3"></i>Page - À propos</a></li>
+            <li><a href="{{ route('bo.pages.home') }}" class="btn-sidebar @if($item == 'homepage') btn-sidebar_active @endif"><i class="fa-solid fa-house mr-3"></i>Page - Accueil</a></li>
+            <li><a href="{{ route('bo.pages.about') }}" class="btn-sidebar @if($item == 'about') btn-sidebar_active @endif"><i class="fa-solid fa-circle-info mr-3"></i>Page - Qui sommes-nous</a></li>
         </ul>
     @endif
 </div>

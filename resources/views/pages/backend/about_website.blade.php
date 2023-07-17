@@ -33,6 +33,11 @@
                         <li><span class="text-sm bg-green-200 text-green-800 py-1 px-2 rounded-md">Nouveautés</span> Ajout de la notion <b>des univers</b>. <i>(Chaque articles doit être configuré dans un univers)</i></li>
                         <li>Modification de l'affichage des produits</li>
                     </ul>
+                    <h5 class="mt-5"><i class="fa-solid fa-gear mr-2"></i>Réglages</h5>
+                    <ul>
+                        <li><span class="text-sm bg-green-200 text-green-800 py-1 px-2 rounded-md">Nouveautés</span> Possibilité de choisir quel données "<b>Qui sommes-nous</b>" afficher sur la page d'accueil. <i>(choix entre le contenu de la page "Qui sommes-nous" ou bien entre un contenu à part)</i></li>
+                        <li>Changement de la disposition des réglages. Les paramètres de contact et de réseaux sociaux se trouve maintenant dans "Informations"</li>
+                    </ul>
                 </div>
             </div>
 

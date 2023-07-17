@@ -16,53 +16,80 @@
             <button wire:click="$emit('openModal', 'popups.backend.products.import-product')" class="btn-container-float-gray mr-2" title="Importer"><i class="fa-solid fa-upload"></i></button>
             <button onclick="Livewire.emit('openModal', 'popups.backend.products.add-product')" class="btn-container-float"><i class="fa-solid fa-plus mr-3"></i>Ajouter</button>
         </div>
-        @if($products->count() > 0)
-            <div class="table-primary">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nom du produit</th>
-                        <th>Étiquettes</th>
-                        <th>Labels</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($products as $product)
-                        <tr>
-                            <td>{{ $product->id }}</td>
-                            <td>{{ $product->title }}</td>
-                            <td>
-                                <div class="inline-flex items-center">
-                                    @foreach($product->getTags() as $tag)
-                                        <p class="text-sm bg-gray-200 px-2 py-1 rounded-lg mr-1">{{ $tag }}</p>
-                                    @endforeach
-                                </div>
-                            </td>
-                            <td>
-                                <div class="inline-flex items-center">
-                                    @foreach($product->getLabels() as $label)
-                                        <p class="text-sm bg-gray-200 px-2 py-1 rounded-lg mr-1">{{ $label }}</p>
-                                    @endforeach
-                                </div>
-                            </td>
-                            <td>
-{{--                                <a href="" class="btn-icon_transparent"><i class="fa-solid fa-pen-to-square"></i></a>--}}
-                                <a wire:click="deleted({{ $product->id }})" class="btn-icon_transparent cursor-pointer"><i class="fa-solid fa-trash-can"></i></a>
-                            </td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <div class="mt-3">
-                @if(strlen($search) < 3)
-                    {{ $products->links() }}
+        <form wire:submit.prevent="updateDescription">
+            <div class="textfield">
+                <label for="short_description">Description courte de présentation</label>
+                <textarea wire:model="short_description" id="short_description" placeholder="Entrez une description courte qui sera affiché dans votre page">@if($description) {{ $description->content }} @endif</textarea>
+                @if($errors->has('short_description'))
+                    <p class="text-input-error">{{ $errors->first('short_description') }}</p>
                 @endif
             </div>
-        @else
-            <p class="empty-text">Vous n'avez pas encore ajouté de produits</p>
-        @endif
+            @if($description)
+                @if($description->content != $short_description)
+                    @if($short_description)
+                        <div class="mt-3">
+                            <button type="submit" class="btn-filled_secondary">Enregistrer les modifications</button>
+                        </div>
+                    @endif
+                @endif
+            @else
+                @if($short_description)
+                    <div class="mt-3">
+                        <button type="submit" class="btn-filled_secondary">Ajouter la description</button>
+                    </div>
+                @endif
+            @endif
+
+        </form>
+        <div class="mt-5">
+            @if($products->count() > 0)
+                <div class="table-primary">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nom du produit</th>
+                            <th>Étiquettes</th>
+                            <th>Labels</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($products as $product)
+                            <tr>
+                                <td>{{ $product->id }}</td>
+                                <td>{{ $product->title }}</td>
+                                <td>
+                                    <div class="inline-flex items-center">
+                                        @foreach($product->getTags() as $tag)
+                                            <p class="text-sm bg-gray-200 px-2 py-1 rounded-lg mr-1">{{ $tag }}</p>
+                                        @endforeach
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="inline-flex items-center">
+                                        @foreach($product->getLabels() as $label)
+                                            <p class="text-sm bg-gray-200 px-2 py-1 rounded-lg mr-1">{{ $label }}</p>
+                                        @endforeach
+                                    </div>
+                                </td>
+                                <td>
+                                    {{--                                <a href="" class="btn-icon_transparent"><i class="fa-solid fa-pen-to-square"></i></a>--}}
+                                    <a wire:click="deleted({{ $product->id }})" class="btn-icon_transparent cursor-pointer"><i class="fa-solid fa-trash-can"></i></a>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-3">
+                    @if(strlen($search) < 3)
+                        {{ $products->links() }}
+                    @endif
+                </div>
+            @else
+                <p class="empty-text">Vous n'avez pas encore ajouté de produits</p>
+            @endif
+        </div>
     </div>
 </div>

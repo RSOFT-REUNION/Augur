@@ -71,6 +71,7 @@ Route::group([
             Route::get('/produits', [BackController::class, 'showProducts'])->name('bo.products.list');
             Route::get('/reglages-general', [SettingController::class, 'showGeneralSetting'])->name('bo.setting.general');
             Route::get('/reglages-magasins', [SettingController::class, 'showShopSetting'])->name('bo.setting.shop');
+            Route::get('/reglages-informations', [SettingController::class, 'showInformations'])->name('bo.setting.infos');
             Route::get('/reglages-magasins/create-part-2-{id}', [SettingController::class, 'showShopCreatePart2'])->name('bo.setting.shop.create');
             Route::post('/reglages-magasins/create-part-2-{id}', [SettingController::class, 'postShopCreatePart2']);
             Route::get('/reglages-mentions-legales', [SettingController::class, 'showLegalMentions'])->name('bo.setting.legal');
@@ -80,6 +81,8 @@ Route::group([
             Route::get('/mes-pages', [PagesController::class, 'showGeneral'])->name('bo.pages.general');
             Route::get('/mes-pages/a-propos', [PagesController::class, 'showAbout'])->name('bo.pages.about');
             Route::post('/mes-pages/a-propos', [PagesController::class, 'postAbout']);
+            Route::get('/mes-pages/accueil', [PagesController::class, 'showHome'])->name('bo.pages.home');
+            Route::post('/mes-pages/accueil', [PagesController::class, 'postHome']);
             Route::get('/recettes', [BackController::class, 'showRecettes'])->name('bo.recette');
             Route::get('/recettes/ajout', [BackController::class, 'showAddRecettes'])->name('bo.recette.add');
             Route::get('/equipe', [BackController::class, 'showTeam'])->name('bo.team');

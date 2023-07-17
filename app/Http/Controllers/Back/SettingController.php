@@ -86,4 +86,12 @@ class SettingController extends Controller
             return redirect()->route('bo.setting.conditions')->with('success', 'Vos conditions générales d\'utilisation ont bien été mise à jour');
         }
     }
+
+    public function showInformations()
+    {
+        $data = [];
+        $data['group'] = 'settings';
+        $data['item'] = 'info';
+        return view('pages.backend.settings.informations', $data);
+    }
 }
