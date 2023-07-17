@@ -39,7 +39,7 @@
 }
 .btn-sidebar {
     display: block;
-    font-family: t.$font-korolev;
+    font-family: t.$font-normal;
     font-size: 16px;
     padding: 15px 20px;
     color: t.$bleu;
@@ -52,7 +52,7 @@
 }
 .btn-sidebar_back {
     display: block;
-    font-family: t.$font-korolev;
+    font-family: t.$font-normal;
     font-size: 16px;
     padding: 15px 20px;
     color: t.$bleu;
@@ -337,7 +337,7 @@
         padding-bottom: 10px;
         border-bottom: 1px solid rgba(t.$black, 0.1);
         h1 {
-            font-family: t.$font-korolev;
+            font-family: t.$font-normal;
             font-weight: 700;
             font-size: 40px;
         }
@@ -459,25 +459,25 @@
 }
 .tiny-content {
     h1 > span{
-        font-family: t.$font-korolev!important;
+        font-family: t.$font-normal!important;
         color: t.$bleu;
         font-size: 32px!important;
         font-weight: 700;
     }
     h2 > span{
-        font-family: t.$font-korolev!important;
+        font-family: t.$font-normal!important;
         color: t.$bleu;
         font-size: 25px!important;
         font-weight: 700;
     }
     h3 > span{
-        font-family: t.$font-korolev!important;
+        font-family: t.$font-normal!important;
         color: t.$bleu;
         font-size: 20px!important;
         font-weight: 700;
     }
     h4 > span{
-        font-family: t.$font-korolev!important;
+        font-family: t.$font-normal!important;
         color: t.$bleu;
         font-size: 18px!important;
         font-weight: 700;
@@ -992,6 +992,53 @@
     }
 }
 
+// ----------- Sliders
+.container_slider {
+    display: flex;
+    height: 600px;
+    border-radius: 10px;
+    overflow: hidden;
+
+    .slider_section {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        color: #fff;
+        transition: flex .4s ease;
+        position: relative;
+
+        .slider_overlay {
+            background-color: rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transition: background-color .8s ease;
+        }
+        .slider_content {
+            z-index: 2;
+            p {
+                color: white;
+                font-size: 32px;
+                font-weight: 700;
+                text-shadow: 0 4px 10px rgba(t.$black, 0.5);
+            }
+        }
+        &:hover {
+            flex: 2;
+            cursor: pointer;
+
+            .slider_overlay {
+                background-color: rgba(0, 0, 0, 0.7);
+            }
+        }
+    }
+}
+
 // ----------- Sidebars
 #backend_sidebar {
     width: 300px;
@@ -1007,11 +1054,11 @@
         box-shadow: 0 -4px 5px rgba(t.$black, 0.1);
         padding: 20px;
         h3 {
-            font-family: t.$font-korolev;
+            font-family: t.$font-normal;
             font-weight: 700;
         }
         p {
-            font-family: t.$font-korolev;
+            font-family: t.$font-normal;
             font-weight: 300;
             font-size: 14px;
         }
@@ -1056,7 +1103,7 @@
     border: 1px solid rgba(t.$black, 0.1);
     input {
         background-color: transparent;
-        font-family: t.$font-korolev;
+        font-family: t.$font-normal;
         font-weight: 300;
         margin-left: 10px;
     }
@@ -1068,7 +1115,7 @@
     border: 1px solid rgba(t.$black, 0.1);
     input {
         background-color: transparent;
-        font-family: t.$font-korolev;
+        font-family: t.$font-normal;
         font-weight: 300;
         margin-left: 10px;
     }

@@ -311,6 +311,6 @@ class FrontController extends Controller
     {
         $data = [];
         $data['active'] = 'products';
-        return view('pages.frontend.products', $data);
+        return view('pages.frontend.products.products', $data);
     }
 }

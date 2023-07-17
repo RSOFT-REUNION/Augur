@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Pages\Backend\Products;
 use App\Models\Label;
 use App\Models\Pages;
 use App\Models\Product;
+use App\Models\productUnivers;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -15,6 +16,14 @@ class ProductList extends Component
     public $jobs = [];
 
     public $short_description;
+    public $description;
+
+    public function mount()
+    {
+        $pages = Pages::where('key', 'product')->first();
+        $this->description = Pages::where('key', 'product')->first();
+        $this->short_description = $pages->content;
+    }
 
     public function updatedSearch()
     {
@@ -61,6 +70,7 @@ class ProductList extends Component
             $data['products'] = Product::orderBy('id', 'desc')->paginate(30);
         }
         $data['description'] = Pages::where('key', 'product')->first();
+        $data['univers'] = productUnivers::orderby('key', 'asc')->get();
         return view('livewire.pages.backend.products.product-list', $data);
     }
 }
