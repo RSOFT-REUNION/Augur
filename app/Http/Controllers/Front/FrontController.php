@@ -56,7 +56,7 @@ class FrontController extends Controller
         $data['active'] = 'home';
         $data['labels'] = Label::where('show_home', 1)->get();
         $data['mainCarousel'] = CarouselMain::orderBy('id', 'asc')->get();
-        $data['page'] = Pages::where('key', 'about')->first();
+        $data['page'] = Pages::where('key', 'home')->first();
         return view('pages.frontend.home', $data);
     }
 
