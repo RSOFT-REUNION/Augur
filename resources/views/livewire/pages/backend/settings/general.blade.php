@@ -56,17 +56,16 @@
                     <form wire:submit.prevent="updateAboutType" class="inline-flex items-center">
                         @csrf
                         <div class="textfield">
-                            <select wire:model="about_type" class="focus:outline-none">
+                            <select wire:model="about_type" class="focus:outline-none" >
                                 <option value="">-- Sélectionnez un type --</option>
                                 <option value="1">Contenu de la page "Qui somme-nous"</option>
                                 <option value="2">Contenu spécifique pour cette section</option>
                             </select>
                         </div>
-                        @if($settingGlobal->maintenance_type != $maintenance_type)
+                        @if($settingGlobal->about_type != $about_type)
                             <button type="submit" class="btn-icon_secondary ml-2"><i class="fa-solid fa-floppy-disk"></i></button>
                         @endif
                     </form>
-
                 </div>
             </div>
         </div>

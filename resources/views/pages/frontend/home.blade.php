@@ -3,6 +3,15 @@
 @section('content-template')
     <main role="main">
         <div class="container mx-auto">
+            @if ($settingGlobal->about_type == 1)
+                <div class="text-center">
+                    <h1>AÜGUR</h1>
+                    <h3>Une démarche engagée</h3>
+                </div>
+                <div class="tiny-content my-20">
+                    {!! $page->content !!}
+                </div>
+            @endif
             <div>
                 <div class="text-center">
                     <h1>Nos labels</h1>

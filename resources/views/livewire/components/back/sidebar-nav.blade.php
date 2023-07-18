@@ -38,8 +38,11 @@
         <ul>
             <li><a href="{{ route('bo.dashboard') }}" class="btn-sidebar_back mb-3"><i class="fa-solid fa-arrow-left-long mr-3"></i>Retour</a></li>
             <li><a href="{{ route('bo.pages.general') }}" class="btn-sidebar @if($item == 'home') btn-sidebar_active @endif"><i class="fa-solid fa-sliders mr-3"></i>Général</a></li>
-            <li><a href="{{ route('bo.pages.home') }}" class="btn-sidebar @if($item == 'homepage') btn-sidebar_active @endif"><i class="fa-solid fa-house mr-3"></i>Page - Accueil</a></li>
-            <li><a href="{{ route('bo.pages.about') }}" class="btn-sidebar @if($item == 'about') btn-sidebar_active @endif"><i class="fa-solid fa-circle-info mr-3"></i>Page - Qui sommes-nous</a></li>
+            @if ($whoAreWe->about_type == 2)
+               <li><a href="{{ route('bo.pages.home') }}" class="btn-sidebar @if($item == 'homepage') btn-sidebar_active @endif"><i class="fa-solid fa-house mr-3"></i>Page - Accueil</a></li> 
+            @elseif ($whoAreWe->about_type == 1)
+                <li><a href="{{ route('bo.pages.about') }}" class="btn-sidebar @if($item == 'about') btn-sidebar_active @endif"><i class="fa-solid fa-circle-info mr-3"></i>Page - Qui sommes-nous</a></li>
+            @endif
         </ul>
     @endif
 </div>
