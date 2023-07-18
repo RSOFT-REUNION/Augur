@@ -21,19 +21,20 @@ class ProductImport implements ToCollection, WithBatchInserts, WithStartRow
             if($value[1] != null) {
                 $product = Product::where('title', $value[0])->first();
                 if($product) {
-
-                    $product->description = $value[2];
-                    $product->tags = strtoupper($value[3]);
-                    $product->labels = $value[4];
+                    $product->univers_id = $value[2];
+                    $product->description = $value[3];
+                    $product->tags = strtoupper($value[4]);
+                    $product->labels = $value[5];
                     $product->active = 1;
                     $product->update();
                 } else {
                     $pro = new Product;
                     $pro->title = $value[0];
                     $pro->picture = $value[1];
-                    $pro->description = $value[2];
-                    $pro->tags = strtoupper($value[3]);
-                    $pro->labels = $value[4];
+                    $pro->univers_id = $value[2];
+                    $pro->description = $value[3];
+                    $pro->tags = strtoupper($value[4]);
+                    $pro->labels = $value[5];
                     $pro->active = 1;
                     $pro->save();
                 }

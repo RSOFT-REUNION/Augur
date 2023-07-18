@@ -41,6 +41,35 @@
             @endif
 
         </form>
+
+        {{-- Ajout de la notion des univers --}}
+        <div class="mt-5">
+            <div class="flex items-center">
+                <div class="flex-1">
+                    <h2>Les univers de produits</h2>
+                </div>
+                <div class="flex-none">
+                    <a wire:click="$emit('openModal', 'popups.backend.products.add-univers')" class="btn-filled_secondary">Ajouter un univers</a>
+                </div>
+            </div>
+            <p class="">Vous pouvez ajouter jusqu'à 4 univers, chacun des univers est modifiable, cependant la clé unique de celui-ci ne peut changer.</p>
+            <div class="grid grid-cols-4 gap-4 mt-5">
+                @foreach($univers as $uni)
+                    <div class="flex flex-col">
+                        <div class="flex-none force-center">
+                            <img src="{{ asset('storage/medias/'. $uni->getPicture()) }}" style="height: 500px; border-radius: 10px">
+                        </div>
+                        <div class="flex-1 text-center mt-3 bg-gray-100 rounded-lg py-2">
+                            <h3 class="text-xl">{{ $uni->title }}</h3>
+                            <div class="inline-flex items-center">
+                                <a wire:click="deleteUnivers({{ $uni->id }})" class="btn-icon_transparent"><i class="fa-solid fa-trash"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+        {{-- Fin des univers --}}
         <div class="mt-5">
             @if($products->count() > 0)
                 <div class="table-primary">

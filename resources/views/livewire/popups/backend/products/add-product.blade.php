@@ -26,6 +26,15 @@
                 @endif
             </div>
             <div class="textfield mt-2">
+                <label for="univers">Univers du produit<span class="text-red-500">*</span></label>
+                <select wire:model="univers" id="univers" class="@if($errors->has('univers'))textfield-error @endif">
+                    <option value="">-- Sélectionner un univers --</option>
+                    @foreach($uni as $u)
+                        <option value="{{ $u->id }}">{{ $u->title }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="textfield mt-2">
                 <label for="image">Image</label>
                 <input type="file" id="image" wire:model="image" name="image" class="@if($errors->has('image'))textfield-error @endif" value="{{ old('image') }}">
                 @if($errors->has('image'))
