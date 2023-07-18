@@ -11,26 +11,18 @@
         @endif
 
         {{-- Début Univers --}}
-        <div class="container_slider mt-10">
-            <div id="surgele" class="slider_section" style="background-image: url('{{ asset('images/assets/produit surgele.jpg') }}')">
-                <div class="slider_content">
-                    <p>Produits surgelé</p>
-                </div>
-                <div class="slider_overlay"></div>
+        @if($univers->count() > 0)
+            <div class="container_slider mt-10">
+                @foreach($univers as $uni)
+                    <div id="{{ $uni->key }}" role="button" data-href="{{ route('fo.products.list', ['id' => $uni->id]) }}" class="slider_section" style="background-image: url('{{ asset('storage/medias/'. $uni->getPicture()) }}')">
+                        <div class="slider_content">
+                            <p>{{ $uni->title }}</p>
+                        </div>
+                        <div class="slider_overlay"></div>
+                    </div>
+                @endforeach
             </div>
-            <div id="fine" class="slider_section" style="background-image: url('{{ asset('images/assets/epicerie_fine.jpg') }}')">
-                <div class="slider_content">
-                    <p>Epicerie fine</p>
-                </div>
-                <div class="slider_overlay"></div>
-            </div>
-            <div id="vrac" class="slider_section" style="background-image: url('{{ asset('images/assets/produit sec.jpg') }}')">
-                <div class="slider_content">
-                    <p>Produits vrac</p>
-                </div>
-                <div class="slider_overlay"></div>
-            </div>
-        </div>
+        @endif
         {{-- Fin Unviers --}}
     </div>
 </div>

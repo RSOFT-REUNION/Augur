@@ -40,6 +40,9 @@ class AddUnivers extends ModalComponent
             $univers->description = $this->description;
             $univers->active = 1;
             if($univers->update()){
+                if($this->image) {
+                    $this->image->storeAs('public/medias', str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title)).'.'.$this->image->extension());
+                }
                 return redirect()->route('bo.products.list');
             }
         } else {
@@ -50,6 +53,9 @@ class AddUnivers extends ModalComponent
             $univers->description = $this->description;
             $univers->active = 1;
             if($univers->save()){
+                if($this->image) {
+                    $this->image->storeAs('public/medias', str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title)).'.'.$this->image->extension());
+                }
                 return redirect()->route('bo.products.list');
             }
         }

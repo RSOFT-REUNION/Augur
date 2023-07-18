@@ -43,6 +43,7 @@ Route::group([
     Route::get('/nos-magasins', [FrontController::class, 'showShopList'])->name('fo.shops.list');
     Route::get('/qui-sommes-nous', [FrontController::class, 'showAbout'])->name('fo.about');
     Route::get('/produits', [FrontController::class, 'showProductList'])->name('fo.products');
+    Route::get('/produits/{id}', [FrontController::class, 'showListProduct'])->name('fo.products.list');
 
     Route::group([
         'middleware' => 'App\Http\Middleware\Users'

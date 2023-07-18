@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Popups\Backend\Products;
 use App\Models\Label;
 use App\Models\Media;
 use App\Models\Product;
+use App\Models\productUnivers;
 use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithFileUploads;
@@ -14,7 +15,7 @@ class AddProduct extends ModalComponent
 {
     use WithFileUploads;
 
-    public $title, $image, $description, $labels, $tags;
+    public $title, $image, $description, $labels, $tags, $univers;
     protected $rules = [
         'title' => 'required|unique:products,title'
     ];
@@ -35,6 +36,7 @@ class AddProduct extends ModalComponent
 
         $product = new Product;
         $product->title = $this->title;
+        $product->univers_id = $this->univers;
         $product->description = $this->description;
         if($this->image) {
             $product->picture = $this->title.'.'.$this->image->extension();
@@ -52,6 +54,8 @@ class AddProduct extends ModalComponent
 
     public function render()
     {
-        return view('livewire.popups.backend.products.add-product');
+        $data = [];
+        $data['uni'] = productUnivers::orderby('key', 'asc')->get();
+        return view('livewire.popups.backend.products.add-product', $data);
     }
 }

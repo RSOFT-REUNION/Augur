@@ -61,6 +61,14 @@ class ProductList extends Component
         $product->delete();
         return redirect()->route('bo.products.list');
     }
+
+    public function deleteUnivers($id)
+    {
+        $univers = productUnivers::where('id', $id)->first();
+        $univers->delete();
+        return redirect()->route('bo.products.list');
+    }
+
     public function render()
     {
         $data = [];
