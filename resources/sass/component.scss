@@ -714,6 +714,13 @@
     border: 1px solid rgba(t.$black, 0.1);
     border-radius: 10px;
     overflow: hidden;
+    transition-duration: 300ms;
+
+    &:hover {
+        z-index: 2;
+        transform: scale(1.05);
+        box-shadow: 0 4px 10px rgba(t.$black, 0.1);
+    }
 
     p {
         font-weight: bold;
