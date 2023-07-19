@@ -7,9 +7,10 @@ use App\Models\Product;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 
-class ProductImport implements ToCollection, WithBatchInserts, WithStartRow
+class ProductImport implements ToCollection, WithBatchInserts, WithStartRow, WithCustomCsvSettings
 {
     /**
     * @param Collection $collection
@@ -50,5 +51,12 @@ class ProductImport implements ToCollection, WithBatchInserts, WithStartRow
     public function startRow(): int
     {
         return 2;
+    }
+
+    public function getCsvSettings(): array
+    {
+        return [
+            'input_encoding' => 'ISO-8859-1'
+        ];
     }
 }

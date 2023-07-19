@@ -22,7 +22,9 @@ class ProductList extends Component
     {
         $pages = Pages::where('key', 'product')->first();
         $this->description = Pages::where('key', 'product')->first();
-        $this->short_description = $pages->content;
+        if($pages) {
+            $this->short_description = $pages->content;
+        }
     }
 
     public function updatedSearch()

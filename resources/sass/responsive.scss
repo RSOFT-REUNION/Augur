@@ -105,6 +105,12 @@
             font-size: 35px;
         }
     }
+
+    .container_slider {
+        display: flex;
+        flex-direction: column;
+        min-height: 600px;
+    }
 }
 
 @media screen and (max-width: 425px) {
@@ -187,5 +193,11 @@
         p {
             font-size: 14px;
         }
+    }
+
+    .container_slider {
+        display: flex;
+        flex-direction: column;
+        min-height: 600px;
     }
 }

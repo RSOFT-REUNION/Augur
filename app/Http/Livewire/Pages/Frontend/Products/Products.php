@@ -20,7 +20,7 @@ class Products extends Component
     {
         $data = [];
         $data['univers'] = $this->univers;
-        $data['products'] = Product::where('univers_id', $this->univers->id)->get();
+        $data['products'] = Product::where('univers_id', $this->univers->id)->paginate(16);
         return view('livewire.pages.frontend.products.products', $data);
     }
 }

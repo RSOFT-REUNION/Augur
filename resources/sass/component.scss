@@ -708,6 +708,18 @@
         }
     }
 }
+.product_thumbnail {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(t.$black, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+
+    p {
+        font-weight: bold;
+        font-size: 18px!important;
+    }
+}
 
 // ----------- Grids
 .dash-grid_item {

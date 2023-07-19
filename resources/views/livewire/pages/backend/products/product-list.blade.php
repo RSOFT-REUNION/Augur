@@ -70,7 +70,8 @@
             </div>
         </div>
         {{-- Fin des univers --}}
-        <div class="mt-5">
+
+        <div class="my-5">
             @if($products->count() > 0)
                 <div class="table-primary">
                     <table>
