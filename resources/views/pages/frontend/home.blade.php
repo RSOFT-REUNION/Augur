@@ -3,7 +3,7 @@
 @section('content-template')
     <main role="main">
         <div class="container mx-auto">
-            @if ($settingGlobal->about_type == 1)
+            @if ($settingGlobal->about_type == 2)
                 <div class="text-center">
                     <h1>AÜGUR</h1>
                     <h3>Une démarche engagée</h3>

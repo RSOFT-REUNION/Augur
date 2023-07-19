@@ -10,7 +10,7 @@
                 </div>
                 <div class="flex-none">
                     <a href="{{ route('fo.home') }}" class="mr-2 btn-icon_transparent cursor-pointer @if($active == 'home') active @endif">Accueil</a>
-                    @if ($settingGlobal->about_type == 2)
+                    @if ($settingGlobal->about_type == 1)
                         <a href="{{ route('fo.about') }}" class="mr-2 btn-icon_transparent cursor-pointer @if($active == 'about') active @endif">Qui sommes-nous ?</a>
                     @endif
                     <a href="{{ route('fo.labels.list') }}" class="mr-2 btn-icon_transparent cursor-pointer @if($active == 'label') active @endif">Nos labels</a>

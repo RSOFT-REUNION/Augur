@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('site_active')->default(1);
             $table->integer('maintenance_type')->default(1);
+            $table->integer('about_type')->default(1);
             $table->string('site_version')->default("1.0.0");
             $table->text('legal_mention')->nullable();
             $table->text('conditions')->nullable();

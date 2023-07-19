@@ -8,7 +8,13 @@
                 <h3>Une démarche engagée</h3>
             </div>
             <div class="tiny-content my-20">
-                {!! $page->content !!}
+                @if ($settingGlobal->about_type == 2)
+                    {!! $pageContent !!}
+                @else
+                    @php
+                        abort_if(empty($pageContent), 404);
+                    @endphp
+                @endif
             </div>
         </div>
     </main>
