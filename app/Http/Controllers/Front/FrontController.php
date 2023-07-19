@@ -12,6 +12,7 @@ use App\Models\Contact;
 use App\Models\EvenementUser;
 use App\Models\Label;
 use App\Models\Pages;
+use App\Models\Product;
 use App\Models\productUnivers;
 use App\Models\Shop;
 use App\Models\User;
@@ -322,5 +323,14 @@ class FrontController extends Controller
         $data['active'] = 'products';
         $data['univers'] = productUnivers::where('id', $id)->first();
         return view('pages.frontend.products.products-list', $data);
+    }
+
+    public function showProductSingle($id)
+    {
+        $data = [];
+        $data['active'] = 'products';
+        $data['product'] = Product::where('id', $id)->first();
+        $data['labels'] = Label::all();
+        return view('pages.frontend.products.product-single', $data);
     }
 }

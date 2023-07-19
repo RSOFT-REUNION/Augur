@@ -44,6 +44,7 @@ Route::group([
     Route::get('/qui-sommes-nous', [FrontController::class, 'showAbout'])->name('fo.about');
     Route::get('/produits', [FrontController::class, 'showProductList'])->name('fo.products');
     Route::get('/produits/{id}', [FrontController::class, 'showListProduct'])->name('fo.products.list');
+    Route::get('/produits/produit/{id}', [FrontController::class, 'showProductSingle'])->name('fo.products.single');
 
     Route::group([
         'middleware' => 'App\Http\Middleware\Users'

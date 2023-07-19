@@ -7,7 +7,7 @@
         @if($products->count() > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 @foreach($products as $product)
-                    <div class="product_thumbnail">
+                    <div class="product_thumbnail" role="button" data-href="{{ route('fo.products.single', ['id' => $product->id]) }}">
                         <div class="flex-none">
                             <img src="{{ asset('storage/products/'. $product->picture) }}"/>
                         </div>

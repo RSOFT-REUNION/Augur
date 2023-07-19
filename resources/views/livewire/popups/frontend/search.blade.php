@@ -58,7 +58,7 @@
                     <ul class="mt-4">
                         @foreach($jobsProduct as $product)
                             <li class="small-evenement mb-1">
-                                <div class="flex items-center" role="button" data-href="{{ route('fo.products') }}">
+                                <div class="flex items-center" role="button" data-href="{{ route('fo.products.single', ['id' => $product->id]) }}">
                                     <div class="flex-none">
                                         @if($product->picture != null)
                                             <img src="{{ asset('storage/products/'. $product->picture) }}"/>
