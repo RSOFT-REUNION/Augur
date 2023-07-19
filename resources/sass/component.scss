@@ -722,6 +722,12 @@
         box-shadow: 0 4px 10px rgba(t.$black, 0.1);
     }
 
+    .picture_product img {
+        display: flex;
+        width: auto;
+        height: 150px!important;
+    }
+
     p {
         font-weight: bold;
         font-size: 18px!important;

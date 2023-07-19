@@ -8,8 +8,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 @foreach($products as $product)
                     <div class="product_thumbnail" role="button" data-href="{{ route('fo.products.single', ['id' => $product->id]) }}">
-                        <div class="flex-none">
-                            <img src="{{ asset('storage/products/'. $product->picture) }}"/>
+                        <div class="flex-none force-center picture_product">
+                            @if($product->picture)
+                                <img src="{{ asset('storage/products/'. $product->picture) }}"/>
+                            @else
+                                <img src="{{ asset('storage/medias/none_picture.svg') }}"/>
+                            @endif
                         </div>
                         <div class="flex-1 px-3 py-2">
                             <div class="mb-2">
@@ -21,6 +25,9 @@
                         </div>
                     </div>
                 @endforeach
+            </div>
+            <div class="mt-10">
+                {{ $products->links() }}
             </div>
         @else
             <p class="text-center bg-gray-100 py-2 rounded-lg">Il n'y a aucun produits dans cet univers</p>

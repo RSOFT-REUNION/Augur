@@ -65,7 +65,7 @@ class PagesController extends Controller
             $p->key = 'home';
             $p->content = $request->page_content;
             if($p->save()) {
-                return redirect()->route('bo.pages.about');
+                return redirect()->route('bo.pages.home');
             }
         }
     }
