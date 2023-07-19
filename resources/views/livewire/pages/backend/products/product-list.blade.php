@@ -104,7 +104,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    {{--                                <a href="" class="btn-icon_transparent"><i class="fa-solid fa-pen-to-square"></i></a>--}}
+                                    <a wire:click="$emit('openModal', 'popups.backend.products.edit-product', {{ json_encode(['product' => $product->id]) }})" class="btn-icon_transparent"><i class="fa-solid fa-pen-to-square"></i></a>
                                     <a wire:click="deleted({{ $product->id }})" class="btn-icon_transparent cursor-pointer"><i class="fa-solid fa-trash-can"></i></a>
                                 </td>
                             </tr>
