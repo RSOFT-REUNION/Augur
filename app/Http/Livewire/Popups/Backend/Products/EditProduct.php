@@ -2,36 +2,41 @@
 
 namespace App\Http\Livewire\Popups\Backend\Products;
 
+use Intervention\Image\Facades\Image;
 use LivewireUI\Modal\ModalComponent;
 use Livewire\WithFileUploads;
 use App\Models\Product;
 use App\Models\productUnivers;
+use Spatie\ImageOptimizer\OptimizerChainFactory;
 
 class EditProduct extends ModalComponent
 {
     use WithFileUploads;
 
-    public Product $product;
+    public $product;
 
     public $title, $image, $description, $labels, $tags, $univers;
-    protected $rules = [
-        'title' => 'required|unique:products,title'
-    ];
 
-    public function mount() {
-        $products = Product::find($this->product);
-        $this->title = $products->title;
-        $this->image = $products->picture;
-        $this->description = $products->description;
-        $this->labels = $products->labels;
-        $this->tags = $products->tags;
-        $this->univers = $products->univers_id;
-    }
+    protected $rules = [
+        'title' => 'required',
+        'image' => 'mimes:jpg,png,jpeg'
+    ];
 
     protected $messages = [
         'title.required' => "Le nom du produit est obligatoire",
         'title.unique' => "Un produit existe déjà avec nom",
+        'image.mimes' => "Le fichier doit être au format: JPG, PNG ou JPEG"
     ];
+
+
+    public function mount($product) {
+        $this->product = Product::where('id', $product)->first();
+        $this->title = $this->product->title;
+        $this->description = $this->product->description;
+        $this->labels = $this->product->labels;
+        $this->tags = $this->product->tags;
+        $this->univers = $this->product->univers_id;
+    }
 
     public function updated($title)
     {
@@ -42,19 +47,29 @@ class EditProduct extends ModalComponent
     {
         $this->validate();
 
-        $product = new Product;
+        $product = $this->product;
         $product->title = $this->title;
         $product->univers_id = $this->univers;
         $product->description = $this->description;
         if($this->image) {
             $product->picture = $this->title.'.'.$this->image->extension();
+
+            /*$optimizedImage = Image::make($this->image)
+                ->resize(600, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            $optimizedImage->save(storage_path('app/public/products/'. $this->title.'.'.$this->image->extension()));
+
+            $optimizedChain = OptimizerChainFactory::create();
+            $optimizedChain->optimize(storage_path('app/public/products/'. $this->title.'.'.$this->image->extension()));*/
         }
         $product->tags = strtoupper($this->tags);
         $product->labels = $this->labels;
         $product->active = 1;
-        if($product->save()) {
+        if($product->update()) {
             if($this->image) {
-                $this->image->storeAs('public/products', $this->title.'.'.$this->image->extension());
+                $this->image->storeAs('public/products', $product->picture);
             }
             return redirect()->route('bo.products.list');
         }

@@ -15,9 +15,9 @@
         </p>
         <form wire:submit.prevent="create" enctype="multipart/form-data" class="mt-3">
             @csrf
-            @if($image)
+            {{--@if($image)
                 <img src="{{ $image->temporaryUrl() }}" class="image-preview  mb-4">
-            @endif
+            @endif--}}
             <div class="textfield">
                 <label for="title">Nom du produit<span class="text-red-500">*</span></label>
                 <input type="text" id="title" wire:model="title" name="title" placeholder="Entrez le nom du produit" class="@if($errors->has('title'))textfield-error @endif" value="{{ old('title') }}">
@@ -35,12 +35,20 @@
                 </select>
             </div>
             <div class="textfield mt-2">
-                <label for="image">Image</label>
+                <div class="flex items-center">
+                    <div class="flex-1">
+                        <label for="image">Image</label>
+                    </div>
+                    <div class="flex-none">
+                        <p class="text-sm" wire:loading wire:dirty.class="text-yellow-500" wire:target="image"><i class="fa-solid fa-spinner fa-spin mr-2"></i>En cours d'ajout</p>
+                    </div>
+                </div>
                 <input type="file" id="image" wire:model="image" name="image" class="@if($errors->has('image'))textfield-error @endif" value="{{ old('image') }}">
                 @if($errors->has('image'))
                     <p class="text-input-error">{{ $errors->first('image') }}</p>
                 @endif
             </div>
+            <p class="mt-1 bg-yellow-100 text-sm px-2 py-1 rounded-lg">Si vous ne souhaitez pas modifier votre photo produit, merci de laisser vide ce champ.</p>
             <div class="textfield mt-2">
                 <label for="tags">Étiquettes <span class="text-sm bg-gray-200 py-1 px-2 rounded-lg">liste séparée par ;</span> </label>
                 <input type="text" id="tags" wire:model="tags" name="tags" placeholder="Entrez des étiquettes et séparé les par des ;" class="mt-2 @if($errors->has('tags'))textfield-error @endif" value="{{ old('tags') }}">

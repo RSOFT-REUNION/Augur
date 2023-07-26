@@ -18,7 +18,9 @@
                         <div class="flex-1 px-3 py-2">
                             <div class="mb-2">
                                 @foreach($product->getLabels() as $labels)
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded-lg">{{ $labels }}</span>
+                                    @if($labels)
+                                        <span class="text-sm bg-gray-100 px-2 py-1 rounded-lg">{{ $labels }}</span>
+                                    @endif
                                 @endforeach
                             </div>
                             <p>{{ $product->title }}</p>

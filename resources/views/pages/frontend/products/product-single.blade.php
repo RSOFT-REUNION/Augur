@@ -16,15 +16,11 @@
                 <p>{{ $product->description }}</p>
                 <div class="mt-5">
                     <h2 class="text-primary font-bold text-xl">Les labels</h2>
-                    <div class="inline-flex items-center">
-                        @foreach($product->getLabels() as $lab)
-                            @foreach($labels as $label)
-                                @if($lab == $label->title)
-                                    <object data="{{ asset('storage/medias/'. $label->getPicture()) }}" width="100px"></object>
-                                @else
-                                    <span class="text-sm bg-gray-100 px-2 py-1 rounded-lg mr-2">{{ $lab }}</span>
-                                @endif
-                            @endforeach
+                    <div class="inline-flex items-center mt-5">
+                        @foreach($product->getLabelLink() as $product_label)
+                            @if($product_label)
+                                <a href="{{ route('fo.label', ['slug' => $product_label->slug]) }}"><img src="{{ asset('storage/medias/'. $product_label->getPicture()) }}" width="150px"/></a>
+                            @endif
                         @endforeach
                     </div>
                 </div>

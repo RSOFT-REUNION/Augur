@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\ImageOptimizer\OptimizerChainFactory;
 
 class Product extends Model
 {
@@ -36,6 +37,17 @@ class Product extends Model
         foreach ($explode as $ex) {
             $value = trim($ex);
             $labels[] = $value;
+        }
+        return $labels;
+    }
+
+    public function getLabelLink()
+    {
+        $labels = [];
+        foreach ($this->getLabels() as $lab) {
+            if(Label::where('title', $lab)->first()) {
+                $labels[] = Label::where('title', $lab)->first();
+            }
         }
         return $labels;
     }
