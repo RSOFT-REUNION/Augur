@@ -19,7 +19,7 @@ class EditProduct extends ModalComponent
 
     protected $rules = [
         'title' => 'required',
-        'image' => 'mimes:jpg,png,jpeg'
+        'image' => 'nullable|mimes:jpg,png,jpeg'
     ];
 
     protected $messages = [

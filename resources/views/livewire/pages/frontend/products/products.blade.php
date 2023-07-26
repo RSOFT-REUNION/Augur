@@ -5,26 +5,29 @@
     </div>
     <div class="my-20">
         @if($products->count() > 0)
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 @foreach($products as $product)
-                    <div class="product_thumbnail" role="button" data-href="{{ route('fo.products.single', ['id' => $product->id]) }}">
-                        <div class="flex-none force-center picture_product">
+                    <div class="product_thumbnail group/item hover:shadow-lg cursor-pointer" role="button" data-href="{{ route('fo.products.single', ['id' => $product->id]) }}">
+                        <span class="helper animate-pulse group/icon invisible group-hover/item:visible"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
+                        <div class="product_thumbnail-content force-center">
                             @if($product->picture)
                                 <img src="{{ asset('storage/products/'. $product->picture) }}"/>
                             @else
                                 <img src="{{ asset('storage/medias/none_picture.svg') }}"/>
                             @endif
-                        </div>
-                        <div class="flex-1 px-3 py-2">
-                            <div class="mb-2">
-                                @foreach($product->getLabels() as $labels)
-                                    @if($labels)
-                                        <span class="text-sm bg-gray-100 px-2 py-1 rounded-lg">{{ $labels }}</span>
-                                    @endif
-                                @endforeach
-                            </div>
                             <p>{{ $product->title }}</p>
                         </div>
+                        @if(count($product->getLabelLink()) > 0)
+                            <div class="product_thumbnail-labels px-auto inline-flex">
+                                <div class="mx-auto flex items-center">
+                                    @foreach($product->getLabelLink() as $labels)
+                                        @if($labels)
+                                            <img src="{{ asset('storage/medias/'. $labels->getPicture()) }}" class="px-1"/>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 @endforeach
             </div>
