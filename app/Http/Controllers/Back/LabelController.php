@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Label;
 use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 
 class LabelController extends Controller
 {
@@ -81,7 +83,12 @@ class LabelController extends Controller
         $label->media_id = $media->id;
         $label->content = $request->description;
         if($label->save()){
-            $request->cover->storeAs('public/medias', $correct_title. '.' . $request->file('cover')->extension());
+            // Optimisation de l'image
+            $optimizedImage = Image::make($request->file('cover'))->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+                $constraint->upsize();
+            })->encode();
+            Storage::disk('local')->put('public/medias/'.$correct_title. '.' . $request->file('cover')->extension(), $optimizedImage);
             return redirect()->route('bo.labels')->with('success', 'Votre label a bien été créé');
         }
     }
@@ -117,7 +124,12 @@ class LabelController extends Controller
         }
         if($label->update()){
             if($request->cover) {
-                $request->cover->storeAs('public/medias', $correct_title. '.' . $request->file('cover')->extension());
+                // Optimisation de l'image
+                $optimizedImage = Image::make($request->file('cover'))->resize(300, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })->encode();
+                Storage::disk('local')->put('public/medias/'.$correct_title. '.' . $request->file('cover')->extension(), $optimizedImage);
             }
             return redirect()->route('bo.labels')->with('success', 'Votre label a bien été modifié');
         }

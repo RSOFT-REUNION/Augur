@@ -19,10 +19,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
     {{-- FontAwesome --}}
-    <link rel="stylesheet" href="{{ asset('dist/fontawesome/all.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('dist/fontawesome/brands.min.css') }}">
-    <script src="{{ asset('dist/fontawesome/all.min.js') }}"></script>
-    <script src="{{ asset('dist/fontawesome/brands.min.js') }}"></script>
+    <script src="https://kit.fontawesome.com/956531071e.js" crossorigin="anonymous"></script>
     {{-- Styles --}}
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     @vite([

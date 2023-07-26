@@ -48,4 +48,3 @@ prevButton.addEventListener("click", (even) => {
         slidesContainer.scrollLeft -= scrollAmount;
     }
 });
-

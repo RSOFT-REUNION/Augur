@@ -5,7 +5,8 @@ namespace App\Http\Livewire\Popups\Backend\Products;
 use App\Models\Media;
 use App\Models\productUnivers;
 use Illuminate\Support\Str;
-use Livewire\Component;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Livewire\WithFileUploads;
 use LivewireUI\Modal\ModalComponent;
 
@@ -41,7 +42,12 @@ class AddUnivers extends ModalComponent
             $univers->active = 1;
             if($univers->update()){
                 if($this->image) {
-                    $this->image->storeAs('public/medias', str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title)).'.'.$this->image->extension());
+                    // Optimisation de l'image
+                    $optimizedImage = Image::make($this->image)->resize(800, null, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })->encode();
+                    Storage::disk('local')->put('public/medias/'.str_replace(view()->shared('characters'), view()->shared('correct_characters'), strtolower($this->title)).'.'.$this->image->extension(), $optimizedImage);
                 }
                 return redirect()->route('bo.products.list');
             }
