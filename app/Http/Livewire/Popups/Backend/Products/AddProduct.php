@@ -2,16 +2,13 @@
 
 namespace App\Http\Livewire\Popups\Backend\Products;
 
-use App\Models\Label;
-use App\Models\Media;
+
 use App\Models\Product;
 use App\Models\productUnivers;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
-use Livewire\Component;
 use Livewire\WithFileUploads;
 use LivewireUI\Modal\ModalComponent;
-use Spatie\ImageOptimizer\OptimizerChainFactory;
 
 class AddProduct extends ModalComponent
 {
@@ -42,22 +39,18 @@ class AddProduct extends ModalComponent
         $product->description = $this->description;
         if($this->image) {
             $product->picture = $this->title.'.'.$this->image->extension();
-            /*$optimizedImage = Image::make($this->image)
-                ->resize(600, null, function ($constraint) {
-                    $constraint->aspectRatio();
-                    $constraint->upsize();
-                });
-            $optimizedImage->save(storage_path('app/public/products/'. $this->title.'.'.$this->image->extension()));
-
-            $optimizedChain = OptimizerChainFactory::create();
-            $optimizedChain->optimize(storage_path('app/public/products/'. $this->title.'.'.$this->image->extension()));*/
         }
         $product->tags = strtoupper($this->tags);
         $product->labels = $this->labels;
         $product->active = 1;
         if($product->save()) {
             if($this->image) {
-                $this->image->storeAs('public/products', $product->picture);
+                // Optimisation de l'image
+                $optimizedImage = Image::make($this->image)->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })->encode();
+                Storage::disk('local')->put('public/products/'.$this->title.'.'.$this->image->extension(), $optimizedImage);
             }
             return redirect()->route('bo.products.list');
         }
