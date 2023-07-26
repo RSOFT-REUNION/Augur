@@ -10,8 +10,10 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     {{-- Scripts --}}
     <script src="https://cdn.tiny.cloud/1/j7a0crew3nmaxen8eoxy84fe62rbj8droiq6svy41ph2at27/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script defer src="https://unpkg.com/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+    <!-- Alpine Plugins -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+    <!-- Alpine Core -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     {{-- Fonts --}}
