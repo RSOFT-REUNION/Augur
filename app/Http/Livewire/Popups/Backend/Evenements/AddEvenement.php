@@ -5,7 +5,9 @@ namespace App\Http\Livewire\Popups\Backend\Evenements;
 use App\Models\Evenement;
 use App\Models\Media;
 use App\Models\Shop;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use LivewireUI\Modal\ModalComponent;
@@ -83,7 +85,12 @@ class AddEvenement extends ModalComponent
         if($anim->save())
         {
             if($this->cover) {
-                $this->cover->storeAs('public/medias', str_replace($this->characters, $this->correct_characters, strtolower($this->title)). '.' . $this->cover->extension());
+                // Optimisation de l'image
+                $optimizedImage = Image::make($this->cover)->resize(800, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                })->encode();
+                Storage::disk('local')->put('public/medias/'. str_replace($this->characters, $this->correct_characters, strtolower($this->title)). '.' . $this->cover->extension(), $optimizedImage);
             }
             return redirect()->route('bo.evenements')->with('success', 'Votre évenement '. $anim->title .' a bien été créé !');
         }

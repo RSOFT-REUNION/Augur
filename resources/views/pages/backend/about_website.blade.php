@@ -19,14 +19,39 @@
                     </div>
                 </div>
                 <ul class="mt-2 list-disc pl-10">
-                    <li>Optimisation de toutes les images du site</li>
-                    <li>Amélioration de l'affichage des produits</li>
                     <li>Ajout des recettes produits</li>
                 </ul>
             </div>
 
             {{-- Version actuel --}}
             <div class="container-version_actual mt-5">
+                <div class="container-version-header">
+                    <div class="flex items-center">
+                        <div class="flex-1">
+                            <h4>Version 1.2.2 <span class="px-3 py-1 rounded-lg bg-yellow-300 text-sm text-black ml-4"><i class="fa-solid fa-person-digging mr-2"></i>Correctif</span></h4>
+                        </div>
+                        <div class="flex-none">
+                            <p>27/07/2023</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-version-content">
+                    <h5><i class="fa-solid fa-file-lines mr-2"></i>Les produits</h5>
+                    <ul>
+                        <li><span class="text-sm bg-green-200 text-green-800 py-1 px-2 rounded-md">Nouveautés</span> Modification de l'affichage de la liste des produits et d'un produit simple</li>
+                        <li>Optimisation des photos (côté serveur) lors de l'ajout d'articles ou de la modification.</li>
+                        <li>Les univers sont dorénavant masqué par défaut dans le back-office</li>
+                    </ul>
+                    <h5 class="mt-5"><i class="fa-solid fa-gear mr-2"></i>Optimisations</h5>
+                    <ul>
+                        <li>Optimisation de toutes les photos dans le but d'améliorer leurs chargement</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            {{-- Version old --}}
+            <div class="container-version_old mt-5">
                 <div class="container-version-header">
                     <div class="flex items-center">
                         <div class="flex-1">
@@ -42,7 +67,7 @@
                     <ul>
                         <li>Correction de l'affichage des labels au niveau d'un produit</li>
                         <li>Optimisation de l'import des photos pour les articles <span class="text-red-500">Uniquement des photos au format JPG, PNG ou JPEG</span></li>
-                        <li>Correction de la modification des produits (le bouton n'était pas affiché)</li>
+                        <li>Correction de la modification des produits.</li>
                     </ul>
                     <h5 class="mt-5"><i class="fa-solid fa-gear mr-2"></i>A propos</h5>
                     <ul>
@@ -51,8 +76,6 @@
                 </div>
             </div>
 
-
-            {{-- Version old --}}
             <div class="container-version_old mt-5">
                 <div class="container-version-header">
                     <div class="flex items-center">
