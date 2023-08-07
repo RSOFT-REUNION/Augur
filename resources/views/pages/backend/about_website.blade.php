@@ -12,7 +12,7 @@
         </div>
         <div class="entry-content mb-10">
             {{-- Fonctionnalités à venir --}}
-            <div class="border border-purple-500 px-3 py-3 bg-purple-100 rounded-lg">
+            {{--<div class="border border-purple-500 px-3 py-3 bg-purple-100 rounded-lg">
                 <div class="flex items-center">
                     <div class="flex-1">
                         <p class="text-purple-500 text-2xl font-bold"><i class="fa-solid fa-star fa-shake mr-2" style="--fa-animation-duration: 20s; --fa-animation-iteration-count: 1;"></i>Fonctionnalités à venir</p>
@@ -21,10 +21,39 @@
                 <ul class="mt-2 list-disc pl-10">
                     <li>Ajout des recettes produits</li>
                 </ul>
-            </div>
+            </div>--}}
 
             {{-- Version actuel --}}
             <div class="container-version_actual mt-5">
+                <div class="container-version-header">
+                    <div class="flex items-center">
+                        <div class="flex-1">
+                            <h4>Version 1.3 <span class="px-3 py-1 rounded-lg bg-blue-300 text-sm text-black ml-4"><i class="fa-solid fa-wrench mr-2"></i>Mise à jour mineur</span></h4>
+                        </div>
+                        <div class="flex-none">
+                            <p>08/08/2023</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-version-content">
+                    <h5><i class="fa-solid fa-file-lines mr-2"></i>Les recettes</h5>
+                    <ul>
+                        <li><span class="text-sm bg-green-200 text-green-800 py-1 px-2 rounded-md">Nouveautés</span> Ajout de la notion des recettes</li>
+                    </ul>
+                    <h5 class="mt-5"><i class="fa-solid fa-comments mr-2"></i>Les messages</h5>
+                    <ul>
+                        <li><span class="text-sm bg-green-200 text-green-800 py-1 px-2 rounded-md">Nouveautés</span> Il est maintenant possible de voir les messages que l'on a reçu depuis le back-office</li>
+                    </ul>
+                    <h5 class="mt-5"><i class="fa-solid fa-gear mr-2"></i>Général</h5>
+                    <ul>
+                        <li><span class="text-sm bg-green-200 text-green-800 py-1 px-2 rounded-md">Nouveautés</span> Ajout de Google Analytics</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            {{-- Version old --}}
+            <div class="container-version_old mt-5">
                 <div class="container-version-header">
                     <div class="flex items-center">
                         <div class="flex-1">
@@ -49,8 +78,6 @@
                 </div>
             </div>
 
-
-            {{-- Version old --}}
             <div class="container-version_old mt-5">
                 <div class="container-version-header">
                     <div class="flex items-center">

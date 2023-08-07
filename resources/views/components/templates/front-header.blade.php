@@ -15,6 +15,7 @@
                     @endif
                     <a href="{{ route('fo.labels.list') }}" class="mr-2 btn-icon_transparent cursor-pointer @if($active == 'label') active @endif">Nos labels</a>
                     <a href="{{ route('fo.products') }}" class="mr-2 btn-icon_transparent cursor-pointer @if($active == 'products') active @endif">Nos produits</a>
+                    <a href="{{ route('fo.recipes') }}" class="mr-2 btn-icon_transparent cursor-pointer @if($active == 'recipes') active @endif">Nos recettes</a>
                     <a href="{{ route('fo.evenements') }}" class="mr-2 btn-icon_transparent cursor-pointer @if($active == 'evenement') active @endif">Nos animations</a>
                     <a onclick="Livewire.emit('openModal', 'popups.frontend.search')" class="mr-2 btn-icon_transparent cursor-pointer"><i class="fa-solid fa-magnifying-glass"></i></a>
                     <a href="@if(auth()->guest()) {{ route('fo.sign') }} @else {{ route('fo.profile') }} @endif" class="mr-4 btn-icon_transparent @if($active == 'profile') active @endif"><i class="fa-solid fa-user"></i></a>

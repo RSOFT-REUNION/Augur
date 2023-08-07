@@ -14,6 +14,9 @@ use App\Models\Label;
 use App\Models\Pages;
 use App\Models\Product;
 use App\Models\productUnivers;
+use App\Models\Recipe;
+use App\Models\RecipeIngredient;
+use App\Models\RecipeSteps;
 use App\Models\Shop;
 use App\Models\User;
 use Carbon\Carbon;
@@ -332,5 +335,24 @@ class FrontController extends Controller
         $data['product'] = Product::where('id', $id)->first();
         $data['labels'] = Label::all();
         return view('pages.frontend.products.product-single', $data);
+    }
+
+    // Affichage de la page des recettes
+    public function showRecipes()
+    {
+        $data = [];
+        $data['active'] = 'recipes';
+        return view('pages.frontend.recipes.recipes', $data);
+    }
+
+    // Affichage d'une recette seule
+    public function showRecipeSingle($id)
+    {
+        $data = [];
+        $data['active'] ='recipes';
+        $data['recipe'] = Recipe::where('id', $id)->first();
+        $data['ingredients'] = RecipeIngredient::where('recipe_id', $id)->get();
+        $data['steps'] = RecipeSteps::where('recipe_id', $id)->get();
+        return view('pages.frontend.recipes.recipes-single', $data);
     }
 }

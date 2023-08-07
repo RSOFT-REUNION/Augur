@@ -8,7 +8,7 @@
             </div>
         </form>
     </div>
-    @if(count($this->jobsLabel) > 0 || count($this->jobsEvenement) > 0 || count($this->jobsProduct))
+    @if(count($this->jobsLabel) > 0 || count($this->jobsEvenement) > 0 || count($this->jobsProduct) || count($this->jobsRecipe))
         <div class="entry-content">
             @if(count($this->jobsLabel) > 0)
                 <div class="mb-5">
@@ -40,7 +40,7 @@
                                 <li class="small-evenement">
                                     <div class="flex items-center" role="button" data-href="{{ route('fo.evenements') }}">
                                         <div class="flex-none">
-                                            <img src="{{ asset('storage/medias/'. $evenement->getPicture()) }}"/>
+                                            <img src="{{ asset('storage/medias/'. $evenement->getPicture()) }}" loading="lazy"/>
                                         </div>
                                         <div class="flex-1">
                                             <p>{{ $evenement->title }}</p>
@@ -61,13 +61,36 @@
                                 <div class="flex items-center" role="button" data-href="{{ route('fo.products.single', ['id' => $product->id]) }}">
                                     <div class="flex-none">
                                         @if($product->picture != null)
-                                            <img src="{{ asset('storage/products/'. $product->picture) }}"/>
+                                            <img src="{{ asset('storage/products/'. $product->picture) }}" loading="lazy"/>
                                         @else
-                                            <img src="{{ asset('storage/medias/none_picture.svg') }}"/>
+                                            <img src="{{ asset('storage/medias/none_picture.svg') }}" loading="lazy"/>
                                         @endif
                                     </div>
                                     <div class="flex-1">
                                         <p>{{ $product->title }}</p>
+                                    </div>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if(count($this->jobsRecipe) > 0)
+                <div>
+                    <h2>Les recettes</h2>
+                    <ul class="mt-4">
+                        @foreach($jobsRecipe as $recipe)
+                            <li class="small-evenement mb-1">
+                                <div class="flex items-center" role="button" data-href="{{ route('fo.recipes.single', ['id' => $recipe->id]) }}">
+                                    <div class="flex-none">
+                                        @if($recipe->media_id != null)
+                                            <img src="{{ asset('storage/medias/'. $recipe->getPicture()) }}" loading="lazy"/>
+                                        @else
+                                            <img src="{{ asset('storage/medias/none_picture.svg') }}" loading="lazy"/>
+                                        @endif
+                                    </div>
+                                    <div class="flex-1">
+                                        <p>{{ $recipe->title }}</p>
                                     </div>
                                 </div>
                             </li>

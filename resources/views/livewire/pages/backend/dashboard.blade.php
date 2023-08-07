@@ -23,23 +23,16 @@
                 </div>
             </div>
         </div>
-        
-        <div class="px-4 py-2 bg-red-500 text-white rounded-lg mt-2">
+
+        {{--<div class="px-4 py-2 bg-red-500 text-white rounded-lg mt-2">
         	<p>Des modifications et des corrections sont en cours ce jour !</p>
-        </div>
+        </div>--}}
 
         {{-- Grids --}}
         <div class="grid grid-cols-4 gap-10 mt-9">
-            <div class="dash-grid_item row-span-2 text-center">
+            <div class="dash-grid_item text-center" role="button" data-href="{{ route('bo.sav') }}">
                 <h2><i class="fa-solid fa-comments mr-3"></i>{{ $contacts->count() }}</h2>
                 <p>Message de contact</p>
-                <div class="list mt-5">
-                    <ul>
-                        @foreach($contacts as $contact)
-                            <li>{{ $contact->lastname }} {{ $contact->firstname }} le {{ $contact->getDate() }}</li>
-                        @endforeach
-                    </ul>
-                </div>
             </div>
             <div class="dash-grid_item text-center" role="button" data-href="{{ route('bo.evenements') }}">
                 <h2><i class="fa-solid fa-calendar-week mr-3"></i>{{ $evenements->count() }}</h2>
@@ -69,6 +62,10 @@
                     </div>
                 @endif
 
+            </div>
+            <div class="dash-grid_item text-center" role="button" data-href="{{ route('bo.recette') }}">
+                <h2><i class="fa-solid fa-plate-wheat mr-3"></i>{{ $recipes->count() }}</h2>
+                <p>Recettes</p>
             </div>
             <div class="dash-grid_item text-center" role="button" data-href="{{ route('bo.labels') }}">
                 <h2><i class="fa-solid fa-ribbon mr-3"></i>{{ $labels->count() }}</h2>

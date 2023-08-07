@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Evenement;
+use App\Models\RecipeIngredient;
+use App\Models\RecipeSteps;
+use App\Models\TempRecipe;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,6 +19,15 @@ class BackController extends Controller
         $data['group'] = 'backend';
         $data['item'] = 'dashboard';
         return view('pages.backend.dashboard', $data);
+    }
+
+    // Show Messages SAV
+    public function showSAV()
+    {
+        $data = [];
+        $data['group'] = 'backend';
+        $data['item'] = 'SAV';
+        return view('pages.backend.SAV', $data);
     }
 
     // Show customers list
@@ -116,6 +128,29 @@ class BackController extends Controller
 
     public function showRecettes()
     {
+        // Récupération de la liste des recettes temporaires
+        $tempRecipes = TempRecipe::all();
+        foreach ($tempRecipes as $temp) {
+            // Suppression un à un des recettes temporaires
+            $temp->delete();
+        }
+
+        // Récupération de la liste des étapes de recettes
+        $recipesStep = RecipeSteps::where('recipe_id', null)->get();
+        foreach ($recipesStep as $step)
+        {
+            // Suppression des étapes de recettes n'ayant pas de recettes lié
+            $step->delete();
+        }
+
+        // Récupération de la liste des ingrédients
+        $recipesIngredient = RecipeIngredient::where('recipe_id', null)->get();
+        foreach ($recipesIngredient as $ingredient)
+        {
+            // Suppression des ingrédients de recettes n'ayant pas de recettes liés.
+            $ingredient->delete();
+        }
+
         $data = [];
         $data['group'] = 'backend';
         $data['item'] = 'recette';
@@ -123,9 +158,25 @@ class BackController extends Controller
     }
     public function showAddRecettes()
     {
+        // Création d'une recette temporaire
+        $tempRecipe = new TempRecipe;
+        $tempRecipe->save();
+
         $data = [];
         $data['group'] = 'backend';
         $data['item'] = 'recette';
+        $data['temp_recipe'] = $tempRecipe->id;
+        $data['recipe'] = '$id';
+        return view('pages.backend.recettes.recettes-add', $data);
+    }
+
+    public function showEditRecettes($id)
+    {
+        $data = [];
+        $data['group'] = 'backend';
+        $data['item'] = 'recette';
+        $data['recipe'] = $id;
+        $data['temp_recipe'] = '';
         return view('pages.backend.recettes.recettes-add', $data);
     }
 

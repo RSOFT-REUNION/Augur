@@ -10,7 +10,7 @@
                     <div class="container-front_evenement">
                         <div class="flex">
                             <div class="flex-none">
-                                <img src="{{ asset('storage/medias/'. $ev->getPicture()) }}">
+                                <img src="{{ asset('storage/medias/'. $ev->getPicture()) }}" loading="lazy">
                             </div>
                             <div class="flex-1 content pr-10">
                                 <h2>{{ $ev->title }}</h2>
