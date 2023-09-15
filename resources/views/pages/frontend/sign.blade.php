@@ -15,7 +15,11 @@
                     <h2 class="text-center">Connexion à votre compte</h2>
                 </div>
                 <div class="flex-1 px-4 border-l border-gray-200">
-                    <h2 class="text-center">Créer un compte</h2>
+                    <h2 class="text-center">Effectuer une demande de compte</h2>
+                    <p class="bg-gray-100 border border-gray-200 px-5 py-2 mt-5 mx-4 rounded-md">
+                        Toutes les demandes de création se font en liaison avec notre ERP. Un mail vous sera envoyé une fois votre compte
+                        accessible.
+                    </p>
                 </div>
             </div>
             <div class="flex flex-col xl:flex-row items-center">
@@ -60,7 +64,7 @@
                 <div class="flex-1 mt-10 pt-10 xl:px-4 border-t xl:border-l xl:border-t-0 xl:mt-0 xl:pt-0 border-gray-200">
                     {{-- Register form --}}
                     <div class="block xl:hidden">
-                        <h2 class="text-center">Créer un compte</h2>
+                        <h2 class="text-center">Effectuer une demande de compte</h2>
                     </div>
                     <div class="force-center mt-10">
                         <form method="POST" action="{{ route('fo.sign.handle') }}" class="width-500 text-left">
@@ -78,6 +82,13 @@
                                 <input type="text" id="firstname" name="firstname" placeholder="Entrez votre nom prénom" class="@if($errors->has('firstname'))textfield-error @endif" value="{{ old('firstname') }}">
                                 @if($errors->has('firstname'))
                                     <p class="text-input-error">{{ $errors->first('firstname') }}</p>
+                                @endif
+                            </div>
+                            <div class="textfield mt-2">
+                                <label for="phone">Numéro de téléphone<span class="text-red-500">*</span></label>
+                                <input type="tel" id="phone" name="phone" placeholder="Entrez votre numéro de téléphone (0000 11 22 33)" class="@if($errors->has('phone'))textfield-error @endif" value="{{ old('phone') }}">
+                                @if($errors->has('phone'))
+                                    <p class="text-input-error">{{ $errors->first('phone') }}</p>
                                 @endif
                             </div>
                             <div class="textfield mt-2">
@@ -118,7 +129,7 @@
                                 @endif
                             </div>
                             <div class="mt-5 force-center">
-                                <button type="submit" class="btn-filled_secondary block w-full">S'inscrire maintenant</button>
+                                <button type="submit" class="btn-filled_secondary block w-full">Envoyer une demande</button>
                             </div>
                         </form>
                     </div>

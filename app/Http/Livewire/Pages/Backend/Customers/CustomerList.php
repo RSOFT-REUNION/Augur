@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Pages\Backend\Customers;
 
 use App\Models\User;
+use App\Models\UserTemp;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -38,6 +39,7 @@ class CustomerList extends Component
         } else {
             $data['customers'] = User::where('team', 0)->orderBy('created_at', 'desc')->paginate(25);
         }
+        $data['customers_temp'] = UserTemp::orderBy('created_at', 'desc')->get();
         return view('livewire.pages.backend.customers.customer-list', $data);
     }
 }

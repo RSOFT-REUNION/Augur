@@ -87,7 +87,7 @@
             <hr/>
         </div>
         @foreach($activities as $activity)
-            <div class="list-box mt-2">
+            <div class="list-box mt-2 border border-transparent hover:border-blue-600 cursor-pointer">
                 <div class="flex items-center">
                     <div class="flex-1">
                         <p>
@@ -99,8 +99,11 @@
                             {{ $activity->message }}
                         </p>
                     </div>
-                    <div class="flex-none">
+                    <div class="flex-none inline-flex items-center">
                         <p class="text-gray-500">{{ $activity->getDate() }}</p>
+                        @if($activity->item != null)
+                            <a href="" class="border-l border-gray-300 pl-3 ml-3 hover:text-blue-400">VOIR</a>
+                        @endif
                     </div>
                 </div>
             </div>
