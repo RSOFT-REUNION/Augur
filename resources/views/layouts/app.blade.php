@@ -44,6 +44,7 @@
     @livewireStyles
 </head>
 <body class="antialiased">
+    @include('components.flash-messsage')
     @include('cookie-consent::index')
     {{-- Contents --}}
     @yield('content-app')

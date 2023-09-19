@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Activity extends Model
 {
@@ -11,6 +12,8 @@ class Activity extends Model
 
     public function getDate()
     {
-        return date('d/m/Y H:i', strtotime($this->created_at));
+        $date = Carbon::parse($this->created_at)->timezone('Indian/Reunion');
+        $formattedDate = $date->format('d/m/Y H:i');
+        return $formattedDate;
     }
 }

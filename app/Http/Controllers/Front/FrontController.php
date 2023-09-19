@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Mail\User\CreateAccount;
 use App\Mail\User\DeleteAccount;
+use App\Mail\User\DemandAccount;
 use App\Models\Activity;
 use App\Models\CarouselMain;
 use App\Models\Consent;
 use App\Models\Contact;
 use App\Models\EvenementUser;
+use App\Models\GeneralSetting;
 use App\Models\Label;
 use App\Models\Pages;
 use App\Models\Product;
@@ -19,6 +21,7 @@ use App\Models\RecipeIngredient;
 use App\Models\RecipeSteps;
 use App\Models\Shop;
 use App\Models\User;
+use App\Models\UserTemp;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -87,12 +90,15 @@ class FrontController extends Controller
             $request->validate([
                 'lastname' => 'required',
                 'firstname' => 'required',
+                'phone' => 'required|string',
                 'email' => 'required|email|unique:users,email',
                 'password' => 'required|confirmed|min:6',
                 'consent' => 'accepted'
             ], [
                 'lastname.required' => 'Le nom de famille est obligatoire.',
                 'firstname.required' => 'Le prénom est obligatoire.',
+                'phone.required' => 'Le numéro de téléphone est obligatoire.',
+                'phone.string' => 'Le numéro de téléphone n\'est pas correct.',
                 'email.required' => "L'adresse e-mail est obligatoire.",
                 'email.email' => "L'adresse e-mail n'est pas conforme.",
                 'email.unique' => "L'adresse e-mail existe déjà.",
@@ -102,10 +108,11 @@ class FrontController extends Controller
                 'consent.accepted' => "Les mentions légales et Mentions légales doivent être accepté."
             ]);
 
-            $user = new User;
+            $user = new UserTemp;
             $user->customer_code = strtoupper('C'. $request->lastname .'-'. Str::random(5));
             $user->lastname = strtoupper($request->lastname);
             $user->firstname = $request->firstname;
+            $user->phone = $request->phone;
             $user->email = strtolower($request->email);
             $user->password = bcrypt($request->password);
             if($request->newsletter) {
@@ -113,20 +120,14 @@ class FrontController extends Controller
             }
             if($user->save()) {
                 $activity = new Activity;
-                $activity->message = $user->lastname.' '.$user->firstname.' viens de s\'inscrire !';
+                $activity->message = $user->lastname.' '.$user->firstname.' a envoyé une demande d\'inscription !';
+                $activity->item = $user->id;
                 $activity->save();
 
-//                Mail::to($user->email)->send(new CreateAccount($user));
+                $main_user = GeneralSetting::where('id', 1)->first()->main_email;
+                Mail::to($user->email)->bcc($main_user)->send(new DemandAccount($user));
 
-                $result = auth()->attempt([
-                    'email' => strtolower($request->email),
-                    'password' => $request->password
-                ]);
-                if($result) {
-                    return redirect()->route('fo.profile')->with('success', 'Votre compte à été correctement créé.');
-                } else {
-                    return redirect()->route('fo.home')->with('success', 'Votre compte à été correctement créé. Je vous invite à vous connecter !');
-                }
+                return redirect()->route('fo.home')->with('success', 'Votre demande de compte à été bien envoyé. Un mail vous sera envoyé une fois celui-ci accessible !');
             }
         } elseif ($action === 'login') {
             // Action de connexion

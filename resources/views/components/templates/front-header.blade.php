@@ -17,8 +17,8 @@
                     <a href="{{ route('fo.products') }}" class="mr-2 btn-icon_transparent cursor-pointer @if($active == 'products') active @endif">Nos produits</a>
                     <a href="{{ route('fo.recipes') }}" class="mr-2 btn-icon_transparent cursor-pointer @if($active == 'recipes') active @endif">Nos recettes</a>
                     <a href="{{ route('fo.evenements') }}" class="mr-2 btn-icon_transparent cursor-pointer @if($active == 'evenement') active @endif">Nos animations</a>
+                    <a href="@if(auth()->guest()) {{ route('fo.sign') }} @else {{ route('fo.profile') }} @endif" class="mr-4 btn-icon_transparent @if($active == 'profile') active @endif">Aügur & moi</a>
                     <a onclick="Livewire.emit('openModal', 'popups.frontend.search')" class="mr-2 btn-icon_transparent cursor-pointer"><i class="fa-solid fa-magnifying-glass"></i></a>
-                    <a href="@if(auth()->guest()) {{ route('fo.sign') }} @else {{ route('fo.profile') }} @endif" class="mr-4 btn-icon_transparent @if($active == 'profile') active @endif"><i class="fa-solid fa-user"></i></a>
                     <button onclick="window.location='{{ route('fo.contact') }}'" class="btn-filled_secondary"><i class="fa-solid fa-comment mr-3"></i>Contactez-nous</button>
                     @if(!auth()->guest())
                         <a href="{{ route('logout') }}" class="ml-2 btn-icon_transparent" title="Se déconnecter"><i class="fa-solid fa-arrow-right-from-bracket"></i></a>

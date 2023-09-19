@@ -11,6 +11,20 @@
         <div class="container mx-auto py-10">
             <div class="flex flex-col lg:flex-row">
                 <div class="flex-1 mr-2 my-5 lg:my-0 order-2 lg:order-1">
+                    {{-- Affichage de la fidélité --}}
+                    @if(auth()->user()->EBP_customer)
+                        <div class="mb-5 bg-primary text-white py-5 px-10 rounded-lg">
+                            <div class="flex items-center">
+                                <div class="flex-1">
+                                    <p class="text-xl font-bold">Mes points fidélité</p>
+                                </div>
+                                <div class="flex-none">
+                                    <p class="text-4xl font-bold">3 000</p>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+
                     <h2 class="front-subtitle">Mes participations</h2>
                     @if($participations->count() > 0)
                         <ul class="mt-3">
