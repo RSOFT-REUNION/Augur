@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Mail\User\CreateAccount;
 use App\Mail\User\DeleteAccount;
+use App\Mail\User\DemandAccount;
 use App\Models\Activity;
 use App\Models\CarouselMain;
 use App\Models\Consent;
 use App\Models\Contact;
 use App\Models\EvenementUser;
+use App\Models\GeneralSetting;
 use App\Models\Label;
 use App\Models\Pages;
 use App\Models\Product;
@@ -122,7 +124,8 @@ class FrontController extends Controller
                 $activity->item = $user->id;
                 $activity->save();
 
-//                Mail::to($user->email)->send(new CreateAccount($user));
+                $main_user = GeneralSetting::where('id', 1)->first()->main_email;
+                Mail::to($user->email)->bcc($main_user)->send(new DemandAccount($user));
 
                 return redirect()->route('fo.home')->with('success', 'Votre demande de compte à été bien envoyé. Un mail vous sera envoyé une fois celui-ci accessible !');
             }

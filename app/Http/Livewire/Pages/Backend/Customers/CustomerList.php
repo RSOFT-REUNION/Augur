@@ -23,6 +23,7 @@ class CustomerList extends Component
                 ->orWhere('firstname', 'like', $query)
                 ->orWhere('customer_code', 'like', $query)
                 ->orWhere('email', 'like', $query)
+                ->orWhere('EBP_customer', 'like', $query)
                 ->paginate(25);
         }
     }

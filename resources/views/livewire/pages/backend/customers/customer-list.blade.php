@@ -46,19 +46,25 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>Code client</th>
+                        <th>Code client EBP</th>
                         <th>Nom de famille</th>
                         <th>Prénom</th>
                         <th>Adresse e-mail</th>
-                        <th>Abonnée</th>
+                        <th>Newsletter</th>
                         <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($customers as $customer)
-                        <tr role="button" class="hover:text-blue-800" data-href="#">
+                        <tr class="hover:text-blue-800 cursor-pointer" wire:click="$emit('openModal', 'popups.backend.customers.show-customer', {{ json_encode(['user' => $customer->id])  }})">
                             <td>{{ $customer->id }}</td>
-                            <td>{{ $customer->customer_code }}</td>
+                            <td>
+                                @if($customer->EBP_customer != null)
+                                    {{ $customer->EBP_customer }}
+                                @else
+                                    <span class="text-sm bg-red-200 px-2 py-1 rounded-md">Pas configuré</span>
+                                @endif
+                            </td>
                             <td>{{ $customer->lastname }}</td>
                             <td>{{ $customer->firstname }}</td>
                             <td>{{ $customer->email }}</td>

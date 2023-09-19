@@ -28,6 +28,33 @@
                 <div class="container-version-header">
                     <div class="flex items-center">
                         <div class="flex-1">
+                            <h4>Version 1.4 <span class="px-3 py-1 rounded-lg bg-blue-300 text-sm text-black ml-4"><i class="fa-solid fa-wrench mr-2"></i>Mise à jour mineur</span></h4>
+                        </div>
+                        <div class="flex-none">
+                            <p>19/09/2023</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-version-content">
+                    <h5><i class="fa-solid fa-users mr-2"></i>Les utilisateurs</h5>
+                    <ul>
+                        <li>Il n'est plus possible maintenant pour un utilisateur de créer son compte, il s'agit d'une demande de création.</li>
+                        <ul class="ml-5">
+                            <li>Chaque demande de nouveau compte est envoyé par mail à l'adresse de contact par défaut et sont également visible dans le back-office.</li>
+                            <li>Il est maintenant possible de voir les informations d'un client et d'ajouter le <b>code client EBP</b>.</li>
+                            <li>Il est maintenant possible de rechercher un client par son <b>code client EBP</b>.</li>
+                        </ul>
+                        <li>Il existe maintenant une liaison entre EBP et le site internet, afin de récupérer les points de fidélité client.</li>
+                    </ul>
+                </div>
+            </div>
+
+
+            {{-- Version old --}}
+            <div class="container-version_old mt-5">
+                <div class="container-version-header">
+                    <div class="flex items-center">
+                        <div class="flex-1">
                             <h4>Version 1.3 <span class="px-3 py-1 rounded-lg bg-blue-300 text-sm text-black ml-4"><i class="fa-solid fa-wrench mr-2"></i>Mise à jour mineur</span></h4>
                         </div>
                         <div class="flex-none">
@@ -38,21 +65,19 @@
                 <div class="container-version-content">
                     <h5><i class="fa-solid fa-file-lines mr-2"></i>Les recettes</h5>
                     <ul>
-                        <li><span class="text-sm bg-green-200 text-green-800 py-1 px-2 rounded-md">Nouveautés</span> Ajout de la notion des recettes</li>
+                        <li>Ajout de la notion des recettes</li>
                     </ul>
                     <h5 class="mt-5"><i class="fa-solid fa-comments mr-2"></i>Les messages</h5>
                     <ul>
-                        <li><span class="text-sm bg-green-200 text-green-800 py-1 px-2 rounded-md">Nouveautés</span> Il est maintenant possible de voir les messages que l'on a reçu depuis le back-office</li>
+                        <li>Il est maintenant possible de voir les messages que l'on a reçu depuis le back-office</li>
                     </ul>
                     <h5 class="mt-5"><i class="fa-solid fa-gear mr-2"></i>Général</h5>
                     <ul>
-                        <li><span class="text-sm bg-green-200 text-green-800 py-1 px-2 rounded-md">Nouveautés</span> Ajout de Google Analytics</li>
+                        <li>Ajout de Google Analytics</li>
                     </ul>
                 </div>
             </div>
 
-
-            {{-- Version old --}}
             <div class="container-version_old mt-5">
                 <div class="container-version-header">
                     <div class="flex items-center">

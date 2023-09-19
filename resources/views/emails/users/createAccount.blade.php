@@ -2,7 +2,6 @@
 # Bienvenue sur notre site !
 
 Bonjour, **{{ $user->firstname }}**,
-Merci d'avoir rejoint **Aügur** !
 
 Nous vous confirmons que votre compte a été créé avec succès. Vous pouvez désormais vous inscrire à des évènements, suivre vos participations et bien plus !
 

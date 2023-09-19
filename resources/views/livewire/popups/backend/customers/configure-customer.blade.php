@@ -2,7 +2,7 @@
     <div class="entry-header">
         <div class="flex items-center">
             <div class="flex-1">
-                <h1>Configuration de l'utilisateur</h1>
+                <h1>Configuration de l'utilisateur - {{ $user_temp->lastname }} {{ $user_temp->firstname }}</h1>
             </div>
             <div class="flex-none">
                 <a wire:click="$emit('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>

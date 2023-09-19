@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\Popups\Backend\Customers;
 
+use App\Mail\User\CreateAccount;
 use App\Models\User;
 use App\Models\UserTemp;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use LivewireUI\Modal\ModalComponent;
 
@@ -14,7 +16,7 @@ class ConfigureCustomer extends ModalComponent
 
     public function mount($user)
     {
-        $this->user_temp = UserTemp::where('user_id', $user)->first();
+        $this->user_temp = UserTemp::where('id', $user)->first();
     }
 
     public function createUser()
@@ -28,12 +30,22 @@ class ConfigureCustomer extends ModalComponent
         $user->password = $this->user_temp->password;
         $user->newsletter = $this->user_temp->newsletter;
         if($this->EBP_customer != null) {
-            $user->EBP_customer_code = $this->EBP_customer;
+            $user->EBP_customer = $this->EBP_customer;
             $user->EBP_linked = 1;
         }
         $user->active = 1;
         if($user->save())
         {
+            // ** Envoi d'un email d'information
+            Mail::to($user->email)->send(new CreateAccount($user));
+
+            // ** Suppression de l'utilisateur dans la table temporaire
+            try {
+                $this->user_temp->delete();
+            } catch (\Exception $e) {
+                // ** Ajoute l'erreur dans une table de logs
+            }
+
             return redirect()->route('bo.customers');
         }
     }

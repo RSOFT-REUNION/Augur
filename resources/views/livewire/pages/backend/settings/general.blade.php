@@ -4,7 +4,7 @@
             <h1>Réglages généraux</h1>
         </div>
         <div class="flex-none inline-flex items-center">
-
+            <button type="button" wire:click="sync" wire:loading.attr="disabled" class="btn-filled_secondary"><i wire:loading.class="fa-spin" class="fa-solid fa-rotate mr-2"></i>Synchroniser manuellement</button>
         </div>
     </div>
     <div class="entry-content">
@@ -63,6 +63,25 @@
                             </select>
                         </div>
                         @if($settingGlobal->about_type != $about_type)
+                            <button type="submit" class="btn-icon_secondary ml-2"><i class="fa-solid fa-floppy-disk"></i></button>
+                        @endif
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="text-line_input mt-2">
+            <div class="flex items-center">
+                <div class="flex-1">
+                    <h3>Nom du fichier de synchronisation</h3>
+                    <p>Entrez uniquement le début du nom de fichier (sans la date)</p>
+                </div>
+                <div class="flex-none">
+                    <form wire:submit.prevent="updateSyncName" class="inline-flex items-center">
+                        @csrf
+                        <div class="textfield">
+                            <input type="text" wire:model="sync_name" placeholder="Nom du fichier" class="focus:outline-none">
+                        </div>
+                        @if($settingGlobal->sync_name != $sync_name)
                             <button type="submit" class="btn-icon_secondary ml-2"><i class="fa-solid fa-floppy-disk"></i></button>
                         @endif
                     </form>

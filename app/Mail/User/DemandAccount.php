@@ -2,9 +2,11 @@
 
 namespace App\Mail\User;
 
+use App\Models\GeneralSetting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -13,12 +15,14 @@ class DemandAccount extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $user;
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -27,7 +31,11 @@ class DemandAccount extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Demand Account',
+            from: new Address('contact@augur.re', 'AÜGUR'),
+            replyTo: [
+                new Address('contact@augur.re', 'AÜGUR')
+            ],
+            subject: 'AÜGUR - Demande de création de compte',
         );
     }
 
@@ -37,7 +45,8 @@ class DemandAccount extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emails.orders.shipped',
+            markdown: 'emails.users.demandAccount',
+            with: ['user' => $this->user, 'setting' => GeneralSetting::where('id', 1)->first()]
         );
     }
 

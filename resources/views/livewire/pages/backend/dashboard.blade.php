@@ -102,7 +102,7 @@
                     <div class="flex-none inline-flex items-center">
                         <p class="text-gray-500">{{ $activity->getDate() }}</p>
                         @if($activity->item != null)
-                            <a href="" class="border-l border-gray-300 pl-3 ml-3 hover:text-blue-400">VOIR</a>
+                            <a href="{{ route('bo.customers') }}" class="border-l border-gray-300 pl-3 ml-3 hover:text-blue-400">VOIR</a>
                         @endif
                     </div>
                 </div>
