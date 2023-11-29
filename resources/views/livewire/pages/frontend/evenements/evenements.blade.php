@@ -5,7 +5,7 @@
             <h3>Ateliers et événements</h3>
         </div>
         @if($evenements->count() > 0)
-            <div class="my-20">
+            <div class="flex flex-col gap-y-32 my-20">
                 @foreach($evenements as $ev)
                     <div class="container-front_evenement">
                         <div class="flex">
@@ -22,19 +22,34 @@
                                     </div>
                                     <div class="flex-none">
                                         <button wire:click="$emit('openModal', 'popups.frontend.evenements.popup-evenement', {{ json_encode(['evenement_id' => $ev->id]) }})" class="btn-icon_transparent"><i class="fa-solid fa-circle-info"></i></button>
-                                        <button wire:click="updateParticipe({{ $ev->id }})" class="btn-filled_primary">
-                                            @if($participations->count() > 0)
-                                                @foreach($participations as $par)
-                                                    @if($par->evenement_id == $ev->id)
-                                                        Je ne participe plus
-                                                    @else
+                                        @if(!auth()->check())
+                                            <a href="{{ route('fo.sign.handle') }}" class="btn-filled_primary">
+                                                    S'inscrire ou se connecter pour participer
+                                            </a>
+                                        @else
+                                            <button wire:click="updateParticipe({{ $ev->id }})" class="btn-filled_primary">
+                                                @if($participations && $participations->count() > 0)
+                                                    @php
+                                                        $participationFound = false;
+                                                    @endphp
+
+                                                    @foreach($participations as $par)
+                                                        @if($par->evenement_id == $ev->id)
+                                                            @php
+                                                                $participationFound = true;
+                                                            @endphp
+                                                            Je ne participe plus
+                                                        @endif
+                                                    @endforeach
+
+                                                    @if(!$participationFound)
                                                         Je participe !
                                                     @endif
-                                                @endforeach
-                                            @else
-                                                Je participe !
-                                            @endif
-                                        </button>
+                                                @else
+                                                    Je participe !
+                                                @endif
+                                            </button>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -49,7 +64,7 @@
         @if($oldEvenements->count() > 0)
             <div class="my-5">
                 <div class="text-center">
-                    <h3>Retour sur nos précédente animations !</h3>
+                    <h3>Retour sur nos précédentes animations !</h3>
                 </div>
             </div>
             <div class="carousel-scroll_line">
