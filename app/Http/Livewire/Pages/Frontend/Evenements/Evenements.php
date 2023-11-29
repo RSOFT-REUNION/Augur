@@ -31,7 +31,11 @@ class Evenements extends Component
     {
         $data = [];
         $data['evenements'] = Evenement::where('state', 0)->where('date', '>=', Carbon::now())->get();
-        $data['participations'] = EvenementUser::where('user_id', auth()->user()->id)->get();
+        if(!auth()->guest()) {
+        	$data['participations'] = EvenementUser::where('user_id', auth()->user()->id)->get();
+        } else {
+        	$data['participations'] = '';
+        }
         $data['oldEvenements'] = Evenement::where('state', 0)->where('date', '<', Carbon::now())->get();
         return view('livewire.pages.frontend.evenements.evenements', $data);
     }
