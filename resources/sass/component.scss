@@ -1302,4 +1302,39 @@
         font-size: 14px;
     }
 }
+.box-text {
+    background-color: t.$gris-light;
+    display: inline-flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+.flash_message {
+    position: absolute;
+    display: flex;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    padding: 10px 20px;
+    border-radius: 10px;
+
+    &.flash-error {
+        background-color: #FFC6C6;
+        border: 1px solid #FC9393;
+        color: red;
+    }
+
+    &.flash-success {
+        background-color: #B8DDB5;
+        border: 1px solid #8ADD84;
+        color: green;
+    }
+
+    &.flash-info {
+        background-color: #c5d4e8;
+        border: 1px solid #86B4E2;
+        color: #1664b0;
+    }
+}
 

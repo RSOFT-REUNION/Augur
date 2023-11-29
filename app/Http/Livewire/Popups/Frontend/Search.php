@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Popups\Frontend;
 
+use App\Models\Recipe;
 use App\Models\Evenement;
 use App\Models\Label;
 use App\Models\Product;
@@ -13,6 +14,7 @@ class Search extends ModalComponent
     public $jobsLabel = [];
     public $jobsEvenement = [];
     public $jobsProduct = [];
+    public $jobsRecipe = [];
 
     public function updatedSearch()
     {
@@ -22,6 +24,7 @@ class Search extends ModalComponent
             $label_table = Label::where('title', 'like', $query)->get();
             $evenement_table = Evenement::where('title', 'like', $query)->get();
             $product_table = Product::where('title', 'like', $query)->orWhere('tags', 'like', $query)->orWhere('labels', 'like', $query)->get();
+            $recipe_table = Recipe::where('title', 'like', $query)->get();
             if($label_table) {
                 $this->jobsLabel = $label_table;
             }
@@ -30,6 +33,9 @@ class Search extends ModalComponent
             }
             if($product_table) {
                 $this->jobsProduct = $product_table;
+            }
+            if($recipe_table) {
+                $this->jobsRecipe = $recipe_table;
             }
         }
     }

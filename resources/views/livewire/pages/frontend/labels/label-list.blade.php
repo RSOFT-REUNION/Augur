@@ -10,7 +10,7 @@
                     <div class="flex flex-col h-full">
                         <div class="flex-1 flex h-full">
                             <div class="m-auto">
-                                <img src="{{ asset('storage/medias/'. $label->getPicture()) }}"/>
+                                <img src="{{ asset('storage/medias/'. $label->getPicture()) }}" loading="lazy"/>
                             </div>
                         </div>
                         <div class="flex-none">

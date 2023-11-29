@@ -16,6 +16,17 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    {{-- Google Analytics (uniquement en production) --}}
+    @if(env('APP_ENV') == 'production')
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-940L0RK8XR"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-940L0RK8XR');
+        </script>
+    @endif
     {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,6 +44,7 @@
     @livewireStyles
 </head>
 <body class="antialiased">
+    @include('components.flash-messsage')
     @include('cookie-consent::index')
     {{-- Contents --}}
     @yield('content-app')

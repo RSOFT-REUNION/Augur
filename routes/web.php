@@ -45,6 +45,8 @@ Route::group([
     Route::get('/produits', [FrontController::class, 'showProductList'])->name('fo.products');
     Route::get('/produits/{id}', [FrontController::class, 'showListProduct'])->name('fo.products.list');
     Route::get('/produits/produit/{id}', [FrontController::class, 'showProductSingle'])->name('fo.products.single');
+    Route::get('/recettes', [FrontController::class, 'showRecipes'])->name('fo.recipes');
+    Route::get('/recettes/{id}', [FrontController::class, 'showRecipeSingle'])->name('fo.recipes.single');
 
     Route::group([
         'middleware' => 'App\Http\Middleware\Users'
@@ -59,6 +61,7 @@ Route::group([
     ], function (){
         Route::prefix('/espace-personnel')->group(function () {
             Route::get('/', [BackController::class, 'showDashboard'])->name('bo.dashboard');
+            Route::get('/s-a-v', [BackController::class, 'showSAV'])->name('bo.sav');
             Route::get('/a-propos', [BackController::class, 'showAboutWebsite'])->name('bo.about');
             Route::get('/clients', [BackController::class, 'showCustomerList'])->name('bo.customers');
             Route::get('/clients/{id}', [BackController::class, 'showCustomerSingle'])->name('bo.customers.single');
@@ -87,6 +90,7 @@ Route::group([
             Route::post('/mes-pages/accueil', [PagesController::class, 'postHome']);
             Route::get('/recettes', [BackController::class, 'showRecettes'])->name('bo.recette');
             Route::get('/recettes/ajout', [BackController::class, 'showAddRecettes'])->name('bo.recette.add');
+            Route::get('/recettes/modification/{id}', [BackController::class, 'showEditRecettes'])->name('bo.recette.edit');
             Route::get('/equipe', [BackController::class, 'showTeam'])->name('bo.team');
             Route::get('/medias', [BackController::class, 'showMedias'])->name('bo.media');
         });
