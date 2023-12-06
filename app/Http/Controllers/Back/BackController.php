@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Back;
 
 use App\Http\Controllers\Controller;
 use App\Models\Evenement;
+use App\Models\EvenementUser;
 use App\Models\RecipeIngredient;
 use App\Models\RecipeSteps;
 use App\Models\TempRecipe;
@@ -67,6 +68,16 @@ class BackController extends Controller
         $data['item'] = 'evenement';
         $data['evenement'] = Evenement::where('id', $id)->first();
         return view('pages.backend.evenements.evenement-edit', $data);
+    }
+
+    public function showParticipantEvenements($id)
+    {
+        $data = [];
+        $data['group'] = 'backend';
+        $data['item'] = 'evenement';
+        $data['evenement'] = Evenement::where('id', $id)->first();
+        $data['evenement_user'] = EvenementUser::where('evenement_id', $id)->with('user') ->get();
+        return view('pages.backend.evenements.evenement-participant', $data);
     }
 
     public function editEvenements(Request $request, $id)

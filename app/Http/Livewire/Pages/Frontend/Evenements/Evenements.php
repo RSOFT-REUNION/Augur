@@ -27,6 +27,7 @@ class Evenements extends Component
         }
 
     }
+    
     public function render()
     {
         $data = [];

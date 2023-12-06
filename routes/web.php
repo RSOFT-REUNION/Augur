@@ -68,6 +68,7 @@ Route::group([
             Route::get('/animations', [BackController::class, 'showEvenements'])->name('bo.evenements');
             Route::get('/animations/modification-{id}', [BackController::class, 'showEditEvenements'])->name('bo.evenements.edit');
             Route::post('/animations/modification-{id}', [BackController::class, 'editEvenements'])->name('bo.evenements.edit.post');
+            Route::get('/animations/participant-{id}', [BackController::class, 'showParticipantEvenements'])->name('bo.evenements.participant');
             Route::get('/labels-&-engagements', [LabelController::class, 'showList'])->name('bo.labels');
             Route::get('/labels-&-engagements/creation', [LabelController::class, 'showAdd'])->name('bo.labels.add');
             Route::post('/labels-&-engagements/creation', [LabelController::class, 'create'])->name('bo.labels.add.post');

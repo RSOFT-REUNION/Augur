@@ -16,6 +16,12 @@ class EvenementsList extends Component
     {
         return redirect()->route('bo.evenements.edit', ['id' => $id]);
     }
+
+    public function participantEvenement($id)
+    {
+        return redirect()->route('bo.evenements.participant', ['id' => $id]);
+    }
+
     public function deleteEvenement($id)
     {
         $evenement = Evenement::where('id', $id)->first();
@@ -30,6 +36,7 @@ class EvenementsList extends Component
         $evenement->delete();
         return redirect()->route('bo.evenements');
     }
+
     public function render()
     {
         $data = [];

@@ -13,4 +13,9 @@ class EvenementUser extends Model
     {
         return Evenement::where('id', $this->evenement_id)->first();
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
