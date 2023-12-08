@@ -23,8 +23,8 @@
                                     <div class="flex-none">
                                         <button wire:click="$emit('openModal', 'popups.frontend.evenements.popup-evenement', {{ json_encode(['evenement_id' => $ev->id]) }})" class="btn-icon_transparent"><i class="fa-solid fa-circle-info"></i></button>
                                         @if(!auth()->check())
-                                            <a href="{{ route('fo.sign.handle') }}" class="btn-filled_primary">
-                                                    S'inscrire ou se connecter pour participer
+                                            <a wire:click="$emit('openModal', 'popups.frontend.evenements.popup-event-guest', {{ json_encode(['evenement_id' => $ev->id]) }})" class="btn-filled_primary">
+                                                Je participe !
                                             </a>
                                         @else
                                             <button wire:click="updateParticipe({{ $ev->id }})" class="btn-filled_primary">

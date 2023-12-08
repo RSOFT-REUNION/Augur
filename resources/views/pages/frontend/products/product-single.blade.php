@@ -18,6 +18,14 @@
                             <h2>{{ $product->title }}</h2>
                         </div>
                     </div>
+                    @if ($product->description)
+                        <div class="my-10 flex flex-col items-center">
+                            <div class="border-b border-secondary flex flex-col gap-y-7 items-start w-1/2 pb-10">
+                                <h2 class="text-xl font-semibold">Description du produit :</h2>
+                                <p>{{ $product->description }}</p>
+                            </div>
+                        </div>
+                    @endif
                     @if(count($product->getLabelLink()) > 0)
                         <div class="flex items-center mx-auto gap-5 py-5">
                             @foreach ($product->getLabelLink() as $product_label)

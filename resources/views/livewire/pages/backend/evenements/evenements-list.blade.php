@@ -30,6 +30,7 @@
                                         @endif
                                     </div>
                                     <div class="flex-none">
+                                        <button wire:click="participantEvenement({{ $ev->id }})" class="mr-1 bg-primary text-white py-1.5 px-4 rounded-[10px] border border-primary hover:text-primary duration-300 hover:bg-secondary-gray"><i class="fa-solid fa-eye mr-2"></i>Voir les participants</button>
                                         <button wire:click="editEvenement({{ $ev->id }})" title="Modifier l'évènement" class="btn-filled_secondary mr-1"><i class="fa-solid fa-pen mr-2"></i>Modifier</button>
                                         <button wire:click="deleteEvenement({{ $ev->id }})" class="btn-outline_primary"><i class="fa-solid fa-trash"></i></button>
                                     </div>
