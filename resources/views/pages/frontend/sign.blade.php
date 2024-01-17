@@ -16,10 +16,13 @@
                 </div>
                 <div class="flex-1 px-4 border-l border-gray-200">
                     <h2 class="text-center">Effectuer une demande de compte</h2>
-                    <p class="bg-gray-100 border border-gray-200 px-5 py-2 mt-5 mx-4 rounded-md">
-                        Toutes les demandes de création se font en liaison avec notre ERP. Un mail vous sera envoyé une fois votre compte
-                        accessible.
-                    </p>
+                    <div class="bg-gray-100 border border-gray-200 px-5 py-2 mt-5 mx-4 rounded-md">
+                        <p>Toutes les demandes de création se font en liaison avec notre ERP. Un mail vous sera envoyé une fois votre compte
+                        accessible.</p>
+                    </div>
+                    <div class="bg-red-100 border border-red-200 px-5 py-2 mt-5 mx-4 rounded-md">
+                        <p class="w-full flex flex-row justify-center font-bold">Tout les champs avec <span class="text-red-500 mx-1">*</span> sont obligatoire.</p>
+                    </div>
                 </div>
             </div>
             <div class="flex flex-col xl:flex-row items-center">
@@ -122,7 +125,7 @@
                                 </div>
                                 <div class="mt-2">
                                     <input type="checkbox" name="consent" id="consent">
-                                    <label for="consent" class="pl-2">J'accepte les <a href="" class="font-bold">Mentions légales</a> et les <a href="" class="font-bold">CGU</a></label>
+                                    <label for="consent" class="pl-2">J'accepte les <a href="{{ route('fo.legal')}}" class="font-bold">Mentions légales</a> et les <a href="{{ route('fo.conditions')}}" class="font-bold">CGU</a></label>
                                 </div>
                                 @if($errors->has('consent'))
                                     <p class="text-box-error mt-2">{{ $errors->first('consent') }}</p>
