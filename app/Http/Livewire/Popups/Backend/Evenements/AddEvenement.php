@@ -92,7 +92,7 @@ class AddEvenement extends ModalComponent
                 })->encode();
                 Storage::disk('local')->put('public/medias/'. str_replace($this->characters, $this->correct_characters, strtolower($this->title)). '.' . $this->cover->extension(), $optimizedImage);
             }
-            return redirect()->route('bo.evenements')->with('success', 'Votre évenement '. $anim->title .' a bien été créé !');
+            return redirect()->route('bo.evenements')->with('success', 'Votre événement '. $anim->title .' a bien été créé !');
         }
     }
 

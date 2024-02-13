@@ -19,7 +19,7 @@ class AddPictureCarousel extends ModalComponent
     ];
     protected $messages = [
         'key.required' => "La clé est obligatoire.",
-        'key.unique' => "Cette clé est déjà utilisé.",
+        'key.unique' => "Cette clé est déjà utilisée.",
         'cover.required' => "L'image est obligatoire.",
     ];
 

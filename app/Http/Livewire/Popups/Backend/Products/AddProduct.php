@@ -21,7 +21,7 @@ class AddProduct extends ModalComponent
 
     protected $messages = [
         'title.required' => "Le nom du produit est obligatoire",
-        'title.unique' => "Un produit existe déjà avec nom",
+        'title.unique' => "Un produit existe déjà avec ce nom",
     ];
 
     public function updated($title)

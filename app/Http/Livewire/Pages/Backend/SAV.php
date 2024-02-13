@@ -21,7 +21,7 @@ class SAV extends Component
 
         $message->delete();
 
-        return redirect()->route('bo.sav')->with('success', "Le message a été supprimé avec succèes");
+        return redirect()->route('bo.sav')->with('success', "Le message a été supprimé avec succès");
     }
 
     public function render()

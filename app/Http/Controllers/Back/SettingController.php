@@ -65,7 +65,7 @@ class SettingController extends Controller
         $setting = GeneralSetting::where('id', 1)->first();
         $setting->legal_mention = $request->legal;
         if($setting->update()) {
-            return redirect()->route('bo.setting.legal')->with('success', 'Vos mentions légales ont bien été mise à jour');
+            return redirect()->route('bo.setting.legal')->with('success', 'Vos mentions légales ont bien été mises à jour.');
         }
     }
 
@@ -83,7 +83,7 @@ class SettingController extends Controller
         $setting = GeneralSetting::where('id', 1)->first();
         $setting->conditions = $request->conditions;
         if($setting->update()) {
-            return redirect()->route('bo.setting.conditions')->with('success', 'Vos conditions générales d\'utilisation ont bien été mise à jour');
+            return redirect()->route('bo.setting.conditions')->with('success', 'Vos conditions générales d\'utilisation ont bien été mises à jour');
         }
     }
 

@@ -1,8 +1,8 @@
 <x-mail::message>
     # Bonjour **{{ $user->firstname }}**,
 
-    Nous avons reçu une demande de suppression de votre compte ainsi que les données enregistrées vous concernant.
-    Celui-ci a donc été immédiatement réalisé.
+    Nous avons reçu une demande de suppression de votre compte et des données enregistrées vous concernant.
+    Ceci a bien été réalisé.
 
     Cordialement,<br>
     {{ config('app.name') }}

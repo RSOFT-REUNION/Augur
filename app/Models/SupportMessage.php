@@ -13,8 +13,8 @@ class SupportMessage extends Model
     {
         $type = [
             '', // Correspond à 0
-            'Bugs bloquant rencontré',
-            'Bugs non bloquant rencontré',
+            'Bugs bloquants rencontrés',
+            'Bugs non bloquants rencontrés',
             'Demande d\'amélioration',
             'Demande d\'ajout de fonctionnalités',
             'Autres',

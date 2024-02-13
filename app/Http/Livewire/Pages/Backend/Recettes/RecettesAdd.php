@@ -103,7 +103,7 @@ class RecettesAdd extends Component
                 $step->update();
             }
 
-            return redirect()->route('bo.recette')->with('success', "Votre recette a été ajouté avec succèes.");
+            return redirect()->route('bo.recette')->with('success', "Votre recette a été ajoutée avec succès.");
 
         } else {
             // Suppresion de la ligne nouvellement créée
@@ -147,7 +147,7 @@ class RecettesAdd extends Component
                 Storage::disk('local')->put('public/medias/'. $media->title, $optimizedImage);
             }
 
-            return redirect()->route('bo.recette')->with('success', "Votre recette a été mise à jour avec succèes.");
+            return redirect()->route('bo.recette')->with('success', "Votre recette a été mise à jour avec succès.");
         }
     }
 

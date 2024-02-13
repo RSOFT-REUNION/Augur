@@ -42,7 +42,7 @@ class MediaAdd extends ModalComponent
         $media->title = $this->title. '.' . $this->picture->extension();
         if($media->save()) {
             $this->picture->storeAs('public/medias', $verifiedTitle. '.' . $this->picture->extension());
-            return redirect()->route('bo.media')->with('success', 'Votre photo a été ajouté avec succées !');
+            return redirect()->route('bo.media')->with('success', 'Votre photo a été ajoutée avec succés !');
         }
 
     }

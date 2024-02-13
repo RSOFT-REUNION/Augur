@@ -25,7 +25,7 @@ class EditProduct extends ModalComponent
 
     protected $messages = [
         'title.required' => "Le nom du produit est obligatoire",
-        'title.unique' => "Un produit existe déjà avec nom",
+        'title.unique' => "Un produit existe déjà avec ce nom",
         'image.mimes' => "Le fichier doit être au format: JPG, PNG ou JPEG"
     ];
 

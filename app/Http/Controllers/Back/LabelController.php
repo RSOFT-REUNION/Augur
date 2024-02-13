@@ -131,7 +131,7 @@ class LabelController extends Controller
                 })->encode();
                 Storage::disk('local')->put('public/medias/'.$correct_title. '.' . $request->file('cover')->extension(), $optimizedImage);
             }
-            return redirect()->route('bo.labels')->with('success', 'Votre label a bien été modifié');
+            return redirect()->route('bo.labels')->with('success', 'Votre label a bien été modifié.');
         }
     }
 }

@@ -105,7 +105,7 @@ class FrontController extends Controller
                 'password.required' => "Le mot de passe est obligatoire.",
                 'password.confirmed' => "Les mots de passes ne correspondent pas.",
                 'password.min' => "Le mot de passe doit comporter au moin :min caractères.",
-                'consent.accepted' => "Les mentions légales et Mentions légales doivent être accepté."
+                'consent.accepted' => "Les mentions légales et les CGU doivent être acceptées."
             ]);
 
             $user = new UserTemp;
@@ -127,7 +127,7 @@ class FrontController extends Controller
                 $main_user = GeneralSetting::where('id', 1)->first()->main_email;
                 Mail::to($user->email)->bcc($main_user)->send(new DemandAccount($user));
 
-                return redirect()->route('fo.home')->with('success', 'Votre demande de compte à été bien envoyé. Un mail vous sera envoyé une fois celui-ci accessible !');
+                return redirect()->route('fo.home')->with('success', 'Votre demande de compte a bien été envoyée. Un mail vous sera envoyé pour vous informer que votre compte est accessible !');
             }
         } elseif ($action === 'login') {
             // Action de connexion
@@ -172,7 +172,7 @@ class FrontController extends Controller
             $user->deleted_at = Carbon::now();
             if($user->update()) {
                 auth()->logout();
-                return redirect()->route('fo.home')->with('success', 'Votre compte ainsi que vos données ont bien été supprimé !');
+                return redirect()->route('fo.home')->with('success', 'Votre compte ainsi que vos données ont bien été supprimés !');
             }
         }
     }
@@ -258,7 +258,7 @@ class FrontController extends Controller
             $activity->message = $contact->lastname.' '.$contact->firstname.' vous a envoyé un message !';
             $activity->save();
 
-            return redirect()->route('fo.contact')->with('success', 'Votre message à été envoyé avec succés, nous reprendrons contact avec vous rapidement !');
+            return redirect()->route('fo.contact')->with('success', 'Votre message a été envoyé avec succés, nous reprendrons contact avec vous rapidement !');
         }
     }
 
