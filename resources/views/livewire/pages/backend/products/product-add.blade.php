@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent="create" enctype="multipart/form-data">
+    <form wire:submit="create" enctype="multipart/form-data">
         <div class="entry-header flex items-center">
             <div class="flex-1">
                 <h1>Ajout d'un produit</h1>

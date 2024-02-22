@@ -5,12 +5,12 @@
                 <h1>Configuration de l'utilisateur - {{ $user_temp->lastname }} {{ $user_temp->firstname }}</h1>
             </div>
             <div class="flex-none">
-                <a wire:click="$emit('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
+                <a wire:click="$dispatch('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
             </div>
         </div>
     </div>
     <div class="entry-content">
-        <form wire:submit.prevent="createUser">
+        <form wire:submit="createUser">
             @csrf
             <p class="mb-3">
                 Vous devez noter que la liaison avec le code client EBP est nécessaire pour la récupération des points de fidélités EBP du client.
@@ -20,7 +20,7 @@
             </p>
             <div class="textfield">
                 <label for="EBP_customer">Code client EBP</label>
-                <input type="text" id="EBP_customer" wire:model="EBP_customer" name="EBP_customer" placeholder="Entrez le code client EBP" class="@if($errors->has('EBP_customer'))textfield-error @endif" value="{{ old('EBP_customer') }}">
+                <input type="text" id="EBP_customer" wire:model.live="EBP_customer" name="EBP_customer" placeholder="Entrez le code client EBP" class="@if($errors->has('EBP_customer'))textfield-error @endif" value="{{ old('EBP_customer') }}">
                 @if($errors->has('EBP_customer'))
                     <p class="text-input-error">{{ $errors->first('EBP_customer') }}</p>
                 @endif

@@ -6,7 +6,7 @@
         <div class="flex-none inline-flex items-center">
             <div class="textfield-line">
                 <label for="search"><i class="fa-solid fa-magnifying-glass"></i></label>
-                <input type="text" placeholder="Rechercher..." wire:model="search" class="focus:outline-none" role="searchbox">
+                <input type="text" placeholder="Rechercher..." wire:model.live="search" class="focus:outline-none" role="searchbox">
             </div>
             <p class="bg-gray-100 block py-2 px-4 rounded-lg ml-2">{{ $customers->count() }}</p>
         </div>
@@ -32,7 +32,7 @@
                             <td>{{ $temp->firstname }}</td>
                             <td>{{ $temp->phone }}</td>
                             <td>{{ $temp->email }}</td>
-                            <td class="w-[200px]"><button type="button" wire:click="$emit('openModal', 'popups.backend.customers.configure-customer', {{ json_encode(['user' => $temp->id]) }})" class="btn-filled_secondary">Ajouter l'utilisateur</button></td>
+                            <td class="w-[200px]"><button type="button" wire:click="$dispatch('openModal', { component: 'popups.backend.customers.configure-customer', arguments: {{ json_encode(['user' => $temp->id]) }} })" class="btn-filled_secondary">Ajouter l'utilisateur</button></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -56,7 +56,7 @@
                     </thead>
                     <tbody>
                     @foreach($customers as $customer)
-                        <tr class="hover:text-blue-800 cursor-pointer" wire:click="$emit('openModal', 'popups.backend.customers.show-customer', {{ json_encode(['user' => $customer->id])  }})">
+                        <tr class="hover:text-blue-800 cursor-pointer" wire:click="$dispatch('openModal', { component: 'popups.backend.customers.show-customer', arguments: {{ json_encode(['user' => $customer->id])  }} })">
                             <td>{{ $customer->id }}</td>
                             <td>
                                 @if($customer->EBP_customer != null)

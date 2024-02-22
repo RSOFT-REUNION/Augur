@@ -5,11 +5,11 @@
                 <h1>Ajouter une image</h1>
             </div>
             <div class="flex-none">
-                <a wire:click="$emit('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
+                <a wire:click="$dispatch('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
             </div>
         </div>
     </div>
-    <form wire:submit.prevent="create" enctype="multipart/form-data">
+    <form wire:submit="create" enctype="multipart/form-data">
         @csrf
         <div class="entry-content">
             @if($cover)
@@ -19,14 +19,14 @@
             @endif
             <div class="textfield">
                 <label for="key">Clé (uniquement visible dans votre espace)<span class="text-red-500">*</span></label>
-                <input type="text" id="key" wire:model="key" name="key" placeholder="Entrez une clé" class="@if($errors->has('key'))textfield-error @endif" value="{{ old('key') }}">
+                <input type="text" id="key" wire:model.live="key" name="key" placeholder="Entrez une clé" class="@if($errors->has('key'))textfield-error @endif" value="{{ old('key') }}">
                 @if($errors->has('key'))
                     <p class="text-input-error">{{ $errors->first('key') }}</p>
                 @endif
             </div>
             <div class="textfield mt-2">
                 <label for="cover">Image<span class="text-red-500">*</span></label>
-                <input type="file" id="cover" wire:model="cover" name="cover" class="@if($errors->has('cover'))textfield-error @endif" value="{{ old('cover') }}">
+                <input type="file" id="cover" wire:model.live="cover" name="cover" class="@if($errors->has('cover'))textfield-error @endif" value="{{ old('cover') }}">
                 @if($errors->has('cover'))
                     <p class="text-input-error">{{ $errors->first('cover') }}</p>
                 @endif

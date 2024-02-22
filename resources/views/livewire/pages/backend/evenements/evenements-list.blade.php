@@ -7,7 +7,7 @@
         </div>
     </div>
     <div class="entry-content">
-        <button onclick="Livewire.emit('openModal', 'popups.backend.evenements.add-evenement')" id="btn_floating"><i class="fa-solid fa-plus mr-3"></i>Créer une animation</button>
+        <button onclick="Livewire.dispatch('openModal', { component: 'popups.backend.evenements.add-evenement' })" id="btn_floating"><i class="fa-solid fa-plus mr-3"></i>Créer une animation</button>
         @if($evenements->count() > 0)
             @foreach($evenements as $ev)
                 @if($ev->date > \Carbon\Carbon::now() || $ev->start_date > \Carbon\Carbon::now())

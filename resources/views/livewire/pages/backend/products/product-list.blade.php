@@ -6,20 +6,20 @@
         <div class="inline-flex flex-none items-center">
             <div class="textfield-line">
                 <label for="search"><i class="fa-solid fa-magnifying-glass"></i></label>
-                <input type="text" placeholder="Rechercher..." wire:model="search" class="focus:outline-none" role="searchbox">
+                <input type="text" placeholder="Rechercher..." wire:model.live="search" class="focus:outline-none" role="searchbox">
             </div>
             <p class="ml-2 block rounded-lg bg-gray-100 px-4 py-2">{{ $products->count() }}</p>
         </div>
     </div>
     <div class="entry-content">
         <div class="container-float">
-            <button wire:click="$emit('openModal', 'popups.backend.products.import-product')" class="mr-2 btn-container-float-gray" title="Importer"><i class="fa-solid fa-upload"></i></button>
-            <button onclick="Livewire.emit('openModal', 'popups.backend.products.add-product')" class="btn-container-float"><i class="mr-3 fa-solid fa-plus"></i>Ajouter</button>
+            <button wire:click="$dispatch('openModal', { component: 'popups.backend.products.import-product' })" class="mr-2 btn-container-float-gray" title="Importer"><i class="fa-solid fa-upload"></i></button>
+            <button onclick="Livewire.dispatch('openModal', { component: 'popups.backend.products.add-product' })" class="btn-container-float"><i class="mr-3 fa-solid fa-plus"></i>Ajouter</button>
         </div>
-        <form wire:submit.prevent="updateDescription">
+        <form wire:submit="updateDescription">
             <div class="textfield">
                 <label for="short_description">Description courte de présentation</label>
-                <textarea wire:model="short_description" id="short_description" placeholder="Entrez une description courte qui sera affiché dans votre page">@if($description) {{ $description->content }} @endif</textarea>
+                <textarea wire:model.live="short_description" id="short_description" placeholder="Entrez une description courte qui sera affiché dans votre page">@if($description) {{ $description->content }} @endif</textarea>
                 @if($errors->has('short_description'))
                     <p class="text-input-error">{{ $errors->first('short_description') }}</p>
                 @endif
@@ -49,7 +49,7 @@
                     <h2>Les univers de produits</h2>
                 </div>
                 <div class="flex-none">
-                    <a wire:click="$emit('openModal', 'popups.backend.products.add-univers')" class="btn-filled_secondary">Ajouter un univers</a>
+                    <a wire:click="$dispatch('openModal', { component: 'popups.backend.products.add-univers' })" class="btn-filled_secondary">Ajouter un univers</a>
                 </div>
             </div>
             <p class="">Vous pouvez ajouter jusqu'à 4 univers, chacun des univers est modifiable, cependant la clé unique de celui-ci ne peut changer.</p>
@@ -112,7 +112,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a wire:click="$emit('openModal', 'popups.backend.products.edit-product', {{ json_encode(['product' => $product->id]) }})" class="btn-icon_transparent"><i class="fa-solid fa-pen-to-square"></i></a>
+                                    <a wire:click="$dispatch('openModal', { component: 'popups.backend.products.edit-product', arguments: {{ json_encode(['product' => $product->id]) }} })" class="btn-icon_transparent"><i class="fa-solid fa-pen-to-square"></i></a>
                                     <a wire:click="deleted({{ $product->id }})" class="cursor-pointer btn-icon_transparent"><i class="fa-solid fa-trash-can"></i></a>
                                 </td>
                             </tr>

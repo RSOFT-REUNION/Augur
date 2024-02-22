@@ -6,7 +6,7 @@
         <div class="flex-none inline-flex items-center">
             {{--<div class="textfield-line">
                 <label for="search"><i class="fa-solid fa-magnifying-glass"></i></label>
-                <input type="text" placeholder="Rechercher..." wire:model="search" class="focus:outline-none" role="searchbox">
+                <input type="text" placeholder="Rechercher..." wire:model.live="search" class="focus:outline-none" role="searchbox">
             </div>--}}
             <p class="bg-gray-100 block py-2 px-4 rounded-lg ml-2">{{ $messages->count() }}</p>
         </div>
@@ -27,7 +27,7 @@
                     </thead>
                     <tbody>
                     @foreach($messages as $message)
-                        <tr class="hover:bg-blue-100 cursor-pointer" wire:click="$emit('openModal', 'popups.backend.sav-show-message', {{ json_encode(['message_id' => $message->id]) }})">
+                        <tr class="hover:bg-blue-100 cursor-pointer" wire:click="$dispatch('openModal', { component: 'popups.backend.sav-show-message', arguments: {{ json_encode(['message_id' => $message->id]) }} })">
                             <td>{!! $message->getReadState() !!}</td>
                             <td>{{ $message->lastname }} {{ $message->firstname }}</td>
                             <td>{{ $message->email }}</td>

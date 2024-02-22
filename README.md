@@ -25,9 +25,9 @@ Voici un résumé de toutes les technologies utilisé pour notre projet.
 - **Laravel** : 10.13.02
 - **PHP** : 8.1
 - **NPM & Node**
-- **Livewire** : 2.12.3
-- **Livewire-ui-modal** : 1.0.8
-- **Tailwindcss** : 3.3.2
+- **Livewire** : 3.2.3
+- **Livewire-ui-modal** : 2.0.9
+- **Tailwindcss** : 3.3.3
 - **FontAwesome** : 6.4 (Free)
 
 ## License

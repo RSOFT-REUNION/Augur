@@ -13,7 +13,7 @@
                         <h1>De nouvelles fonctionnalités arrivent !</h1>
                         <p class="mt-3">Nous sommes en cours de test de nouvelles fonctionnalités, votre site sera de nouveau disponible dans peu de temps !</p>
                         <div class="mt-5 text-center">
-                            <button onclick="Livewire.emit('openModal', 'popups.frontend.sign-maintenance')" class="btn-filled_secondary">Je fais partie de l'organisation</button>
+                            <button onclick="Livewire.dispatch('openModal', { component: 'popups.frontend.sign-maintenance' })" class="btn-filled_secondary">Je fais partie de l'organisation</button>
                         </div>
                     </div>
                 </div>
@@ -21,11 +21,11 @@
                     <form method="POST">
                         <div class="textfield-white">
                             <label for="email">Identifiant<span class="text-red-500">*</span></label>
-                            <input type="email" id="email" wire:model="email" name="email" placeholder="Entrez votre identifiant" class="@if($errors->has('email'))textfield-error @endif" value="{{ old('email') }}">
+                            <input type="email" id="email" wire:model.live="email" name="email" placeholder="Entrez votre identifiant" class="@if($errors->has('email'))textfield-error @endif" value="{{ old('email') }}">
                         </div>
                         <div class="textfield-white mt-1">
                             <label for="password">Mot de passe<span class="text-red-500">*</span></label>
-                            <input type="password" id="password" wire:model="password" name="password" placeholder="Entrez votre mot de passe" class="@if($errors->has('password'))textfield-error @endif" value="{{ old('password') }}">
+                            <input type="password" id="password" wire:model.live="password" name="password" placeholder="Entrez votre mot de passe" class="@if($errors->has('password'))textfield-error @endif" value="{{ old('password') }}">
                         </div>
                         @if($errors->has('email') || $errors->has('email'))
                             <div class="bg-red-100 px-3 py-1 text-sm mt-2 rounded-lg">
@@ -51,7 +51,7 @@
                     <h1>Site en cours de maintenance !</h1>
                     <p class="mt-3">Votre site Aügur est actuellement en cours de maintenance. Nous nous efforçons de le rendre à nouveau disponible !</p>
                     <div class="mt-5 text-center">
-                        <button onclick="Livewire.emit('openModal', 'popups.frontend.sign-maintenance')" class="btn-filled_secondary">Je fais partie de l'organisation</button>
+                        <button onclick="Livewire.dispatch('openModal', { component: 'popups.frontend.sign-maintenance' })" class="btn-filled_secondary">Je fais partie de l'organisation</button>
                     </div>
                 </div>
             </div>

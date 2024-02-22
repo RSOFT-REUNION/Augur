@@ -4,7 +4,7 @@
             @csrf
             <div class="textfield-front-search">
                 <label for=""><i class="fa-solid fa-magnifying-glass"></i></label>
-                <input type="text" wire:model="search" placeholder="Rechercher un produit, un label, une animation.." class="focus:outline-none">
+                <input type="text" wire:model.live="search" placeholder="Rechercher un produit, un label, une animation.." class="focus:outline-none">
             </div>
         </form>
     </div>

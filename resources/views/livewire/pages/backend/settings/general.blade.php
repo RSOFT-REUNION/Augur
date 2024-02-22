@@ -29,10 +29,10 @@
                     <p>Sélectionnez la raison de votre maintenance</p>
                 </div>
                 <div class="flex-none">
-                    <form wire:submit.prevent="updateMaintenanceType" class="inline-flex items-center">
+                    <form wire:submit="updateMaintenanceType" class="inline-flex items-center">
                         @csrf
                         <div class="textfield">
-                            <select wire:model="maintenance_type" class="focus:outline-none">
+                            <select wire:model.live="maintenance_type" class="focus:outline-none">
                                 <option value="">-- Sélectionnez un type --</option>
                                 <option value="1">Maintenance pour test de nouvelles fonctionnalités</option>
                                 <option value="2">Maintenance pour correction</option>
@@ -53,10 +53,10 @@
                     <p>Sélectionnez le type de contenu qui sera affiché</p>
                 </div>
                 <div class="flex-none">
-                    <form wire:submit.prevent="updateAboutType" class="inline-flex items-center">
+                    <form wire:submit="updateAboutType" class="inline-flex items-center">
                         @csrf
                         <div class="textfield">
-                            <select wire:model="about_type" class="focus:outline-none" >
+                            <select wire:model.live="about_type" class="focus:outline-none" >
                                 <option value="">-- Sélectionnez un type --</option>
                                 <option value="1">Contenu de la page "Qui somme-nous"</option>
                                 <option value="2">Contenu spécifique pour cette section</option>
@@ -76,10 +76,10 @@
                     <p>Entrez uniquement le début du nom de fichier (sans la date)</p>
                 </div>
                 <div class="flex-none">
-                    <form wire:submit.prevent="updateSyncName" class="inline-flex items-center">
+                    <form wire:submit="updateSyncName" class="inline-flex items-center">
                         @csrf
                         <div class="textfield">
-                            <input type="text" wire:model="sync_name" placeholder="Nom du fichier" class="focus:outline-none">
+                            <input type="text" wire:model.live="sync_name" placeholder="Nom du fichier" class="focus:outline-none">
                         </div>
                         @if($settingGlobal->sync_name != $sync_name)
                             <button type="submit" class="btn-icon_secondary ml-2"><i class="fa-solid fa-floppy-disk"></i></button>

@@ -5,16 +5,16 @@
                 <h1>Ajouter d'un membre dans l'équipe</h1>
             </div>
             <div class="flex-none">
-                <a wire:click="$emit('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
+                <a wire:click="$dispatch('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
             </div>
         </div>
     </div>
     <div class="entry-content">
-        <form wire:submit.prevent="add">
+        <form wire:submit="add">
             @csrf
             <div class="textfield">
                 <label for="member">Utilisateur<span class="text-red-500">*</span></label>
-                <select wire:model="member" id="member">
+                <select wire:model.live="member" id="member">
                     <option value="">-- Sélectionner un membre --</option>
                     @foreach($users as $user)
                         <option value="{{ $user->id }}">{{ $user->lastname }} {{ $user->firstname }} ({{ $user->email }})</option>

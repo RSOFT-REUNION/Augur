@@ -12,12 +12,12 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
-        "livewire/livewire": "^2.12",
+        "livewire/livewire": "3.2.3",
         "maatwebsite/excel": "^3.1",
         "spatie/image": "^2.2",
         "spatie/image-optimizer": "^1.6",
         "spatie/laravel-cookie-consent": "^3.2",
-        "wire-elements/modal": "^1.0"
+        "wire-elements/modal": "2.0.9"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

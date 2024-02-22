@@ -5,7 +5,7 @@
                 <h1>{{ $message->subject }}</h1>
             </div>
             <div class="flex-none">
-                <a wire:click="$emit('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
+                <a wire:click="$dispatch('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
             </div>
         </div>
     </div>

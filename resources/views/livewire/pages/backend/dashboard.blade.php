@@ -19,7 +19,7 @@
                     <p>Bienvenue sur votre nouveau site AÜGUR, si vous avez besoin d'aide, n'hésitez pas à nous contacter !</p>
                 </div>
                 <div class="flex-none">
-                    <button onclick="Livewire.emit('openModal', 'popups.backend.support-message')" class="btn-outline_primary">Contacter le support<i class="fa-solid fa-circle-question ml-3"></i></button>
+                    <button onclick="Livewire.dispatch('openModal', { component: 'popups.backend.support-message' })" class="btn-outline_primary">Contacter le support<i class="fa-solid fa-circle-question ml-3"></i></button>
                 </div>
             </div>
         </div>

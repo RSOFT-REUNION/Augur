@@ -1,5 +1,5 @@
 <div>
-    <form wire:submit.prevent="@if($recipe) upRecipe @else publish @endif" enctype="multipart/form-data">
+    <form wire:submit="@if($recipe) upRecipe @else publish @endif" enctype="multipart/form-data">
         @csrf
         <div class="entry-header flex items-center">
             <div class="flex-1 inline-flex items-center">
@@ -13,7 +13,7 @@
         <div class="entry-content">
             <div class="textfield">
                 <label for="title">Nom de la recette<span class="text-red-500">*</span></label>
-                <input type="text" id="title" wire:model="title" name="title" placeholder="Entrez le nom de votre recette" class="@if($errors->has('title'))textfield-error @endif" value="{{ old('title') }}">
+                <input type="text" id="title" wire:model.live="title" name="title" placeholder="Entrez le nom de votre recette" class="@if($errors->has('title'))textfield-error @endif" value="{{ old('title') }}">
                 @if($errors->has('title'))
                     <p class="text-input-error">{{ $errors->first('title') }}</p>
                 @endif
@@ -27,7 +27,7 @@
                         <p wire:loading wire:target="image" class="text-sm"><i class="fa-solid fa-rotate mr-2 fa-spin"></i>En cours de traitement</p>
                     </div>
                 </div>
-                <input type="file" id="image" wire:model="image" name="image" class="@if($errors->has('image'))textfield-error @endif" value="{{ old('image') }}">
+                <input type="file" id="image" wire:model.live="image" name="image" class="@if($errors->has('image'))textfield-error @endif" value="{{ old('image') }}">
                 @if($errors->has('image'))
                     <p class="text-input-error">{{ $errors->first('image') }}</p>
                 @endif
@@ -37,14 +37,14 @@
             @endif
             <div class="textfield mt-2">
                 <label for="number">Il s'agit d'une recette pour combien de personnes ?<span class="text-red-500">*</span></label>
-                <input type="number" id="number" wire:model="number" name="number" step="1" placeholder="Ex. 4 (Les ingrédients pour 4 personnes)" class="@if($errors->has('number'))textfield-error @endif" value="{{ old('number') }}">
+                <input type="number" id="number" wire:model.live="number" name="number" step="1" placeholder="Ex. 4 (Les ingrédients pour 4 personnes)" class="@if($errors->has('number'))textfield-error @endif" value="{{ old('number') }}">
                 @if($errors->has('number'))
                     <p class="text-input-error">{{ $errors->first('number') }}</p>
                 @endif
             </div>
             <div class="textfield mt-2">
                 <label for="description">Description</label>
-                <textarea wire:model="description" id="description" placeholder="Entrez une description">{{ old('description') }}</textarea>
+                <textarea wire:model.live="description" id="description" placeholder="Entrez une description">{{ old('description') }}</textarea>
                 @if($errors->has('description'))
                     <p class="text-input-error">{{ $errors->first('description') }}</p>
                 @endif
@@ -70,13 +70,13 @@
             </div>
         </div>
         <div class="bg-gray-100 px-4 pt-2 pb-4 rounded-lg mt-5">
-            <form wire:submit.prevent="createIngredient">
+            <form wire:submit="createIngredient">
                 @csrf
                 <div class="flex items-end">
                     <div class="flex-1">
                         <div class="textfield-white">
                             <label for="ingredient">Ingrédient<span class="text-red-500">*</span></label>
-                            <input type="text" id="ingredient" wire:model="ingredient" name="ingredient" placeholder="Ex: 300g de sucre roux" class="@if($errors->has('ingredient'))textfield-error @endif" value="{{ old('ingredient') }}">
+                            <input type="text" id="ingredient" wire:model.live="ingredient" name="ingredient" placeholder="Ex: 300g de sucre roux" class="@if($errors->has('ingredient'))textfield-error @endif" value="{{ old('ingredient') }}">
                             @if($errors->has('ingredient'))
                                 <p class="text-input-error">{{ $errors->first('ingredient') }}</p>
                             @endif
@@ -131,18 +131,18 @@
             </div>
         </div>
         <div class="bg-gray-100 px-4 pt-2 pb-4 rounded-lg mt-5">
-            <form wire:submit.prevent="createStep">
+            <form wire:submit="createStep">
                 @csrf
                 <div class="textfield-white">
                     <label for="step">Étape numéro :<span class="text-red-500">*</span></label>
-                    <input type="number" id="step" step="1" min="1" wire:model="step" name="step" placeholder="Entrez le numéro de l'étape" class="@if($errors->has('step'))textfield-error @endif" value="{{ old('step') }}">
+                    <input type="number" id="step" step="1" min="1" wire:model.live="step" name="step" placeholder="Entrez le numéro de l'étape" class="@if($errors->has('step'))textfield-error @endif" value="{{ old('step') }}">
                     @if($errors->has('step'))
                         <p class="text-input-error">{{ $errors->first('step') }}</p>
                     @endif
                 </div>
                 <div class="textfield-white mt-2">
                     <label for="content_step">Étape numéro :<span class="text-red-500">*</span></label>
-                    <textarea wire:model="content_step" id="content_step" class="@if($errors->has('content_step'))textfield-error @endif" name="content_step" placeholder="Entrez l'étape à suivre">{{ old('content_step') }}</textarea>
+                    <textarea wire:model.live="content_step" id="content_step" class="@if($errors->has('content_step'))textfield-error @endif" name="content_step" placeholder="Entrez l'étape à suivre">{{ old('content_step') }}</textarea>
                     @if($errors->has('content_step'))
                         <p class="text-input-error">{{ $errors->first('content_step') }}</p>
                     @endif

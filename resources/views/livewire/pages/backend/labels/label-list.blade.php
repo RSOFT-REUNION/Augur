@@ -6,7 +6,7 @@
         <div class="flex-none inline-flex items-center">
             <div class="textfield-line">
                 <label for="search"><i class="fa-solid fa-magnifying-glass"></i></label>
-                <input type="text" placeholder="Rechercher..." wire:model="search" class="focus:outline-none" role="searchbox">
+                <input type="text" placeholder="Rechercher..." wire:model.live="search" class="focus:outline-none" role="searchbox">
             </div>
             <p class="bg-gray-100 block py-2 px-4 rounded-lg ml-2">{{ $labels->count() }}</p>
         </div>
@@ -21,7 +21,7 @@
             @endif
             <div class="grid grid-cols-5 gap-4 mt-3">
                 @foreach($labels as $label)
-                    <div class="dash-grid_item text-center" wire:click="$emit('openModal', 'popups.backend.labels.label-content', {{ json_encode(['label_id' => $label->id]) }})">
+                    <div class="dash-grid_item text-center" wire:click="$dispatch('openModal', { component: 'popups.backend.labels.label-content', arguments: {{ json_encode(['label_id' => $label->id]) }} })">
                         @if($label->show_home == 1)
                             <i class="fa-solid fa-star icon-up"></i>
                         @endif

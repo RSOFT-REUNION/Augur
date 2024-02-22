@@ -5,7 +5,7 @@
         </div>
     </div>
     <div class="entry-content">
-        <button onclick="Livewire.emit('openModal', 'popups.backend.settings.add-shop')" id="btn_floating"><i class="fa-solid fa-plus mr-3"></i>Ajouter</button>
+        <button onclick="Livewire.dispatch('openModal', { component: 'popups.backend.settings.add-shop' })" id="btn_floating"><i class="fa-solid fa-plus mr-3"></i>Ajouter</button>
         @if($shops->count() > 0)
             <ul>
                 @foreach($shops as $shop)

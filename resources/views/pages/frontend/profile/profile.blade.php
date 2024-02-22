@@ -72,7 +72,7 @@
                                 </div>
                             </div>
                             <div class="mt-3 text-center">
-                                <button onclick="Livewire.emit('openModal', 'popups.frontend.edit-profile')" class="btn-filled_secondary"><i class="fa-solid fa-user-pen mr-3"></i>Modifier</button>
+                                <button onclick="Livewire.dispatch('openModal', { component: 'popups.frontend.edit-profile' })" class="btn-filled_secondary"><i class="fa-solid fa-user-pen mr-3"></i>Modifier</button>
                             </div>
                         </div>
                     </div>

@@ -4,7 +4,7 @@
             <h1>Medias</h1>
         </div>
         <div class="flex-none inline-flex items-center">
-            <button wire:click="$emit('openModal', 'popups.backend.medias.media-add')" class="btn-filled_secondary"><i class="fa-solid fa-image mr-3"></i>Ajouter un media</button>
+            <button wire:click="$dispatch('openModal', { component: 'popups.backend.medias.media-add' })" class="btn-filled_secondary"><i class="fa-solid fa-image mr-3"></i>Ajouter un media</button>
         </div>
     </div>
     <div class="entry-content">
@@ -14,7 +14,7 @@
                     <div class="grid grid-cols-3 gap-5">
                         @foreach($medias as $media)
                             <div class="radio_picture cursor-pointer">
-                                <input type="radio" wire:model="selected" value="{{ $media->id }}" id="selected-{{ $media->id }}">
+                                <input type="radio" wire:model.live="selected" value="{{ $media->id }}" id="selected-{{ $media->id }}">
                                 <label for="selected-{{ $media->id }}"><img src="{{ asset('storage/medias/'. $media->title) }}" alt="{{ $media->alt }}" class="bg-auto w-auto"/></label>
                             </div>
                         @endforeach

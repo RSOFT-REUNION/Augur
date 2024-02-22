@@ -10,12 +10,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     {{-- Scripts --}}
     <script src="https://cdn.tiny.cloud/1/j7a0crew3nmaxen8eoxy84fe62rbj8droiq6svy41ph2at27/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <!-- Alpine Plugins -->
+    {{-- <!-- Alpine Plugins --> deprecated in Livewire 3 as it ships directly with alpine integration
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
     <!-- Alpine Core -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.0/dist/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> --}}
     {{-- Google Analytics (uniquement en production) --}}
     @if(env('APP_ENV') == 'production')
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-940L0RK8XR"></script>
@@ -53,7 +53,7 @@
         'resources/js/functions.js',
         'resources/js/tinyMCE.js',
     ])
-    @livewire('livewire-ui-modal')
+    @livewire('wire-elements-modal')
     @livewireScripts
 </body>
 </html>

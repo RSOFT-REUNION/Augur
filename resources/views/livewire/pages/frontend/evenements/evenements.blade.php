@@ -21,9 +21,9 @@
                                         <h5>De {{ $ev->start_time }} à {{ $ev->end_time }} | <i class="fa-solid fa-location-dot mx-1"></i> {{ $ev->getShop() }}</h5>
                                     </div>
                                     <div class="flex-none">
-                                        <button wire:click="$emit('openModal', 'popups.frontend.evenements.popup-evenement', {{ json_encode(['evenement_id' => $ev->id]) }})" class="btn-icon_transparent"><i class="fa-solid fa-circle-info"></i></button>
+                                        <button wire:click="$dispatch('openModal', { component: 'popups.frontend.evenements.popup-evenement', arguments: {{ json_encode(['evenement_id' => $ev->id]) }} })" class="btn-icon_transparent"><i class="fa-solid fa-circle-info"></i></button>
                                         @if(!auth()->check())
-                                            <a wire:click="$emit('openModal', 'popups.frontend.evenements.popup-event-guest', {{ json_encode(['evenement_id' => $ev->id]) }})" class="btn-filled_primary">
+                                            <a wire:click="$dispatch('openModal', { component: 'popups.frontend.evenements.popup-event-guest', arguments: {{ json_encode(['evenement_id' => $ev->id]) }} })" class="btn-filled_primary">
                                                 Je participe !
                                             </a>
                                         @else
@@ -69,7 +69,7 @@
             </div>
             <div class="carousel-scroll_line">
                 @foreach($oldEvenements as $oldEv)
-                    <div onclick="Livewire.emit('openModal', 'popups.frontend.evenements.popup-evenement', {{ json_encode(['evenement_id' => $oldEv->id]) }})" style="background-image: url('{{ asset('storage/medias/'. $oldEv->getPicture()) }}')">
+                    <div onclick="Livewire.dispatch('openModal', {component: 'popups.frontend.evenements.popup-evenement', arguments: {{ json_encode(['evenement_id' => $oldEv->id]) }})" style="background-image: url('{{ asset('storage/medias/'. $oldEv->getPicture()) }}' })">
                         <h5>{{ $oldEv->title }}</h5>
                     </div>
                 @endforeach

@@ -5,11 +5,11 @@
                 <h1>Informations de participation</h1>
             </div>
             <div class="flex-none">
-                <a wire:click="$emit('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
+                <a wire:click="$dispatch('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
             </div>
         </div>
     </div>
-    <form wire:submit.prevent="create" class="entry-content">
+    <form wire:submit="create" class="entry-content">
         <div class="bg-secondary border border-secondary bg-opacity-20 rounded-lg py-3 flex flex-row items-center justify-center mb-3">
             <h2>Ces informations sont requises pour participer à cette animation.</h2>
         </div>
@@ -20,28 +20,28 @@
         @endif
         <div class="textfield mb-2">
             <label for="lastname">Nom<span class="text-red-500">*</span></label>
-            <input type="text" id="lastname" wire:model="lastname" name="lastname" placeholder="Entrez votre nom" class="@if($errors->has('lastname'))textfield-error @endif">
+            <input type="text" id="lastname" wire:model.live="lastname" name="lastname" placeholder="Entrez votre nom" class="@if($errors->has('lastname'))textfield-error @endif">
             @if($errors->has('lastname'))
                 <p class="text-input-error">{{ $errors->first('lastname') }}</p>
             @endif
         </div>
         <div class="textfield mb-2">
             <label for="firstname">Prénom<span class="text-red-500">*</span></label>
-            <input type="text" id="firstname" wire:model="firstname" name="firstname" placeholder="Entrez votre prénom" class="@if($errors->has('firstname'))textfield-error @endif">
+            <input type="text" id="firstname" wire:model.live="firstname" name="firstname" placeholder="Entrez votre prénom" class="@if($errors->has('firstname'))textfield-error @endif">
             @if($errors->has('firstname'))
                 <p class="text-input-error">{{ $errors->first('firstname') }}</p>
             @endif
         </div>
         <div class="textfield mb-2">
             <label for="mail">Adresse e-mail<span class="text-red-500">*</span></label>
-            <input type="text" id="mail" wire:model="mail" name="mail" placeholder="Entrez votre adresse e-mail" class="@if($errors->has('mail'))textfield-error @endif">
+            <input type="text" id="mail" wire:model.live="mail" name="mail" placeholder="Entrez votre adresse e-mail" class="@if($errors->has('mail'))textfield-error @endif">
             @if($errors->has('mail'))
                 <p class="text-input-error">{{ $errors->first('mail') }}</p>
             @endif
         </div>
         <div class="textfield mb-2">
             <label for="phone">Numéro de téléphone<span class="text-red-500">*</span></label>
-            <input type="text" id="phone" wire:model="phone" name="phone" placeholder="Entrez votre numéro de téléphone" class="@if($errors->has('phone'))textfield-error @endif">
+            <input type="text" id="phone" wire:model.live="phone" name="phone" placeholder="Entrez votre numéro de téléphone" class="@if($errors->has('phone'))textfield-error @endif">
             @if($errors->has('phone'))
                 <p class="text-input-error">{{ $errors->first('phone') }}</p>
             @endif

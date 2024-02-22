@@ -5,19 +5,19 @@
                 <h1>Ajout d'un univers</h1>
             </div>
             <div class="flex-none">
-                <a wire:click="$emit('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
+                <a wire:click="$dispatch('closeModal')" class="btn-icon_secondary_2 block text-black"><i class="fa-solid fa-xmark"></i></a>
             </div>
         </div>
     </div>
     <div class="entry-content">
-        <form wire:submit.prevent="create" enctype="multipart/form-data" class="mt-3">
+        <form wire:submit="create" enctype="multipart/form-data" class="mt-3">
             @csrf
             @if($image)
                 <img src="{{ $image->temporaryUrl() }}" class="image-preview  mb-4">
             @endif
             <div class="textfield">
                 <label for="key">Emplacement dans le menu<span class="text-red-500">*</span></label>
-                <select wire:model="key" id="key">
+                <select wire:model.live="key" id="key">
                     <option value="">-- Sélectionner un emplacement --</option>
                     <option value="1">Emplacement 1</option>
                     <option value="2">Emplacement 2</option>
@@ -47,21 +47,21 @@
 
             <div class="textfield mt-2">
                 <label for="title">Nom de l'univers<span class="text-red-500">*</span></label>
-                <input type="text" id="title" wire:model="title" name="title" placeholder="Entrez le nom de l'univers" class="@if($errors->has('title'))textfield-error @endif" value="{{ old('title') }}">
+                <input type="text" id="title" wire:model.live="title" name="title" placeholder="Entrez le nom de l'univers" class="@if($errors->has('title'))textfield-error @endif" value="{{ old('title') }}">
                 @if($errors->has('title'))
                     <p class="text-input-error">{{ $errors->first('title') }}</p>
                 @endif
             </div>
             <div class="textfield mt-2">
                 <label for="image">Image</label>
-                <input type="file" id="image" wire:model="image" name="image" class="@if($errors->has('image'))textfield-error @endif" value="{{ old('image') }}">
+                <input type="file" id="image" wire:model.live="image" name="image" class="@if($errors->has('image'))textfield-error @endif" value="{{ old('image') }}">
                 @if($errors->has('image'))
                     <p class="text-input-error">{{ $errors->first('image') }}</p>
                 @endif
             </div>
             <div class="textfield mt-2">
                 <label for="description">Description</label>
-                <textarea wire:model="description" id="description" placeholder="Entrez une description">{{ old('description') }}</textarea>
+                <textarea wire:model.live="description" id="description" placeholder="Entrez une description">{{ old('description') }}</textarea>
                 @if($errors->has('description'))
                     <p class="text-input-error">{{ $errors->first('description') }}</p>
                 @endif

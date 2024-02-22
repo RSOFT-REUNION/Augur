@@ -25,7 +25,7 @@
                             <li><a href="{{ route('fo.labels.list') }}" class="btn-sidebar_mobile mb-2">Nos labels</a></li>
                             <li><a href="{{ route('fo.products') }}" class="btn-sidebar_mobile mb-2">Nos produits</a></li>
                             <li><a href="{{ route('fo.evenements') }}" class="btn-sidebar_mobile mb-2">Nos animation</a></li>
-                            <li><a onclick="Livewire.emit('openModal', 'popups.frontend.search')" class="btn-sidebar_mobile mb-2"><i class="fa-solid fa-magnifying-glass mr-2"></i>Rechercher</a></li>
+                            <li><a onclick="Livewire.dispatch('openModal', { component: 'popups.frontend.search' })" class="btn-sidebar_mobile mb-2"><i class="fa-solid fa-magnifying-glass mr-2"></i>Rechercher</a></li>
                             <li><a href="@if(auth()->guest()) {{ route('fo.sign') }} @else {{ route('fo.profile') }} @endif" class="btn-sidebar_mobile mb-2"><i class="fa-solid fa-user mr-2"></i>@if(auth()->guest()) Connexion @else Mon profil @endif</a></li>
                             <li><a href="{{ route('fo.contact') }}" class="btn-sidebar_mobile mb-2">Contactez-nous</a></li>
                             @if(!auth()->guest())

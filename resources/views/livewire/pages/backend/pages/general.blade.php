@@ -13,7 +13,7 @@
                     <h2>Carousel principal</h2>
                 </div>
                 <div class="flex-none">
-                    <button wire:click="$emit('openModal', 'popups.backend.pages.add-picture-carousel')" class="btn-filled_secondary">Ajouter une image</button>
+                    <button wire:click="$dispatch('openModal', { component: 'popups.backend.pages.add-picture-carousel' })" class="btn-filled_secondary">Ajouter une image</button>
                 </div>
             </div>
             <div class="mt-5">

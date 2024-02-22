@@ -16,7 +16,7 @@
         @if($recipes->count() > 0)
             <div class="grid grid-cols-3 gap-10">
                 @foreach($recipes as $recipe)
-                    <div wire:click="$emit('openModal', 'popups.backend.recipes.recipe', {{ json_encode(['recipe_id' => $recipe->id]) }})" class="rounded-lg overflow-hidden bg-gray-100 border border-transparent hover:border-gray-200 hover:shadow-lg duration-300 cursor-pointer">
+                    <div wire:click="$dispatch('openModal', { component: 'popups.backend.recipes.recipe', arguments: {{ json_encode(['recipe_id' => $recipe->id]) }} })" class="rounded-lg overflow-hidden bg-gray-100 border border-transparent hover:border-gray-200 hover:shadow-lg duration-300 cursor-pointer">
                         <div class="flex flex-col justify-between">
                             <div class="flex-1">
                                 <img src="{{ asset('storage/medias/'. $recipe->getPicture()) }}" loading="lazy">

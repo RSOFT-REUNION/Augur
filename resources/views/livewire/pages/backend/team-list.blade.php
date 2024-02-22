@@ -4,7 +4,7 @@
             <h1>Équipe</h1>
         </div>
         <div class="flex-none inline-flex items-center">
-            <button wire:click="$emit('openModal', 'popups.backend.add-team')" class="btn-filled_secondary">Ajouter un membre</button>
+            <button wire:click="$dispatch('openModal', { component: 'popups.backend.add-team' })" class="btn-filled_secondary">Ajouter un membre</button>
         </div>
     </div>
     <div class="entry-content">

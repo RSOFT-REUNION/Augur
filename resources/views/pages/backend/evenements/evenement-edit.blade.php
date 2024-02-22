@@ -16,7 +16,7 @@
             <div class="entry-content">
                 <div class="textfield">
                     <label for="title">Nom de l'évènement<span class="text-red-500">*</span></label>
-                    <input type="text" id="title" wire:model="title" name="title" placeholder="Entrez le nom de l'évènement" class="@if($errors->has('title'))textfield-error @endif" value="{{ $evenement->title }}">
+                    <input type="text" id="title" wire:model.live="title" name="title" placeholder="Entrez le nom de l'évènement" class="@if($errors->has('title'))textfield-error @endif" value="{{ $evenement->title }}">
                     @if($errors->has('title'))
                         <p class="text-input-error">{{ $errors->first('title') }}</p>
                     @endif
@@ -33,7 +33,7 @@
                     <div class="flex-1 mr-2">
                         <div class="textfield">
                             <label for="start_date">Date de début<span class="text-red-500">*</span></label>
-                            <input type="date" id="start_date" wire:model="start_date" name="start_date" class="@if($errors->has('start_date'))textfield-error @endif" value="{{ $evenement->start_date }}">
+                            <input type="date" id="start_date" wire:model.live="start_date" name="start_date" class="@if($errors->has('start_date'))textfield-error @endif" value="{{ $evenement->start_date }}">
                             @if($errors->has('start_date'))
                                 <p class="text-input-error">{{ $errors->first('start_date') }}</p>
                             @endif
@@ -42,7 +42,7 @@
                     <div class="flex-1 ml-2">
                         <div class="textfield">
                             <label for="end_date">Date de fin<span class="text-red-500">*</span></label>
-                            <input type="date" id="end_date" wire:model="end_date" name="end_date" class="@if($errors->has('end_date'))textfield-error @endif" value="{{ $evenement->end_date }}">
+                            <input type="date" id="end_date" wire:model.live="end_date" name="end_date" class="@if($errors->has('end_date'))textfield-error @endif" value="{{ $evenement->end_date }}">
                             @if($errors->has('end_date'))
                                 <p class="text-input-error">{{ $errors->first('end_date') }}</p>
                             @endif
@@ -52,7 +52,7 @@
                 @else
                     <div class="textfield">
                         <label for="date">Date de l'évènement<span class="text-red-500">*</span></label>
-                        <input type="date" id="date" wire:model="date" name="date" class="@if($errors->has('date'))textfield-error @endif" value="{{ $evenement->date }}">
+                        <input type="date" id="date" wire:model.live="date" name="date" class="@if($errors->has('date'))textfield-error @endif" value="{{ $evenement->date }}">
                         @if($errors->has('date'))
                             <p class="text-input-error">{{ $errors->first('date') }}</p>
                         @endif
@@ -62,7 +62,7 @@
                     <div class="flex-1 mr-2">
                         <div class="textfield">
                             <label for="start_time">Heure de début<span class="text-red-500">*</span></label>
-                            <input type="time" id="start_time" wire:model="start_time" name="start_time" class="@if($errors->has('start_time'))textfield-error @endif" value="{{ $evenement->start_time }}">
+                            <input type="time" id="start_time" wire:model.live="start_time" name="start_time" class="@if($errors->has('start_time'))textfield-error @endif" value="{{ $evenement->start_time }}">
                             @if($errors->has('start_time'))
                                 <p class="text-input-error">{{ $errors->first('start_time') }}</p>
                             @endif
@@ -71,7 +71,7 @@
                     <div class="flex-1 ml-2">
                         <div class="textfield">
                             <label for="end_time">Heure de fin<span class="text-red-500">*</span></label>
-                            <input type="time" id="end_time" wire:model="end_time" name="end_time" class="@if($errors->has('end_time'))textfield-error @endif" value="{{ $evenement->end_time }}">
+                            <input type="time" id="end_time" wire:model.live="end_time" name="end_time" class="@if($errors->has('end_time'))textfield-error @endif" value="{{ $evenement->end_time }}">
                             @if($errors->has('end_time'))
                                 <p class="text-input-error">{{ $errors->first('end_time') }}</p>
                             @endif
