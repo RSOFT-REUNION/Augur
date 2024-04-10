@@ -1,0 +1,66 @@
+/**** Bouton ****/
+.btn {
+    transition: 0.3s;
+}
+.btn:hover {
+    letter-spacing: 0.1em;
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+/**** NavBar ****/
+.backgroundwhite {
+    background-color: #ffffff;
+}
+
+/**** SideBar ****/
+@media (min-width: 768px) {
+    .sidebar {
+        width: 22rem !important;
+    }
+    .sidebar .nav-item .nav-link {
+        width: 17rem !important;
+    }
+}
+.nav-tabs {
+    border: none;
+}
+
+/**** card ****/
+.card-title {
+    color: #000000;
+}
+
+.sidebar #sidebarToggle::after {
+    font-family: 'Font Awesome 5 Pro';
+}
+.sidebar.toggled #sidebarToggle::after {
+    font-family: 'Font Awesome 5 Pro';
+}
+.sidebar .nav-item .nav-link[data-toggle=collapse]::after {
+    font-family: 'Font Awesome 5 Pro';
+}
+.sidebar-dark hr.sidebar-divider {
+    border-top: 2px solid #FFFFFF;
+}
+.sidebar hr.sidebar-divider {
+    margin: 0 01rem;
+}
+
+/*** Message Flash ***/
+.top-message {
+    z-index: 10;
+    position: fixed;
+    width: 50%;
+    left:73%;
+    transform:translateX(-50%);
+    top:85px;
+}
+
+/*** Datatable ***/
+.dt-search {
+    background-color: #4e73df;
+    color: #ffffff;
+    padding-left: 8px;
+    border-radius: 6px;
+}
