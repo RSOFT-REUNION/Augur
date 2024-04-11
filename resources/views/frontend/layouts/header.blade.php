@@ -35,10 +35,13 @@
                         <a class="nav-link" aria-current="page" href="#">Nos animations</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Augur & moi</a>
+                        <a class="nav-link" aria-current="page" href="#">Contact</a>
+                    </li>
+                    <li class="nav-item me-2">
+                        <a class="btn btn-primary hvr-grow-shadow" aria-current="page" href="{{ route('dashboard') }}"> <i class="fa-duotone fa-user fa-fw"></i> Mon compte</a>
                     </li>
                     <li class="nav-item">
-                        <a class="btn btn-warning hvr-grow-shadow" aria-current="page" href="#"> <i class="fa-solid fa-comment fa-fw"></i> Contactez-nous</a>
+                        <a class="btn btn-warning hvr-grow-shadow" aria-current="page" href="#"> <i class="fa-duotone fa-cart-shopping"></i> Panier</a>
                     </li>
                 </ul>
             </div>

@@ -17,7 +17,7 @@
     @include('frontend.layouts.header')
     @include('frontend.layouts.slider')
 
-    <main id="main">
+    <main class="mt-5" id="main">
         <div class="container">
             @include('frontend.layouts.flash')
             @yield('main-content')

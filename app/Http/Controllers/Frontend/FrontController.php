@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Frontend;
 
+use App\Http\Controllers\Controller;
 use App\Models\Backend\Content\Carousel;
 use App\Models\Backend\Content\Pages;
 use App\Models\Backend\Settings\Informations;

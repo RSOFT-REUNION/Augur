@@ -91,6 +91,13 @@
 /*--------------------------------------------------------------
 # Template
 --------------------------------------------------------------*/
+.row-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+.content {
+    height: 100%;
+}
 /*** Typo ***/
 a {
     color: #FFFFFF;
@@ -111,7 +118,7 @@ a:hover {
 }
 /*** Logo ***/
 .logo {
-    width: 110px;
+    width: 130px;
     position: absolute;
     margin-top: -55px;
     z-index: 1;
@@ -159,9 +166,18 @@ a.nav-link.active {
 /*** Bouton ***/
 .btn-warning {
     background-color: #f5eb69;
+    border-color: #f5eb69;
 }
 .btn-warning:hover{
     background-color: #f5eb69;
+}
+.btn-primary {
+    background-color: #1b2e47;
+    border-color: #1b2e47;
+    color: #ffffff;
+}
+.btn-primary:hover{
+    background-color: #1b2e47;
 }
 /*** Footer ***/
 #footer {
