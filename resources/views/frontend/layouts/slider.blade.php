@@ -1,4 +1,4 @@
-<div id="carousel" class="carousel slide mt-3 mb-4" data-bs-ride="carousel">
+<div id="carousel" class="carousel slide mt-3 mb-4" data-bs-ride="carousel" data-aos="zoom-in"  data-aos-duration="600">
     <div class="carousel-inner">
         @php $len = count($sliders); @endphp
         @foreach($sliders as $index => $slide)

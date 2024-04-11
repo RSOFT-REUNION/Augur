@@ -18,12 +18,16 @@
     @include('frontend.layouts.slider')
 
     <main id="main">
-        @include('frontend.layouts.flash')
-        @yield('main-content')
+        <div class="container">
+            @include('frontend.layouts.flash')
+            @yield('main-content')
+        </div>
     </main>
 
+    @include('frontend.layouts.footer')
+
     <div id="preloader"></div>
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="fa-duotone fa-arrow-up fa-fw"></i></a>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center text-decoration-none"><i class="fa-duotone fa-arrow-up fa-fw"></i></a>
 
     @include('frontend.layouts.script')
 </body>

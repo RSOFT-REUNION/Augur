@@ -91,6 +91,25 @@
 /*--------------------------------------------------------------
 # Template
 --------------------------------------------------------------*/
+/*** Typo ***/
+a {
+    color: #FFFFFF;
+    transition: 0.5s;
+}
+a:hover {
+    color: #efc425;
+}
+.whitecolor {
+    color: #ffffff;
+}
+.blackcolor {
+    color: #000000;
+    transition: 0.5s;
+}
+.blackcolor:hover {
+    color: #1b2e47;
+}
+/*** Logo ***/
 .logo {
     width: 110px;
     position: absolute;
@@ -142,5 +161,12 @@ a.nav-link.active {
     background-color: #f5eb69;
 }
 .btn-warning:hover{
+    background-color: #f5eb69;
+}
+/*** Footer ***/
+#footer {
+    background-color: #1b2e47;
+}
+.footer-bottom {
     background-color: #f5eb69;
 }
