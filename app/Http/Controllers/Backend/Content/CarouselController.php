@@ -18,7 +18,7 @@ class CarouselController extends Controller
     public function index()
     {
         return view('backend.content.carousel.index', [
-            'sliders' => Carousel::orderBy('id','DESC')->get()
+            'sliders' => Carousel::orderBy('id','ASC')->get()
         ]);
     }
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Mail\ContactMailRequest;
 use App\Mail\ContactMail;
+use App\Models\Backend\Content\Carousel;
 use App\Models\Backend\Content\Pages;
+use App\Models\Backend\Settings\Informations;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\View;
@@ -13,8 +15,9 @@ class FrontController extends Controller
 {
     public function __construct()
     {
-        $infos = DB::table('settings_informations')->where('id', 1)->first();
-        View::share('infos', $infos);
+        $infos = Informations::where('id', 1)->first();
+        $sliders = Carousel::inRandomOrder()->get();
+        View::share(['infos' => $infos, 'sliders' => $sliders]);
     }
     public function index()
     {

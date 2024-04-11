@@ -15,6 +15,7 @@
 
 <body>
     @include('frontend.layouts.header')
+    @include('frontend.layouts.slider')
 
     <main id="main">
         @include('frontend.layouts.flash')
