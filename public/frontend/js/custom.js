@@ -1,4 +1,4 @@
-(function() {
+(function () {
     "use strict";
     /**
      * Easy selector helper function
@@ -54,13 +54,29 @@
         window.addEventListener('load', toggleBacktotop)
         onscroll(document, toggleBacktotop)
     }
+    /**
+     * Animation on scroll
+     */
+    window.addEventListener('load', () => {
+        AOS.init({
+            duration: 1000,
+            easing: "ease-in-out",
+            once: true,
+            mirror: false
+        });
+    });
 })()
 
-    /**
-     * Autohide Alert
-     */
-    window.setTimeout(function() {
-        $(".alert").fadeTo(500, 0).slideUp(500, function(){
-            $(this).remove();
-        });
-    }, 3000);
+/**
+ * Autohide Alert
+ */
+window.setTimeout(function () {
+    $(".alert").fadeTo(500, 0).slideUp(500, function () {
+        $(this).remove();
+    });
+}, 3000);
+/**
+ * AOS init
+ */
+AOS.init();
+

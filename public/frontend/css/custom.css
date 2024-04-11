@@ -28,7 +28,7 @@
     bottom: 0;
     z-index: 9999;
     overflow: hidden;
-    background: #37517e;
+    background: #1b2e47;
 }
 
 #preloader:before {
@@ -36,9 +36,9 @@
     position: fixed;
     top: calc(50% - 30px);
     left: calc(50% - 30px);
-    border: 6px solid #37517e;
-    border-top-color: #fff;
-    border-bottom-color: #fff;
+    border: 6px solid #1b2e47;
+    border-top-color: #f5eb69;
+    border-bottom-color: #f5eb69;
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -65,7 +65,7 @@
     right: 15px;
     bottom: 15px;
     z-index: 996;
-    background: #47b2e4;
+    background: #1b2e47;
     width: 40px;
     height: 40px;
     border-radius: 50px;
@@ -74,16 +74,69 @@
 
 .back-to-top i {
     font-size: 24px;
-    color: #fff;
+    color: #f5eb69;
     line-height: 0;
 }
 
 .back-to-top:hover {
-    background: #6bc1e9;
-    color: #fff;
+    background: #1b2e47;
+    color: #FFFFFF;
 }
 
 .back-to-top.active {
     visibility: visible;
     opacity: 1;
+}
+
+/*--------------------------------------------------------------
+# Template
+--------------------------------------------------------------*/
+.logo {
+    width: 110px;
+    position: absolute;
+    margin-top: -55px;
+    z-index: 1;
+}
+/*** Menu ***/
+.nav-link {
+    margin-right: 8px;
+    color: #000000;
+    transition: 0.5s;
+}
+.nav-link:focus, .nav-link:hover {
+    color: #efc425;
+}
+.active {
+    border-bottom: 2px solid #efc425;
+    font-weight: bold;
+}
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+    width: 210px;
+    background-color: #1b2e47;
+}
+.dropdown-item {
+    color: #FFFFFF;
+}
+@media (min-width: 1024px) {
+    .dropdown .dropdown-menu {
+        display: block;
+        opacity: 0;
+        -webkit-transition: all 300ms ease-in;
+        -moz-transition: all 300ms ease-in;
+        -ms-transition: all 300ms ease-in;
+        -o-transition: all 300ms ease-in;
+        transition: all 300ms ease-in;
+    }
+
+    .dropdown:hover .dropdown-menu {
+        display: block;
+        opacity: 1;
+    }
+}
+/*** Bouton ***/
+.btn-warning {
+    background-color: #f5eb69;
+}
+.btn-warning:hover{
+    background-color: #f5eb69;
 }

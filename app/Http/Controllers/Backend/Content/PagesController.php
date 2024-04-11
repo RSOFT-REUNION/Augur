@@ -7,7 +7,6 @@ use App\Http\Requests\Backend\Content\PagesRequest;
 use App\Http\Requests\Backend\Content\PagesUpdateRequest;
 use App\Models\Backend\Content\Category;
 use App\Models\Backend\Content\Pages;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PagesController extends Controller

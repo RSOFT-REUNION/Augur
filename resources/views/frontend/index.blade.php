@@ -3,9 +3,6 @@
 
 @section('main-content')
 
-    Site Front
-
-    Infos : {!! $infos->address !!} <br>
     {!! $page->content !!}
 
 @endsection
