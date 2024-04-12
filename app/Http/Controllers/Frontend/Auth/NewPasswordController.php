@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Frontend\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Content\Carousel;
+use App\Models\Backend\Settings\Informations;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -10,16 +12,22 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use \Illuminate\Support\Facades\View;
 
 class NewPasswordController extends Controller
 {
+    public function __construct()
+    {
+        $infos = Informations::select('address','email','phone','fax')->where('id', 1)->first();
+        $sliders = Carousel::inRandomOrder()->get();
+        \Illuminate\Support\Facades\View::share(['infos' => $infos, 'sliders' => $sliders]);
+    }
     /**
      * Display the password reset view.
      */
-    public function create(Request $request): View
+    public function create(Request $request)
     {
-        return view('auth.reset-password', ['request' => $request]);
+        return view('frontend.auth.reset-password', ['request' => $request]);
     }
 
     /**
@@ -54,7 +62,7 @@ class NewPasswordController extends Controller
         // the application's home authenticated view. If there is an error we can
         // redirect them back to where they came from with their error message.
         return $status == Password::PASSWORD_RESET
-                    ? redirect()->route('login')->with('status', __($status))
+                    ? redirect()->route('login')->withSuccess('Mot de passe changé avec success')
                     : back()->withInput($request->only('email'))
                             ->withErrors(['email' => __($status)]);
     }

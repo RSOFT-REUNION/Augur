@@ -47,8 +47,9 @@
                     <button type="submit" class="btn btn-primary hvr-grow-shadow">
                         {{ __('Login') }}
                     </button>
-                    <a href="{{ route('register') }}" class="btn btn-warning hvr-grow-shadow">
-                        Créer un compte
+                    <br><br>
+                    <a href="{{ route('register') }}" class="btn btn-lg btn-warning hvr-grow-shadow">
+                        Créer un nouveau compte
                     </a>
                 </div>
             </form>
