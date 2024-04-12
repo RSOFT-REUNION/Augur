@@ -12,7 +12,7 @@ class FrontController extends Controller
 {
     public function __construct()
     {
-        $infos = Informations::where('id', 1)->first();
+        $infos = Informations::select('address','email','phone','fax')->where('id', 1)->first();
         $sliders = Carousel::inRandomOrder()->get();
         View::share(['infos' => $infos, 'sliders' => $sliders]);
     }
@@ -21,6 +21,20 @@ class FrontController extends Controller
         $pages = Pages::where('id', '=', '1')->first();
         return view('frontend.index', [
             'page' => $pages,
+        ]);
+    }
+    public function legalnotice()
+    {
+        $legalnotice = Informations::select('legalnotice')->where('id', '=', '1')->first();
+        return view('frontend.pages.legalnotice', [
+            'legalnotice' => $legalnotice,
+        ]);
+    }
+    public function termsofservice()
+    {
+        $termsofservice = Informations::select('termsofservice')->where('id', '=', '1')->first();
+        return view('frontend.pages.termsofservice', [
+            'termsofservice' => $termsofservice,
         ]);
     }
 

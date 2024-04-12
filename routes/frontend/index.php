@@ -10,6 +10,9 @@ $slugRegex = '[0-9a-z\-/]+';
 
 /*** Home ***/
 Route::get('/', [FrontController::class, 'index'] )->name('index');
+Route::get('/mentions-legales', [FrontController::class, 'legalnotice'] )->name('legalnotice');
+Route::get('/conditions-generales-d-utilisation', [FrontController::class, 'termsofservice'] )->name('termsofservice');
+require __DIR__ . '/auth.php';
 
 /*** Login ***/
 Route::middleware('auth')->group(function () {
@@ -18,4 +21,3 @@ Route::middleware('auth')->group(function () {
     Route::patch('/mon-compte/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/mon-compte/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-require __DIR__ . '/auth.php';

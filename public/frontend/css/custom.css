@@ -170,6 +170,7 @@ a.nav-link.active {
 }
 .btn-warning:hover{
     background-color: #f5eb69;
+    border-color: #f5eb69;
 }
 .btn-primary {
     background-color: #1b2e47;
@@ -178,6 +179,7 @@ a.nav-link.active {
 }
 .btn-primary:hover{
     background-color: #1b2e47;
+    border-color: #1b2e47;
 }
 /*** Footer ***/
 #footer {
