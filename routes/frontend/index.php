@@ -15,7 +15,7 @@ Route::get('/conditions-generales-d-utilisation', [FrontController::class, 'term
 require __DIR__ . '/auth.php';
 
 /*** Login ***/
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get('/mon-compte', [ProfileController::class, 'index'] )->name('dashboard');
     Route::get('/mon-compte/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/mon-compte/profile', [ProfileController::class, 'update'])->name('profile.update');
