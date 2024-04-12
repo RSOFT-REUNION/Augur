@@ -37,9 +37,22 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#">Contact</a>
                     </li>
-                    <li class="nav-item me-2">
-                        <a class="btn btn-primary hvr-grow-shadow" aria-current="page" href="{{ route('dashboard') }}"> <i class="fa-duotone fa-user fa-fw"></i> Mon compte</a>
+                    @if(Auth::guest())
+                        <li class="nav-item me-2">
+                            <a class="btn btn-primary hvr-grow-shadow" aria-current="page" href="{{ route('dashboard') }}"> <i class="fa-duotone fa-user fa-fw"></i> Mon compte</a>
+                        </li>
+                    @endif
+                    @if(Auth::user())
+                    <li class="nav-item dropdown me-2">
+                        <a class="btn btn-primary dropdown-toggle" aria-current="page" href="{{ route('dashboard') }}"> <i class="fa-duotone fa-user fa-fw"></i> {{ Auth::user()->name }} {{ Auth::user()->first_name }}</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Mon Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Mes adresses</a></li>
+                            <li><a class="dropdown-item" href="#">Mes commande</a></li>
+                            <li><form method="POST" action="{{ route('logout') }}"> @csrf <button class="btn btn-danger w-100 btn-logout mt-2">{{ __('Log Out') }}</button> </form></li>
+                        </ul>
                     </li>
+                    @endif
                     <li class="nav-item">
                         <a class="btn btn-warning hvr-grow-shadow" aria-current="page" href="#"> <i class="fa-duotone fa-cart-shopping"></i> Panier</a>
                     </li>

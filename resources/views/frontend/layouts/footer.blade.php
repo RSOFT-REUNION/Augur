@@ -19,8 +19,8 @@
                     <h2 class="whitecolor">Informations</h2>
                     <ul style="list-style: none;" class="p-0 m-0">
                         <li class="m-3"><a class="text-decoration-none" href="/nos-magasins">Nos magasins</a></li>
-                        <li class="m-3"><a class="text-decoration-none" href=/mentions-legales">Mentions légales</a></li>
-                        <li class="m-3"><a class="text-decoration-none" href="/conditions-generales-utilisation">Conditions générales d'utilisation</a></li>
+                        <li class="m-3"><a class="text-decoration-none" href="{{ route('legalnotice') }}">Mentions légales</a></li>
+                        <li class="m-3"><a class="text-decoration-none" href="{{ route('termsofservice') }}">Conditions générales d'utilisation</a></li>
                     </ul>
                 </div>
 

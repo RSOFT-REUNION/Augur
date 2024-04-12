@@ -1,66 +1,54 @@
-<section>
-    <header>
-        <h2 class="text-lg font-medium text-gray-900">
-            {{ __('Update Password') }}
-        </h2>
-
-        <p class="mt-1 text-sm text-gray-600">
-            {{ __('Ensure your account is using a long, random password to stay secure.') }}
-        </p>
+<section class="card p-5 hvr-shadow rounded-4">
+<header>
+        <h3>{{ __('Update Password') }}</h3>
+        <p>{{ __('Ensure your account is using a long, random password to stay secure.') }}</p>
     </header>
 
     <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('put')
 
-        <div>
-            <label for="update_password_current_password"> {{ __('Current Password') }} </label>
-            <input id="update_password_current_password" class="block mt-1 w-full" type="password" name="current_password" required  autocomplete="current-password"/>
-            @if ($errors->get('current_password'))
-                <ul class="text-sm text-red-600 space-y-1">
-                    @foreach($errors->get('update_password_current_password') as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
+        <div class="form-group mb-4">
+            <label class="form-control-label" for="update_password_current_password">{{ __('Current Password') }} : <span
+                    class="small text-danger">*</span></label>
+            <input id="update_password_current_password" type="password" name="current_password"  autocomplete="current-password"
+                   class="@error('update_password_current_password') is-invalid @enderror form-control" required>
+            @error('update_password_current_password')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
-        <div>
-            <label for="update_password_password"> {{ __('New Password') }} </label>
-            <input id="update_password_password" class="block mt-1 w-full" type="password" name="password" required  autocomplete="new-password"/>
-            @if ($errors->get('password'))
-                <ul class="text-sm text-red-600 space-y-1">
-                    @foreach($errors->get('password') as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
+        <div class="form-group mb-4">
+            <label class="form-control-label" for="update_password_password">{{ __('New Password') }} : <span
+                    class="small text-danger">*</span></label>
+            <input id="update_password_password" type="password" name="password" autocomplete="new-password"
+                   class="@error('password') is-invalid @enderror form-control" required>
+            @error('password')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
-        <div>
-            <label for="update_password_password_confirmation"> {{ __('Confirm Password') }} </label>
-            <input id="update_password_password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required  autocomplete="new-password"/>
-            @if ($errors->get('password_confirmation'))
-                <ul class="text-sm text-red-600 space-y-1">
-                    @foreach($errors->get('password_confirmation') as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            @endif
+        <div class="form-group mb-4">
+            <label class="form-control-label" for="update_password_password_confirmation">{{ __('Confirm Password') }} : <span
+                    class="small text-danger">*</span></label>
+            <input id="update_password_password_confirmation" type="password" name="password_confirmation"  autocomplete="new-password"
+                   class="@error('password_confirmation') is-invalid @enderror form-control" required>
+            @error('password_confirmation')
+            <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
         </div>
 
-        <div class="flex items-center gap-4">
-            <button class="btn btn-primary ms-4">{{ __('Save') }}</button>
-
-            @if (session('status') === 'password-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600"
-                >{{ __('Saved.') }}</p>
-            @endif
+        <div class="text-center">
+            <button class="btn btn-success hvr-grow-shadow"><i class="fa-solid fa-floppy-disk"></i> {{ __('Save') }}</button>
         </div>
     </form>
 </section>
+@if (session('status') === 'password-updated')
+    <p
+        x-data="{ show: true }"
+        x-show="show"
+        x-transition
+        x-init="setTimeout(() => show = false, 2000)"
+        class="text-sm text-gray-600"
+    ><div class="alert alert-success fade show top-message"><i class="fa-solid fa-check"></i> Votre mot de passe à été changé avec succès</div></p>
+@endif

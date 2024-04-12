@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="text-center">
-                    <button class="btn btn-primary ms-4">
+                    <button class="btn btn-primary hvr-grow-shadow">
                         {{ __('Register') }}
                     </button>
                 </div>

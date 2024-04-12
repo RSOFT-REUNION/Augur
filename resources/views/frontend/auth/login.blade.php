@@ -35,11 +35,19 @@
                     <label class="form-check-label" for="remember">{{ __('Remember me') }}</label>
                 </div>
 
+                @if (Route::has('password.request'))
+                    <div class="mb-3">
+                        <a class="text-decoration-none blackcolor" href="{{ route('password.request') }}">
+                            <i class="fa-solid fa-lock"></i> {{ __('Forgot your password?') }}
+                        </a>
+                    </div>
+                @endif
+
                 <div class="form-group text-center">
-                    <button type="submit" class="btn btn-lg btn-primary hvr-grow-shadow">
+                    <button type="submit" class="btn btn-primary hvr-grow-shadow">
                         {{ __('Login') }}
                     </button>
-                    <a href="{{ route('register') }}" class="btn btn-lg btn-warning hvr-grow-shadow">
+                    <a href="{{ route('register') }}" class="btn btn-warning hvr-grow-shadow">
                         Créer un compte
                     </a>
                 </div>

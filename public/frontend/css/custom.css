@@ -168,7 +168,7 @@ a.nav-link.active {
     background-color: #f5eb69;
     border-color: #f5eb69;
 }
-.btn-warning:hover{
+.btn-warning:hover, .btn-warning:active {
     background-color: #f5eb69;
     border-color: #f5eb69;
 }
@@ -177,9 +177,16 @@ a.nav-link.active {
     border-color: #1b2e47;
     color: #ffffff;
 }
-.btn-primary:hover{
+.btn-primary:hover, .btn-primary:active, .btn:first-child:active{
     background-color: #1b2e47;
     border-color: #1b2e47;
+}
+.btn-logout {
+    margin-bottom: -10px;
+}
+/*** Card ***/
+.card {
+    background-color: #f6f6f6;
 }
 /*** Footer ***/
 #footer {
