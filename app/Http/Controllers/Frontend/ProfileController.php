@@ -16,7 +16,7 @@ class ProfileController extends Controller
 {
     public function __construct()
     {
-        $infos = Informations::where('id', 1)->first();
+        $infos = Informations::select('address','email','phone','fax')->where('id', 1)->first();
         $sliders = Carousel::inRandomOrder()->get();
         View::share(['infos' => $infos, 'sliders' => $sliders]);
     }
