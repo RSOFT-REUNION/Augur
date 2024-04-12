@@ -1,4 +1,4 @@
-<section class="card p-5 hvr-shadow rounded-4">
+<section class="card p-3 hvr-shadow rounded-4 mb-5">
 <header>
         <h3>{{ __('Update Password') }}</h3>
         <p>{{ __('Ensure your account is using a long, random password to stay secure.') }}</p>
@@ -18,25 +18,31 @@
             @enderror
         </div>
 
-        <div class="form-group mb-4">
-            <label class="form-control-label" for="update_password_password">{{ __('New Password') }} : <span
-                    class="small text-danger">*</span></label>
-            <input id="update_password_password" type="password" name="password" autocomplete="new-password"
-                   class="@error('password') is-invalid @enderror form-control" required>
-            @error('password')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group mb-4">
+                    <label class="form-control-label" for="update_password_password">{{ __('New Password') }} : <span
+                            class="small text-danger">*</span></label>
+                    <input id="update_password_password" type="password" name="password" autocomplete="new-password"
+                           class="@error('password') is-invalid @enderror form-control" required>
+                    @error('password')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group mb-4">
+                    <label class="form-control-label" for="update_password_password_confirmation">{{ __('Confirm Password') }} : <span
+                            class="small text-danger">*</span></label>
+                    <input id="update_password_password_confirmation" type="password" name="password_confirmation"  autocomplete="new-password"
+                           class="@error('password_confirmation') is-invalid @enderror form-control" required>
+                    @error('password_confirmation')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
         </div>
 
-        <div class="form-group mb-4">
-            <label class="form-control-label" for="update_password_password_confirmation">{{ __('Confirm Password') }} : <span
-                    class="small text-danger">*</span></label>
-            <input id="update_password_password_confirmation" type="password" name="password_confirmation"  autocomplete="new-password"
-                   class="@error('password_confirmation') is-invalid @enderror form-control" required>
-            @error('password_confirmation')
-            <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
 
         <div class="text-center">
             <button class="btn btn-success hvr-grow-shadow"><i class="fa-solid fa-floppy-disk"></i> {{ __('Save') }}</button>

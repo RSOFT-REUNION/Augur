@@ -1,4 +1,4 @@
-<section class="card p-5 hvr-shadow rounded-4">
+<section class="card p-3 hvr-shadow rounded-4">
     <header>
         <h3>{{ __('Profile Information') }}</h3>
         <p>{{ __("Update your account's profile information and email address.") }}</p>

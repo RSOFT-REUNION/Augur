@@ -84,13 +84,8 @@
                 </div>
 
                 <div class="form-check form-switch mb-3 pl-5">
-                    <input type="checkbox" class="form-check-input" id="remember" name="remember"
-                           {{ old('remember') ? 'checked' : '' }} required>
-                    <label class="form-check-label" for="remember">J'accepte les <a href="{{ route('legalnotice') }}"
-                                                                                    target="_blank" class="blackcolor">Mentions
-                            légales</a> et les <a class="blackcolor" href="{{ route('termsofservice') }}"
-                                                  target="_blank">CGU</a> <span
-                            class="small text-danger">*</span></label>
+                    <input type="checkbox" class="form-check-input" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }} required>
+                    <label class="form-check-label" for="remember">J'accepte les <a href="{{ route('legalnotice') }}" target="_blank" class="blackcolor">Mentions légales</a> et les <a class="blackcolor" href="{{ route('termsofservice') }}" target="_blank">CGU</a> <span class="small text-danger">*</span></label>
                 </div>
 
                 <div class="text-center">
