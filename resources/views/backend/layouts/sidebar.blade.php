@@ -86,4 +86,21 @@
         <hr class="sidebar-divider">
     @endcanany
 
+
+    <!-- Specific -->
+    @canany(filtrerPermission('specific'))
+        <li class="nav-item {{ Nav::isResource('specifique') }}">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#specific" aria-expanded="false" aria-controls="collapseTwo">
+                <i class="fa-solid fa-fingerprint"></i> <span>Specifique</span>
+            </a>
+            <div id="specific" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" href="{{ route('backend.specific.labels.index') }}"><i class="fa-solid fa-award"></i> Labels</a>
+                    <a class="collapse-item" href=""><i class="fa-solid fa-certificate"></i> Animations</a>
+                    <a class="collapse-item" href=""><i class="fa-solid fa-fork-knife"></i> Recettes</a>
+                </div>
+            </div>
+        </li>
+    @endcanany
+
 </ul>

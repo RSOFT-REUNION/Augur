@@ -12,6 +12,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Settings\Information;
 use App\Http\Controllers\Backend\Settings\Teams\AdministratorsController;
 use App\Http\Controllers\Backend\Settings\Teams\RolesController;
+use App\Http\Controllers\Backend\Specific\LabelsController;
 use Illuminate\Support\Facades\Route;
 $idRegex = '[0-9]+';
 $slugRegex = '[0-9a-z\-/]+';
@@ -49,6 +50,15 @@ Route::prefix('admin/catalog')->name('backend.catalog.')->middleware('auth:admin
         Route::resource('brands', BrandsController::class)->except(['show']);
     });
 });
+
+/*** specific ***/
+Route::prefix('admin/specifique')->name('backend.specific.')->middleware('auth:admin')->group(function () use ($idRegex) {
+    Route::group(['middleware' => ['permission:specific.labels.create|specific.labels.update|specific.labels.delete']], function () {
+        Route::resource('labels', LabelsController::class)->except(['show']);
+    });
+});
+
+
 
 /*** settings ***/
 Route::prefix('admin/parametres')->name('backend.settings.')->middleware('auth:admin')->group(function () use ($idRegex) {
