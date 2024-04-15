@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Backend\Content;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\Content\CarouselRequest;
-use App\Http\Requests\Backend\Content\CarouseUpdatelRequest;
-use App\Models\Backend\Content\Carousel;
+use app\Models\Content\Carousel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -23,11 +21,28 @@ class CarouselController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $carrousel = new Carousel();
+        return view('backend.content.carousel.form', [
+            'slide' => $carrousel,
+        ]);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
-    public function store(CarouselRequest $request)
+    public function store(Request $request)
     {
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'name' => 'required|string|unique:content_carousel|max:255',
+            'description' => 'string|max:255|nullable',
+            'title_url' => 'string|max:255|nullable',
+            'url' => 'string|max:255|nullable',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=600',
+        ]);
         $imageName = Str::slug($validated['image']->getClientOriginalName(), '.');
         $validated['image']->storeAs('public/upload/content/carousel', $imageName);
         $validated['image'] = $imageName;
@@ -40,20 +55,37 @@ class CarouselController extends Controller
      */
     public function edit(Carousel $carrousel)
     {
-        return view('backend.content.carousel.edit', [
-            'sliders' => $carrousel,
+        return view('backend.content.carousel.form', [
+            'slide' => $carrousel,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(CarouseUpdatelRequest $request, Carousel $carrousel)
+    public function update(Request $request, Carousel $carrousel)
     {
-        $validated = $request->validated();
-        Carousel::where('id', $carrousel->id)->update($validated);
-        return back()->withSuccess('Informations modifiée avec succès');
-
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'string|max:255|nullable',
+            'title_url' => 'string|max:255|nullable',
+            'url' => 'string|max:255|nullable',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=600',
+        ]);
+        if(@$validated['image']){
+            /*** Suppresion de l'ancienne image ***/
+            $imgold = Carousel::select('image')->where('id', $carrousel->id)->first();
+            Storage::delete('public/upload/content/carousel/'.$imgold->image);
+            /*** ***/
+            $imageName = Str::slug($validated['image']->getClientOriginalName(), '.');
+            $validated['image']->storeAs('public/upload/content/carousel/', $imageName);
+            $validated['image'] = $imageName;
+            Carousel::where('id', $carrousel->id)->update($validated);
+            return back()->withSuccess('Image modifiée avec succès');
+        } else {
+            \app\Models\Content\Carousel::where('id', $carrousel->id)->update($validated);
+            return back()->withSuccess('Image modifiée avec succès');
+        }
     }
 
     /**

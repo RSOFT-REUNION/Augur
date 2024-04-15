@@ -34,7 +34,7 @@ Route::prefix('admin/contenu')->name('backend.content.')->middleware('auth:admin
         Route::resource('pages', PagesController::class)->except(['show']);
     });
     Route::group(['middleware' => ['permission:carousel.pages.create|content.carousel.update|content.carousel.delete']], function () {
-        Route::resource('carrousel', CarouselController::class)->except(['show', 'create']);
+        Route::resource('carrousel', CarouselController::class)->except(['show']);
     });
 });
 

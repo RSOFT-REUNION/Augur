@@ -35,12 +35,12 @@
                                     <td class="text-center align-middle"><img style="max-height: 50px;" src="/storage/upload/specific/labels/{{ $label->image }}" alt="{{ $label->name }}"></td>
                                     <td class="text-center align-middle">{{ $label->name }}</td>
                                     <td class="text-center align-middle">
-                                        @can('backend.specific.labels.update')
+                                        @can('specific.labels.update')
                                             <a href="{{ route('backend.specific.labels.edit', $label->id) }}"
                                                class="btn btn-success btn-sm" title="Modifier"><i
                                                     class="fa-solid fa-pen-to-square"></i></a>
                                         @endcan
-                                        @can('backend.specific.labels.delete')
+                                        @can('specific.labels.delete')
                                             <button type="button" class="btn btn-danger btn-sm"
                                                     title="Supprimer"
                                                     data-bs-toggle="modal"

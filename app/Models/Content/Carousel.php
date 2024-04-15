@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models\Backend\Content;
+namespace app\Models\Content;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Carousel extends Model
