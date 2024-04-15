@@ -188,6 +188,21 @@ a.nav-link.active {
 .card {
     background-color: #f6f6f6;
 }
+/*** Pagination ***/
+.page-link {
+    color: #1b2e47;
+}
+.page-link:hover {
+    color: #1b2e47;
+}
+.active>.page-link:hover , .page-link.active:hover  {
+    color: #FFFFFF;
+}
+.pagination {
+    --bs-pagination-active-bg : #1b2e47;
+    --bs-pagination-active-border-color: #1b2e47;
+}
+
 /*** Footer ***/
 #footer {
     background-color: #1b2e47;

@@ -12,10 +12,10 @@
             <div class="offcanvas-body">
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+                        <a class="nav-link {{ Nav::isRoute('index') }}" aria-current="page" href="{{ route('index') }}">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Nos labels</a>
+                        <a class="nav-link {{ Nav::urlDoesContain('labels') }}" aria-current="page" href="{{ route('labels.index') }}">Nos labels</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
