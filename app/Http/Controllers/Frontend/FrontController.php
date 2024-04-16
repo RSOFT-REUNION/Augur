@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\Backend\Content\Carousel;
 use App\Models\Backend\Content\Pages;
 use App\Models\Backend\Settings\Informations;
-use app\Models\Content\Carousel;
 use Illuminate\Support\Facades\View;
 
 class FrontController extends Controller

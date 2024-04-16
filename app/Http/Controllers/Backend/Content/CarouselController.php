@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Content;
 
 use App\Http\Controllers\Controller;
-use app\Models\Content\Carousel;
+use App\Models\Backend\Content\Carousel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -83,7 +83,7 @@ class CarouselController extends Controller
             Carousel::where('id', $carrousel->id)->update($validated);
             return back()->withSuccess('Image modifiée avec succès');
         } else {
-            \app\Models\Content\Carousel::where('id', $carrousel->id)->update($validated);
+            \App\Models\Backend\Content\Carousel::where('id', $carrousel->id)->update($validated);
             return back()->withSuccess('Image modifiée avec succès');
         }
     }
