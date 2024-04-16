@@ -2,6 +2,8 @@
 /***************
  * Frontend ***
  * ************/
+
+use App\Http\Controllers\Frontend\AnimationsController;
 use App\Http\Controllers\Frontend\FrontController;
 use App\Http\Controllers\Frontend\LabelsController;
 use App\Http\Controllers\Frontend\ProfileController;
@@ -20,7 +22,9 @@ Route::get('/nos-labels', [LabelsController::class, 'index'] )->name('labels.ind
 Route::get('/nos-labels/{label}-{slug}', [LabelsController::class, 'show'] )->name('labels.show')->where([
     'label' => $idRegex,
     'slug' => $slugRegex,
-]);;
+]);
+/*** Animation ***/
+Route::get('/nos-animations', [AnimationsController::class, 'index'] )->name('animations.index');
 
 /*** Login ***/
 Route::middleware('auth', 'verified')->group(function () {

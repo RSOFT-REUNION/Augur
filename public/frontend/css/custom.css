@@ -203,6 +203,32 @@ a.nav-link.active {
     --bs-pagination-active-border-color: #1b2e47;
 }
 
+/*** Animations ***/
+.card-img-overlay {
+    padding: 0;
+}
+h5.card-title{
+    margin: 0;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding-bottom: 20px;
+    padding-top: 50px;
+    color: #fff;
+    background: linear-gradient(to top, #000000, rgba(0, 0, 0, 0));
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.modal-header {
+    background-color: #1b2e47;
+    color: #fff;
+}
+button.btn-close {
+    background-color: #FFFFFF;
+    opacity: 1;
+}
+
 /*** Footer ***/
 #footer {
     background-color: #1b2e47;
