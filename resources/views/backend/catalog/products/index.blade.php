@@ -10,10 +10,10 @@
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Liste des produits</h6>
                     @can('catalog.products.create')
-                        <div class="d-flex gap-2 justify-catalog-end">
-                            <a href="{{ route('backend.catalog.products.create') }}"
-                               class="btn btn-success my-2  hvr-grow"><i class="fa-solid fa-plus"></i> Ajouter un produit</a>
+                        <div class="d-flex gap-2 justify-content-end">
+                            <a href="{{ route('backend.catalog.products.create') }}" class="btn btn-success my-2 hvr-grow"><i class="fa-solid fa-plus"></i> Ajouter un produit</a>
                         </div>
+                        @include('backend.content.carousel.create')
                     @endcan
                 </div>
 

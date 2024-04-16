@@ -5,6 +5,8 @@
 use App\Http\Controllers\Backend\Catalog\BrandsController;
 use App\Http\Controllers\Backend\Catalog\CategoryController as CategoriesController;
 use App\Http\Controllers\Backend\Catalog\ProductsController;
+use App\Http\Controllers\Backend\Catalog\ShopsController;
+use App\Http\Controllers\Backend\Catalog\StocksController;
 use App\Http\Controllers\Backend\Content\CarouselController;
 use App\Http\Controllers\Backend\Content\CategoryController;
 use App\Http\Controllers\Backend\Content\PagesController;
@@ -12,6 +14,7 @@ use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\Settings\Information;
 use App\Http\Controllers\Backend\Settings\Teams\AdministratorsController;
 use App\Http\Controllers\Backend\Settings\Teams\RolesController;
+use App\Http\Controllers\Backend\Specific\AnimationsController;
 use App\Http\Controllers\Backend\Specific\LabelsController;
 use Illuminate\Support\Facades\Route;
 $idRegex = '[0-9]+';
@@ -49,16 +52,21 @@ Route::prefix('admin/catalog')->name('backend.catalog.')->middleware('auth:admin
     Route::group(['middleware' => ['permission:catalog.brands.create|catalog.brands.update|catalog.brands.delete']], function () {
         Route::resource('brands', BrandsController::class)->except(['show']);
     });
+    Route::group(['middleware' => ['permission:catalog.stocks.create|catalog.stocks.update|catalog.stocks.delete']], function () {
+        Route::resource('stocks', StocksController::class)->except(['show']);
+    });
+    Route::group(['middleware' => ['permission:catalog.shops.create|catalog.shops.update|catalog.shops.delete']], function () {
+        Route::resource('shops', ShopsController::class)->except(['show']);
+    });
 });
 
 /*** specific ***/
 Route::prefix('admin/specifique')->name('backend.specific.')->middleware('auth:admin')->group(function () use ($idRegex) {
     Route::group(['middleware' => ['permission:specific.labels.create|specific.labels.update|specific.labels.delete']], function () {
         Route::resource('labels', LabelsController::class)->except(['show']);
+        Route::resource('animations', AnimationsController::class)->except(['show']);
     });
 });
-
-
 
 /*** settings ***/
 Route::prefix('admin/parametres')->name('backend.settings.')->middleware('auth:admin')->group(function () use ($idRegex) {

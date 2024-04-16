@@ -57,7 +57,7 @@
                             </div>
                         </div>
 
-                        <div class="d-flex gap-2 justify-catalog-center mt-3">
+                        <div class="d-flex gap-2 justify-content-center mt-3">
                             <button type='button' class="btn btn-danger" onclick="location.href='{{ route('backend.catalog.brands.index') }}'">
                                 <i class="fa-solid fa-rotate-left"></i>&nbsp;Annuler
                             </button>

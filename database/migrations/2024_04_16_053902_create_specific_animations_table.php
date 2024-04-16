@@ -11,22 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('specific_labels', function (Blueprint $table) {
+        Schema::create('specific_animations', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->string('image');
             $table->longText('description')->nullable();
+            $table->datetime('start_date')->nullable();
+            $table->datetime('end_date')->nullable();
+            $table->integer('shops_id');
             $table->timestamps();
         });
         /*** Ajout des permision **/
         $permissions = [
             [
                 'category' => 'Specifique',
-                'group_name' => 'Labels',
+                'group_name' => 'Animations',
                 'permissions' => [
-                    'specific.labels.create',
-                    'specific.labels.update',
-                    'specific.labels.delete',
+                    'specific.animations.create',
+                    'specific.animations.update',
+                    'specific.animations.delete',
                 ],
             ]
         ];
@@ -38,6 +41,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('specific_labels');
+        Schema::dropIfExists('specific_animations');
     }
 };

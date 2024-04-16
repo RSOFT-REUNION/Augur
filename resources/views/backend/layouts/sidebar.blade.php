@@ -47,14 +47,20 @@
             <div id="catalogue" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     @canany(filtrerPermission('catalog.products'))
-                        <a class="collapse-item" href="{{ route('backend.catalog.products.index') }}"><i class="fa-solid fa-memo"></i> Produits</a>
+                        <a class="collapse-item" href="{{ route('backend.catalog.products.index') }}"><i class="fa-solid fa-cubes-stacked"></i> Produits</a>
                     @endcanany
                     @canany(filtrerPermission('catalog.categories'))
-                        <a class="collapse-item" href="{{ route('backend.catalog.categories.index') }}"><i class="fa-solid fa-list"></i> Catégories</a>
+                        <a class="collapse-item" href="{{ route('backend.catalog.categories.index') }}"><i class="fa-solid fa-layer-group"></i> Catégories</a>
                     @endcanany
                     @canany(filtrerPermission('catalog.brands'))
-                    <a class="collapse-item" href="{{ route('backend.catalog.brands.index') }}"><i class="fa-solid fa-list"></i> Marques & Fournisseurs</a>
-                @endcanany
+                        <a class="collapse-item" href="{{ route('backend.catalog.brands.index') }}"><i class="fa-solid fa-crown"></i> Marques & Fournisseurs</a>
+                    @endcanany
+                    @canany(filtrerPermission('catalog.stocks'))
+                        <a class="collapse-item" href="{{ route('backend.catalog.stocks.index') }}"><i class="fa-solid fa-boxes-stacked"></i> Stocks</a>
+                    @endcanany
+                    @canany(filtrerPermission('catalog.shops'))
+                        <a class="collapse-item" href="{{ route('backend.catalog.shops.index') }}"><i class="fa-solid fa-store"></i> Magasins</a>
+                    @endcanany
                 </div>
             </div>
         </li>
@@ -96,8 +102,7 @@
             <div id="specific" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <a class="collapse-item" href="{{ route('backend.specific.labels.index') }}"><i class="fa-solid fa-award"></i> Labels</a>
-                    <a class="collapse-item" href=""><i class="fa-solid fa-certificate"></i> Animations</a>
-                    <a class="collapse-item" href=""><i class="fa-solid fa-fork-knife"></i> Recettes</a>
+                    <a class="collapse-item" href="{{ route('backend.specific.animations.index') }}"><i class="fa-solid fa-certificate"></i> Animations</a>
                 </div>
             </div>
         </li>
