@@ -40,11 +40,7 @@
                                 </form>
                             </div>
                         </div>
-
-
-
-
-                    </div>
+                    </section>
                 </div>
             @empty
                 <h4 class="text-center">Vous n'avais pas encore d'adresse</h4>
