@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Backend\Catalog;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\Catalog\BrandsRequest;
-use App\Http\Requests\Backend\Catalog\BrandsUpdateRequest;
 use App\Models\Backend\Catalog\Category;
 use App\Models\Backend\Catalog\Brands;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class BrandsController extends Controller
@@ -37,9 +36,13 @@ class BrandsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(BrandsRequest $request)
+    public function store(Request $request)
     {
-        $validatedData = $request->validated();
+        $validatedData = $request->validate([
+            'name' => 'required|min:3|max:255|string|unique:catalog_brands',
+            'slug' => 'min:3|max:255|string|unique:catalog_brands',
+            'description' => 'required|min:3|max:255|string',
+        ]);
         $validatedData['slug'] = '/'.Str::slug($validatedData['name']);
         Brands::create($validatedData);
         return redirect()->route('backend.catalog.brands.index')->withSuccess('Marque ajoutée avec succès');
@@ -59,9 +62,13 @@ class BrandsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(BrandsUpdateRequest $request, Brands $brand)
+    public function update(Request $request, Brands $brand)
     {
-        $validatedData = $request->validated();
+        $validatedData = $request->validate([
+            'name' => 'required|min:3|max:255|string',
+            'slug' => 'min:3|max:255|string',
+            'description' => 'required|min:3|max:255|string',
+        ]);
         $validatedData['slug'] = '/'.Str::slug($validatedData['name']);
         Brands::where('id', $brand->id)->update($validatedData);
         return redirect()->route('backend.catalog.brands.index')->withSuccess('Marque modifiée avec succès');

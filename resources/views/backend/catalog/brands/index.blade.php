@@ -13,7 +13,6 @@
                         <div class="d-flex gap-2 justify-content-end">
                             <a href="{{ route('backend.catalog.brands.create') }}" class="btn btn-success my-2 hvr-grow"><i class="fa-solid fa-plus"></i> Ajouter une marque</a>
                         </div>
-                        @include('backend.content.carousel.create')
                     @endcan
                 </div>
 
