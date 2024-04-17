@@ -98,6 +98,16 @@
         <hr class="sidebar-divider">
     @endcanany
 
+    <!-- Clients -->
+
+        <li class="nav-item {{ Nav::isResource('clients') }}">
+            <a class="nav-link" href="{{ route('backend.clients.index') }}" aria-expanded="false">
+                <i class="fa-solid fa-user"></i><span> Clients </span>
+            </a>
+        </li>
+        <hr class="sidebar-divider">
+
+
 
 
     <!-- Settings -->

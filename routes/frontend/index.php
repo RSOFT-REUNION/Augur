@@ -7,6 +7,7 @@ use App\Http\Controllers\Frontend\AnimationsController;
 use App\Http\Controllers\Frontend\FrontController;
 use App\Http\Controllers\Frontend\LabelsController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Http\Controllers\Frontend\Users\AddressesController;
 use Illuminate\Support\Facades\Route;
 $idRegex = '[0-9]+';
 $slugRegex = '[0-9a-z\-/]+';
@@ -32,4 +33,5 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/mon-compte/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/mon-compte/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/mon-compte/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('/mon-compte/adresse', AddressesController::class)->except(['show']);
 });
