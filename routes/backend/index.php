@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\Catalog\CategoryController as CategoriesControl
 use App\Http\Controllers\Backend\Catalog\ProductsController;
 use App\Http\Controllers\Backend\Catalog\ShopsController;
 use App\Http\Controllers\Backend\Catalog\StocksController;
+use App\Http\Controllers\Backend\Orders\OrdersController;
 use App\Http\Controllers\Backend\Content\CarouselController;
 use App\Http\Controllers\Backend\Content\CategoryController;
 use App\Http\Controllers\Backend\Content\PagesController;
