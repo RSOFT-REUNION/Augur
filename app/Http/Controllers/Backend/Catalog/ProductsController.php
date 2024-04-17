@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Backend\Catalog;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\Catalog\ProductsRequest;
-use App\Http\Requests\Backend\Catalog\ProductsUpdateRequest;
+use Illuminate\Http\Request;
 use App\Models\Backend\Catalog\Category;
 use App\Models\Backend\Catalog\Products;
 use Illuminate\Support\Facades\Storage;
@@ -37,9 +36,25 @@ class ProductsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ProductsRequest $request)
+    public function store(Request $request)
     {
-        $validatedData = $request->validated();
+        $validatedData = $request->validate([
+            'title' => 'required|min:3|max:255|string|unique:catalog_products',
+            'slug' => 'min:3|max:255|string',
+            'category_id' => 'nullable',
+            'price' => 'nullable',
+            'size' => 'nullable',
+            'description' => 'required|min:3|max:255|string',
+            'image' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imageName = Str::slug($validatedData['image']->getClientOriginalName(), '.');
+            $validatedData['image']->storeAs('public/upload/catalog/products', $imageName);
+            $validatedData['image'] = $imageName;
+        }
+
+
         if($validatedData['category_id']) {
             $slugCategory = Category::where('id', '=', $validatedData['category_id'])->pluck('slug')->first();
             $validatedData['slug'] = $slugCategory.'/'.Str::slug($validatedData['title']);
@@ -65,15 +80,33 @@ class ProductsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ProductsUpdateRequest $request, Products $product)
+    public function update(Request $request, Products $product)
     {
-        $validatedData = $request->validated();
-        if($validatedData['category_id']) {
-            $slugCategory = Category::where('id', '=', $validatedData['category_id'])->pluck('slug')->first();
-            $validatedData['slug'] = $slugCategory.'/'.Str::slug($validatedData['title']);
+        $validatedData = $request->validate([
+            'title' => 'required|min:3|max:255|string',
+            'slug' => 'min:3|max:255|string',
+            'category_id' => 'nullable',
+            'price' => 'nullable',
+            'size' => 'nullable',
+            'description' => 'required|min:3|max:255|string',
+            'image' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        if (@$validatedData['image']) {
+            /*** Suppresion de l'ancienne image ***/
+            $old = Products::select('image')->where('id', $product->id)->first();
+            Storage::delete('public/upload/catalog/products/' . $old->image);
+            /*** ***/
+            $imageName = Str::slug($validatedData['image']->getClientOriginalName(), '.');
+            $validatedData['image']->storeAs('public/upload/catalog/products/', $imageName);
+            $validatedData['image'] = $imageName;
+            Products::where('id', $product->id)->update($validatedData);
+            return back()->withSuccess('Produit modifié avec succès');
         } else {
-            $validatedData['slug'] = '/'.Str::slug($validatedData['title']);
+            Products::where('id', $product->id)->update($validatedData);
+            return back()->withSuccess('Produit modifié avec succès');
         }
+
         $validatedData['user_id_update'] = auth()->id();
         Products::where('id', $product->id)->update($validatedData);
         return redirect()->route('backend.catalog.products.index')->withSuccess('Produit modifié avec succès');
@@ -84,6 +117,7 @@ class ProductsController extends Controller
      */
     public function destroy(Products $product)
     {
+            Storage::delete('public/upload/catalog/products/' . $product->image);
             $product->delete();
             return back()->withSuccess('Produit supprimé avec succès');
     }

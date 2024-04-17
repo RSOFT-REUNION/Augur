@@ -13,7 +13,6 @@
                         <div class="d-flex gap-2 justify-content-end">
                             <a href="{{ route('backend.catalog.products.create') }}" class="btn btn-success my-2 hvr-grow"><i class="fa-solid fa-plus"></i> Ajouter un produit</a>
                         </div>
-                        @include('backend.content.carousel.create')
                     @endcan
                 </div>
 
@@ -23,12 +22,11 @@
                             <thead>
                             <tr>
                                 <th scope="col" class="text-center" style="width: 5%;">#</th>
+                                <th scope="col" class="text-center">Image</th>
                                 <th scope="col" class="text-center">Titre</th>
-                                <th scope="col" class="text-center">Url</th>
                                 <th scope="col" class="text-center">Catégorie</th>
-                                <th scope="col" class="text-center">Description</th>
                                 <th scope="col" class="text-center">Prix</th>
-                                <th scope="col" class="text-center">Taille</th>
+                                <th scope="col" class="text-center">Poids</th>
                                 <th scope="col" class="text-center" style="width: 15%;"><i
                                         class="fa-duotone fa-arrows-minimize"></i></th>
                             </tr>
@@ -37,12 +35,11 @@
                             @foreach ($products as $product)
                                 <tr>
                                     <td class="text-center">{{ $product->id }}</td>
-                                    <td>{{ $product->title }}</td>
-                                    <td>{{ $product->slug }}</td>
-                                    <td>{{ $product->getCategoryName($product->category_id) }}</td>
-                                    <td>{{ $product->description }}</td>
-                                    <td>{{ $product->price }}</td>
-                                    <td>{{ $product->size }}</td>
+                                    <td class="text-center"><img style="max-height: 50px;" src="/storage/upload/catalog/products/{{ $product->image }}" alt="{{ $product->title }}"></td>
+                                    <td class="text-center">{{ $product->title }} <br> <span class="fw-lighter fst-italic">url: {{ $product->slug }}</span> </td>
+                                    <td class="text-center">{{ $product->getCategoryName($product->category_id) }}</td>
+                                    <td class="text-center">{{ $product->price }}</td>
+                                    <td class="text-center">{{ $product->size }}</td>
                                     <td class="text-center">
                                         @can('catalog.products.update')
                                             <a href="{{ route('backend.catalog.products.edit', $product->id) }}"

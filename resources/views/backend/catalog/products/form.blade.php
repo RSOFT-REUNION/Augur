@@ -18,9 +18,16 @@
 
                 <div class="card-body">
 
-                    <form action="{{ route($products->exists ? 'backend.catalog.products.update' : 'backend.catalog.products.store', $products) }}" method="post"  class="mt-6 space-y-6">
+                    <form action="{{ route($products->exists ? 'backend.catalog.products.update' : 'backend.catalog.products.store', $products) }}" method="post"  class="mt-6 space-y-6" enctype="multipart/form-data">
                         @csrf
                         @method($products->exists ? 'put' : 'post')
+
+                        @if ($products->exists)
+                            <div class="text-center mb-3">
+                                <img style="max-height: 150px;" src="/storage/upload/catalog/products/{{ $products->image }}"
+                                    alt="{{ $products->title }}">
+                            </div>
+                        @endif
 
                         <div class="m-0w">
                             <label for="category_id" class="form-label">Catégorie</label>
@@ -62,7 +69,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label class="form-control-label" for="price">Prix</label>
                                     <input id="price" type="text" name="price"
@@ -73,7 +80,7 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-2">
                                 <div class="form-group">
                                     <label class="form-control-label" for="size">Taille</label>
                                     <input id="size" type="text" name="size"
@@ -81,6 +88,23 @@
                                            value="{{ $products->size }}">
                                     @error('size')
                                     <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="col-8">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="image">
+                                        @if ($products->exists)
+                                            Changer l'image :
+                                        @else
+                                            Image :
+                                        @endif
+                                    </label>
+                                    <input type="file" name="image" id="image"
+                                        class="@error('image') is-invalid @enderror form-control"
+                                        value="{{ old('image') }}"></input>
+                                    @error('image')
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
