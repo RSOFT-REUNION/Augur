@@ -11,7 +11,7 @@
                     <h6 class="m-0 font-weight-bold text-primary">Liste des images du carrousel</h6>
                     @can('content.carousel.create')
                         <div class="d-flex gap-2 justify-content-end">
-                            <a href="{{ route('backend.content.carrousel.create') }}" class="btn btn-success my-2 hvr-grow"><i class="fa-solid fa-plus"></i> Ajouter une images</a>
+                            <a href="{{ route('backend.content.carrousel.create') }}" class="btn btn-success my-2 hvr-grow"><i class="fa-solid fa-plus"></i> Ajouter une image</a>
                         </div>
                     @endcan
                 </div>
