@@ -26,7 +26,7 @@
                                 <th scope="col" class="text-center">Titre</th>
                                 <th scope="col" class="text-center">Adresse</th>
                                 <th scope="col" class="text-center">Horaires</th>
-                                <th scope="col" class="text-center">Disponible</th>
+                                <th scope="col" class="text-center">Visibilité</th>
                                 <th scope="col" class="text-center" style="width: 15%;"><i
                                         class="fa-duotone fa-arrows-minimize"></i></th>
                             </tr>
@@ -38,7 +38,7 @@
                                     <td>{{ $shop->title }}</td>
                                     <td>{{ $shop->getShopAddress(1) }}</td>
                                     <td>{{ $shop->schedules }}</td>
-                                    <td>{{ $shop->available }}</td>
+                                    <td>{{ $shop->visibility }}</td>
                                     <td class="text-center">
                                         @can('catalog.shops.update')
                                             <a href="{{ route('backend.catalog.shops.edit', $shop->id) }}"

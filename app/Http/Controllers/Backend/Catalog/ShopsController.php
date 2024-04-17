@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Backend\Catalog;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\Catalog\ShopsRequest;
-use App\Http\Requests\Backend\Catalog\ShopsUpdateRequest;
+use Illuminate\Http\Request;
 use App\Models\Backend\Catalog\Shop;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +16,7 @@ class ShopsController extends Controller
     public function index()
     {
         return view('backend.catalog.shops.index', [
-            'shops' => Shop::orderBy('id','DESC')->get()
+            'shops' => Shop::orderBy('id', 'DESC')->get()
         ]);
     }
 
@@ -35,12 +34,23 @@ class ShopsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ShopsRequest $request)
+    public function store(Request $request)
     {
-        $validated = $request->validated();
-        $imageName = Str::slug($validated['image']->getClientOriginalName(), '.');
-        $validated['image']->storeAs('public/upload/catalog/shops', $imageName);
-        $validated['image'] = $imageName;
+        $validated = $request->validate([
+            'title' => 'required|min:3|max:255|string',
+            'adress' => 'string|nullable',
+            'postal_code' => 'string|nullable',
+            'city' => 'string|nullable',
+            'description' => 'required|min:3|max:255|string',
+            'schedules' => 'string|nullable',
+            'visibility' => 'required|string',
+            'image' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        if ($request->hasFile('image')) {
+            $imageName = Str::slug($validated['image']->getClientOriginalName(), '.');
+            $validated['image']->storeAs('public/upload/catalog/shops', $imageName);
+            $validated['image'] = $imageName;
+        }
         Shop::create($validated);
         return redirect()->route('backend.catalog.shops.index')->withSuccess('Magasin ajouté avec succès');
     }
@@ -58,11 +68,34 @@ class ShopsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ShopsUpdateRequest $request, Shop $shop)
+    public function update(Request $request, Shop $shop)
     {
-        $validatedData = $request->validated();
-        Shop::where('id', $shop->id)->update($validatedData);
-        return redirect()->route('backend.catalog.shops.index')->withSuccess('Magasin modifié avec succès');
+        $validated = $request->validate([
+            'title' => 'required|min:3|max:255|string',
+            'adress' => 'string|nullable',
+            'postal_code' => 'string|nullable',
+            'city' => 'string|nullable',
+            'description' => 'required|min:3|max:255|string',
+            'schedules' => 'string|nullable',
+            'visibility' => 'required|string',
+            'image' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+
+        if (@$validated['image']) {
+            /*** Suppresion de l'ancienne image ***/
+            $old = Shop::select('image')->where('id', $shop->id)->first();
+            Storage::delete('public/upload/catalog/shops/' . $old->image);
+            /*** ***/
+            $imageName = Str::slug($validated['image']->getClientOriginalName(), '.');
+            $validated['image']->storeAs('public/upload/catalog/shops/', $imageName);
+            $validated['image'] = $imageName;
+            Shop::where('id', $shop->id)->update($validated);
+            return back()->withSuccess('Magasin modifié avec succès');
+        } else {
+            Shop::where('id', $shop->id)->update($validated);
+            return back()->withSuccess('Magasin modifié avec succès');
+        }
     }
 
     /**
@@ -70,7 +103,7 @@ class ShopsController extends Controller
      */
     public function destroy(Shop $shop)
     {
-        Storage::delete('public/upload/catalog/shops/'.$shop->image);
+        Storage::delete('public/upload/catalog/shops/' . $shop->image);
         $shop->delete();
         return back()->withSuccess('Magasin supprimé avec succès');
     }

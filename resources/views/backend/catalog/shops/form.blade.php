@@ -18,12 +18,19 @@
 
                 <div class="card-body">
 
-                    <form action="{{ route($shops->exists ? 'backend.catalog.shops.update' : 'backend.catalog.shops.store', $shops) }}" method="post"  class="mt-6 space-y-6">
+                    <form action="{{ route($shops->exists ? 'backend.catalog.shops.update' : 'backend.catalog.shops.store', $shops) }}" method="post"  class="mt-6 space-y-6" enctype="multipart/form-data">
                         @csrf
                         @method($shops->exists ? 'put' : 'post')
 
+                        @if ($shops->exists)
+                            <div class="text-center mb-3">
+                                <img style="max-height: 150px;" src="/storage/upload/catalog/shops/{{ $shops->image }}"
+                                    alt="{{ $shops->title }}">
+                            </div>
+                        @endif
+
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-6">
                                 <div class="form-group">
                                     <label class="form-control-label" for="title">Nom du magasin <span class="small text-danger">*</span></label>
                                     <input id="title" type="text" name="title"
@@ -34,14 +41,20 @@
                                     @enderror
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-6">
                                 <div class="form-group">
-                                    <label class="form-control-label" for="slug">Slug</label>
-                                    <input id="slug" type="text" name="slug" disabled
-                                           class="@error('slug') is-invalid @enderror form-control"
-                                           value="{{ $shops->slug }}">
-                                    @error('slug')
-                                    <div class="invalid-feedback">{{ $message }}</div>
+                                    <label class="form-control-label" for="image">
+                                        @if ($shops->exists)
+                                            Changer l'image :
+                                        @else
+                                            Image :
+                                        @endif
+                                    </label>
+                                    <input type="file" name="image" id="image"
+                                        class="@error('image') is-invalid @enderror form-control"
+                                        value="{{ old('image') }}"></input>
+                                    @error('image')
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -96,8 +109,8 @@
 
                         <div class="m-0w">
                             <div class="form-group">
-                                <label class="form-control-label" for="schedules">Horaires <span class="small text-danger">*</span></label>
-                                <textarea name="schedules" id="schedules" class="@error('schedules') is-invalid @enderror form-control" required>{{ old('schedules', $shops->schedules) }}</textarea>
+                                <label class="form-control-label" for="schedules">Horaires </label>
+                                <textarea name="schedules" id="schedules" class="@error('schedules') is-invalid @enderror form-control">{{ old('schedules', $shops->schedules) }}</textarea>
                                 @error('schedules')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
@@ -106,24 +119,14 @@
 
                         <div class="m-0w">
                             <div class="form-group">
-                                <label class="form-control-label" for="available">Disponible <span class="small text-danger">*</span></label>
-                                <textarea name="available" id="available" class="@error('available') is-invalid @enderror form-control" required>{{ old('available', $shops->schedules) }}</textarea>
-                                @error('available')
+                                <label class="form-control-label" for="visibility">Visibilité <span class="small text-danger">*</span></label>
+                                <select name="visibility" id="visibility" class="@error('visibility') is-invalid @enderror form-control" required>
+                                    <option value="privé" {{ old('visibility', $shops->visibility) == 'privé' ? 'selected' : '' }}>Privé</option>
+                                    <option value="public" {{ old('visibility', $shops->visibility) == 'public' ? 'selected' : '' }}>Public</option>
+                                </select>
+                                @error('visibility')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div>
-                        </div>
-
-                        <div class="m-0w">
-                            <div class="form-group">
-                                <label class="form-control-label" for="image">Image :</label>
-                                <input type="file" name="image" id="image" class="@error('image') is-invalid @enderror form-control" value="{{ old('image' ) }}"></input>
-                                @error('image')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            <div class="alert-warning fade show p-3">
-                                <i class="fa-solid fa-circle-info"></i> Vous devez fournir une image png. ou jpeg.
                             </div>
                         </div>
 
