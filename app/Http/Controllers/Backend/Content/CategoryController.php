@@ -83,7 +83,7 @@ class CategoryController extends Controller
             $request['slug'] = '/' . Str::slug($request['name']);
         }
         $category->update($request);
-        return redirect()->route('backend.catalog.categories.index')->withSuccess('Catégorie modifiée avec succès');
+        return redirect()->route('backend.content.categories.index')->withSuccess('Catégorie modifiée avec succès');
     }
 
     /**

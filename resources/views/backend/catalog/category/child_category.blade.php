@@ -21,5 +21,5 @@
 </tr>
 @foreach ($child_category->categories as $childCategory)
     @include('backend.catalog.category.child_category', ['child_category' => $childCategory])
-    @include('backend.layouts.modal-delete', ['id' => $childCategory->id, 'title' => 'Etes-vous sûr de vouloir supprimer '.$childCategory->name.' et toutes les sous-catégories ?', 'route' => 'backend.content.categories.destroy'])
+    @include('backend.layouts.modal-delete', ['id' => $childCategory->id, 'title' => 'Etes-vous sûr de vouloir supprimer '.$childCategory->name.' et toutes les sous-catégories ?', 'route' => 'backend.catalog.categories.destroy'])
 @endforeach

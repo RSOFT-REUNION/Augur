@@ -1,5 +1,5 @@
 @extends('backend.layouts.layout')
-@section('title', __('Gestion des catégories') )
+@section('title', __('Gestion des catégories de produit') )
 
 @section('main-content')
 
