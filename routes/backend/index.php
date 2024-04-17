@@ -7,6 +7,7 @@ use App\Http\Controllers\Backend\Catalog\CategoryController as CategoriesControl
 use App\Http\Controllers\Backend\Catalog\ProductsController;
 use App\Http\Controllers\Backend\Catalog\ShopsController;
 use App\Http\Controllers\Backend\Catalog\StocksController;
+use App\Http\Controllers\Backend\Clients\ClientsController;
 use App\Http\Controllers\Backend\Content\CarouselController;
 use App\Http\Controllers\Backend\Content\CategoryController;
 use App\Http\Controllers\Backend\Content\PagesController;
@@ -57,6 +58,14 @@ Route::prefix('admin/catalog')->name('backend.catalog.')->middleware('auth:admin
     });
     Route::group(['middleware' => ['permission:catalog.shops.create|catalog.shops.update|catalog.shops.delete']], function () {
         Route::resource('shops', ShopsController::class)->except(['show']);
+    });
+});
+/*** Clients ***/
+Route::prefix('admin/clients')->name('backend.clients.')->middleware('auth:admin')->group(function () use ($idRegex, $slugRegex) {
+    Route::group(['middleware' => ['permission:clients.create|clients.update|clients.delete']], function () {
+        Route::get('', [ClientsController::class, 'index'])->name('index');
+        Route::delete('{client}', [ClientsController::class, 'destroy'])->name('destroy');
+        Route::get('/adresses/{client}', [ClientsController::class, 'addresses'])->name('adresse');
     });
 });
 

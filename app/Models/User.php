@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -48,5 +47,22 @@ class User extends Authenticatable implements MustVerifyEmail
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function checkNewsletter($newsletter)
+    {
+        if($newsletter == 0) {
+            echo '<span style="color: red;"><i class="fa-solid fa-rectangle-xmark fa-2x"></i></span>';
+        } else {
+            echo '<span style="color: green;"><i class="fa-solid fa-square-check fa-2x"></i></span>';
+        }
+    }
+    public function checkEmailVerified($emailverified)
+    {
+        if($emailverified == Null) {
+            echo '<span style="color: red;"><i class="fa-solid fa-rectangle-xmark fa-2x"></i></span>';
+        } else {
+            echo '<span style="color: green;"><i class="fa-solid fa-square-check fa-2x"></i></span>';
+        }
     }
 }
