@@ -41,6 +41,13 @@ Route::prefix('admin/contenu')->name('backend.content.')->middleware('auth:admin
     });
 });
 
+/*** Orders ***/
+Route::prefix('admin/commandes')->name('backend.orders.')->middleware('auth:admin')->group(function () use ($idRegex, $slugRegex) {
+    Route::group(['middleware' => ['permission:orders.orders.create|orders.orders.update|orders.orders.delete']], function () {
+        Route::resource('orders', OrdersController::class)->except(['show']);
+    });
+});
+
 /*** Catalog ***/
 Route::prefix('admin/catalog')->name('backend.catalog.')->middleware('auth:admin')->group(function () use ($idRegex, $slugRegex) {
     Route::group(['middleware' => ['permission:catalog.categories.create|catalog.categories.update|catalog.categories.delete']], function () {
@@ -60,7 +67,7 @@ Route::prefix('admin/catalog')->name('backend.catalog.')->middleware('auth:admin
     });
 });
 
-/*** specific ***/
+/*** Specific ***/
 Route::prefix('admin/specifique')->name('backend.specific.')->middleware('auth:admin')->group(function () use ($idRegex) {
     Route::group(['middleware' => ['permission:specific.labels.create|specific.labels.update|specific.labels.delete']], function () {
         Route::resource('labels', LabelsController::class)->except(['show']);
@@ -68,7 +75,7 @@ Route::prefix('admin/specifique')->name('backend.specific.')->middleware('auth:a
     });
 });
 
-/*** settings ***/
+/*** Settings ***/
 Route::prefix('admin/parametres')->name('backend.settings.')->middleware('auth:admin')->group(function () use ($idRegex) {
     Route::prefix('/equipes')->name('teams.')->group(function () use ($idRegex) {
         Route::group(['middleware' => ['permission:settings.teams.roles.create|settings.teams.roles.update|settings.teams.roles.delete|permission:settings.teams.administrators.create|settings.teams.administrators.update|settings.teams.administrators.delete|settings.teams.administrators.changepassword']], function () {
