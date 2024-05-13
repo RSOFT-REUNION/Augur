@@ -1,11 +1,4 @@
 /*--------------------------------------------------------------
-# Preloader
---------------------------------------------------------------*/
-#preloader {
-    background: #333fd6;
-}
-
-/*--------------------------------------------------------------
 # Message Flash
 --------------------------------------------------------------*/
 .top-message {
@@ -184,10 +177,11 @@ a.nav-link.active {
 .btn-logout {
     margin-bottom: -10px;
 }
-/*** Card ***/
-.card {
-    background-color: #f6f6f6;
+/*** datpayment ***/
+.datpayment-form {
+    width:500px;
 }
+
 /*** Pagination ***/
 .page-link {
     color: #1b2e47;

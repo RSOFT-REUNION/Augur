@@ -54,7 +54,9 @@
                     </li>
                     @endif
                     <li class="nav-item">
-                        <a class="btn btn-warning hvr-grow-shadow" aria-current="page" href="#"> <i class="fa-duotone fa-cart-shopping"></i> Panier</a>
+                        <a class="btn btn-warning hvr-grow-shadow" aria-current="page" href="{{ route('cart.index') }}"> <i class="fa-duotone fa-cart-shopping"></i> Mon Panier
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><span id="nb_produit">{{ \App\Http\Controllers\Frontend\ShoppingCart\CartController::count_product() }}</span> <span class="visually-hidden">Nombres de produits dans le panier</span></span>
+                        </a>
                     </li>
                 </ul>
             </div>

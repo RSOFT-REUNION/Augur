@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->string('category_id')->nullable();
             // généré par la migration catalog_brands: $table->foreignId('brand_id')->nullable();
             $table->string('fav_image')->nullable();
-            $table->string('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('composition')->nullable();
             $table->string('tags')->nullable();
             $table->string('weight_unit')->default('Kilogramme'); // Kilogramme ou Litre

@@ -45,7 +45,7 @@ class ProductController extends Controller
             'slug' => 'max:255|nullable',
             'category_id' => 'nullable',
             'brands' => 'nullable',
-            'description' => 'max:400|string|nullable',
+            'description' => 'string|nullable',
             'tags' => 'nullable',
             'images' => 'array',
             'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -91,7 +91,7 @@ class ProductController extends Controller
             //'category_id' => 'nullable',
             'price' => 'integer|nullable',
             'size' => 'nullable',
-            'description' => 'max:255|string|nullable',
+            'description' => 'string|nullable',
             'active' => '',
         ]);
      /*   if($validatedData['category_id']) {

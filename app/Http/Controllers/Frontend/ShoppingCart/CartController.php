@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\ShoppingCart;
 
-use App\Http\Controllers\FrontendBaseController;
+use App\Http\Controllers\Frontend\FrontendBaseController;
 use App\Models\Carts\Carts;
 use App\Models\Carts\CartsProducts;
 use App\Models\Catalog\Product;

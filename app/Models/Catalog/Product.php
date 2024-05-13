@@ -32,11 +32,6 @@ class Product extends Model
         return $this->hasMany(ProductsImages::class);
     }
 
-/*    public function tags(): HasMany
-    {
-        return $this->hasMany(Tag::class);
-    }*/
-
     public function getCategoryName($category_id) {
 
         if(empty(Category::where('id', '=', $category_id)->pluck('name')->first())){

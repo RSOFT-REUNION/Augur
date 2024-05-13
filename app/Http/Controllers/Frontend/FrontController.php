@@ -32,6 +32,17 @@ class FrontController extends FrontendBaseController
         ]);
     }
 
+    /*** Gestion des produits ***/
+    public function product(string $slug, Product $product)
+    {
+        $product = $product->where('id', $product->id)->first();
+        if($product) {
+            return view('frontend.product.show', [
+                'produit' => $product,
+            ]);
+        }
+    }
+
     /*** Gestion des pages ***/
     public function pages(string $slug, Pages $pages)
     {
