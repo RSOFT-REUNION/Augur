@@ -31,7 +31,7 @@
                         </button>
                     </form>
                 @else
-                    <button type="button" class="btn btn-secondary" disabled>En rupture de stock</button>
+                    <button type="button" class="btn btn-danger" disabled>En rupture de stock</button>
                 @endif
             </div>
 
