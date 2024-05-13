@@ -40,7 +40,7 @@
         {{ $user_address->phone }}
         {{ $user_address->other_phone }}</p>
 
-<h5>Livraison : {{ $deliver["name"] }} - @if($deliver->price_ttc == 0) Gratuit @else {{ $deliver->price_ttc }} €@endif</h5>
+<h5>Livraison : {{ $deliver["name"] }} - @if($deliver->price_ttc == 0) Gratuit @else {{ formatPriceToFloat($deliver->price_ttc) }} €@endif</h5>
 
 <h5 id="sous-total" class="text-end p-3">Sous-total ({{ $cart->countProduct() }} article) : {{ formatPriceToFloat($cart->total_ttc) }} €</h5>
 <p class="text-end" style="margin-top: -20px;">Le total de la commande inclut la TVA.</p>

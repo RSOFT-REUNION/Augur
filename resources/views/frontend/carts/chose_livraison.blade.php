@@ -15,7 +15,7 @@
                                             <img class="img-fluid" src="/storage/upload/order/delivery/{{ $deliver->image }}" alt="{{ $deliver->name }}">
                                         </p>
                                         <h3>{{ $deliver->name }}</h3>
-                                        <p>Frais de livraison : @if($deliver->price_ttc == 0) <strong>Gratuit</strong> @else {{ $deliver->price_ttc }} €@endif</p>
+                                        <p>Frais de livraison : @if($deliver->price_ttc == 0) <strong>Gratuit</strong> @else {{ formatPriceToFloat($deliver->price_ttc) }} €@endif</p>
                                     </div>
                                 </button>
                             </form>
