@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\Backend\Catalog;
 
 use App\Http\Controllers\Controller;
-use App\Models\Backend\Catalog\Category;
-use App\Models\Backend\Catalog\Brands;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
+use App\Models\Catalog\Category;
+use App\Models\Catalog\Brand;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class BrandsController extends Controller
 {
@@ -17,7 +16,7 @@ class BrandsController extends Controller
     public function index()
     {
         return view('backend.catalog.brands.index', [
-            'brands' => Brands::orderBy('id','DESC')->get()
+            'brands' => Brand::orderBy('id','DESC')->get()
         ]);
     }
 
@@ -26,7 +25,7 @@ class BrandsController extends Controller
      */
     public function create()
     {
-        $brands = new Brands();
+        $brands = new Brand();
         return view('backend.catalog.brands.form', [
             'brands' => $brands,
             'categories_list' => Category::all()
@@ -40,18 +39,17 @@ class BrandsController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|min:3|max:255|string|unique:catalog_brands',
-            'slug' => 'min:3|max:255|string|unique:catalog_brands',
-            'description' => 'required|min:3|max:255|string',
+            'description' => 'max:255',
         ]);
         $validatedData['slug'] = '/'.Str::slug($validatedData['name']);
-        Brands::create($validatedData);
+        Brand::create($validatedData);
         return redirect()->route('backend.catalog.brands.index')->withSuccess('Marque ajoutée avec succès');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Brands $brand)
+    public function edit(Brand $brand)
     {
         return view('backend.catalog.brands.form', [
             'brands' => $brand,
@@ -62,22 +60,21 @@ class BrandsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Brands $brand)
+    public function update(Request $request, Brand $brand)
     {
         $validatedData = $request->validate([
             'name' => 'required|min:3|max:255|string',
-            'slug' => 'min:3|max:255|string',
-            'description' => 'required|min:3|max:255|string',
+            'description' => 'max:255',
         ]);
         $validatedData['slug'] = '/'.Str::slug($validatedData['name']);
-        Brands::where('id', $brand->id)->update($validatedData);
+        Brand::where('id', $brand->id)->update($validatedData);
         return redirect()->route('backend.catalog.brands.index')->withSuccess('Marque modifiée avec succès');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Brands $brand)
+    public function destroy(Brand $brand)
     {
             $brand->delete();
             return back()->withSuccess('Marque supprimée avec succès');

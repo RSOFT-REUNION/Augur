@@ -1,22 +1,22 @@
 <?php
-/***************
- * Frontend ***
- * ************/
 
 use App\Http\Controllers\Frontend\AnimationsController;
 use App\Http\Controllers\Frontend\FrontController;
 use App\Http\Controllers\Frontend\LabelsController;
-use App\Http\Controllers\Frontend\ProfileController;
-use App\Http\Controllers\Frontend\Users\AddressesController;
 use Illuminate\Support\Facades\Route;
 $idRegex = '[0-9]+';
 $slugRegex = '[0-9a-z\-/]+';
 
+require __DIR__ . '/auth.php';
+require __DIR__ . '/shopping_cart.php';
+
 /*** Home ***/
 Route::get('/', [FrontController::class, 'index'] )->name('index');
-Route::get('/mentions-legales', [FrontController::class, 'legalnotice'] )->name('legalnotice');
-Route::get('/conditions-generales-d-utilisation', [FrontController::class, 'termsofservice'] )->name('termsofservice');
-require __DIR__ . '/auth.php';
+if (Route::current() != '/admin') {
+    Route::get('/mentions-legales', [FrontController::class, 'legalnotice'])->name('legalnotice');
+    Route::get('/conditions-generales-d-utilisation', [FrontController::class, 'termsofservice'])->name('termsofservice');
+    Route::get('{slug}', [FrontController::class, 'pages'])->name('pages')->where(['slug' => $slugRegex]);
+}
 
 /*** Label ***/
 Route::get('/nos-labels', [LabelsController::class, 'index'] )->name('labels.index');
@@ -26,12 +26,3 @@ Route::get('/nos-labels/{label}-{slug}', [LabelsController::class, 'show'] )->na
 ]);
 /*** Animation ***/
 Route::get('/nos-animations', [AnimationsController::class, 'index'] )->name('animations.index');
-
-/*** Login ***/
-Route::middleware('auth', 'verified')->group(function () {
-    Route::get('/mon-compte', [ProfileController::class, 'index'] )->name('dashboard');
-    Route::get('/mon-compte/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/mon-compte/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/mon-compte/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::resource('/mon-compte/adresse', AddressesController::class)->except(['show']);
-});

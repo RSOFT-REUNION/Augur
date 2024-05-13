@@ -57,6 +57,7 @@
                                     @enderror
                                 </div> --}}
                             </div>
+
                             <div class="col-3">
                                 <div class="form-group">
                                     <label class="form-control-label" for="total">Total (€) <span class="small text-danger">*</span></label>
@@ -102,15 +103,10 @@
                         <div class="m-0w">
                             <div class="form-group">
                                 <label class="form-control-label" for="status">Statut <span class="small text-danger">*</span></label>
-                                <select name="status" id="status" class="@error('status') is-invalid @enderror form-control" required>
-                                    <option value="en attente de paiement" {{ old('status', $orders->status) == 'en attente de paiement' ? 'selected' : '' }}>en attente de paiement</option>
-                                    <option value="paiement accepté" {{ old('status', $orders->status) == 'paiement accepté' ? 'selected' : '' }}>paiement accepté</option>
-                                    <option value="en cours de préparation" {{ old('status', $orders->status) == 'en cours de préparation' ? 'selected' : '' }}>en cours de préparation</option>
-                                    <option value="prêt pour livraison" {{ old('status', $orders->status) == 'prêt pour livraison' ? 'selected' : '' }}>prêt pour livraison</option>
-                                    <option value="en cours de livraison" {{ old('status', $orders->status) == 'en cours de livraison' ? 'selected' : '' }}>en cours de livraison</option>
-                                    <option value="annulé" {{ old('status', $orders->status) == 'annulé' ? 'selected' : '' }}>annulé</option>
-                                    <option value="livré" {{ old('status', $orders->status) == 'livré' ? 'selected' : '' }}>livré</option>
-                                    <option value="remboursé" {{ old('status', $orders->status) == 'remboursé' ? 'selected' : '' }}>remboursé</option>
+                                <select name="status_id" id="status_id" class="@error('status') is-invalid @enderror form-control" required>
+                                    @foreach($status_list as $status)
+                                        <option value="{{ $status->id }}">{{ $status->status }}</option>
+                                    @endforeach
                                 </select>
                                 @error('status')
                                 <div class="invalid-feedback">{{ $message }}</div>

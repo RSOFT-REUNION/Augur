@@ -1,16 +1,38 @@
+/*** Card ***/
+.card-header {
+    background-color: #f8f9fc;
+}
 /**** Bouton ****/
 .btn {
     transition: 0.3s;
 }
-.btn:hover {
-    letter-spacing: 0.1em;
-    transform: scale(1.1);
-    cursor: pointer;
+.form-switch .form-check-input {
+    width: 2.5em;
+    height: 19px;
+    margin-left: -3em;
+}
+.form-switch-success:checked {
+    background-color: #157347;
+    border-color: #157347;
 }
 
 /**** NavBar ****/
 .backgroundwhite {
     background-color: #ffffff;
+}
+.sidebar-dark .sidebar-heading {
+    color: rgba(255, 255, 255);
+    font-size: 12px;
+}
+.sidebar .nav-item .nav-link {
+    padding: 8px;
+    padding-left: 18px;
+}
+.navbar-expand .navbar-nav .dropdown-menu {
+    margin-right: 10px;
+}
+.dropdown-menu:after {
+    display: none;
 }
 
 /**** SideBar ****/
@@ -25,12 +47,6 @@
 .nav-tabs {
     border: none;
 }
-
-/**** card ****/
-.card-title {
-    color: #000000;
-}
-
 .sidebar #sidebarToggle::after {
     font-family: 'Font Awesome 5 Pro';
 }
@@ -51,8 +67,8 @@
 .top-message {
     z-index: 10;
     position: fixed;
-    width: 50%;
-    left:73%;
+    width: 30%;
+    right: -150px;
     transform:translateX(-50%);
     top:85px;
 }
@@ -64,3 +80,8 @@
     padding-left: 8px;
     border-radius: 6px;
 }
+/*** Bug SummerNote ***/
+.note-editing-area {
+    background-color: #FFFFFF;
+}
+

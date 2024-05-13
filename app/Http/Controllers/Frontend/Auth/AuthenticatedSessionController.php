@@ -2,23 +2,15 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Frontend\FrontendBaseController;
 use App\Http\Requests\Frontend\Auth\LoginRequest;
-use App\Models\Backend\Content\Carousel;
-use App\Models\Backend\Settings\Informations;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
-class AuthenticatedSessionController extends Controller
+class AuthenticatedSessionController extends FrontendBaseController
 {
-    public function __construct()
-    {
-        $infos = Informations::select('address','email','phone','fax')->where('id', 1)->first();
-        $sliders = Carousel::inRandomOrder()->get();
-        View::share(['infos' => $infos, 'sliders' => $sliders]);
-    }
     /**
      * Display the login view.
      */

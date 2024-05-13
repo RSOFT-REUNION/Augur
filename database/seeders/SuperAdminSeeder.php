@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Backend\Settings\Teams\Administrator;
+use App\Models\Settings\Teams\Administrator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 

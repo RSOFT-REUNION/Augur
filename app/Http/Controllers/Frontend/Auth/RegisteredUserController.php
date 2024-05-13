@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\Backend\Content\Carousel;
-use App\Models\Backend\Settings\Informations;
-use App\Models\User;
+use App\Http\Controllers\Frontend\FrontendBaseController;
+use App\Models\Users\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -14,14 +12,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
-class RegisteredUserController extends Controller
+class RegisteredUserController extends FrontendBaseController
 {
-    public function __construct()
-    {
-        $infos = Informations::select('address','email','phone','fax')->where('id', 1)->first();
-        $sliders = Carousel::inRandomOrder()->get();
-        \Illuminate\Support\Facades\View::share(['infos' => $infos, 'sliders' => $sliders]);
-    }
     /**
      * Display the registration view.
      */

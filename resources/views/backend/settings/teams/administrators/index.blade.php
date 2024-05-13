@@ -3,7 +3,7 @@
 
         <div class="card border-left-primary shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Liste des administrateurs</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Liste des administrators</h6>
                 @can('settings.teams.administrators.create')
                     <div class="d-flex gap-2 justify-content-end">
                         <a href="{{ route('backend.settings.teams.administrators.create') }}"
@@ -21,7 +21,7 @@
                             <th scope="col" class="text-center" style="width: 5%;">#</th>
                             <th scope="col" class="text-center">Nom</th>
                             <th scope="col" class="text-center">Email</th>
-                            <th scope="col" class="text-center">Rôles</th>
+                            <th scope="col" class="text-center">Roles</th>
                             <th scope="col" class="text-center" style="width: 15%;"><i
                                     class="fa-duotone fa-arrows-minimize"></i></th>
                         </tr>
@@ -63,7 +63,7 @@
 
                                 </td>
                             </tr>
-                            @include('backend.layouts.modal-delete', ['id' => $admin->id, 'title' => 'Êtes-vous sûr de vouloir supprimer '.$admin->name.' ?', 'route' => 'backend.settings.teams.administrators.destroy'])
+                            @include('backend.layouts.modal-delete', ['id' => $admin->id, 'title' => 'Etes-vous sur de vouloir delete '.$admin->name.' ?', 'route' => 'backend.settings.teams.administrators.destroy'])
                             @include('backend.settings.teams.administrators.modal-changepassword')
 
                         @endforeach

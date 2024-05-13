@@ -3,7 +3,8 @@
 namespace App\Http\Controllers\Backend\Orders;
 
 use App\Http\Controllers\Controller;
-use App\Models\Backend\Orders\Orders;
+use App\Models\Orders\Orders;
+use App\Models\Orders\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -27,6 +28,7 @@ class OrdersController extends Controller
         $orders = new Orders();
         return view('backend.orders.orders.form', [
             'orders' => $orders,
+            'status_list' => Status::all(),
         ]);
     }
 
@@ -35,7 +37,13 @@ class OrdersController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validated();
+        $validatedData = $request->validate([
+            'delivery_type' => 'required|string',
+            'delivery_location' => 'required|max:255|string',
+            'status_id' => 'required',
+            'user_id' => 'required',
+            'total' => 'required|string|min:1|max:10',
+        ]);
         Orders::create($validatedData);
         return redirect()->route('backend.orders.orders.index')->withSuccess('Commande ajoutée avec succès');
     }
@@ -47,7 +55,7 @@ class OrdersController extends Controller
     {
         return view('backend.orders.orders.form', [
             'orders' => $order,
-            //'categories_list' => Category::all()
+            'status_list' => Status::all()
         ]);
     }
 
@@ -59,7 +67,7 @@ class OrdersController extends Controller
         $validatedData = $request->validate([
             'delivery_type' => 'required|string',
             'delivery_location' => 'required|max:255|string',
-            'status' => 'required|string',
+            'status_id' => 'required',
             'total' => 'required|string|min:1|max:10',
         ]);
         Orders::where('id', $order->id)->update($validatedData);

@@ -5,15 +5,16 @@
 
     <div class="row m-2">
         <div class="col">
-            <div class="card border-left-primary shadow mb-4">
 
+            @can('catalog.brands.create')
+                <div class="d-flex gap-2 justify-content-end mb-3 me-5">
+                    <a href="{{ route('backend.catalog.brands.create') }}" class="btn btn-success hvr-float-shadow"><i class="fa-solid fa-plus"></i> Ajouter une marque</a>
+                </div>
+            @endcan
+
+            <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Liste des Marques & Fournisseurs</h6>
-                    @can('catalog.brands.create')
-                        <div class="d-flex gap-2 justify-content-end">
-                            <a href="{{ route('backend.catalog.brands.create') }}" class="btn btn-success my-2 hvr-grow"><i class="fa-solid fa-plus"></i> Ajouter une marque</a>
-                        </div>
-                    @endcan
                 </div>
 
                 <div class="card-body">
@@ -23,7 +24,6 @@
                             <tr>
                                 <th scope="col" class="text-center" style="width: 5%;">#</th>
                                 <th scope="col" class="text-center">Nom</th>
-                                <th scope="col" class="text-center">Url</th>
                                 <th scope="col" class="text-center">Description</th>
                                 <th scope="col" class="text-center" style="width: 15%;"><i
                                         class="fa-duotone fa-arrows-minimize"></i></th>
@@ -34,16 +34,15 @@
                                 <tr>
                                     <td class="text-center">{{ $brand->id }}</td>
                                     <td>{{ $brand->name }}</td>
-                                    <td>{{ $brand->slug }}</td>
                                     <td>{{ $brand->description }}</td>
                                     <td class="text-center">
                                         @can('catalog.brands.update')
                                             <a href="{{ route('backend.catalog.brands.edit', $brand->id) }}"
-                                               class="btn btn-success btn-sm" title="Modifier"><i
+                                               class="btn btn-success btn-sm hvr-grow" title="Modifier"><i
                                                     class="fa-solid fa-pen-to-square"></i></a>
                                         @endcan
                                         @can('catalog.brands.delete')
-                                            <button type="button" class="btn btn-danger btn-sm"
+                                            <button type="button" class="btn btn-danger btn-sm hvr-grow"
                                                     title="Supprimer"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#deleteModal{{ $brand->id }}">

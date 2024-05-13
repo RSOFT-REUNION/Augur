@@ -2,25 +2,19 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Backend\Content\Carousel;
-use App\Models\Backend\Content\Pages;
-use App\Models\Backend\Settings\Informations;
-use Illuminate\Support\Facades\View;
+use App\Models\Catalog\Product;
+use App\Models\Content\Pages;
+use App\Models\Settings\Informations;
 
-class FrontController extends Controller
+class FrontController extends FrontendBaseController
 {
-    public function __construct()
-    {
-        $infos = Informations::select('address','email','phone','fax')->where('id', 1)->first();
-        $sliders = Carousel::inRandomOrder()->get();
-        View::share(['infos' => $infos, 'sliders' => $sliders]);
-    }
     public function index()
     {
         $pages = Pages::where('id', '=', '1')->first();
+        $produits = Product::where('active', 1)->get();
         return view('frontend.index', [
             'page' => $pages,
+            'produits' => $produits
         ]);
     }
     public function legalnotice()
@@ -38,9 +32,10 @@ class FrontController extends Controller
         ]);
     }
 
+    /*** Gestion des pages ***/
     public function pages(string $slug, Pages $pages)
     {
-        $pages = $pages->where('slug', '=', '/'.$slug)->first();
+        $pages = $pages->where('slug', '=', '/'.$slug)->where('active', 1)->first();
         if($pages) {
             return view('frontend.pages.show', [
                 'page' => $pages,

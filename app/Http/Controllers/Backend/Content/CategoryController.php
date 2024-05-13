@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Backend\Content;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\Content\CategoryRequest;
 use App\Http\Requests\Backend\Content\CategoryUpdateRequest;
-use App\Models\Backend\Content\Category;
-use App\Models\Backend\Content\Pages;
+use App\Models\Content\Category;
+use App\Models\Content\Pages;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -21,7 +21,6 @@ class CategoryController extends Controller
             'categories' => Category::whereNull('category_id')->with('childrenCategories')->get()
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -34,23 +33,24 @@ class CategoryController extends Controller
             'categories_list' => $categories_list,
         ]);
     }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CategoryRequest $request)
+    public function store(Request $request)
     {
-        $request = $request->validated();
-        if ($request['category_id']) {
-            $slugParent = Category::where('id', '=', $request['category_id'])->pluck('slug')->first();
-            $request['slug'] = $slugParent . '/' . Str::slug($request['name']);
+        $validated = $request->validate([
+            'name'      => 'required|unique:content_categories|min:3|max:255|string',
+            'category_id' => 'nullable'
+        ]);
+        if ($validated['category_id']) {
+            $slugParent = Category::where('id', '=', $validated['category_id'])->pluck('slug')->first();
+            $validated['slug'] = $slugParent . '/' . Str::slug($validated['name']);
         } else {
-            $request['slug'] = '/' . Str::slug($request['name']);
+            $validated['slug'] = '/' . Str::slug($validated['name']);
         }
-        Category::create($request);
+        Category::create($validated);
         return redirect()->route('backend.content.categories.index')->withSuccess('Catégorie ajoutée avec succès');
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -62,30 +62,30 @@ class CategoryController extends Controller
             'categories_list' => $categories_list,
         ]);
     }
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryUpdateRequest $request, Category $category)
+    public function update(Request $request, Category $category)
     {
-        $request = $request->validated();
-
-        if ($request['category_id']) {
-            $slug = Category::where('id', '=', $request['category_id'])->pluck('slug')->first();
+        $validated = $request->validate([
+            'name'      => 'required|min:3|max:255|string',
+            'category_id' => 'nullable'
+        ]);
+        if ($validated['category_id']) {
+            $slug = Category::where('id', '=', $validated['category_id'])->pluck('slug')->first();
             $parentCategories = explode('/', $slug);
 
-            if (in_array($request['name'], $parentCategories)) {
-                return back()->withErrors('Cette catégorie ne peut être parente de ' . $request['name'] . ' car elle est déjà défini comme sa sous-catégorie.');
+            if (in_array($validated['name'], $parentCategories)) {
+                return back()->withErrors('Cette catégorie ne peut être parente de ' . $validated['name'] . ' car elle est déjà défini comme sa sous-catégorie.');
             } else {
-                $request['slug'] = $slug . '/' . Str::slug($request['name']);
+                $validated['slug'] = $slug . '/' . Str::slug($validated['name']);
             }
         } else {
-            $request['slug'] = '/' . Str::slug($request['name']);
+            $validated['slug'] = '/' . Str::slug($validated['name']);
         }
-        $category->update($request);
+        $category->update($validated);
         return redirect()->route('backend.content.categories.index')->withSuccess('Catégorie modifiée avec succès');
     }
-
     /**
      * Remove the specified resource from storage.
      */

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Settings;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\Settings\InformationsRequest;
+use App\Models\Settings\Informations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,55 +15,46 @@ class Information extends Controller
     public function index()
     {
         return view('backend.settings.informations.index', [
-            'infos' => DB::table('settings_informations')->where('id', 1)->first()
+            'infos' => Informations::where('id', 1)->first()
         ]);
     }
-    public function update(InformationsRequest $request)
+    public function update(Request $request)
     {
-        DB::table('settings_informations')
-            ->where('id', 1)
-            ->update(['address' => $request->input('address'),
-            'phone' => $request->input('phone'),
-            'fax' => $request->input('fax'),
-            'email' => $request->input('email')
+        $validated = $request->validate([
+            'email' => 'required|string|email:rfc,dns|max:250|unique:users,email',
+            'address' => 'required|string|max:250',
+            'phone' => 'required|string',
+            'fax' => '',
         ]);
+        Informations::where('id', 1)->update($validated);
         return back()->with('success', 'Mise à jour effectuée avec success');
     }
-
     /**
      * Mentions Legale
      */
     public function legalnoticeindex()
     {
         return view('backend.settings.informations.legalnotice', [
-            'infos' => DB::table('settings_informations')->where('id', 1)->first()
+            'infos' => Informations::select('legalnotice')->where('id', 1)->first()
         ]);
     }
-
     public function legalnoticeupdate(Request $request)
     {
-        DB::table('settings_informations')
-            ->where('id', 1)
-            ->update(['legalnotice' => $request->input('legalnotice')]);
+        Informations::where('id', 1)->update(['legalnotice' => $request->input('legalnotice')]);
         return back()->with('success', 'Mise à jour effectuée avec success');
     }
-
     /**
      * Mentions Legale
      */
     public function termsofserviceindex()
     {
         return view('backend.settings.informations.termsofservice', [
-            'infos' => DB::table('settings_informations')->where('id', 1)->first()
+            'infos' => Informations::select('termsofservice')->where('id', 1)->first()
         ]);
     }
-
     public function termsofserviceupdate(Request $request)
     {
-        DB::table('settings_informations')
-            ->where('id', 1)
-            ->update(['termsofservice' => $request->input('termsofservice')]);
+        Informations::where('id', 1)->update(['termsofservice' => $request->input('termsofservice')]);
         return back()->with('success', 'Mise à jour effectuée avec success');
     }
-
 }

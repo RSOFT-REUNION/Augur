@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Backend\Catalog;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\Catalog\CategoryRequest;
-use App\Http\Requests\Backend\Catalog\CategoryUpdateRequest;
-use App\Models\Backend\Catalog\Category;
-use App\Models\Backend\Catalog\Products;
+use App\Models\Catalog\Category;
+use App\Models\Catalog\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -38,16 +36,19 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CategoryRequest $request)
+    public function store(Request $request)
     {
-        $request = $request->validated();
-        if ($request['category_id']) {
-            $slugParent = Category::where('id', '=', $request['category_id'])->pluck('slug')->first();
-            $request['slug'] = $slugParent . '/' . Str::slug($request['name']);
+        $validated = $request->validate([
+            'name'      => 'required|unique:content_categories|min:3|max:255|string',
+            'category_id' => 'nullable'
+        ]);
+        if ($validated['category_id']) {
+            $slugParent = \App\Models\Content\Category::where('id', '=', $validated['category_id'])->pluck('slug')->first();
+            $validated['slug'] = $slugParent . '/' . Str::slug($validated['name']);
         } else {
-            $request['slug'] = '/' . Str::slug($request['name']);
+            $validated['slug'] = '/' . Str::slug($validated['name']);
         }
-        Category::create($request);
+        Category::create($validated);
         return redirect()->route('backend.catalog.categories.index')->withSuccess('Catégorie ajoutée avec succès');
     }
 
@@ -66,23 +67,25 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CategoryUpdateRequest $request, Category $category)
+    public function update(Request $request, Category $category)
     {
-        $request = $request->validated();
-
-        if ($request['category_id']) {
-            $slug = Category::where('id', '=', $request['category_id'])->pluck('slug')->first();
+        $validated = $request->validate([
+            'name'      => 'required|min:3|max:255|string',
+            'category_id' => 'nullable'
+        ]);
+        if ($validated['category_id']) {
+            $slug = \App\Models\Content\Category::where('id', '=', $validated['category_id'])->pluck('slug')->first();
             $parentCategories = explode('/', $slug);
 
-            if (in_array($request['name'], $parentCategories)) {
-                return back()->withErrors('Cette catégorie ne peut être parente de ' . $request['name'] . ' car elle est déjà défini comme sa sous-catégorie.');
+            if (in_array($validated['name'], $parentCategories)) {
+                return back()->withErrors('Cette catégorie ne peut être parente de ' . $validated['name'] . ' car elle est déjà défini comme sa sous-catégorie.');
             } else {
-                $request['slug'] = $slug . '/' . Str::slug($request['name']);
+                $validated['slug'] = $slug . '/' . Str::slug($validated['name']);
             }
         } else {
-            $request['slug'] = '/' . Str::slug($request['name']);
+            $validated['slug'] = '/' . Str::slug($validated['name']);
         }
-        $category->update($request);
+        $category->update($validated);
         return redirect()->route('backend.catalog.categories.index')->withSuccess('Catégorie modifiée avec succès');
     }
 
@@ -91,12 +94,12 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if (count(Products::where('category_id', "=", $category->id)->get())) {
+        if (count(Product::where('category_id', "=", $category->id)->get())) {
             return back()->withErrors('Il n\'est pas possible de supprimer cette catégorie car elle a des pages associées.');
         } else {
             if (count($category->getAllDescendantsRecursive($category->id))) {
                 foreach ($category->getAllDescendantsRecursive($category->id) as $children) {
-                    if (count(Products::where('category_id', "=", $children)->get())) {
+                    if (count(Product::where('category_id', "=", $children)->get())) {
                         return back()->withErrors('Il n\'est pas possible de supprimer cette catégorie car elle a des pages associées à des sous-catégories.');
                     } else {
                         Category::where('category_id', '=', $children)->delete();
@@ -105,7 +108,7 @@ class CategoryController extends Controller
             }
             if (count($category->getChildren($category->id))) {
                 foreach ($category->getChildren($category->id) as $children) {
-                    if (count(Products::where('category_id', "=", $children)->get())) {
+                    if (count(Product::where('category_id', "=", $children)->get())) {
                         return back()->withErrors('Il n\'est pas possible de supprimer cette catégorie car elle a des pages associées à des sous-catégories.');
                     } else {
                         Category::where('id', '=', $children)->delete();

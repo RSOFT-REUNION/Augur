@@ -1,5 +1,5 @@
 @extends('backend.layouts.layout')
-@section('title', $role->exists ? __('Modifier un rôle') : __('Créer un rôle'))
+@section('title', $role->exists ? __('Modifier un role') : __('Créer un role'))
 
 
 @section('main-content')
@@ -14,7 +14,7 @@
                         @else
                             Création
                         @endif
-                        d'un rôle
+                        d'un role
                     </h6>
                 </div>
                 <div class="card-body">
@@ -45,7 +45,7 @@
                             @endphp
                             @foreach ($permission_groups as $group)
                                 @php
-                                    $permissions = \App\Models\Backend\Settings\Teams\Administrator::getpermissionsByGroupName($group->name);
+                                    $permissions = \App\Models\Settings\Teams\Administrator::getpermissionsByGroupName($group->name);
                                     $j = 1;
                                 @endphp
 
@@ -68,7 +68,7 @@
                                                     <input class="form-check-input" type="checkbox"
                                                            class="form-check-input" id="{{ $i }}Management"
                                                            value="{{ $group->name }}"
-                                                           onclick="checkPermissionByGroup('role-{{ $i }}-management-checkbox', this)" {{ \App\Models\Backend\Settings\Teams\Administrator::roleHasPermissions($role, $permissions) ? 'checked' : '' }}>
+                                                           onclick="checkPermissionByGroup('role-{{ $i }}-management-checkbox', this)" {{ \App\Models\Settings\Teams\Administrator::roleHasPermissions($role, $permissions) ? 'checked' : '' }}>
                                                     <label class="form-check-label"
                                                            for="{{ $i }}Management">{{ $group->name }}</label>
                                                 </div>

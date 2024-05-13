@@ -37,7 +37,7 @@
                                     <td class="text-center">{{ $client->checkNewsletter($client->newsletter) }}</td>
                                     <td class="text-center">{{ $client->checkEmailVerified($client->email_verified_at) }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('backend.clients.adresse', $client->id ) }}" class="btn btn-warning btn-sm"><i class="fa-solid fa-location-dot"></i></a>
+                                        <a href="{{ route('backend.clients.client.adresse', $client->id ) }}" class="btn btn-warning btn-sm"><i class="fa-solid fa-location-dot"></i></a>
                                         @can('clients.delete')
                                             <button type="button" class="btn btn-danger btn-sm"
                                                     title="Supprimer"
@@ -48,7 +48,7 @@
                                         @endcan
                                     </td>
                                 </tr>
-                                @include('backend.layouts.modal-delete', ['id' => $client->id, 'title' => 'Êtes-vous sûr de vouloir supprimer le client '.$client->name.' '.$client->first_name.' ?', 'route' => 'backend.clients.destroy'])
+                                @include('backend.layouts.modal-delete', ['id' => $client->id, 'title' => 'Êtes-vous sûr de vouloir supprimer le client '.$client->name.' '.$client->first_name.' ?', 'route' => 'backend.clients.client.destroy'])
                             @endforeach
 
                         </table>

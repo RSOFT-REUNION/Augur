@@ -1,21 +1,21 @@
 @extends('backend.layouts.layout')
-@section('title', __('Gestion des catégories de produit') )
+@section('title', __('Gestion des catégories') )
 
 @section('main-content')
 
     <div class="row m-2">
         <div class="col">
-            <div class="card border-left-primary shadow mb-4">
 
+            @can('catalog.categories.create')
+                <div class="d-flex gap-2 justify-content-end mb-3 me-5">
+                    <a href="{{ route('backend.catalog.categories.create') }}"
+                       class="btn btn-success hvr-float-shadow"><i class="fa-solid fa-plus"></i> Ajouter une catégorie</a>
+                </div>
+            @endcan
+
+            <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Liste des Catégories</h6>
-                    @can('catalog.categories.create')
-                        <div class="d-flex gap-2 justify-content-end">
-                            <a href="{{ route('backend.catalog.categories.create') }}"
-                               class="btn btn-success my-2  hvr-grow"><i class="fa-solid fa-plus"></i> Ajouter une
-                                catégorie</a>
-                        </div>
-                    @endcan
                 </div>
 
                 <div class="card-body">
@@ -41,11 +41,11 @@
                                     <td class="text-center">
                                         @can('catalog.categories.edit')
                                             <a href="{{ route('backend.catalog.categories.edit', $category->id) }}"
-                                               class="btn btn-success btn-sm" title="Modifier"><i
+                                               class="btn btn-success btn-sm hvr-grow" title="Modifier"><i
                                                     class="fa-solid fa-pen-to-square"></i></a>
                                         @endcan
                                         @can('catalog.categories.delete')
-                                            <button type="button" class="btn btn-danger btn-sm"
+                                            <button type="button" class="btn btn-danger btn-sm hvr-grow"
                                                     title="Supprimer"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#deleteModal{{ $category->id }}">

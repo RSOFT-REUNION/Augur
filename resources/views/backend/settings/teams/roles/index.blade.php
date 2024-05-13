@@ -3,12 +3,12 @@
 
         <div class="card border-left-primary shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Liste des rôles</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Liste des roles</h6>
                 @can('settings.teams.roles.create')
                     <div class="d-flex gap-2 justify-content-end">
                         <a href="{{ route('backend.settings.teams.roles.create') }}"
                            class="btn btn-success my-2  hvr-grow"><i class="fa-solid fa-plus"></i> Ajouter un
-                            rôle</a>
+                            role</a>
                     </div>
                 @endcan
             </div>
@@ -49,7 +49,7 @@
                                     @endif
                                 </td>
                             </tr>
-                            @include('backend.layouts.modal-delete', ['id' => $role->id, 'title' => 'Êtes-vous sûr de vouloir supprimer '.$role->name.' ?', 'route' => 'backend.settings.teams.roles.destroy'])
+                            @include('backend.layouts.modal-delete', ['id' => $role->id, 'title' => 'Etes-vous sur de vouloir supprimer '.$role->name.' ?', 'route' => 'backend.settings.teams.roles.destroy'])
 
                         @endforeach
                     </table>

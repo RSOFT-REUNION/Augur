@@ -61,6 +61,10 @@ function implementAllChecked() {
  ***********/
 $('.datatable').DataTable( {
     order: [],
+    "columnDefs": [ {
+        "targets"  : 'no-sort',
+        "orderable": false,
+    }],
     language: {
         processing:     "Traitement en cours...",
         search:         "<i class=\"fa-solid fa-magnifying-glass\"></i>",
@@ -98,12 +102,105 @@ window.setTimeout(function() {
     });
 }, 3000);
 
+/***********
+ ***********
+ ***********
+ TomSelect
+ ***********
+ ***********
+ ***********/
+const tomselect = document.querySelector(".tomselect");
+if (tomselect) {
+    new TomSelect(tomselect, {
+        persist: false,
+        createOnBlur: true,
+        create: false,
+        render: {
+            no_results: function (data, escape) {
+                return '<div class="no-results">Aucun résultat trouvé</div>';
+            },
+        },
+    });
+}
+
+const tomselectmultiple = document.querySelector(".tomselectmultiple");
+if (tomselectmultiple) {
+    new TomSelect(tomselectmultiple,{
+        plugins:['remove_button'],
+        persist: false,
+        create: true,
+        maxOptions: 100,
+        sortField: {
+            field: "text",
+            direction: "asc"
+        }
+    });
+}
 
 /***********
  ***********
  ***********
- TomSelect (Mettre tout les script avant celui-ci.
+ SummerNote
  ***********
  ***********
  ***********/
-new TomSelect('select[multiple]', {plugins: {remove_button: {title: 'Supprimer'}}})
+$(document).ready(function () {
+    $('.summernote').summernote({
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['fontname', ['fontname']],
+            ['color', ['forecolor', 'backcolor']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview']],
+        ],
+        popover: {
+            image: [
+                ['image', ['resizeFull', 'resizeHalf', 'resizeQuarter', 'resizeNone']],
+                ['float', ['floatLeft', 'floatRight', 'floatNone']],
+                ['remove', ['removeMedia']]
+            ],
+            link: [
+                ['link', ['linkDialogShow', 'unlink']]
+            ],
+            table: [
+                ['add', ['addRowDown', 'addRowUp', 'addColLeft', 'addColRight']],
+                ['delete', ['deleteRow', 'deleteCol', 'deleteTable']],
+            ],
+            air: [
+                ['color', ['color']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['para', ['ul', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture']]
+            ]
+        },
+        lang: 'fr-FR',
+        height: 600,
+        callbacks:{
+            onImageUpload:function(file){
+                $('.summernote').summernote('disable')
+                const frmData = new FormData();
+                frmData.append('image',file[0]);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url:'/',
+                    method:'POST',
+                    contentType:false,
+                    processData:false,
+                    data:frmData,
+                    success:function(data){
+                        $('.summernote').summernote('insertImage',data)
+                        $('.summernote').summernote('enable')
+                    }
+                })
+            },
+        }
+    });
+});

@@ -55,7 +55,7 @@
                         @endif
 
                         <div class="m-0w">
-                            <label for="permissions" class="form-label">Rôles</label>
+                            <label for="permissions" class="form-label">Roles</label>
                             <select class="form-select @error('roles') is-invalid @enderror" multiple aria-label="Roles" id="roles" name="roles[]">
                                 @foreach($roles as $role)
                                     @if ($role!='SuperAdmin')

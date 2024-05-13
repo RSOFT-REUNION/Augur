@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Backend\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Models\Carts\Carts;
 use App\Models\Users\Address;
-use App\Models\User;
+use App\Models\Users\User;
 
 class ClientsController extends Controller
 {
@@ -35,6 +36,25 @@ class ClientsController extends Controller
         return view('backend.clients.addresses', [
             'client' => $client,
             'addresses' => Address::where('user_id', '=', $client->id)->get(),
+        ]);
+    }
+
+    /**
+     * Display a listing of Carts.
+     */
+    public function carts_index()
+    {
+        /*** Mise a jour des status en Abandoner apres 1 Mois ***/
+        $carts = Carts::where('status', 'En cours')->orderBy('id','DESC')->get();
+        foreach ($carts as $cart) {
+            $d = date("Y-m-d\\TH:i",strtotime("-1 Months"));
+            if($cart->created_at <= $d){
+                $cart->status = "Abandoner";
+                $cart->save();
+            }
+        }
+        return view('backend.clients.carts', [
+            'carts' => Carts::orderBy('id','DESC')->get()
         ]);
     }
 }

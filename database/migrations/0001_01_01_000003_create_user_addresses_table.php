@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('user_addresses', function (Blueprint $table) {
             $table->id();
-            $table->string('user_id');
+            $table->foreignIdFor(\App\Models\Users\User::class)->constrained()->onDelete('cascade');
             $table->string('alias');
             $table->string('first_name');
             $table->string('last_name');
@@ -25,6 +25,8 @@ return new class extends Migration
             $table->string('country');
             $table->string('phone');
             $table->string('other_phone')->nullable();
+            $table->enum('type', ['Facturation et livraison', 'Facturation', 'Livraison'])->default('Facturation et livraison');
+            $table->string('favorite')->nullable();
             $table->timestamps();
         });
     }

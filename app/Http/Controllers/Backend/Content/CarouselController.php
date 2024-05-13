@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Backend\Content;
 
 use App\Http\Controllers\Controller;
-use App\Models\Backend\Content\Carousel;
+use App\Models\Content\Carousel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -16,7 +16,7 @@ class CarouselController extends Controller
     public function index()
     {
         return view('backend.content.carousel.index', [
-            'sliders' => Carousel::orderBy('id','ASC')->get()
+            'sliders' => Carousel::select('id', 'name', 'image', 'active')->orderBy('id','ASC')->get(),
         ]);
     }
 
@@ -41,8 +41,10 @@ class CarouselController extends Controller
             'description' => 'string|max:255|nullable',
             'title_url' => 'string|max:255|nullable',
             'url' => 'string|max:255|nullable',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=600',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'active' => '',
         ]);
+        @$validated['active'] = $validated['active']=='on' ? 1:0;
         $imageName = Str::slug($validated['image']->getClientOriginalName(), '.');
         $validated['image']->storeAs('public/upload/content/carousel', $imageName);
         $validated['image'] = $imageName;
@@ -70,8 +72,10 @@ class CarouselController extends Controller
             'description' => 'string|max:255|nullable',
             'title_url' => 'string|max:255|nullable',
             'url' => 'string|max:255|nullable',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048|dimensions:width=1920,height=600',
+            'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'active' => '',
         ]);
+        @$validated['active'] = $validated['active']=='on' ? 1:0;
         if(@$validated['image']){
             /*** Suppresion de l'ancienne image ***/
             $imgold = Carousel::select('image')->where('id', $carrousel->id)->first();
@@ -83,7 +87,7 @@ class CarouselController extends Controller
             Carousel::where('id', $carrousel->id)->update($validated);
             return back()->withSuccess('Image modifiée avec succès');
         } else {
-            \App\Models\Backend\Content\Carousel::where('id', $carrousel->id)->update($validated);
+            Carousel::where('id', $carrousel->id)->update($validated);
             return back()->withSuccess('Image modifiée avec succès');
         }
     }

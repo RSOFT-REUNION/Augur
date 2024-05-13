@@ -2,34 +2,78 @@
 @section('title', $category->exists ? __('Modifier une catégorie') : __('Créer une catégorie'))
 
 @section('main-content')
+    <form action="{{ route($category->exists ? 'backend.catalog.categories.update' : 'backend.catalog.categories.store', $category) }}" method="post"  class="mt-6 space-y-6">
+        @csrf
+        @method($category->exists ? 'put' : 'post')
 
-    <div class="row m-2">
-        <div class="col">
-            <div class="card border-left-primary shadow mb-4">
+        <div class="d-flex gap-2 justify-content-end mb-3 me-5">
+            <!--<div class="form-check form-switch d-flex align-items-center">
+                <input class="form-check-input"
+                       @if(!$category->exists) checked @endif
+                        @if($category->active) checked @endif
+            type="checkbox" role="switch" id="active" name="active">
+     <label class="form-check-label" for="active">Activer</label>
+ </div>-->
+            <button type='button' class="btn btn-danger hvr-float-shadow"
+                    onclick="location.href='{{ route('backend.catalog.categories.index') }}'">
+                <i class="fa-solid fa-rotate-left"></i>&nbsp;Annuler
+            </button>
+            <button type="submit" class="btn btn-success hvr-float-shadow"><i class="fa-solid fa-pen-to-square"></i>
+                @if ($category->exists)
+                    Modifier
+                @else
+                    Créer
+                @endif
+            </button>
+        </div>
 
-                <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary"> @if($category->exists)
-                            Modification
-                        @else
-                            Création
-                        @endif
-                        d'une categorie</h6>
+        <div class="row m-2">
+            <div class="col-md-6 col-12">
+                <div class="card border-left-primary shadow mb-4">
+
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Informations</h6>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-control-label" for="name">Nom <span
+                                    class="small text-danger">*</span></label>
+                            <input id="name" type="text" name="name"
+                                   class="@error('name') is-invalid @enderror form-control" required
+                                   value="{{ old('name', $category->name) }}">
+                            @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="form-group d-none">
+                            <label class="form-control-label" for="slug">Slug</label>
+                            <input id="slug" type="text" name="slug" disabled
+                                   class="@error('slug') is-invalid @enderror form-control"
+                                   value="{{ $category->slug }}">
+                        </div>
+                    </div>
                 </div>
 
-                <div class="card-body">
+            </div>
 
-                    <form action="{{ route($category->exists ? 'backend.catalog.categories.update' : 'backend.catalog.categories.store', $category) }}" method="post"  class="mt-6 space-y-6">
-                        @csrf
-                        @method($category->exists ? 'put' : 'post')
+            <div class="col-md-6 col-12">
+                <div class="card border-left-warning shadow mb-4">
 
-                    <div class="m-0w">
-                        <label for="category_id" class="form-label">Catégorie</label>
-                        <select class="form-select tomselect @error('categorie') is-invalid @enderror" aria-label="category_id"
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Categorie</h6>
+                    </div>
+
+                    <div class="card-body">
+                        <select class="form-select tomselect @error('categorie') is-invalid @enderror"
+                                aria-label="category_id"
                                 id="category_id" name="category_id">
-                            <option value=""> Aucune catégorie </option>
+                            <option value=""> Aucune categorie</option>
                             @foreach($categories_list as $category_list)
                                 @if($category_list->id != $category->id)
-                                <option @if($category_list->id == old('category_id')) selected @endif @if($category_list->id == $category->category_id) selected @endif value="{{ $category_list->id }}"> {{ $category_list->name }}</option>
+                                    <option @if($category_list->id == old('category_id')) selected
+                                            @endif @if($category_list->id == $category->category_id) selected
+                                            @endif value="{{ $category_list->id }}"> {{ $category_list->name }}</option>
                                 @endif
                             @endforeach
                         </select>
@@ -37,50 +81,9 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="form-group">
-                                <label class="form-control-label" for="name">Nom <span class="small text-danger">*</span></label>
-                                <input id="name" type="text" name="name"
-                                       class="@error('name') is-invalid @enderror form-control" required
-                                       value="{{ old('name', $category->name) }}">
-                                @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="form-group">
-                                <label class="form-control-label" for="slug">Slug</label>
-                                <input id="slug" type="text" name="slug" disabled
-                                       class="@error('slug') is-invalid @enderror form-control"
-                                       value="{{ $category->slug }}">
-                                @error('slug')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="d-flex gap-2 justify-content-center mt-3">
-                        <button type='button' class="btn btn-danger" onclick="location.href='{{ route('backend.catalog.categories.index') }}'">
-                            <i class="fa-solid fa-rotate-left"></i>&nbsp;Annuler
-                        </button>
-                        <button type="submit" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i>
-                            @if($category->exists)
-                                Modifier
-                            @else
-                                Créer
-                            @endif
-                        </button>&nbsp;&nbsp;
-                    </div>
-
-                    </form>
-
                 </div>
             </div>
 
         </div>
-    </div>
+    </form>
 @endsection

@@ -9,7 +9,12 @@ use App\Http\Controllers\Frontend\Auth\PasswordController;
 use App\Http\Controllers\Frontend\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Frontend\Auth\RegisteredUserController;
 use App\Http\Controllers\Frontend\Auth\VerifyEmailController;
+use App\Http\Controllers\Frontend\Users\AddressesController;
+use App\Http\Controllers\Frontend\Users\ProfileController;
 use Illuminate\Support\Facades\Route;
+$idRegex = '[0-9]+';
+$slugRegex = '[0-9a-z\-/]+';
+
 
 Route::middleware('guest')->group(function () {
     Route::get('creer-un-compte', [RegisteredUserController::class, 'create'])
@@ -35,7 +40,7 @@ Route::middleware('guest')->group(function () {
                 ->name('password.store');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth'])->group(function () {
     Route::get('verification-email', EmailVerificationPromptController::class)
                 ->name('verification.notice');
 
@@ -47,6 +52,10 @@ Route::middleware('auth')->group(function () {
                 ->middleware('throttle:6,1')
                 ->name('verification.send');
 
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->name('logout');
+});
+Route::middleware(['auth', 'verified'])->group(function ()  use ($idRegex, $slugRegex) {
     Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
                 ->name('password.confirm');
 
@@ -54,6 +63,10 @@ Route::middleware('auth')->group(function () {
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
-                ->name('logout');
+    Route::get('/mon-compte', [ProfileController::class, 'index'] )->name('dashboard');
+    Route::get('/mon-compte/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/mon-compte/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/mon-compte/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('/mon-compte/adresse', AddressesController::class)->except(['show']);
+    Route::put('/mon-compte/adresse/fav/{address}', [AddressesController::class, 'fav_address'])->name('address.fav_address')->where(['address' => $idRegex]);
 });

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Backend\Auth;
 
-use App\Models\Backend\Settings\Teams\Administrator;
+use App\Models\Settings\Teams\Administrator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('photo')->nullable();
             $table->boolean('active')->default(0);
-            $table->boolean('newsletter')->nullable();
+            $table->boolean('newsletter')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -3,17 +3,13 @@
 namespace App\Http\Controllers\Backend\Settings\Teams;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Backend\settings\Teams\RolesRequest;
-use App\Models\Backend\Settings\Teams\Administrator;
+use App\Models\Settings\Teams\Administrator;
+use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
 {
-    public function __construct()
-    {
-
-    }
     /**
      * Display a listing of the resource.
      */
@@ -23,7 +19,6 @@ class RolesController extends Controller
             'roles' => Role::orderBy('id','DESC')->where('id', '!=', '1')->get()
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -34,12 +29,15 @@ class RolesController extends Controller
         $permission_groups = Administrator::getpermissionGroups();
         return view('backend.settings.teams.roles.form', compact('role', 'all_permissions', 'permission_groups'));
     }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(RolesRequest $request)
+    public function store(Request $request)
     {
+        $request->validate([
+            'name' => 'required|string|max:250',
+            'permissions' => 'required',
+        ]);
         $role = Role::create(['name' => $request->name]);
         $permissions = $request->input('permissions');
         if (!empty($permissions)) {
@@ -50,7 +48,6 @@ class RolesController extends Controller
         return redirect()->route('backend.settings.teams.index')
             ->withSuccess('Le nouveau rôle a été ajouté avec succès.');
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -60,12 +57,15 @@ class RolesController extends Controller
         $permission_groups = Administrator::getpermissionGroups();
         return view('backend.settings.teams.roles.form', compact('role', 'all_permissions', 'permission_groups'));
     }
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(RolesRequest $request, Role $role)
+    public function update(Request $request, Role $role)
     {
+        $request->validate([
+            'name' => 'required|string|max:250',
+            'permissions' => 'required',
+        ]);
         $permissions = $request->input('permissions');
 
         if (!empty($permissions)) {
@@ -77,7 +77,6 @@ class RolesController extends Controller
         session()->flash('success', 'Le rôle a été mis à jour avec succès.');
         return back();
     }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -93,7 +92,6 @@ class RolesController extends Controller
         return redirect()->route('backend.settings.teams.index')
             ->withSuccess('Le rôle a été supprimé avec succès.');
     }
-
     public static function renamePermission(string $name)
     {
         return str_replace('-', ' -> ', $name);

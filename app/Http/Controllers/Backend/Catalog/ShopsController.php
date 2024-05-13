@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend\Catalog;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Backend\Catalog\Shop;
+use App\Models\Catalog\Shop;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
@@ -37,15 +37,17 @@ class ShopsController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|min:3|max:255|string',
-            'adress' => 'string|nullable',
+            'name' => 'required|min:3|max:255|string',
+            'address' => 'string|nullable',
             'postal_code' => 'string|nullable',
             'city' => 'string|nullable',
-            'description' => 'required|min:3|max:255|string',
+            'description' => 'max:255|string|nullable',
             'schedules' => 'string|nullable',
             'visibility' => 'required|string',
             'image' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'active' => '',
         ]);
+        @$validated['active'] = $validated['active'] == 'on' ? 1 : 0;
         if ($request->hasFile('image')) {
             $imageName = Str::slug($validated['image']->getClientOriginalName(), '.');
             $validated['image']->storeAs('public/upload/catalog/shops', $imageName);
@@ -71,17 +73,17 @@ class ShopsController extends Controller
     public function update(Request $request, Shop $shop)
     {
         $validated = $request->validate([
-            'title' => 'required|min:3|max:255|string',
-            'adress' => 'string|nullable',
+            'name' => 'required|min:3|max:255|string',
+            'address' => 'string|nullable',
             'postal_code' => 'string|nullable',
             'city' => 'string|nullable',
-            'description' => 'required|min:3|max:255|string',
+            'description' => 'max:255|string|nullable',
             'schedules' => 'string|nullable',
             'visibility' => 'required|string',
             'image' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'active' => '',
         ]);
-
-
+        @$validated['active'] = $validated['active'] == 'on' ? 1 : 0;
         if (@$validated['image']) {
             /*** Suppresion de l'ancienne image ***/
             $old = Shop::select('image')->where('id', $shop->id)->first();

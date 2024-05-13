@@ -6,11 +6,11 @@
     <td class="text-center">
         @can('catalog.categories.modifier')
             <a href="{{ route('backend.catalog.categories.edit', $child_category->id) }}"
-               class="btn btn-success btn-sm" title="Modifier"><i
+               class="btn btn-success btn-sm hvr-grow" title="Modifier"><i
                     class="fa-solid fa-pen-to-square"></i></a>
         @endcan
         @can('catalog.categories.delete')
-            <button type="button" class="btn btn-danger btn-sm"
+            <button type="button" class="btn btn-danger btn-sm hvr-grow"
                     title="Supprimer"
                     data-bs-toggle="modal"
                     data-bs-target="#deleteModal{{ $child_category->id }}">
@@ -21,5 +21,5 @@
 </tr>
 @foreach ($child_category->categories as $childCategory)
     @include('backend.catalog.category.child_category', ['child_category' => $childCategory])
-    @include('backend.layouts.modal-delete', ['id' => $childCategory->id, 'title' => 'Etes-vous sûr de vouloir supprimer '.$childCategory->name.' et toutes les sous-catégories ?', 'route' => 'backend.catalog.categories.destroy'])
+    @include('backend.layouts.modal-delete', ['id' => $childCategory->id, 'title' => 'Etes-vous sûr de vouloir supprimer '.$childCategory->name.' et toutes les sous-catégories ?', 'route' => 'backend.content.categories.destroy'])
 @endforeach

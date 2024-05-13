@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Frontend\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\Backend\Content\Carousel;
-use App\Models\Backend\Settings\Informations;
+use App\Http\Controllers\Frontend\FrontendBaseController;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -13,14 +11,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 
-class NewPasswordController extends Controller
+class NewPasswordController extends FrontendBaseController
 {
-    public function __construct()
-    {
-        $infos = Informations::select('address','email','phone','fax')->where('id', 1)->first();
-        $sliders = Carousel::inRandomOrder()->get();
-        \Illuminate\Support\Facades\View::share(['infos' => $infos, 'sliders' => $sliders]);
-    }
     /**
      * Display the password reset view.
      */

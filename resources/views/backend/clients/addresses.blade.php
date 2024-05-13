@@ -2,15 +2,17 @@
 @section('title', __('Adresse du client') )
 
 @section('main-content')
+
+    <div class="d-flex gap-2 justify-content-end mb-3 me-5">
+        <a href="{{ route('backend.clients.client.index') }}" class="btn btn-danger hvr-float-shadow"><i class="fa-solid fa-rotate-left"></i> Retour</a>
+    </div>
+
     <div class="row m-2">
         <div class="col">
             <div class="card border-left-primary shadow mb-4">
 
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Adresse du client {{ $client->name }} {{ $client->first_name }}</h6>
-                    <div class="d-flex gap-2 justify-content-end">
-                        <a href="{{ route('backend.clients.index') }}" class="btn btn-danger my-2 hvr-grow"><i class="fa-solid fa-rotate-left"></i> Retour</a>
-                    </div>
                 </div>
 
                 <div class="card-body">

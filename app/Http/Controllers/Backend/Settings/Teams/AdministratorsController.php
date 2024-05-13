@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Backend\Settings\Teams;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\settings\Teams\AdministratorsRequest;
-use App\Models\Backend\Settings\Teams\Administrator;
+use App\Models\Settings\Teams\Administrator;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
@@ -21,7 +20,6 @@ class AdministratorsController extends Controller
             'admins' => Administrator::orderBy('id','DESC')->where('id', '!=', '1')->get()
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
@@ -33,22 +31,24 @@ class AdministratorsController extends Controller
             'roles' => Role::pluck('name')->all()
         ]);
     }
-
     /**
      * Store a newly created resource in storage.
      */
-    public function store(AdministratorsRequest $request)
+    public function store(Request $request)
     {
-        $input = $request->all();
-        $input['password'] = Hash::make($request->password);
+        $validated = $request->validate([
+            'name' => 'required|string|max:250',
+            'email' => 'required|string|email:rfc,dns|max:250|unique:users,email',
+            'roles' => 'required'
+        ]);
+        $validated['password'] = Hash::make($request->password);
 
-        $admin = Administrator::create($input);
+        $admin = Administrator::create($validated);
         $admin->assignRole($request->roles);
 
         return redirect()->route('backend.settings.teams.index')
-            ->withSuccess('Le nouvel utilisateur a été ajouté avec succès.');
+            ->withSuccess('Le nouvel administrateur a été ajouté avec succès.');
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -68,22 +68,21 @@ class AdministratorsController extends Controller
             'userRoles' => $administrator->roles->pluck('name')->all()
         ]);
     }
-
-
     /**
      * Update the specified resource in storage.
      */
-    public function update(AdministratorsRequest $request, Administrator $administrator)
+    public function update(Request $request, Administrator $administrator)
     {
-        $input = $request->all();
-        $input = $request->except('password');
+        $validated = $request->validate([
+            'name' => 'required|string|max:250',
+            'email' => 'required|string|email:rfc,dns|max:250|unique:users,email',
+            'roles' => 'required'
+        ]);
         $administrator->syncRoles($request->roles);
-        $administrator->update($input);
+        $administrator->update($validated);
         return redirect()->route('backend.settings.teams.index')
             ->withSuccess("L'administrateur a été modifié avec succès.");
     }
-
-
     /**
      * Remove the specified resource from storage.
      */
@@ -100,7 +99,6 @@ class AdministratorsController extends Controller
         return redirect()->route('backend.settings.teams.index')
             ->withSuccess('L\'administrateur a été supprimé avec succès.');
     }
-
     /**
      * Changer le mot de passe de l'utilisateur
      */
@@ -115,5 +113,4 @@ class AdministratorsController extends Controller
         return redirect()->route('backend.settings.teams.index')
                 ->withSuccess('Le mot de passe de l\'administrateur a été modifié avec succès.');
     }
-
 }
