@@ -15,7 +15,7 @@
         <div class="col-md-7 col-12">
             <h2 class="text-center mb-3 text-decoration-underline">{{ $produit->name }}</h2>
             <h1 class="text-center mb-3">{{ formatPriceToFloat($produit->price_ttc) }} €</h1>
-            <p>Stock : {{ $produit->stock }}</p>
+            <p>Stock : {{ formatStockToFloat($produit->stock) }}</p>
             <h4>Description du produit :</h4>
             <p>{{ $produit->description }}</p>
             <div class="text-center">
