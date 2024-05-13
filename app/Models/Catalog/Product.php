@@ -12,7 +12,7 @@ class Product extends Model
 {
     protected $table = 'catalog_products';
 
-    protected $fillable = ['code_article', 'name', 'slug', 'category_id', 'brands', 'fav_image', 'description', 'composition', 'tags', 'weight_unit', 'weight', 'unite_vente', 'price_ht','tva','price_ttc','code_barre','real_stock','virtual_stock','active', 'created_by_id','updated_by_id', 'deleted_by_id' ];
+    protected $fillable = ['code_article', 'name', 'slug', 'category_id', 'brands', 'fav_image', 'description', 'composition', 'tags', 'barcode', 'weight_unit', 'weight', 'price_ht','tva','price_ttc','stock', 'stock_unit', 'active', 'created_by_id','updated_by_id', 'deleted_by_id' ];
 
     /**
      * Retourne le nom de la categorie
@@ -31,6 +31,11 @@ class Product extends Model
     {
         return $this->hasMany(ProductsImages::class);
     }
+
+/*    public function tags(): HasMany
+    {
+        return $this->hasMany(Tag::class);
+    }*/
 
     public function getCategoryName($category_id) {
 

@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h4 class="card-title text-center">{{ $produit->name }}</h4>
                         <!--<p class="card-text">{{ $produit->description }}</p>-->
-                        <h3 class="card-text  text-center">{{ $produit->price_ttc }} €</h3>
+                        <h3 class="card-text  text-center">{{ formatPriceToFloat($produit->price_ttc) }} €</h3>
                     </div>
                         <div class="card-footer p-3 text-center">
                             @if($produit->stock > 0)

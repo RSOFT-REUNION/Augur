@@ -6,6 +6,7 @@ use App\Models\Catalog\Product;
 use App\Models\Users\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,45 +26,33 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now(),
         ]);
         $produit1 = Product::create([
-            'name' => 'Produits Test 1',
-            'slug' => 'produits-test-1',
-            'description' => 'Produits Test 1',
-            'price_ht' => 49,
+            'name' => 'breizh burger mini - spécial apéro',
+            'slug' => Str::slug('breizh burger mini - spécial apéro'),
+            'description' => 'Des mini burgers qui envoient du steak ! Un plaisir sans complexe avec ces 9 mini burgers 100% bretons ! Leur petit + : un pain délicatement moelleux au sarrasin. Une délicieuse recette pour un apéritif gourmand à partager en famille ou entre amis ! Conditionnement : 9x15g',
+            'price_ht' => 490,
             'tva' => 5,
-            'price_ttc' => 59,
+            'price_ttc' => 590,
             'stock' => 5,
-            'fav_image' => 1,
-        ]);
-        $produit1->images()->create([
-            'name' => 'macos.rancho.cucamonga.2560x1440945764.mm.90.jpg',
         ]);
 
         $produit2 = Product::create([
-            'name' => 'Produits Test 2',
-            'slug' => 'produits-test-2',
-            'description' => 'Produits Test 2',
-            'price_ht' => 99,
+            'name' => 'breizh burger',
+            'slug' => Str::slug('breizh burger'),
+            'description' => 'Quand l’Amérique s’invite aux portes de la Bretagne, saveurs et gourmandise sont au rendez-vous ! Succombez à la tentation de ce burger 100% breton ! Avis aux amateurs de snacking, son pain croustillant, sa compotée d’oignons et son steak tout droit venu de Bretagne vont vous régaler les papilles !',
+            'price_ht' => 990,
             'tva' => 10,
-            'price_ttc' => 149,
+            'price_ttc' => 1490,
             'stock' => 0,
-            'fav_image' => 2,
-        ]);
-        $produit2->images()->create([
-            'name' => 'magnificent.landscape.2560x144075654.mm.90.jpg',
         ]);
 
         $produit3 = Product::create([
-            'name' => 'Produits Test 3',
-            'slug' => 'produits-test-3',
-            'description' => 'Produits Test 3',
-            'price_ht' => 29,
+            'name' => 'Coquillettes jambon vache qui rit',
+            'slug' => Str::slug('Coquillettes jambon vache qui rit'),
+            'description' => 'Un plat délicieux pour les enfants, rapide à préparer, avec de la viande de porc origine france',
+            'price_ht' => 290,
             'tva' => 20,
-            'price_ttc' => 39,
+            'price_ttc' => 390,
             'stock' => 16,
-            'fav_image' => 3,
-        ]);
-        $produit3->images()->create([
-            'name' => 'reef.beach.australia.photography.2560x1440949495.mm.90.jpg',
         ]);
     }
 }

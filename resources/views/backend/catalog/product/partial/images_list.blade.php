@@ -1,5 +1,5 @@
 <div id="images_list">
-    @foreach($products->images as $image)
+    @foreach($product->images as $image)
         <div id="image{{ $image->id }}" class="text-center mb-3 w-100 hvr-grow">
             <img src="{{ $image->getImageUrl() }}" alt="{{ $image->image_name }}" class="w-auto mx-auto d-block" style="max-height: 150px;">
 
@@ -11,7 +11,7 @@
                 Supprimer
             </button>
 
-            @if($image->id != $products->fav_image)
+            @if($image->id != $product->fav_image)
                 <button type="button" class="btn btn-primary position-absolute top-0 end-0 me-2 mt-2" id="fav_image"
                         hx-post="{{ route('backend.catalog.products.fav_image', $image) }}"
                         hx-target="#images_list"

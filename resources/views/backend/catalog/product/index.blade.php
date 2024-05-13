@@ -17,7 +17,8 @@
                         </i> Ajouter un produit
                     </button>
                 </div>
-                @include('backend.catalog.product.create')
+                @include('backend.catalog.product.create',['categories' => $categories_list] )
+
             @endcan
 
             <div class="card border-left-primary shadow mb-4">
@@ -33,10 +34,12 @@
                             <tr>
                                 <th scope="col" class="text-center" style="width: 5%;">#</th>
                                 <th scope="col" class="text-center">Image</th>
-                                <th scope="col" class="text-center">Nom</th>
+                                <th scope="col" class="text-center">Libellé</th>
                                 <th scope="col" class="text-center">Catégorie</th>
-                                <th scope="col" class="text-center">Prix</th>
                                 <th scope="col" class="text-center">Poids</th>
+                                <th scope="col" class="text-center">Prix</th>
+                                <th scope="col" class="text-center">TVA</th>
+                                <th scope="col" class="text-center">Stock</th>
                                 <th scope="col" class="text-center" style="width: 8%;"><i
                                         class="fa-duotone fa-arrows-minimize"></i></th>
                             </tr>
@@ -50,8 +53,10 @@
                                     </td>
                                     <td class="text-center align-middle">{{ $product->name }} <br> <span class="fw-lighter fst-italic">url: {{ $product->slug }}</span> </td>
                                     <td class="text-center align-middle">{{ $product->getCategoryName($product->category_id) }}</td>
-                                    <td class="text-center align-middle">{{ $product->price }}</td>
-                                    <td class="text-center align-middle">{{ $product->size }}</td>
+                                    <td class="text-center align-middle">{{ formatPriceToFloat($product->weight) }} {{ $product->weight_unit }}</td>
+                                    <td class="text-center align-middle">HT: {{ formatPriceToFloat($product->price_ht) }} €  | TTC: {{ formatPriceToFloat($product->price_ttc) }} €</td>
+                                    <td class="text-center align-middle">{{ formatPriceToFloat($product->tva) }} %</td>
+                                    <td class="text-center align-middle">{{ formatStockToFloat($product->stock) }}</td>
                                     <td class="text-center align-middle">
                                         @can('catalog.products.update')
                                             <a href="{{ route('backend.catalog.products.edit', $product->id) }}"

@@ -11,8 +11,26 @@ function getActive($active)
     }
 }
 
+
 function getProductInfos($produit)
 {
     $productinfo = Product::where('id', $produit)->first();
     return $productinfo;
 }
+
+function formatPriceToInteger($input) {
+    return round($input * 100);
+}
+
+function formatPriceToFloat($input) {
+        return number_format(($input / 100), 2, ',', ' ') ;
+}
+
+function formatStocktoInteger($input) {
+    return round($input  * 1000);
+}
+
+function formatStockToFloat($input) {
+    return number_format(($input  / 1000), 3, ',', ' ');
+}
+

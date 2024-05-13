@@ -18,9 +18,9 @@ return new class extends Migration {
             $table->softDeletes();
             $table->timestamps();
         });
-/*        Schema::table('catalog_products', function (Blueprint $table) {
+        Schema::table('catalog_products', function (Blueprint $table) {
             $table->foreignIdFor(Category::class)->after('name')->nullable()->constrained('catalog_categories');
-        });*/
+        });
 
         /*** Ajout des permissions **/
         $permissions = [
@@ -39,9 +39,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-/*        Schema::table('catalog_products', function (Blueprint $table) {
-            $table->dropForeign(['category_id']);
-        });*/
         Schema::dropIfExists('catalog_categories');
     }
 };
