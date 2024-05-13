@@ -33,11 +33,11 @@
                     </div>
                     <div class="col-md-2 text-center">
                         <p>Prix Unitaire TTC</p>
-                        <h5 class="mb-0">{{ $product->price_ttc }} €</h5>
+                        <h5 class="mb-0">{{ formatPriceToFloat($product->price_ttc) }} €</h5>
                     </div>
                     <div class="col-md-2 text-center">
                         <p>Total TTC</p>
-                        <h5 class="mb-0">{{ $cart->priceProductQuantity($product->id) }} €</h5>
+                        <h5 class="mb-0">{{ formatPriceToFloat($cart->priceProductQuantity($product->id)) }} €</h5>
                     </div>
                     <div class="col-md-1 text-end">
                         <a href="{{ route('cart.delete_product', $product->id) }}" onclick="return confirm('êtes-vous sûr de vouloir supprimer ce produit?');" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
@@ -46,7 +46,7 @@
             </div>
         </div>
     @endforeach
-    <h5 id="sous-total" class="text-end p-3">Sous-total ({{ $cart->countProduct() }} articles) : {{ $cart->countProductsPrice() }} €</h5>
+    <h5 id="sous-total" class="text-end p-3">Sous-total ({{ $cart->countProduct() }} articles) : {{ formatPriceToFloat($cart->countProductsPrice()) }} €</h5>
     <p class="text-end" style="margin-top: -20px;">Le total de la commande inclut la TVA.</p>
 
     <div class="text-center mb-5">

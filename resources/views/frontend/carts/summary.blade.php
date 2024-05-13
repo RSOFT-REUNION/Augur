@@ -20,11 +20,11 @@
                 </div>
                 <div class="col-md-2">
                     <p>Prix TTC</p><br>
-                    <h5 class="mb-0">{{ $product->price_ttc }} €</h5>
+                    <h5 class="mb-0">{{ formatPriceToFloat($product->price_ttc) }} €</h5>
                 </div>
                 <div class="col-md-2">
                     <p>Total TTC</p><br>
-                    <h5 class="mb-0">{{ $cart->priceProductQuantity($product->id) }} €</h5>
+                    <h5 class="mb-0">{{ formatPriceToFloat($cart->priceProductQuantity($product->id)) }} €</h5>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
 
 <h5>Livraison : {{ $deliver["name"] }} - @if($deliver->price_ttc == 0) Gratuit @else {{ $deliver->price_ttc }} €@endif</h5>
 
-<h5 id="sous-total" class="text-end p-3">Sous-total ({{ $cart->countProduct() }} article) : {{ $cart->total_ttc }} €</h5>
+<h5 id="sous-total" class="text-end p-3">Sous-total ({{ $cart->countProduct() }} article) : {{ formatPriceToFloat($cart->total_ttc) }} €</h5>
 <p class="text-end" style="margin-top: -20px;">Le total de la commande inclut la TVA.</p>
 
 <form action="#" method="POST" id="payment-form" class="datpayment-form mb-5">

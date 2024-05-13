@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
                     <p>Prix TTC</p><br>
-                    <h5 class="mb-0">{{ $product->price_ttc }} €</h5>
+                    <h5 class="mb-0">{{ formatPriceToFloat($product->price_ttc) }} €</h5>
                 </div>
             </div>
         </div>
@@ -37,5 +37,5 @@
 
 <h5>Frais de livraison : </h5>
 
-<h5 id="sous-total" class="text-end p-3">Sous-total ({{ $cart->countProduct() }} article) : {{ $cart->countProductsPrice() }} €</h5>
+<h5 id="sous-total" class="text-end p-3">Sous-total ({{ $cart->countProduct() }} article) : {{ formatPriceToFloat($cart->countProductsPrice()) }} €</h5>
 <p class="text-end" style="margin-top: -20px;">Le total de la commande inclut la TVA.</p>
