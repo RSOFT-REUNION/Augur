@@ -70,6 +70,7 @@ class Product extends Model
              }
              $image_name = Str::slug($image->getClientOriginalName(), '.');
              $image->storeAs('public/upload/catalog/products/'.$product.'/', $image_name);
+             chmod(base_path().'/public/storage/upload/catalog/products/'.$product ,0775);
              $pictures[] = [
                  'name' => $image_name,
              ];
