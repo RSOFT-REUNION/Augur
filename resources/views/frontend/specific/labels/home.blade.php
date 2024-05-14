@@ -1,7 +1,7 @@
-<div class="text-center">
-    <h1>Nos labels</h1>
-    <h3>Un gage de qualité</h3>
-    <p class="mt-10">
+<div class="text-center" data-aos="fade-left">
+    <h1 class="mb-4">Nos labels</h1>
+    <h3 class="mb-4">Un gage de qualité</h3>
+    <p class="mb-5">
         Aügur propose aux consommateurs réunionnais une sélection des principaux labels privilégiés. Une cinquantaine de labels, signes de qualité,<br>
         marques régionales et démarches engagées qui vont vous permettre d'en savoir plus, pour consommer mieux !
     </p>
