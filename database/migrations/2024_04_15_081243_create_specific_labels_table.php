@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('image');
             $table->longText('description')->nullable();
+            $table->boolean('favorite')->default(0);
             $table->timestamps();
         });
         /*** Ajout des permision **/

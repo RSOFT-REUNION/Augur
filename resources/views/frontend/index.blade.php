@@ -40,4 +40,7 @@
 
     {!! $page->content !!}
 
+    <!-- List des favoris -->
+    @include('frontend.specific.labels.home')
+
 @endsection

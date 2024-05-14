@@ -38,7 +38,9 @@ class LabelsController extends Controller
             'name' => 'required|min:3|max:255|string',
             'description'=>'string|nullable',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'favorite' => '',
         ]);
+        @$validated['favorite'] = $validated['favorite']=='on' ? 1:0;
         $imageName = Str::slug($validated['image']->getClientOriginalName(), '.');
         $validated['image']->storeAs('public/upload/specific/labels', $imageName);
         $validated['image'] = $imageName;
@@ -63,7 +65,9 @@ class LabelsController extends Controller
             'name' => 'required|min:3|max:255|string',
             'description'=>'string|nullable',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'favorite' => '',
         ]);
+        @$validated['favorite'] = $validated['favorite']=='on' ? 1:0;
         if(@$validated['image']){
             /*** Suppresion de l'ancienne image ***/
             $imgold = Labels::select('image')->where('id', $label->id)->first();

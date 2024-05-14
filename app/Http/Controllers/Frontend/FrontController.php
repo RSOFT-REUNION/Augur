@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Catalog\Product;
 use App\Models\Content\Pages;
 use App\Models\Settings\Informations;
+use App\Models\Specific\Labels;
 
 class FrontController extends FrontendBaseController
 {
@@ -12,9 +13,11 @@ class FrontController extends FrontendBaseController
     {
         $pages = Pages::where('id', '=', '1')->first();
         $produits = Product::where('active', 1)->get();
+        $labels = Labels::where('favorite', 1)->inRandomOrder()->limit(4)->get();
         return view('frontend.index', [
             'page' => $pages,
-            'produits' => $produits
+            'produits' => $produits,
+            'labels' => $labels
         ]);
     }
     public function legalnotice()

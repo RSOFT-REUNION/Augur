@@ -2,6 +2,28 @@
 @section('title', $label->exists ? __('Modifier un label') : __('Créer un label'))
 
 @section('main-content')
+    <form action="{{ route($label->exists ? 'backend.specific.labels.update' : 'backend.specific.labels.store', $label) }}" method="post"  class="mt-6 space-y-6" enctype="multipart/form-data">
+        @csrf
+        @method($label->exists ? 'put' : 'post')
+
+        <div class="d-flex gap-2 justify-content-end mb-3 me-5">
+            <div class="form-check form-switch d-flex align-items-center">
+                <input class="form-check-input"
+                       @if($label->favorite) checked @endif
+                       type="checkbox" role="switch" id="favorite" name="favorite">
+                <label class="form-check-label" for="favorite">Favoris</label>
+            </div>
+            <button type='button' class="btn btn-danger" onclick="location.href='{{ route('backend.specific.labels.index') }}'">
+                <i class="fa-solid fa-rotate-left"></i>&nbsp;Annuler
+            </button>
+            <button type="submit" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i>
+                @if($label->exists)
+                    Modifier
+                @else
+                    Créer
+                @endif
+            </button>&nbsp;&nbsp;
+        </div>
 
     <div class="row m-2">
         <div class="col">
@@ -17,9 +39,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route($label->exists ? 'backend.specific.labels.update' : 'backend.specific.labels.store', $label) }}" method="post"  class="mt-6 space-y-6" enctype="multipart/form-data">
-                    @csrf
-                    @method($label->exists ? 'put' : 'post')
+
 
                         @if($label->exists)
                             <div class="text-center mb-3">
@@ -60,23 +80,10 @@
                             <textarea id="description" name="description" class="summernote">{{ old('content', $label->description) }}</textarea>
                         </div>
 
-                        <div class="d-flex gap-2 justify-content-center mt-3">
-                            <button type='button' class="btn btn-danger" onclick="location.href='{{ route('backend.specific.labels.index') }}'">
-                                <i class="fa-solid fa-rotate-left"></i>&nbsp;Annuler
-                            </button>
-                            <button type="submit" class="btn btn-success"><i class="fa-solid fa-pen-to-square"></i>
-                                @if($label->exists)
-                                    Modifier
-                                @else
-                                    Créer
-                                @endif
-                            </button>&nbsp;&nbsp;
-                        </div>
-
-                    </form>
                 </div>
             </div>
         </div>
     </div>
+    </form>
 
 @endsection

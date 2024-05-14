@@ -9,7 +9,7 @@ use Illuminate\Support\Str;
 class Labels extends Model
 {
     protected $table = 'specific_labels';
-    protected $fillable = ['name', 'image', 'description'];
+    protected $fillable = ['name', 'image', 'description', 'favorite'];
 
     public function getSlug(){
         return Str::slug($this->name);

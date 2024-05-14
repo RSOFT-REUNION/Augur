@@ -5,15 +5,18 @@
 
     <div class="row m-2">
         <div class="col">
+            @can('content.carousel.create')
+                <div class="d-flex gap-2 justify-content-end mb-3 me-5">
+                    <div class="d-flex gap-2 justify-content-end">
+                        <a href="{{ route('backend.specific.labels.create') }}" class="btn btn-success my-2 hvr-grow"><i class="fa-solid fa-plus"></i> Ajouter un label</a>
+                    </div>
+                </div>
+            @endcan
+
             <div class="card border-left-primary shadow mb-4">
 
                 <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Liste des labels</h6>
-                    @can('specific.labels.create')
-                        <div class="d-flex gap-2 justify-content-end">
-                            <a href="{{ route('backend.specific.labels.create') }}" class="btn btn-success my-2 hvr-grow"><i class="fa-solid fa-plus"></i> Ajouter un label</a>
-                        </div>
-                    @endcan
                 </div>
 
                 <div class="card-body">
@@ -24,8 +27,10 @@
                                 <th scope="col" class="text-center" style="width: 5%;">#</th>
                                 <th scope="col" class="text-center" style="width: 20%;">Image</th>
                                 <th scope="col" class="text-center">Nom</th>
+                                <th scope="col" class="text-center" style="width: 5%;">Favoris</th>
                                 <th scope="col" class="text-center" style="width: 15%;"><i
-                                        class="fa-duotone fa-arrows-minimize"></i></th>
+                                        class="fa-duotone fa-arrows-minimize"></i>
+                                </th>
                             </tr>
                             </thead>
 
@@ -34,6 +39,11 @@
                                     <td class="text-center align-middle">{{ $label->id }}</td>
                                     <td class="text-center align-middle"><img style="max-height: 50px;" src="/storage/upload/specific/labels/{{ $label->image }}" alt="{{ $label->name }}"></td>
                                     <td class="text-center align-middle">{{ $label->name }}</td>
+                                    <td class="text-center align-middle">
+                                        @if($label->favorite)
+                                            <i class="fa-solid fa-star" style="color: gold;"></i>
+                                        @endif
+                                    </td>
                                     <td class="text-center align-middle">
                                         @can('specific.labels.update')
                                             <a href="{{ route('backend.specific.labels.edit', $label->id) }}"
