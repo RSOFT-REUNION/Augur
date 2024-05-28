@@ -17,7 +17,7 @@ function getActive($active)
 function getImageUrl(string $image, ?int $width = null, ?int $height = null, ?string $fit = null)
 {
     /*** verifie que l'image existe, sinon retroune l'image par default ***/
-    if(Storage::files('/public'.$image) != '') {
+    if(Storage::files('/public'.$image)) {
         $image = '/no-image.png';
     }
 

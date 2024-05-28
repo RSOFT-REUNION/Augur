@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg" aria-label="Augur Navbar"  style="border-top: #1b2e47 20px solid;">
     <div class="container pt-3">
-        <a class="navbar-brand" href="/"><img class="logo hvr-wobble-to-bottom-right" src="{{ asset('images/logo/logo_icon_jaune.png') }}" alt="logo"></a>
+        <a class="navbar-brand" href="/"><img class="logo hvr-wobble-to-bottom-right" src="{{ asset('/frontend/images/logo/logo_icon_jaune.png') }}" alt="logo"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
             <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasNavbar2Label"><img class="img-fluid" src="{{ asset('images/logo/logo_gris.png') }}" alt="logo"></h5>
+                <h5 class="offcanvas-title" id="offcanvasNavbar2Label"><img class="img-fluid" src="{{ asset('/frontend/images/logo/logo_gris.png') }}" alt="logo"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body">

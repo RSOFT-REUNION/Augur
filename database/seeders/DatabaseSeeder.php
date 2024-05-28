@@ -39,14 +39,11 @@ class DatabaseSeeder extends Seeder
             'is_menu' => 1,
         ]);
         $produit1 = Product::create([
-            'name' => 'Produits Test 1',
-            'slug' => 'produits-test-1',
+            'name' => 'Gratin 4 légumes emmental',
+            'slug' => 'gratin-4-legumes-emmental',
             'category_id' => 1,
-            'short_description' => 'Produits Test 1',
-            'content' => 'Produits Test 1',
-            'composition' => '',
-            'tags' => '',
-            'barcode' => '',
+            'short_description' => 'Gratin de 4 légumes et emmental BIO Association de légumes gourmands et emmental fondant dans une recette BIOtifulement bonne !',
+            'content' => 'Gratin de 4 légumes et emmental BIO Association de légumes gourmands et emmental fondant dans une recette BIOtifulement bonne ! Un gratin riche en saveurs, avec son alliance de légumes BIO ! Une touche de brocoli, quelques carottes et des pommes de terre, le tout parsemé d’emmental Français gratiné ! Une recette idéale pour toute la famille ! Conditionnement : 380g',
             'weight_unit' => 'kg',
             'weight' => '123',
             'price_ht' => 2990,
@@ -61,14 +58,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $produit2 = Product::create([
-            'name' => 'Produits Test 2',
-            'slug' => 'produits-test-2',
+            'name' => 'Breizh Burger',
+            'slug' => 'breizh-burger',
             'category_id' => 1,
-            'short_description' => 'Produits Test 2',
-            'content' => 'Produits Test 2',
-            'composition' => '',
-            'tags' => '',
-            'barcode' => '',
+            'short_description' => 'Quand l’Amérique s’invite aux portes de la Bretagne, saveurs et gourmandise sont au rendez-vous !',
+            'content' => 'Quand l’Amérique s’invite aux portes de la Bretagne, saveurs et gourmandise sont au rendez-vous ! Succombez à la tentation de ce burger 100% breton ! Avis aux amateurs de snacking, son pain croustillant, sa compotée d’oignons et son steak tout droit venu de Bretagne vont vous régaler les papilles !',
             'weight_unit' => 'kg',
             'weight' => 341,
             'price_ht' => 590,
@@ -83,14 +77,11 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $produit3 = Product::create([
-            'name' => 'Produits Test 3',
-            'slug' => 'produits-test-3',
+            'name' => 'Coquillettes jambon vache qui rit',
+            'slug' => 'coquillettes-jambon-vache-qui-rit',
             'category_id' => 1,
-            'short_description' => 'Produits Test 3',
-            'content' => 'Produits Test 3',
-            'composition' => '',
-            'tags' => '',
-            'barcode' => '',
+            'short_description' => 'Un plat délicieux pour les enfants, rapide à préparer, avec de la viande de porc origine france',
+            'content' => 'content : Un plat délicieux pour les enfants, rapide à préparer, avec de la viande de porc origine france',
             'weight_unit' => 'kg',
             'weight' => 342,
             'price_ht' => 1990,

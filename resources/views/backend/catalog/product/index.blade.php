@@ -51,8 +51,7 @@
                                 <tr>
                                     <td class="text-center align-middle">{{ $product->id }}</td>
                                     <td class="text-center align-middle">
-                                        @if($product->fav_image != null) <img src="{{ $product->getFirstImagesURL(50, 50) }}">
-                                        @else <i class="fa-light fa-image-slash"></i> @endif
+                                        <img src="{{ $product->getFirstImagesURL() }}" alt="{{ $product->name }}" style="width: 50px;">
                                     </td>
                                     <td class="text-center align-middle" ><div class="d-inline-block text-wrap" style="max-width: 350px;">{{ $product->name }}</div>
                                         <br> <div class="d-inline-block text-truncate fw-lighter fst-italic" style="max-width: 300px;">Lien du produit : <a target="_blank" href="{{ route('product.show', $product->slug) }}"><span class="" >{{ route('product.show', $product->slug) }}</span></a></div> </td>

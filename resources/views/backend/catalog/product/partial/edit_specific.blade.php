@@ -3,8 +3,24 @@
         <h6 class="m-0 font-weight-bold text-secondary">Complémentaires (Spécifiques selon le client)</h6>
     </div>
     <div class="card-body">
+
+        <div class="m-0w">
+            <label for="permissions" class="form-label">Labels</label>
+            <select class="form-select tomselectmultiple @error('labels') is-invalid @enderror" multiple aria-label="Labels" id="labels" name="labels[]">
+                @foreach($labels as $label)
+                    <option value="{{ $label->id }}"  {{ in_array($label->id, $product_labels ?? []) ? 'selected' : '' }} {{ in_array($label->id, old('labels') ?? []) ? 'selected' : '' }}>
+                        {{ $label->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('labels')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+
+
         <div class="form-group">
-            <label class="form-control-label" for="code_article">Code Article EBP</label>
+            <label class="form-control-label" for="code_article">Code Article</label>
             <input type="text" id="code_article" name="code_article"
                    class="@error('code_article') is-invalid @enderror form-control"
                    value="{{ old('code_article', $product->code_article) }}">

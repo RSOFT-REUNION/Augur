@@ -5,7 +5,7 @@
             <div class="row">
 
                 <div class="col-lg-4 col-md-4 col-12">
-                    <img class="img-fluid" src="{{ asset('images/logo/logo_blanc.png') }}" alt="logo">
+                    <img class="img-fluid" src="{{ asset('/frontend/images/logo/logo_blanc.png') }}" alt="logo">
                 </div>
 
                 <div class="col-lg-4 col-md-4 col-12  text-center">

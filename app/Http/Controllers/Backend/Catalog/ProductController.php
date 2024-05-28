@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Catalog;
 
 use App\Http\Controllers\Controller;
 use App\Models\Catalog\ProductsImages;
+use App\Models\Specific\Labels;
 use Illuminate\Http\Request;
 use App\Models\Catalog\Category;
 use App\Models\Catalog\Product;
@@ -37,7 +38,6 @@ class ProductController extends Controller
             'tva' => 'in:0,210,850|required',
             'images' => 'array',
             'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
-
             'category_id' => 'integer|nullable',
             'brand_id' => 'integer|nullable',
             'short_description' => 'string|max:255|nullable',
@@ -70,6 +70,8 @@ class ProductController extends Controller
             'categories_list' => Category::with(['childrenCategories' => function ($q) {
                 $q->orderBy('name');
             }])->get(),
+            'labels' => Labels::select('name', 'id')->get(),
+            'product_labels' => $product->labels()->pluck('id')->all(),
         ]);
     }
 
@@ -80,6 +82,7 @@ class ProductController extends Controller
     {
         $validatedData = $request->validate([
             'active' => 'nullable',
+            'labels' => 'nullable',
             'name' => 'string|min:3|max:255|required',
             'barcode' => 'string|nullable',
             'category_id' => 'integer|nullable',
@@ -110,6 +113,7 @@ class ProductController extends Controller
         $validatedData['updated_by_id'] = auth()->id();
 
         $product->update($validatedData);
+        $product->labels()->sync($validatedData['labels']);
         return back()->withSuccess('Produit modifié avec succès');
     }
 

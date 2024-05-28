@@ -2,13 +2,11 @@
 
 namespace App\Models\Catalog;
 
-use App\Models\Carts\Carts;
+use App\Models\Specific\Labels;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
-use Spatie\Glide\GlideImage;
 
 class Product extends Model
 {
@@ -47,10 +45,10 @@ class Product extends Model
         return $this->belongsToMany(DiscountDetail::class);
     }
 
-/*    public function tags(): HasMany
+    public function labels(): BelongsToMany
     {
-        return $this->hasMany(Tag::class);
-    }*/
+        return $this->BelongsToMany (Labels::class, 'catalog_product_labels');
+    }
 
     public function getStockQuantity($product) {
         if ($product->stock == 0) {

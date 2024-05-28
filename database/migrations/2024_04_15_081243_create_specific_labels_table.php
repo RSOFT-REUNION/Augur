@@ -19,6 +19,11 @@ return new class extends Migration
             $table->boolean('favorite')->default(0);
             $table->timestamps();
         });
+        Schema::create('catalog_product_labels', function (Blueprint $table) {
+            $table->foreignIdFor(\App\Models\Catalog\Product::class)->constrained('catalog_products')->cascadeOnDelete();
+            $table->foreignIdFor(\App\Models\Specific\Labels::class)->constrained('specific_labels')->cascadeOnDelete();
+            $table->primary(['product_id', 'labels_id']);
+        });
         /*** Ajout des permision **/
         $permissions = [
             [
