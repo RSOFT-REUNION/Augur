@@ -34,12 +34,14 @@
                             <tr>
                                 <th scope="col" class="text-center" style="width: 5%;">#</th>
                                 <th scope="col" class="text-center">Image</th>
-                                <th scope="col" class="text-center">Libellé</th>
+                                <th scope="col" class="text-center">Nom</th>
                                 <th scope="col" class="text-center">Catégorie</th>
-                                <th scope="col" class="text-center">Poids</th>
-                                <th scope="col" class="text-center">Prix</th>
+                                <th scope="col" class="text-center">Marque</th>
+                                <th scope="col" class="text-center">Prix HT</th>
                                 <th scope="col" class="text-center">TVA</th>
+                                <th scope="col" class="text-center">Prix TTC</th>
                                 <th scope="col" class="text-center">Stock</th>
+                                <th scope="col" class="text-center">Actif</th>
                                 <th scope="col" class="text-center" style="width: 8%;"><i
                                         class="fa-duotone fa-arrows-minimize"></i></th>
                             </tr>
@@ -49,14 +51,19 @@
                                 <tr>
                                     <td class="text-center align-middle">{{ $product->id }}</td>
                                     <td class="text-center align-middle">
-                                        {{ $product->getFristImages($product) }}
+                                        @if($product->fav_image != null) <img src="{{ $product->getFirstImagesURL(50, 50) }}">
+                                        @else <i class="fa-light fa-image-slash"></i> @endif
                                     </td>
-                                    <td class="text-center align-middle">{{ $product->name }} <br> <span class="fw-lighter fst-italic">url: {{ $product->slug }}</span> </td>
-                                    <td class="text-center align-middle">{{ $product->getCategoryName($product->category_id) }}</td>
-                                    <td class="text-center align-middle">{{ formatPriceToFloat($product->weight) }} {{ $product->weight_unit }}</td>
-                                    <td class="text-center align-middle">HT: {{ formatPriceToFloat($product->price_ht) }} €  | TTC: {{ formatPriceToFloat($product->price_ttc) }} €</td>
+                                    <td class="text-center align-middle" ><div class="d-inline-block text-wrap" style="max-width: 350px;">{{ $product->name }}</div>
+                                        <br> <div class="d-inline-block text-truncate fw-lighter fst-italic" style="max-width: 300px;">Lien du produit : <a target="_blank" href="{{ route('product.show', $product->slug) }}"><span class="" >{{ route('product.show', $product->slug) }}</span></a></div> </td>
+                                    <td class="text-center align-middle">{{ $product->category->name ?? 'Aucune catégorie' }}</td>
+                                    <td class="text-center align-middle">{{ $product->brand->name ?? 'Aucune marque' }}</td>
+                                    <td class="text-center align-middle">{{ formatPriceToFloat($product->price_ht) }} €</td>
                                     <td class="text-center align-middle">{{ formatPriceToFloat($product->tva) }} %</td>
-                                    <td class="text-center align-middle">{{ formatStockToFloat($product->stock) }}</td>
+                                    <td class="text-center align-middle">{{ formatPriceToFloat($product->price_ttc) }} €</td>
+                                    <td class="text-center align-middle">{{ $product->getStockQuantity($product) }}</td>
+                                    <td class="text-center align-middle">{{ $product->active == 1 ? 'Actif' : 'Inactif' }}</td>
+
                                     <td class="text-center align-middle">
                                         @can('catalog.products.update')
                                             <a href="{{ route('backend.catalog.products.edit', $product->id) }}"

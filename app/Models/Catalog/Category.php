@@ -8,10 +8,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Category extends Model
 {
     protected $table = 'catalog_categories';
-    protected $fillable = ['name', 'slug', 'category_id'];
+    protected $fillable = ['name', 'description', 'slug', 'category_id', 'image', 'is_menu', 'active'];
 
     public function categories(): HasMany {
         return $this->hasMany(Category::class);
+    }
+    public function products(): HasMany {
+        return $this->hasMany(Product::class);
     }
 
     public function childrenCategories(): HasMany {

@@ -16,18 +16,16 @@ class CartsProducts extends Model
     {
         return $this->hasMany(Carts::class);
     }
-    public function getFristImages($product)
+    public function getFirstImages($product, ?int $width = null, ?int $height = null, ?string $fit = null)
     {
         $product= Product::where('id', $product->product_id)->first();
         if($product->fav_image){
             $fav_image = $product->images()->where('id', $product->fav_image)->first();
             if($fav_image){
-                echo '<img class="img-fluid rounded-3" src="'.$fav_image->getImageUrl().'" alt="'. $product->name .'">';
-            } else {
-                echo '<img class="img-fluid rounded-3" src="'.$product->images[0]->getImageUrl().'" alt="'. $product->name .'">';
+                return getImageUrl('/upload/catalog/products/'.$product->id.'/'.$fav_image->name, $width, $height, $fit);
             }
         } elseif ($product->images->count() > 0) {
-            echo '<img class="img-fluid rounded-3" src="'.$product->images[0]->getImageUrl().'" alt="'. $product->name .'">';
+            return getImageUrl('/upload/catalog/products/'.$product->id.'/'.$product->images->first()->name, $width, $height, $fit);
         }
     }
 }

@@ -24,10 +24,14 @@
                             <thead>
                             <tr>
                                 <th scope="col" class="text-center" style="width: 5%;">#</th>
+                                <th scope="col" class="text-center">Image</th>
                                 <th scope="col" class="text-center">Nom</th>
                                 <th scope="col" class="text-center">Slug</th>
                                 <th scope="col" class="text-center">Catégorie</th>
-                                <th scope="col" class="text-center" style="width: 15%;"><i
+                                <th scope="col" class="text-center" width="5%">Produits</th>
+                                <th scope="col" class="text-center" width="5%">Menu</th>
+                                <th scope="col" class="text-center" width="5%">Activé</th>
+                                <th scope="col" class="text-center" style="width:8%;"><i
                                         class="fa-duotone fa-arrows-minimize"></i></th>
                             </tr>
                             </thead>
@@ -35,9 +39,17 @@
                             @foreach ($categories as $category)
                                 <tr>
                                     <td class="text-center">{{ $category->id }}</td>
+                                    <td class="text-center align-middle">
+                                        @if($category->image != null)
+                                            <img src="{{ getImageUrl('/upload/catalog/category/'.$category->image, 50, 50) }}" alt="{{ $category->name  }}">
+                                        @endif
+                                    </td>
                                     <td>{{ $category->name }}</td>
                                     <td>{{ $category->slug }}</td>
                                     <td>{{ $category->getCategoryName($category->category_parent_id) }}</td>
+                                    <td  class="text-center align-middle">{{ count($category->products->where('active', 1)) }}</td>
+                                    <td  class="text-center align-middle">{{ getActive($category->is_menu) }}</td>
+                                    <td  class="text-center align-middle">{{ getActive($category->active) }}</td>
                                     <td class="text-center">
                                         @can('catalog.categories.edit')
                                             <a href="{{ route('backend.catalog.categories.edit', $category->id) }}"

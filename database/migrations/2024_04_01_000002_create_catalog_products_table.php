@@ -15,17 +15,18 @@ return new class extends Migration {
             // category_id   -  généré par la migration catalog_categories: $table->foreignId(category_id)->nullable();
             // généré par la migration catalog_brands: $table->foreignId('brand_id')->nullable();
             $table->string('fav_image')->nullable();
-            $table->longText('description')->nullable();
+            $table->string('short_description')->nullable();
+            $table->longText('content')->nullable();
             $table->longText('composition')->nullable();
             $table->string('tags')->nullable();
             $table->string('barcode')->nullable();
-            $table->string('weight_unit')->default('Kilogramme'); // Kilogramme ou Litre
-            $table->integer('weight')->default('0');
-            $table->integer('price_ht')->nullable();
-            $table->integer('tva')->nullable();
+            $table->string('weight_unit')->default('kg'); // Kilogramme ou Litre
+            $table->integer('weight')->default(0);
+            $table->integer('price_ht');
+            $table->enum('tva',[0, 210, 850])->default(0);
             $table->integer('price_ttc')->nullable();
-            $table->integer('stock'); // "stock réel" dans EBP; 1000 par défaut car stocké en millième pour le calcul au kg (vrac)
-            $table->string('stock_unit')->default('Unité'); // Unité de vente. valeurs possibles: soit Unité, soit Kilogramme ou Litre pour le vrac
+            $table->integer('stock')->default(1000); // "stock réel" dans EBP; 1000 par défaut car stocké en millième pour le calcul au kg (vrac)
+            $table->string('stock_unit')->default('unit'); // Unité de vente. valeurs possibles: soit Unité, soit Kilogramme ou Litre pour le vrac
             $table->boolean('active')->default(1);
             $table->integer('created_by_id')->nullable();
             $table->integer('updated_by_id')->nullable();

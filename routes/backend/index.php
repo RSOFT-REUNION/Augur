@@ -11,8 +11,8 @@ require __DIR__ . '/content.php';
 require __DIR__ . '/orders.php';
 require __DIR__ . '/catalog.php';
 require __DIR__ . '/clients.php';
-require __DIR__ . '/settings.php';
 require __DIR__ . '/specific.php';
+require __DIR__ . '/settings.php';
 
 /*** Upload image depuis SummerNote ***/
 Route::post('/', function () {

@@ -40,6 +40,32 @@ class CartController extends FrontendBaseController
         ]);
     }
 
+    public function create_address(Request $request)
+    {
+        $cart_id = $this->getCart();
+        $cart = Carts::firstwhere('id', $cart_id);
+        $delivery = Delivery::where('active', 1)->get();
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'address' => 'required|string|max:255',
+            'address2' => 'max:255',
+            'postal_code' => 'required|string|max:10',
+            'city' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'phone' => 'required|string|max:20',
+        ]);
+        $validated['user_id'] = Auth::user()->id;
+        $validated['alias'] = $validated['name'];
+        $user_address = Address::create($validated);
+        $user_address->favorite = $user_address->id;
+        $user_address->save();
+        return response()->view('frontend.carts.chose_livraison', [
+            'cart' => $cart,
+            'user_address' => $user_address,
+            'delivery' => $delivery,
+        ]);
+    }
+
     public function chose_delivery(Request $request)
     {
         $user_address = Address::where('id', $request->address)->first();
@@ -68,7 +94,6 @@ class CartController extends FrontendBaseController
         ]);
     }
 
-
     public function getCart()
     {
         $session_id = Session::getId();
@@ -94,6 +119,7 @@ class CartController extends FrontendBaseController
             return $cart->id;
         }
     }
+
     public function add_product(Product $produit)
     {
         $cart_id = $this->getCart();
@@ -162,6 +188,7 @@ class CartController extends FrontendBaseController
         $product->save();
         return view('frontend.carts.panier_fragment', compact('cart'))->fragment('panier_fragment');
     }
+
     public function delete_product(CartsProducts $produit)
     {
         CartsProducts::find($produit)->each->delete();

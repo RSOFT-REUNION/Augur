@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Catalog\Category;
 use App\Models\Catalog\Product;
 use App\Models\Users\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,34 +25,83 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('pMg59f!*4D'),
             'email_verified_at' => now(),
         ]);
+        User::create([
+            'name' => 'Amélie Comte',
+            'email' => 'dev@rsoft.re',
+            'password' => Hash::make('@Amc$2024**'),
+            'email_verified_at' => now(),
+        ]);
+        Category::create([
+            'name' => 'Produits surgelés',
+            'slug' => 'produits-surgeles',
+            'image' => 'produits.surgeles.jpg',
+            'active' => 1,
+            'is_menu' => 1,
+        ]);
         $produit1 = Product::create([
-            'name' => 'breizh burger mini - spécial apéro',
-            'slug' => Str::slug('breizh burger mini - spécial apéro'),
-            'description' => 'Des mini burgers qui envoient du steak ! Un plaisir sans complexe avec ces 9 mini burgers 100% bretons ! Leur petit + : un pain délicatement moelleux au sarrasin. Une délicieuse recette pour un apéritif gourmand à partager en famille ou entre amis ! Conditionnement : 9x15g',
-            'price_ht' => 490,
-            'tva' => 5,
-            'price_ttc' => 590,
-            'stock' => 5,
+            'name' => 'Produits Test 1',
+            'slug' => 'produits-test-1',
+            'category_id' => 1,
+            'short_description' => 'Produits Test 1',
+            'content' => 'Produits Test 1',
+            'composition' => '',
+            'tags' => '',
+            'barcode' => '',
+            'weight_unit' => 'kg',
+            'weight' => '123',
+            'price_ht' => 2990,
+            'tva' => '0',
+            'price_ttc' => 2990,
+            'stock' => 5000,
+            'stock_unit' => 'unit',
+            'fav_image' => 1,
+        ]);
+        $produit1->images()->create([
+            'name' => 'gratin.4.legumes.emmental.380g.jpg',
         ]);
 
         $produit2 = Product::create([
-            'name' => 'breizh burger',
-            'slug' => Str::slug('breizh burger'),
-            'description' => 'Quand l’Amérique s’invite aux portes de la Bretagne, saveurs et gourmandise sont au rendez-vous ! Succombez à la tentation de ce burger 100% breton ! Avis aux amateurs de snacking, son pain croustillant, sa compotée d’oignons et son steak tout droit venu de Bretagne vont vous régaler les papilles !',
-            'price_ht' => 990,
-            'tva' => 10,
-            'price_ttc' => 1490,
+            'name' => 'Produits Test 2',
+            'slug' => 'produits-test-2',
+            'category_id' => 1,
+            'short_description' => 'Produits Test 2',
+            'content' => 'Produits Test 2',
+            'composition' => '',
+            'tags' => '',
+            'barcode' => '',
+            'weight_unit' => 'kg',
+            'weight' => 341,
+            'price_ht' => 590,
+            'tva' => '0',
+            'price_ttc' => 590,
             'stock' => 0,
+            'stock_unit' => 'unit',
+            'fav_image' => 2,
+        ]);
+        $produit2->images()->create([
+            'name' => 'bzh.burger.x2.jpg',
         ]);
 
         $produit3 = Product::create([
-            'name' => 'Coquillettes jambon vache qui rit',
-            'slug' => Str::slug('Coquillettes jambon vache qui rit'),
-            'description' => 'Un plat délicieux pour les enfants, rapide à préparer, avec de la viande de porc origine france',
-            'price_ht' => 290,
-            'tva' => 20,
-            'price_ttc' => 390,
-            'stock' => 16,
+            'name' => 'Produits Test 3',
+            'slug' => 'produits-test-3',
+            'category_id' => 1,
+            'short_description' => 'Produits Test 3',
+            'content' => 'Produits Test 3',
+            'composition' => '',
+            'tags' => '',
+            'barcode' => '',
+            'weight_unit' => 'kg',
+            'weight' => 342,
+            'price_ht' => 1990,
+            'tva' => '0',
+            'price_ttc' => 1990,
+            'stock' => 1600,
+            'stock_unit' => 'kg',
+            'fav_image' => 3,
+        ]);
+        $produit3->images()->create([
+            'name' => 'coquillettes.jambon.vache.qui.rit.800g.jpg',
         ]);
     }
 }

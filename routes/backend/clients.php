@@ -12,6 +12,7 @@ Route::prefix('admin/clients')->name('backend.clients.')->middleware('auth:admin
             Route::get('', [ClientsController::class, 'index'])->name('index');
             Route::delete('{client}', [ClientsController::class, 'destroy'])->name('destroy');
             Route::get('/adresses/{client}', [ClientsController::class, 'addresses'])->name('adresse');
+            Route::post('importcsv', [ClientsController::class, 'importcsv'])->name('importcsv');
         });
     });
     Route::prefix('/paniers')->name('carts.')->group(function () {

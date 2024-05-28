@@ -11,9 +11,11 @@ return new class extends Migration {
         Schema::create('catalog_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
+            $table->longText('description')->nullable();
+            $table->string('image')->nullable();
             $table->string('slug')->nullable()->unique();
-            $table->integer('level')->default(1);
             $table->foreignId('category_id')->nullable()->constrained('catalog_categories', 'id');
+            $table->boolean('is_menu')->default(0);
             $table->boolean('active')->default(1);
             $table->softDeletes();
             $table->timestamps();

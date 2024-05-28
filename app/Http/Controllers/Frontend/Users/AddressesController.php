@@ -6,7 +6,6 @@ use App\Http\Controllers\Frontend\FrontendBaseController;
 use App\Models\Users\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\View;
 
 class AddressesController extends FrontendBaseController
 {
@@ -38,8 +37,7 @@ class AddressesController extends FrontendBaseController
     {
         $validated = $request->validate([
             'alias' => 'required|string|min:3|max:255',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'address2' => 'max:255',
             'other' => 'max:255',
@@ -72,8 +70,7 @@ class AddressesController extends FrontendBaseController
     {
         $validated = $request->validate([
             'alias' => 'required|string|min:3|max:255',
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'address2' => 'max:255',
             'other' => 'max:255',

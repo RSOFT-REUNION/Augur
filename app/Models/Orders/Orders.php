@@ -9,7 +9,14 @@ class Orders extends Model
 {
 
     protected $table = 'orders';
-    protected $fillable = ['id', 'reference', 'delivery_type', 'delivery_location', 'user_id', 'total', 'status_id'];
+    protected $fillable = [
+        'ref_order',
+        'user_id',
+        'delivery_type',
+        'delivery_location',
+        'status_id',
+        'total_ttc',
+    ];
 
     public function user() {
         return $this->hasOne(User::class);

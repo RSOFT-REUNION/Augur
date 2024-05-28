@@ -11,7 +11,7 @@
                         <div class="card-body p-4">
                             <div class="row d-flex justify-content-between align-items-center">
                                 <div class="col-md-2 col-lg-2 col-xl-2">
-                                    {{ $product->getFristImages($product) }}
+                                    {{ $product->getFirstImages($product) }}
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-xl-3">
                                     <p class="lead fw-normal mb-2">{{ getProductInfos($product->product_id)->name  }}</p>

@@ -22,6 +22,9 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->boolean('active')->default(0);
             $table->boolean('newsletter')->default(0);
+            $table->string('erp_id')->nullable();
+            $table->string('erp_loyalty_points')->nullable();
+            $table->string('erp_loyalty_card')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

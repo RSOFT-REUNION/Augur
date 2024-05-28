@@ -31,8 +31,8 @@ class Carts extends Model
         if ($status == 'En cours') {
             echo '<span class="badge badge-warning">En cours</span>';
         }
-        if ($status == 'Abandoner') {
-            echo '<span class="badge badge-danger">Abandoner</span>';
+        if ($status == 'Abandonner') {
+            echo '<span class="badge badge-danger">Abandonner</span>';
         }
         if ($status == 'Commander') {
             echo '<span class="badge badge-success">Commander</span>';

@@ -6,18 +6,19 @@ use App\Models\Catalog\Product;
 use App\Models\Content\Pages;
 use App\Models\Settings\Informations;
 use App\Models\Specific\Labels;
+use Illuminate\Http\Request;
 
 class FrontController extends FrontendBaseController
 {
     public function index()
     {
         $pages = Pages::where('id', '=', '1')->first();
-        $produits = Product::where('active', 1)->get();
+        $products_random = Product::with('images')->where('active',1)->inRandomOrder()->limit(6)->get();
         $labels = Labels::where('favorite', 1)->inRandomOrder()->limit(4)->get();
         return view('frontend.index', [
             'page' => $pages,
-            'produits' => $produits,
-            'labels' => $labels
+            'products_random' => $products_random,
+            'labels' => $labels,
         ]);
     }
     public function legalnotice()
@@ -35,15 +36,19 @@ class FrontController extends FrontendBaseController
         ]);
     }
 
-    /*** Gestion des produits ***/
-    public function product(string $slug, Product $product)
+    /*** Recherche ***/
+    public function search(Request $request)
     {
-        $product = $product->where('id', $product->id)->first();
-        if($product) {
-            return view('frontend.product.show', [
-                'produit' => $product,
-            ]);
-        }
+        $products = Product::query()->with('images')
+            ->where('active', 1)
+            ->where('name', 'LIKE', "%{$request->input('search')}%")
+            ->orderByDesc('id')
+            ->paginate(16)->withQueryString();
+
+        return view('frontend.pages.search', [
+            'search' => $request->search,
+            'products' => $products
+        ]);
     }
 
     /*** Gestion des pages ***/

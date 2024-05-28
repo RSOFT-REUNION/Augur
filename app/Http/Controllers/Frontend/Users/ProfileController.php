@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend\Users;
 
 use App\Http\Controllers\Frontend\FrontendBaseController;
 use App\Http\Requests\Frontend\Auth\ProfileUpdateRequest;
+use App\Models\Users\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -60,5 +61,15 @@ class ProfileController extends FrontendBaseController
         $request->session()->regenerateToken();
 
         return Redirect::to('/');
+    }
+
+    public function newsletter(Request $request)
+    {
+        $validated = $request->validate([
+            'newsletter' => '',
+        ]);
+        $validated['newsletter'] = $validated['newsletter']=='on' ? 1:0;
+        User::where('id', Auth::user()->id)->update($validated);
+        return view('frontend.profile.partials.newsletter');
     }
 }

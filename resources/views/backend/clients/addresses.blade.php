@@ -21,7 +21,6 @@
                         <table id="datatable" class="table datatable table-hover table-bordered w-100">
                             <thead>
                             <tr>
-                                <th scope="col" class="text-center">Prénom</th>
                                 <th scope="col" class="text-center">Nom</th>
                                 <th scope="col" class="text-center">Adresse</th>
                                 <th scope="col" class="text-center">Suite</th>
@@ -36,8 +35,7 @@
 
                             @foreach ($addresses as $address)
                                 <tr>
-                                    <td class="text-center">{{ $address->first_name }}</td>
-                                    <td class="text-center">{{ $address->last_name }}</td>
+                                    <td class="text-center">{{ $address->name }}</td>
                                     <td class="text-center">{{ $address->address }}</td>
                                     <td class="text-center">{{ $address->address2 }}</td>
                                     <td class="text-center">{{ $address->other }}</td>

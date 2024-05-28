@@ -11,11 +11,17 @@ class OrderProducts extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'products_id',
+        'product_id',
+        'stock_unit',
+        'weight',
+        'weight_unit',
+        'price_ht',
+        'tva',
+        'price_ttc',
         'quantity',
     ];
 
-    public function products()
+    public function product()
     {
         return $this->hasOne(Product::class);
     }

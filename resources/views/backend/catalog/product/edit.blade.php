@@ -2,283 +2,190 @@
 @section('title', $product->exists ? __('Modifier un produit') : __('Créer un produit'))
 
 @section('main-content')
-    <form action="{{ route($product->exists ? 'backend.catalog.products.update' : 'backend.catalog.products.store', $product) }}" method="post"  class="mt-6 space-y-6" enctype="multipart/form-data">
+
+    <form
+        action="{{ route($product->exists ? 'backend.catalog.products.update' : 'backend.catalog.products.store', $product) }}"
+        method="post" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method($product->exists ? 'put' : 'post')
 
-        <div class="d-flex gap-2 justify-content-end mb-3 me-5">
+        <!-- NAVIGATION TABS -->
+        <div class="d-flex gap-2 justify-content-between mb-3 me-5">
+            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-general" data-bs-toggle="pill" data-bs-target="#General"
+                            type="button" role="tab">Général
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-images" data-bs-toggle="pill" data-bs-target="#Images"
+                            type="button" role="tab">Images
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-specific" data-bs-toggle="pill" data-bs-target="#Specific"
+                            type="button" role="tab">Infos spécifiques
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-content" data-bs-toggle="pill" data-bs-target="#Content"
+                            type="button" role="tab">Contenu
+                    </button>
+                </li>
+            </ul>
             <div class="form-check form-switch d-flex align-items-center">
                 <input class="form-check-input"
                        @if(!$product->exists) checked @endif
                        @if($product->active) checked @endif
                        type="checkbox" role="switch" id="active" name="active">
-                <label class="form-check-label" for="active">Publique</label>
+                <label class="form-check-label" for="active">Activer</label>
+                <button type='button' class="btn btn-outline-secondary hvr-shadow ml-3"
+                        onclick="location.href='{{ route('backend.catalog.products.index') }}'">
+                    <i class="fa-solid fa-arrow-left"></i> Retourner à la liste
+                </button>
+                <button type="button" class="btn btn-danger hvr-float-shadow ml-2"
+                        title="Annuler"
+                        data-bs-toggle="modal"
+                        data-bs-target="#cancelModal">
+                    <i class="fa-solid fa-rotate-left"></i> Annuler
+                </button>
+                <button type="submit" class="btn btn-success hvr-float-shadow ml-2"><i
+                        class="fa-solid fa-check"></i> Enregistrer
+                </button>
             </div>
-            <button type='button' class="btn btn-danger hvr-float-shadow"
-                    onclick="location.href='{{ route('backend.catalog.products.index') }}'">
-                <i class="fa-solid fa-rotate-left"></i>&nbsp;Annuler
-            </button>
-            <button type="submit" class="btn btn-success hvr-float-shadow"><i class="fa-solid fa-pen-to-square"></i>
-                @if ($product->exists)
-                    Modifier
-                @else
-                    Créer
-                @endif
-            </button>
         </div>
 
-        <div class="row m-2">
-            <div class="col-md-8 col-12">
-                <div class="card border-left-secondary shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-secondary">Catégorie</h6>
+        <!-- Modal de confirmation d'annulation des modifications -->
+        <div class="modal fade" id="cancelModal" tabindex="-1" aria-labelledby="cancelModal" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div></div>
+                        <h5 class="modal-title" id="exampleModalLabel">Êtes-vous sûr ?</h5>
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                     </div>
-                    <div class="card-body">
-                        <select class="form-select tomselect @error('categorie') is-invalid @enderror" aria-label="category_id"
-                                id="category_id" name="category_id">
-                            <option value=""> Aucune catégorie </option>
-                            @foreach($categories as $category)
-                                <option @if($category->id == $product->category_id) selected @endif value="{{ $category->id }}"> {{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                        @error('categorie')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <div class="modal-body text-center text-danger text-wrap">
+                         Toutes vos modifications non-enregistrés sur le produit {{ $product->name }}
+                        seront perdues.
+                    </div>
+                    <div class="modal-footer">
+                        <button type='button' class="btn btn-danger hvr-float-shadow"
+                                onclick="location.href='{{ route('backend.catalog.products.edit', $product) }}'">
+                            <i class="fa-solid fa-xmark"></i> Supprimer les modifications en cours
+                        </button>
+                        <button type="button" class="btn btn-primary hvr-float-shadow" data-bs-dismiss="modal">
+                             Continuer à modifier <i class="fa-solid fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="card border-left-primary shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Informations</h6>
+
+        <div class="tab-content" id="pills-tabContent">
+            <!-- TAB INFORMATIONS GENERALES DU PRODUITS  -->
+            <div class="tab-pane fade show active" id="General" role="tabpanel">
+                <div class="row">
+                    <div class="col-6">
+                        @include('backend.catalog.product.partial.edit_general')
                     </div>
-                    <div class="card-body row d-flex gap-2 justify-content-end mb-3">
-                            {{-- NAME --}}
-                            <div class="form-group">
-                                <label class="form-control-label" for="name">Libellé du produit <span class="small text-danger">*</span></label>
-                                <input id="name" type="text" name="name"
-                                       class="@error('name') is-invalid @enderror form-control" required
-                                       value="{{ old('name', $product->name) }}">
-                                @error('name')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            {{-- SLUG --}}
-                        <div class="form-group">
-                            <label class="form-control-label" for="name">Slug</label>
-                            <input class="form-control" id="slug" type="text" name="slug" value="{{ old('slug', $product->slug) }}" readonly disabled>
-                        </div>
-                            {{-- CODE ARTICLE (EBP ou SAP) --}}
-                            <div class="form-group">
-                                <label class="form-control-label" for="code_article">Code Article</label>
-                                <input id="name" type="text" name="code_article"
-                                       class="@error('code_article') is-invalid @enderror form-control"
-                                       value="{{ old('code_article', $product->code_article) }}">
-                                @error('code_article')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-
-                            {{-- MARQUES --}}
-                            {{--<div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-secondary"> Marques</h6>
-                            </div>
-                            <div class="card-body">
-                                <select class="form-select tomselect @error('marque') is-invalid @enderror"
-                                        aria-label="brand_id"
-                                        id="brand_id"
-                                        name="brand_id">
-                                    <option value=""> Aucune marque </option>
-                                    @foreach($brands as $brand)
-                                        <option value="{{ $brand->id }}"> {{ $brand->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('marque')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>--}}
-
-
-
-                            {{-- DESCRIPTION --}}
-                            <div class="form-group">
-                                <label class="form-control-label" for="description">Description </label>
-                                <textarea name="description" id="description" class="@error('description') is-invalid @enderror form-control">{{ old('description', $product->description) }}</textarea>
-                                @error('description')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            {{-- COMPOSITION (ingrédients, allergènes etc) --}}
-                            <div class="form-group">
-                                <label class="form-control-label" for="composition">Composition (ingrédients, allergènes etc.) </label>
-                                <textarea name="composition" id="composition" class="@error('composition') is-invalid @enderror form-control">{{ old('composition', $product->composition) }}</textarea>
-                                @error('composition')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            {{-- TAGS --}}
-                            <div class="form-group">
-                                <label class="form-control-label" for="tags">Tags </label>
-                                <textarea name="tags" id="tags" class="@error('tags') is-invalid @enderror form-control">{{ old('tags', $product->tags) }}</textarea>
-                                @error('tags')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            {{-- CODE BARRE --}}
-                            <div class="form-group">
-                                <label class="form-control-label" for="barcode">Code Barre </label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                    <input name="barcode" id="barcode" class="@error('barcode') is-invalid @enderror form-control" value="{{ old('barcode', $product->barcode) }}"">
-                                </div>
-                                @error('barcode')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="row form-group">
-                                {{-- STOCK --}}
-                                <div class="col-4">
-                                    <label class="form-control-label" for="stock">Quantité en stock <span class="small text-danger">*</span></label>
-                                    <div class="input-group">
-                                        {{-- QUANTITE EN STOCK --}}
-                                        <input type="number" step="0.001" min="0" name="stock" id="stock" class="@error('stock') required is-invalid @enderror form-control" value="{{ old('weight', $product->stock / 1000) }}">
-                                        {{-- UNITE DE STOCKAGE / à l'unité ou vrac (kilo) --}}
-                                        <select class="@error('stock_unit') required is-invalid @enderror form-select" aria-label="stock_unit"
-                                                id="stock_unit"
-                                                name="stock_unit">
-                                            <option selected value="unit">unités</option>
-                                            <option value="kg">kg (vente en vrac)</option>
-                                        </select>
-                                    </div>
-                                    @error('stock')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- POIDS A l'UNITE --}}
-                                <div class="col-6">
-                                    <label class="form-control-label" for="weight">Poids à l'unité</label>
-                                    <div class="input-group">
-                                        <input type="number" step="0.01" min="0" name="weight" id="weight" class="@error('weight') required is-invalid @enderror form-control" value="{{ old('weight', $product->weight / 100) }}">
-                                        <select class="@error('weight_unit') required is-invalid @enderror form-select" aria-label="weight_unit"
-                                                id="weight_unit"
-                                                name="weight_unit">
-                                            <option selected value="kg">Kg (Kilogramme)</option>
-                                            <option value="l">L (Litre)</option>
-                                        </select>
-                                    </div>
-                                    @error('weight')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                            </div>
-
-
-                            {{-- PRIX HT / TTC / TVA --}}
-                            <div class="row form-group">
-                                <div class="col-3">
-                                    <label class="form-control-label" for="price_ht">Prix HT <span class="small text-danger">*</span></label>
-                                    <div class="input-group mb-3">
-                                        <input type="number" step="0.01" min="0" name="price_ht" id="price_ht" class="@error('price_ht') required is-invalid @enderror form-control" value="{{ old('price_ht', $product->price_ht / 100) }}">
-                                        <span class="input-group-text">€</span>
-                                        @error('price_ht')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <label class="form-control-label" for="price_ttc">Prix TTC <span class="small text-danger">*</span></label>
-                                    <div class="input-group mb-3">
-                                        <input type="number" step="0.01" min="0" name="price_ttc" id="price_ttc" class="@error('price_ttc') required is-invalid @enderror form-control" value="{{ old('price_ttc', $product->price_ttc / 100) }}">
-                                        <span class="input-group-text">€</span>
-                                        @error('price_ttc')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <label class="form-control-label" for="tva">TVA </label>
-                                    <div class="input-group mb-3">
-                                        <input type="number" step="0.01" min="0" name="tva" id="tva" class="@error('tva') is-invalid @enderror form-control" value="{{ old('tva', $product->tva /100) }}">
-                                        <span class="input-group-text">%</span>
-                                        @error('tva')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
-
+                    <div class="col-6">
+                        <!--  DONNEES DE VENTE - prix et stock -->
+                        @include('backend.catalog.product.partial.edit_priceandstock')
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-4 col-12">
-                <div class="card border-left-warning shadow mb-4">
+            <!-- TAB IMAGES  -->
+            <div class="tab-pane fade" id="Images" role="tabpanel">
+                <div class="card border-left-warning shadow mb-4 mx-auto">
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-warning">Images</h6>
                     </div>
                     <div class="card-body">
-
-                        @if ($product->exists)
-                            <div class="text-center">
-                                <button type="button" class="btn btn-success btn-lg mb-3 hvr-float-shadow" data-toggle="modal" data-target="#addImagesModal">
-                                    <i class="fa-solid fa-plus"></i> Ajouter
-                                </button>
-                            </div>
-                            @include('backend.catalog.product.partial.images_list')
-                        @else
-                            <div class="form-group">
-                                <input type="file" accept=".jpeg, .png, .jpg, .gif, .svg" name="images[]" id="images" multiple
-                                       class="@error('images') is-invalid @enderror form-control"
-                                       value="{{ old('images') }}"></input>
-                                @error('images')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        @endif
-
+                        <iframe width="100%" height="600px" style="overflow:hidden;"
+                                src=" {{ route('backend.catalog.products.list_image', $product) }}">
+                        </iframe>
                     </div>
                 </div>
             </div>
-        </div>
 
+            <!--  TAB INFOS SPECIFIQUES  -->
+            <div class="tab-pane fade" id="Specific" role="tabpanel">
+                @include('backend.catalog.product.partial.edit_specific')
+            </div>
+
+
+
+            {{-- SCRIPTS JQUERY désactive l'envoi du formulaire quand on presse ENTRER dans n'importe quel input --}}
+            {{-- !!! ne pas placer aprés contenu sinon BUG et contenu summernote ne s'affiche plus !!! --}}
+            <script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
+            <script type="text/javascript">
+                $(document).ready(function (e) {
+                    $(document).on("keydown", ":input:not(textarea)", function(event) {
+                        if (event.key == "Enter") {
+                            event.preventDefault();
+                        }
+                    });
+                });
+            </script>
+
+
+            <!--  TAB CONTENU  -->
+            <div class="tab-pane fade" id="Content" role="tabpanel">
+                <div class="card border-left-primary shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Contenu</h6>
+                    </div>
+                    <textarea id="content" name="content"
+                              class="summernote">{{ old('content', $product->content) }}</textarea>
+                </div>
+            </div>
+        </div>
     </form>
+
     <!-- Modal d'ajout d'image -->
-    @if ($product->exists)
-        <div class="modal fade" id="addImagesModal" tabindex="-1" role="dialog" aria-labelledby="addImageModalTitle" aria-hidden="true">
-            <form action="{{route('backend.catalog.products.add_image', $product)}}" method="post"  class="mt-6 space-y-6" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Ajouter des images</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <input type="file" accept=".jpeg, .png, .jpg, .gif, .svg" name="images[]" id="images" multiple
-                                       class="@error('images') is-invalid @enderror form-control"
-                                       value="{{ old('images') }}"></input>
-                                @error('images')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
-                            <button class="btn btn-success">Ajouter</button>
+    <div class="modal fade" id="addImagesModal" tabindex="-1" role="dialog" aria-labelledby="addImageModalTitle"
+         aria-hidden="true">
+
+        <form action="{{ route('backend.catalog.products.add_image', $product)}}" method="put" class="mt-6 space-y-6"
+              enctype="multipart/form-data">
+            @csrf
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Ajouter des images</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <input type="file" accept=".jpeg, .png, .jpg, .gif, .svg" name="images[]" id="images"
+                                   multiple
+                                   class="@error('images') is-invalid @enderror form-control"
+                                   value="{{ old('images') }}">
+                            @error('images')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+
+                        <button type="button" class="btn btn-success" id="add_image"
+                                hx-post="{{ route('backend.catalog.products.add_image', $product) }}"
+                                hx-target="#images_list"
+                                hx-swap="outerHTML"
+                        >Ajouter</button>
+                    </div>
                 </div>
-            </form>
-        </div>
-    @endif
+            </div>
+        </form>
+    </div>
+
+
 
 @endsection

@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Helpers\SymfonyResponseFactory;
 use App\Http\Controllers\Controller;
+use App\Models\Catalog\Category;
 use App\Models\Content\Carousel;
 use App\Models\Content\Pages;
 use App\Models\Settings\Informations;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
+use League\Glide\ServerFactory;
+use League\Glide\Signatures\SignatureFactory;
 
 class FrontendBaseController extends Controller
 {
@@ -15,6 +21,24 @@ class FrontendBaseController extends Controller
         $infos = Informations::select('address','email','phone','fax')->where('id', 1)->first();
         $sliders = Carousel::inRandomOrder()->get();
         $menu = Pages::select('name', 'slug')->where('is_menu', 1)->where('active', 1)->get();
-        View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu]);
+        $menu_produits = Category::whereNull('category_id')->with(['childrenCategories' => function ($q) {
+            $q->with(['childrenCategories' => function ($q) {
+                $q->orderBy('name')->where('is_menu', 1)->where('active', 1);
+            }])->orderBy('name')->where('is_menu', 1)->where('active', 1);
+        }])->orderBy('name')->where('is_menu', 1)->where('active', 1)->get();
+        View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu, 'menu_produits' => $menu_produits]);
+    }
+
+    public function images_show(Request $request, string $path)
+    {
+        SignatureFactory::create(config('laravel-glide.key'))->validateRequest($request->path(), $request->all());
+        $server = ServerFactory::create([
+            'response' => new SymfonyResponseFactory($request),
+            'source' => Storage::disk('public')->getDriver(),
+            'cache' => Storage::disk('local')->getDriver(),
+            'cache_path_prefix' => '.cache',
+            'base_url' => 'images',
+        ]);
+        return $server->getImageResponse($path, $request->all());
     }
 }

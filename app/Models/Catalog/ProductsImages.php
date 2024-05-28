@@ -4,6 +4,7 @@ namespace App\Models\Catalog;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use League\Glide\Urls\UrlBuilderFactory;
 
 class ProductsImages extends Model
 {
@@ -13,8 +14,13 @@ class ProductsImages extends Model
 
     protected $fillable = ['name'];
 
-    public function getImageUrl()
+    public function getImageUrl(?int $width = null, ?int $height = null, ?string $fit = null)
     {
-        return '/storage/upload/catalog/products/'.$this->product_id.'/'.$this->name;
+        if ($width === null) {
+            return '/storage/upload/catalog/products/'.$this->product_id.'/'.$this->name;
+        }
+        $urlBuilder = UrlBuilderFactory::create('/images/', config('laravel-glide.key'));
+        return $urlBuilder->getUrl('/images/upload/catalog/products/'.$this->product_id.'/'.$this->name, ['w' => $width, 'h' => $height, 'fit' => $fit]);
     }
+
 }

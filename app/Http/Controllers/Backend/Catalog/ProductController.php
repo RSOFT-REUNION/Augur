@@ -18,23 +18,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-
         return view('backend.catalog.product.index', [
             'products' => Product::orderBy('id','DESC')->get(),
-            'categories_list' => Category::all(),
+            'categories_list' => Category::with(['childrenCategories' => function ($q) {
+                $q->orderBy('name');
+            }])->get(),
         ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-/*    public function create()
-    {
-        return [
-            'product' => new Product(),
-            'categories' => Category::all(),
-        ];
-    }*/
 
     /**
      * Store a newly created resource in storage.
@@ -42,43 +32,30 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'code_article'  => 'string|nullable',
-            'name' => 'required|min:3|max:255|string',
-            'slug' => 'max:255|nullable',
-            'category_id' => 'nullable',
-            'brands' => 'nullable',
+            'name' => 'string|min:3|max:255|required',
+            'price_ht'  => 'required',
+            'tva' => 'in:0,210,850|required',
             'images' => 'array',
             'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'description' => 'string|nullable',
-            'composition' => 'string|nullable',
-            'tags' => 'nullable',
-            'barcode' => 'nullable',
-            'weight' => 'nullable',
-            'weight_unit' => 'required',
-            'price_ht' => 'nullable',
-            'tva' => 'nullable',
-            'price_ttc' => 'nullable',
-            'stock' => 'nullable',
-            'stock_unit' => 'required',
-            'active' => '',
+
+            'category_id' => 'integer|nullable',
+            'brand_id' => 'integer|nullable',
+            'short_description' => 'string|max:255|nullable',
+            'active' => 'nullable',
         ]);
-       if($validatedData['category_id']) {
-            $slugCategory = Category::where('id', '=', $validatedData['category_id'])->pluck('slug')->first();
-            $validatedData['slug'] = $slugCategory.'/'.Str::slug($validatedData['name']);
-        } else {
-            $validatedData['slug'] = '/'.Str::slug($validatedData['name']);
-      }
-        $validatedData['price_ht'] = formatPriceToInteger($validatedData['price_ht']) ?? 0;
-        $validatedData['tva'] = formatPriceToInteger($validatedData['tva']) ?? 0;
-        $validatedData['price_ttc'] = formatPriceToInteger($validatedData['price_ttc']) ?? 0;
-        $validatedData['weight'] = formatPriceToInteger($validatedData['weight']) ?? 0;
-        $validatedData['stock'] = formatStocktoInteger($validatedData['stock']) ?? 0;
-        $validatedData['updated_by_id'] = auth()->id();
         @$validatedData['active'] = $validatedData['active'] == 'on' ? 1 : 0;
+        $validatedData['slug'] = Str::slug($validatedData['name']);
+        $validatedData['price_ht'] = formatPriceToInteger($validatedData['price_ht']) ?? 0;
+        $validatedData['price_ttc'] = $validatedData['price_ht'] * ($validatedData['tva'] / 10000) + $validatedData['price_ht'] ?? 0;
+        $validatedData['created_by_id'] = auth()->id();
+
         $product = Product::create($validatedData);
         $product->update($validatedData);
         if ($request->hasFile('images')) {
             $product->attachImages($product->id, @$validatedData['images']);
+
+            $product->fav_image = $product->images()?->first()->id;
+            $product->save();
         }
         return back()->withSuccess('Produit ajouté');
     }
@@ -90,7 +67,9 @@ class ProductController extends Controller
     {
         return view('backend.catalog.product.edit', [
             'product' => $product,
-            'categories' => Category::all(),
+            'categories_list' => Category::with(['childrenCategories' => function ($q) {
+                $q->orderBy('name');
+            }])->get(),
         ]);
     }
 
@@ -100,41 +79,36 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $validatedData = $request->validate([
-            'name' => 'required|min:3|max:255|string',
-            'slug' => 'max:255|nullable',
-            'category_id' => 'nullable',
-            'price' => 'integer|nullable',
-            'size' => 'nullable',
-            'code_article'  => 'string|nullable',
-            'brands' => 'nullable',
+            'active' => 'nullable',
+            'name' => 'string|min:3|max:255|required',
+            'barcode' => 'string|nullable',
+            'category_id' => 'integer|nullable',
+            'brand_id' => 'integer|nullable',
+            'short_description' => 'string|max:100|nullable',
+            'code_article'  => 'string|max:255|nullable',
+            'tags' => 'nullable',
+            'composition' => 'string|nullable',
+            'content' => 'string|nullable',
+            'stock' => 'required',
+            'stock_unit' => 'string|required',
+            'weight' => 'nullable',
+            'weight_unit' => 'string|nullable',
+            'price_ht' => 'required',
+            'tva' => 'in:0,210,850|required',
             'images' => 'array',
             'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'description' => 'string|nullable',
-            'composition' => 'string|nullable',
-            'tags' => 'array|nullable',
-            'barcode' => 'nullable',
-            'weight_unit' => 'required',
-            'weight' => 'nullable',
-            'price_ht' => 'nullable',
-            'tva' => 'nullable',
-            'price_ttc' => 'nullable',
-            'stock' => 'nullable',
-            'stock_unit' => 'required',
-            'active' => '',
         ]);
-      if($validatedData['category_id']) {
-            $slugCategory = Category::where('id', '=', $validatedData['category_id'])->pluck('slug')->first();
-            $validatedData['slug'] = $slugCategory.'/'.Str::slug($validatedData['name']);
-        } else {
-            $validatedData['slug'] = '/'.Str::slug($validatedData['name']);
-      }
-        $validatedData['price_ht'] = formatPriceToInteger($validatedData['price_ht']) ?? 0;
-        $validatedData['tva'] = formatPriceToInteger($validatedData['tva']) ?? 0;
-        $validatedData['price_ttc'] = formatPriceToInteger($validatedData['price_ttc']) ?? 0;
-        $validatedData['weight'] = formatPriceToInteger($validatedData['weight']) ?? 0;
-        $validatedData['stock'] = formatStocktoInteger($validatedData['stock']) ?? 0;
-        $validatedData['updated_by_id'] = auth()->id();
         @$validatedData['active'] = $validatedData['active'] == 'on' ? 1 : 0;
+
+        $validatedData['slug'] = Str::slug($validatedData['name']);
+        $validatedData['stock'] = formatStocktoInteger($validatedData['stock']);
+        @$validatedData['weight'] = formatPriceToInteger($validatedData['weight']);
+
+        $validatedData['price_ht'] = formatPriceToInteger($validatedData['price_ht']) ?? 0;
+        $validatedData['price_ttc'] = $validatedData['price_ht'] * ($validatedData['tva'] / 10000) + $validatedData['price_ht'] ?? 0;
+
+        $validatedData['updated_by_id'] = auth()->id();
+
         $product->update($validatedData);
         return back()->withSuccess('Produit modifié avec succès');
     }
@@ -144,15 +118,19 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-            foreach ($product->images as $image) {
-                Storage::delete('public/upload/catalog/products/'.$image->products_id.'/'.$image->name);
-                $image->delete();
-            }
-            $product['deleted_by_id'] = auth()->id();
-            $product->delete();
-            return back()->withSuccess('Produit supprimé avec succès');
+        Storage::deleteDirectory('public'.$product->images_directory.$product->id);
+        $product['deleted_by_id'] = auth()->id();
+        $product->delete();
+        return back()->withSuccess('Produit supprimé avec succès');
     }
 
+
+    public function list_image(Product $product)
+    {
+        return view('backend.catalog.product.partial.edit_imageslist', [
+            'product' => $product,
+        ]);
+    }
     public function add_image(Request $request, Product $product)
     {
         $validatedData = $request->validate([
@@ -160,27 +138,28 @@ class ProductController extends Controller
             'images.*' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         $product->attachImages($product->id, @$validatedData['images']);
-        return back()->withSuccess('Image(s) ajoutée(s) avec succès');
+        return view('backend.catalog.product.partial.edit_imageslist', [
+            'product' => $product
+        ]);
     }
 
     public function destroy_image(ProductsImages $image)
     {
         $product = Product::find($image->product_id);
         if($product->fav_image == $image->id) {
-            $product->fav_image = null;
+            $product->fav_image = $product->images()->first()->id;
             $product->save();
         }
-        Storage::delete('public/upload/catalog/products/'.$image->product_id.'/'.$image->name);
+        Storage::delete('public'.$product->images_directory.$image->product_id.'/'.$image->name);
         $image->delete();
-        return '';
     }
     public function fav_image(ProductsImages $image)
     {
         $product = Product::find($image->product_id);
         $product->fav_image = $image->id;
         $product->save();
-        return response()->view('backend.catalog.product.partial.images_list', [
-            'product' => $product,
+        return view('backend.catalog.product.partial.edit_imageslist', [
+            'product' => $product
         ]);
     }
 

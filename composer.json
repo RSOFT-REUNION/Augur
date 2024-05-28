@@ -10,6 +10,7 @@
         "laravel/framework": "^11.0",
         "laravel/tinker": "^2.9",
         "mauricius/laravel-htmx": "^0.6.0",
+        "spatie/laravel-glide": "^3.8",
         "spatie/laravel-permission": "^6.7"
     },
     "require-dev": {

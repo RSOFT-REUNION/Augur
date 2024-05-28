@@ -1,239 +1,156 @@
-{{--@php
-    $product ??= '';
-    $categories ??= '';
-@endphp--}}
-
 <div class="modal fade" id="modal-create" tabindex="-1" aria-labelledby="modal-create" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Créer un produit</h5>
+                <h5 class="modal-title" id="exampleModalLabel"></h5>
                 <button type="button" class="btn btn-light" data-bs-dismiss="modal">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body mb-3 m-2 ml-4 mr-4">
                 <form class="justify-content-center" action="{{ route('backend.catalog.products.store') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
 
-                    <div class="row d-flex gap-2 justify-content-end mb-3">
-                        <div class="col m-2">
-                            {{-- NAME --}}
+                    <div class="form-group row">
+                        <div class="col">
+                            {{-- NOM DU PRODUIT --}}
                             <div class="form-group">
-                                <label class="form-control-label" for="name">Libellé du produit <span class="small text-danger">*</span></label>
-                                <input id="name" type="text" name="name"
+                                <label class="form-control-label" for="name">Nom du produit <span class="small text-danger">(obligatoire)</span></label>
+                                <input type="text" id="name" name="name"
                                        class="@error('name') is-invalid @enderror form-control" required
                                        value="{{ old('name') }}">
                                 @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                            {{-- SLUG --}}
-{{--                            <span class="form-control" id="slug" type="text" name="slug" value="Readonly input here..." aria-label="readonly input example" readonly></span>--}}
 
-                            {{-- CODE ARTICLE (EBP ou SAP) --}}
+                            {{-- PRIX DE BASE --}}
                             <div class="form-group">
-                                <label class="form-control-label" for="code_article">Code Article</label>
-                                <input id="name" type="text" name="code_article"
-                                       class="@error('code_article') is-invalid @enderror form-control"
-                                       value="{{ old('code_article') }}">
-                                @error('code_article')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
+                                <label class="form-control-label" for="price_ht">Prix de base <span class="small text-danger">(obligatoire)</span></label>
+                                <div class="input-group pb-2">
+                                    <button class="btn btn-primary disabled" type="button" id="button-addon1">Prix HT</button>
+                                    <input type="number" id="price_ht" name="price_ht"
+                                           step="0.01" min="0"
+                                           class="@error('price_ht')is-invalid @enderror form-control text-right" required
+                                           value="{{ old('price_ht') }}">
+                                    <button class="btn btn-outline-primary disabled" type="button" id="button-addon1"><i class="fa-regular fa-euro-sign"></i></button>
+                                </div>
+                                {{-- TVA --}}
+                                <input type="radio" class="btn-check" name="tva" id="tva_0" checked value="0">
+                                <label class="btn btn-outline-primary btn-sm hvr-grow" for="tva_0">Sans TVA</label>
 
+                                <input type="radio" class="btn-check" name="tva" id="tva_210" value="210">
+                                <label class="btn btn-outline-primary btn-sm hvr-grow" for="tva_210"> 2,10 % </label>
+
+                                <input type="radio" class="btn-check hvr-shrink" name="tva" id="tva_850" value="850">
+                                <label class="btn btn-outline-primary btn-sm hvr-grow" for="tva_850"> 8,50 % </label>
+                                <div id="tva" class="form-text">
+                                    <i class="fa-light fa-circle-info">
+                                    </i> Le prix TTC sera calculé automatiquement à partir du prix HT et de la TVA.
+                                </div>
+                            </div>
                         </div>
 
                         {{-- IMAGES --}}
+                        <div class="col-4">
+                            <div class="input-group mb-3">
+                                <label class="input-group-text col justify-content-center hvr-border-fade" style="cursor:pointer; border-radius: 3px;" for="images">
+                                    <p class="text-dark" id="p">
+                                        <br>
+                                        <i class="fa-light fa-image"></i>
+                                        <br>Importer une image<br>
+                                        <br>
+                                        <span class="form-text">
+                                            <i class="fa-light fa-circle-info"></i>
+                                            <br>Formats de fichier acceptés: <br>
+                                            JPG, PNG ou SVG. <br>
+                                            La taille de l'image doit être <br>
+                                            inférieure à 2 Mo.
+                                        </span>
+                                    </p>
+                                    <img id="preview-image-before-upload" src=""
+                                         style="max-height: 250px; max-width:200px;">
+                                </label>
+                                <input type="file" id="images" name="images[]"
+                                       class="form-control @error('images') is-invalid @enderror" hidden
+                                       accept=".jpeg, .png, .jpg, .gif, .svg" multiple
+                                       value="{{ old('images') }}">
+                                @error('images')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- CATEGORIE --}}
+                    <div class="form-group row">
                         <div class="col">
-                            <div class="card border-left-warning shadow mb-4">
-                                <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-warning">Images</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="form-group">
-                                        <input type="file" accept=".jpeg, .png, .jpg, .gif, .svg" name="images[]" id="images" multiple
-                                               class="@error('images') is-invalid @enderror form-control"
-                                               value="{{ old('images') }}">
-                                        @error('images')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                            </div>
+                            <label class="form-control-label" for="category_id">Catégorie </label>
+                            <select class="form-select tomselect @error('category_id') is-invalid @enderror"
+                                    id="category_id" name="category_id">
+                                <option value=""> Aucune catégorie</option>
+                                @foreach($categories_list as $category_list)
+                                    @if($category_list->category_id == null)
+                                        <option @if($category_list->id == old('category_id')) selected @endif
+                                                value="{{ $category_list->id }}"> {{ $category_list->name }}</option>
+                                        @foreach($category_list->childrenCategories as $childrenCategories)
+                                            <option @if($childrenCategories->id == old('category_id')) selected @endif
+                                                    value="{{ $childrenCategories->id }}">{{ $category_list->name }} -> {{ $childrenCategories->name }}</option>
+                                            @foreach($childrenCategories->childrenCategories as $childrenChildrenCategories)
+                                                @if($childrenCategories->id != $childrenChildrenCategories->id)
+                                                    <option @if($childrenChildrenCategories->id == old('category_id')) selected @endif
+                                                            value="{{ $childrenChildrenCategories->id }}">{{ $category_list->name }} -> {{ $childrenCategories->name }} -> {{ $childrenChildrenCategories->name }}</option>                                                    @endif
+                                            @endforeach
+                                        @endforeach
+                                    @endif
+                                @endforeach
+                            </select>
+                            @error('category_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        {{-- MARQUE --}}
+                        <div class="col">
+                            <label class="form-control-label" for="brand_id">Marque </label>
+                            <select class="form-select tomselect2 @error('brand_id') is-invalid @enderror"
+                                    id="brand_id" name="brand_id">
+                                <option value=""> Aucune marque </option>
+                                {{-- @foreach($brands as $brand)
+                                     <option @if($product->brand_id == $brand->id) selected @endif value="{{ $brand->id }}"> {{ $brand->name }}</option>
+                                 @endforeach--}}
+                            </select>
+                            @error('brand_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
 
-                        <div class="row m-2">
-                            {{-- CATEGORIE --}}
-                            <div class="form-group">
-                                <label class="form-control-label" for="code_article">Catégorie</label>
-                                <select class="form-select @error('categorie') is-invalid @enderror"
-                                        aria-label="category_id"
-                                        id="category_id"
-                                        name="category_id">
-                                    <option value=""> Aucune catégorie </option>
-                                    @foreach($categories as $category)
-                                        <option value="{{ $category->id }}"> {{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('categorie')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                            {{-- MARQUES --}}
-                            {{--<div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-secondary"> Marques</h6>
-                            </div>
-                            <div class="card-body">
-                                <select class="form-select tomselect @error('marque') is-invalid @enderror"
-                                        aria-label="brand_id"
-                                        id="brand_id"
-                                        name="brand_id">
-                                    <option value=""> Aucune marque </option>
-                                    @foreach($brands as $brand)
-                                        <option value="{{ $brand->id }}"> {{ $brand->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('marque')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>--}}
-
-
-
-                            {{-- DESCRIPTION --}}
-                            <div class="form-group">
-                                <label class="form-control-label" for="description">Description </label>
-                                <textarea name="description" id="description" class="@error('description') is-invalid @enderror form-control">{{ old('description') }}</textarea>
-                                @error('description')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            {{-- COMPOSITION (ingrédients, allergènes etc) --}}
-                            <div class="form-group">
-                                <label class="form-control-label" for="composition">Composition (ingrédients, allergènes etc.) </label>
-                                <textarea name="composition" id="composition" class="@error('composition') is-invalid @enderror form-control">{{ old('composition') }}</textarea>
-                                @error('composition')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            {{-- TAGS --}}
-                            <div class="form-group">
-                                <label class="form-control-label" for="tags">Tags </label>
-                                <textarea name="tags" id="tags" class="@error('tags') is-invalid @enderror form-control">{{ old('tags') }}</textarea>
-                                @error('tags')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            {{-- CODE BARRE --}}
-                            <div class="form-group">
-                                <label class="form-control-label" for="barcode">Code Barre </label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fa-solid fa-barcode"></i></span>
-                                    <input name="barcode" id="barcode" class="@error('barcode') is-invalid @enderror form-control" value="{{ old('barcode') }}">
-                                </div>
-                                @error('barcode')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="form-group row">
-
-                                {{-- STOCK --}}
-                                <div class="col">
-                                    <label class="form-control-label" for="stock">Quantité en stock <span class="small text-danger">*</span></label>
-                                    <div class="input-group">
-                                        {{-- QUANTITE EN STOCK --}}
-                                        <input type="number" step="0.001" min="0" name="stock" id="stock" class="@error('stock') is-invalid @enderror form-control" value="{{ old('stock') }}">
-                                        {{-- UNITE DE STOCKAGE / à l'unité ou vrac (kilo) --}}
-                                        <select class="@error('stock_unit') required is-invalid @enderror form-select" aria-label="stock_unit"
-                                                id="stock_unit"
-                                                name="stock_unit">
-                                            <option selected value="unit">articles</option>
-                                            <option value="kg">kg (vente en vrac)</option>
-                                        </select>
-                                    </div>
-                                    @error('stock')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                {{-- POIDS A l'UNITE --}}
-                                <div class="col">
-                                    <label class="form-control-label" for="weight">Poids d'un article (si vente à l'unité)</label>
-                                    <div class="input-group">
-                                        <input type="number" step="0.01" min="0" name="weight" id="weight" class="@error('weight') is-invalid @enderror form-control" value="{{ old('weight') }}">
-                                        <select class="@error('weight_unit') required is-invalid @enderror form-select" aria-label="weight_unit"
-                                                id="weight_unit"
-                                                name="weight_unit">
-                                            <option selected value="kg">Kg (Kilogramme)</option>
-                                            <option value="l">L (Litre)</option>
-                                        </select>
-                                    </div>
-                                    @error('weight')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                            </div>
-
-
-                            {{-- PRIX HT / TTC / TVA --}}
-                            <div class="form-group row ">
-                                <div class="col">
-                                    <label class="form-control-label" for="price_ht">Prix HT <span class="small text-danger">*</span></label>
-                                    <div class="input-group mb-3">
-                                        <input type="number" step="0.01" min="0" name="price_ht" id="price_ht" class="@error('price_ht') is-invalid @enderror form-control" value="{{ old('price_ht') }}">
-                                        <span class="input-group-text">€</span>
-                                        @error('price_ht')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <label class="form-control-label" for="price_ttc">Prix TTC <span class="small text-danger">*</span></label>
-                                    <div class="input-group mb-3">
-                                        <input type="number" step="0.01" min="0" name="price_ttc" id="price_ttc" class="@error('price_ttc') is-invalid @enderror form-control" value="{{ old('price_ttc') }}">
-                                        <span class="input-group-text">€</span>
-                                        @error('price_ttc')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <label class="form-control-label" for="tva">TVA </label>
-                                    <div class="input-group mb-3">
-                                    <input type="number" step="0.01" min="0" name="tva" id="tva" class="@error('tva') is-invalid @enderror form-control" value="{{ old('tva') }}">
-                                    <span class="input-group-text">%</span>
-                                    @error('tva')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                    </div>
-                                </div>
-                            </div>
-
-                            {{--  ACTIVE  --}}
-                            <div class="form-group row justify-content-end">
-                                <div class="form-check form-switch col-4">
-                                    <input class="form-check-input" checked
-                                           type="checkbox" role="switch" id="active" name="active" value="on">
-                                    <label class="form-check-label" for="active">Rendre publique</label>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
-                    <div class="row justify-content-end">
-                        <div class="col-2">
-                            <button type="submit" class="btn btn-primary">Créer</button>
-                        </div>
+                    {{-- DESCRIPTION COURTE --}}
+                    <div class="form-group">
+                        <label class="form-control-label" for="short_description">Description courte <span class="small text-body-secondary">(facultatif)</span></label>
+                        <textarea id="short_description" name="short_description" maxlength="255" rows="2"
+                               class="@error('short_description') is-invalid @enderror form-control">{{ old('short_description') }}</textarea>
+                        <div id="price_ttc" class="form-text">Maximum 255 caractères.</div>
+                        @error('short_description')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
 
+                    <div class="d-flex justify-content-between pt-3">
+                        <p class="small text-danger"></p>
+                        <div class="d-flex">
+                            <div class="form-check form-switch d-flex align-items-center mx-3">
+                                <input type="checkbox" id="active" name="active"
+                                       role="switch" checked
+                                       class="form-check-input">
+                                <label class="form-check-label" for="active">Activer</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary text-nowrap">Créer un produit</button>
+                        </div>
 
+                    </div>
 
                 </form>
             </div>
@@ -241,3 +158,28 @@
 
     </div>
 </div>
+
+
+{{-- scripts --}}
+<script src="{{ asset('backend/vendor/jquery/jquery.min.js') }}"></script>
+<script type="text/javascript">
+
+    // PREVIEW IMAGE
+    $(document).ready(function (e) {
+        $('#images').change(function(){
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                $('#preview-image-before-upload').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(this.files[0]);
+            $('#p').hide();
+        });
+
+    });
+</script>
+
+
+
+
+
+

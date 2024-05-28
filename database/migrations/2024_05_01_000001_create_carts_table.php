@@ -11,7 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('user_id')->nullable();
             $table->string('session_id');
-            $table->enum('status', ['En cours', 'Abandoner', 'Commander'])->default('En cours');
+            $table->enum('status', ['En cours', 'Abandonner', 'Commander'])->default('En cours');
             $table->string('delivery_id')->nullable();
             $table->string('delivery_price')->nullable();
             $table->string('total_ttc')->nullable();

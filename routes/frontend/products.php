@@ -1,12 +1,11 @@
 <?php
 
-use App\Http\Controllers\Frontend\FrontController;
+use App\Http\Controllers\Frontend\Catalog\ProductController;
 use Illuminate\Support\Facades\Route;
 
 $idRegex = '[0-9]+';
 $slugRegex = '[0-9a-z\-/]+';
 
-Route::get('/nos-produits/{slug}/{product}', [FrontController::class, 'product'] )->name('product.show')->where([
-    'product' => $idRegex,
-    'slug' => $slugRegex,
-]);
+Route::get('/nos-produits', [ProductController::class, 'fisrt_category_list'])->name('product.fisrt_category_list');
+Route::get('/nos-produits/{slug}', [ProductController::class, 'category_list'])->name('product.list')->where(['slug' => $slugRegex]);
+Route::get('/produit/{slug}.html', [ProductController::class, 'product_show'])->name('product.show')->where(['slug' => $slugRegex]);

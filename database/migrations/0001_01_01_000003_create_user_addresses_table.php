@@ -13,17 +13,16 @@ return new class extends Migration
     {
         Schema::create('user_addresses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Users\User::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(\App\Models\Users\User::class)->constrained();
             $table->string('alias');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('address');
+            $table->string('name')->nullable();
+            $table->string('address')->nullable();
             $table->string('address2')->nullable();
             $table->string('other')->nullable();
-            $table->string('postal_code');
-            $table->string('city');
-            $table->string('country');
-            $table->string('phone');
+            $table->string('postal_code')->nullable();
+            $table->string('city')->nullable();
+            $table->string('country')->nullable();
+            $table->string('phone')->nullable();
             $table->string('other_phone')->nullable();
             $table->enum('type', ['Facturation et livraison', 'Facturation', 'Livraison'])->default('Facturation et livraison');
             $table->string('favorite')->nullable();
