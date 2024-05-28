@@ -17,17 +17,17 @@
                     <li class="nav-item">
                         <a class="nav-link {{ Nav::urlDoesContain('labels') }}" aria-current="page" href="{{ route('labels.index') }}">Nos labels</a>
                     </li>
+
+                    <!--- Menu des produits -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Nos Produits
-                        </a>
+                        <a class="nav-link dropdown-toggle" href="{{ route('product.fisrt_category_list') }}">Nos Produits</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Produits surgelés</a></li>
-                            <li><a class="dropdown-item" href="#">Epicerie fine</a></li>
-                            <li><a class="dropdown-item" href="#">Produits vrax</a></li>
-                            <li><a class="dropdown-item" href="#">Produits Péi</a></li>
+                            @foreach($menu_produits as $category)
+                                <li><a class="dropdown-item" href="/nos-produits/{{ $category->slug }}">{{ $category->name }}</a></li>
+                            @endforeach
                         </ul>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#">Nos recettes</a>
                     </li>

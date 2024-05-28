@@ -5,7 +5,7 @@
 @section('main-content')
     <div class="text-center" data-aos="fade-left">
         <h1 class="mb-3">Nos labels</h1>
-        <h4 class="mb-5">Des labels certifiés</h4>
+        <h3 class="mb-5">Des labels certifiés</h3>
 
         @include('frontend.specific.labels.partials.cards')
 
