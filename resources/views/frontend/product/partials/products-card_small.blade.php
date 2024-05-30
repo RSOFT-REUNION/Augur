@@ -1,4 +1,8 @@
 <div class="card content">
+    @if(array_key_exists($product->id,$discountProducts))
+        <h4 class="position-relative"><span class="badge text-bg-danger position-absolute top-0 start-50 translate-middle">Promo -{{ $discountProducts[$product->id] }} %</span></h4>
+    @endif
+
     <a href="{{ route('product.show', $product->slug) }}">
         <img src="{{ $product->getFirstImagesURL(300, 300, 'fill-max') }}" class="d-block w-100 rounded-5" alt="{{ $product->name }}">
     </a>
@@ -6,7 +10,14 @@
         <h6 class="card-title text-center"><b>{{ $product->name }}</b></h6>
     </div>
     <div  class="card-footer text-center">
-        <h2 class="m-3">{{ formatPriceToFloat($product->price_ttc) }} €</h2>
+
+        @if(array_key_exists($product->id,$discountProducts))
+            <h4 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc) }} €</h4>
+            <h2 class="m-3">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]) / 100) }} €</h2>
+        @else
+            <h2 class="m-3">{{ formatPriceToFloat($product->price_ttc) }} €</h2>
+        @endif
+
         @if($product->stock > 0)
             <form>  @csrf
                 <button type="button" class="btn btn-primary btn-sm mb-3 hvr-grow" id="add_cart"

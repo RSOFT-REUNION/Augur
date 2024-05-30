@@ -5,21 +5,31 @@ namespace App\Models\Catalog;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DiscountProduct extends Model
 {
     use HasFactory;
-    protected $table = 'catalog_discounts_details';
-    protected $fillable = ['discount_id', 'product_id'];
+    protected $table = 'catalog_discounts_products';
+    protected $fillable = [
+        'discount_id',
+        'product_id',
+        'base_ht',
+        'base_ttc',
+        'base_tva',
+        'discounted_ht',
+        'discounted_ttc',
+        'active'
+    ];
 
-    public function discount(): hasOne
+    public function discount(): BelongsTo
     {
-        return $this->hasOne(Discount::class);
+        return $this->belongsTo(Discount::class);
     }
 
-    public function product(): hasOne
+    public function product(): BelongsTo
     {
-        return $this->hasOne(Product::class);
+        return $this->belongsTo(Product::class);
     }
 
 }

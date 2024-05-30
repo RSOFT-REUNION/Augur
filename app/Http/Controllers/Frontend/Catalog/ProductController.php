@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Frontend\Catalog;
 
 use App\Http\Controllers\Frontend\FrontendBaseController;
 use App\Models\Catalog\Category;
+use App\Models\Catalog\Discount;
 use App\Models\Catalog\Product;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductController extends FrontendBaseController
 {
@@ -25,8 +27,8 @@ class ProductController extends FrontendBaseController
             ->where('active', 1)
             ->get();
 
-        /*** Query products with search and sort ***/
-        $products = Product::query()
+        /*** Query products with search and initial filtering ***/
+        $productsQuery = Product::query()
             ->with('images')
             ->where('active', 1)
             ->where(function ($query) use ($categories, $category_current) {
@@ -41,12 +43,14 @@ class ProductController extends FrontendBaseController
                     }
                 }
             })
-            ->where('name', 'LIKE', "%{$request->input('search')}%")
-            ->when($request->has('sort'), function ($query) use ($request) {
-                if ($request->sort == 'name') $query->orderBy('name');
-                if ($request->sort == 'price_asc') $query->orderBy('price_ttc');
-                if ($request->sort == 'price_desc') $query->orderByDesc('price_ttc');
-            });
+            ->where('name', 'LIKE', "%{$request->input('search')}%");
+
+        /*** Filter by stock ***/
+        if ($request->stock == 'on') {
+            $productsQuery->where('stock', '>', 0);
+        } elseif ($request->stock == 'none') {
+            $productsQuery->where('stock', '>=', 0);
+        }
 
         /*** Get min and max prices of all products in subcategories ***/
         $products_price = Product::query()
@@ -67,33 +71,74 @@ class ProductController extends FrontendBaseController
         $products_minprice = $products_price->min('price_ttc');
         $products_maxprice = $products_price->max('price_ttc');
 
-        if (!$request->has('sort') || $request->sort == 'none') {
-            $products->orderByDesc('id');
+        /*** Fetch products before applying discount calculations ***/
+        $products = $productsQuery->get();
+
+        /*** Filter by discount and calculate final price ***/
+        $discountProducts = collect();
+        $discounts = Discount::currently()->with('products')->orderBy('percentage')->get();
+        foreach ($discounts as $discount) {
+            $discountPercentage = $discount->percentage;
+            foreach ($discount->products as $product) {
+                $discountProducts->put($product->product_id, $discount->percentage);
+            }
         }
 
-        /*** Filter by stock ***/
-        if ($request->stock == 'on') {
-            $products->where('stock', '>', 0);
-        } elseif ($request->stock == 'none') {
-            $products->where('stock', '>=', 0);
+        // Calculate the final price including discount
+        $products = $products->map(function ($product) use ($discountProducts) {
+            $discount = $discountProducts->get($product->id, 0);
+            $product->final_price = $product->price_ttc - ($product->price_ttc * ($discount / 100));
+            return $product;
+        });
+
+        // Apply discount filter if requested
+        if ($request->discount == 'on') {
+            $products = $products->filter(function ($product) {
+                return $product->final_price < $product->price_ttc;
+            });
         }
 
         /*** Filter by price range ***/
         if ($request->price_min) {
-            $products->where('price_ttc', '>=', formatPriceToInteger($request->price_min));
+            $minPrice = formatPriceToInteger($request->price_min);
+            $products = $products->filter(function ($product) use ($minPrice) {
+                return $product->final_price >= $minPrice;
+            });
         }
         if ($request->price_max) {
-            $products->where('price_ttc', '<=', formatPriceToInteger($request->price_max));
+            $maxPrice = formatPriceToInteger($request->price_max);
+            $products = $products->filter(function ($product) use ($maxPrice) {
+                return $product->final_price <= $maxPrice;
+            });
         }
 
-        /*** Return with pagination ***/
-        $products = $products->paginate(16)->withQueryString();
+        /*** Sort by final price ***/
+        if ($request->has('sort')) {
+            if ($request->sort == 'price_asc') {
+                $products = $products->sortBy('final_price');
+            } elseif ($request->sort == 'price_desc') {
+                $products = $products->sortByDesc('final_price');
+            } elseif ($request->sort == 'name') {
+                $products = $products->sortBy('name');
+            } else {
+                $products = $products->sortByDesc('id');
+            }
+        } else {
+            $products = $products->sortByDesc('id');
+        }
 
+        /*** Convert the sorted collection back to a paginator ***/
+        $perPage = 16;
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $currentPageItems = $products->slice(($currentPage - 1) * $perPage, $perPage)->all();
+        $paginatedProducts = new LengthAwarePaginator($currentPageItems, $products->count(), $perPage);
+        $paginatedProducts->setPath($request->url());
+        $paginatedProducts->appends($request->all());
 
         if ($request->header('hx-request') && $request->header('hx-target') == 'list_product') {
             return view('frontend.product.partials.list_product', [
                 'category_curent' => $category_current,
-                'products' => $products,
+                'products' => $paginatedProducts,
                 'products_minprice' => $products_minprice,
                 'products_maxprice' => $products_maxprice,
             ]);
@@ -102,7 +147,7 @@ class ProductController extends FrontendBaseController
         return view('frontend.product.list', [
             'category_list' => $categories,
             'category_curent' => $category_current,
-            'products' => $products,
+            'products' => $paginatedProducts,
             'products_minprice' => $products_minprice,
             'products_maxprice' => $products_maxprice,
         ]);
@@ -113,7 +158,7 @@ class ProductController extends FrontendBaseController
         $product = $product->with(['category', 'images', 'labels'])->where('slug', $slug)->first();
         if($product) {
             return view('frontend.product.show', [
-                'produit' => $product,
+                'product' => $product,
             ]);
         }
     }

@@ -30,19 +30,14 @@ class Product extends Model
         return $this->hasMany(ProductsImages::class);
     }
 
-/*    public function favorite_image() : HasOne
+    public function discounts(): HasMany
     {
-        return $this->hasOne(ProductsImages::class)->ofMany([
-            'product_id' => $this->id,
-        ], function (Builder $query) {
-            $query->where('id', '=', $this->fav_image);
-        });
-    }*/
+        return $this->hasMany(Discount::class);
+    }
 
-
-    public function discounts() : BelongsToMany
+    public function discount($id): HasOne
     {
-        return $this->belongsToMany(DiscountDetail::class);
+        return $this->hasOne(Discount::class, );
     }
 
     public function labels(): BelongsToMany

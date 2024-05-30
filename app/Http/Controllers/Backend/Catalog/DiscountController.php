@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Backend\Catalog;
 
 use App\Http\Controllers\Controller;
 use App\Models\Catalog\Discount;
-use App\Models\Catalog\DiscountRule;
+use App\Models\Catalog\DiscountProduct;
+use App\Models\Catalog\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -16,55 +17,28 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        return view('backend.catalog.discounts.index', [
-            'discounts' => Discount::orderBy('start_date','DESC')->get()
+        return view('backend.catalog.discount.index', [
+            'discounts' => Discount::orderBy('id','DESC')->get(),
         ]);
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        $discount = new Discount();
-        $rules_list = DiscountRule::groupBy('id')->get();
-        return view('backend.catalog.discounts.form', [
-            'discount' => $discount,
-            'rules_list' => $rules_list,
-        ]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
+     * Create and store a newly created resource in storage.
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'code' => 'nullable',
-            'name' => 'string|min:3|max:255|required',
-            'description' => 'string|nullable',
-            'image'  => 'nullable',
-            'discount_rule_id' => 'nullable',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'active' => 'required',
+            'name' => 'string|unique:catalog_discounts|min:3|max:255|required',
+            'percentage' => 'integer|min:1|max:100|required',
+            'icon' => 'in:star,heart,bolt,gift,snowflake,grill-hot,fish,leaf,award,head-side,meat,sparkles,bookmark,circle-euro,mug-tea,watermelon-slice,tree-palm,user-tie|required',
+            'start_date' => 'date|required|after_or_equal:yesterday',
+            'end_date' => 'date|required|after_or_equal:start_date',
+            'short_description' => 'string|max:255|nullable',
+            'active' => 'nullable',
         ]);
         @$validated['active'] = $validated['active'] == 'on' ? 1 : 0;
-        if ($request->hasFile('image')) {
-            $imageName = Str::slug($validated['image']->getClientOriginalName(), '.');
-            $validated['image']->storeAs('public/upload/catalog/discounts/', $imageName);
-            $validated['image'] = $imageName;
-        }
         Discount::create($validated);
-        return redirect()->route('backend.catalog.discounts.index')->withSuccess('Promotion ajoutée');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Discount $discount)
-    {
-        //
+        return back()->withSuccess('Promotion ajoutée avec succès');
     }
 
     /**
@@ -72,9 +46,9 @@ class DiscountController extends Controller
      */
     public function edit(Discount $discount)
     {
-        return view('backend.catalog.discounts.form', [
-            'discount' => $discount,
-            'rules_list' => DiscountRule::groupBy('id')->get(),
+        return view('backend.catalog.discount.edit', [
+            'discount' =>   $discount,
+            'products_list' => Product::orderBy('id', 'DESC')->get(),
         ]);
     }
 
@@ -84,27 +58,19 @@ class DiscountController extends Controller
     public function update(Request $request, Discount $discount)
     {
         $validated = $request->validate([
-            'code' => 'string|nullable',
             'name' => 'string|min:3|max:255|required',
-            'description' => 'string|nullable',
-            'image'  => 'nullable',
-            'rule_id' => 'nullable',
-            'start_date' => 'required',
-            'end_date' => 'required',
-            'active' => 'required',
+            'percentage' => 'integer|min:1|max:100|required',
+            'icon' => 'in:star,heart,bolt,gift,snowflake,grill-hot,fish,leaf,award,head-side,meat,sparkles,bookmark,circle-euro,mug-tea,watermelon-slice,tree-palm,user-tie|required',
+            'start_date' => 'date|required',
+            'end_date' => 'date|required|after_or_equal:start_date',
+            'short_description' => 'string|max:255|nullable',
+            'active' => 'nullable',
         ]);
         @$validated['active'] = $validated['active'] == 'on' ? 1 : 0;
-        if (@$validated['image']) {
-            /*** Suppresion de l'ancienne image ***/
-            $old = Discount::select('image')->where('id', $discount->id)->first();
-            Storage::delete('public/upload/catalog/discounts/' . $old->image);
-            /*** ***/
-            $imageName = Str::slug($validated['image']->getClientOriginalName(), '.');
-            $validated['image']->storeAs('public/upload/catalog/discounts/', $imageName);
-            $validated['image'] = $imageName;
-        }
         $discount->update($validated);
-        return back()->withSuccess('Promotion modifiée avec succès');
+        return redirect()->route('backend.catalog.discounts.edit', [
+            'discount' => $discount,
+        ]);
     }
 
     /**
@@ -113,49 +79,37 @@ class DiscountController extends Controller
     public function destroy(Discount $discount)
     {
         $discount->delete();
-        return back()->withSuccess('Promotion supprimée avec succès');
+        return back()->withSuccess('Promotion supprimée');
     }
 
 
-    /**
-     * Ajouter une règle de calcul.
-     */
-    public function add_rule(Request $request)
+    public function add_products(Request $request, Discount $discount)
     {
-        $validated = $request->validate([
-            'code' => 'string|nullable',
-            'name' => 'string|unique|required|min:3|max:255',
-            'formula' => 'string|unique|required|min:3|max:30',
-            'short_description' => 'string|nullable',
-        ]);
-        DiscountRule::create($validated);
-        return back()->withSuccess('Régle de calcul ajoutée avec succès');
-    }
-
-
-    public function add_product(Product $produit)
-    {
-        $cart_id = $this->getCart();
-        $cart = Carts::firstwhere('id', $cart_id);
-        if (count($cart->product()->where('product_id', $produit->id)->get()) == 0)
-        {
-            $cart->product()->create([
-                'product_id' => $produit->id,
-                'price_ht' => $produit->price_ht,
-                'tva' => $produit->tva,
-                'price_ttc' => $produit->price_ttc,
-                'quantity' => 1,
+         $validated = $request->validate([
+                'discount_products' => 'array|nullable'
+         ]);
+        foreach ($validated['discount_products'] as $product) {
+            $product = json_decode($product, true);
+            DiscountProduct::create([
+                'discount_id' => $discount->id,
+                'product_id' => $product['id'],
+                'base_ht' => $product['price_ht'],
+                'base_ttc' => $product['price_ttc'],
+                'base_tva' => $product['tva'],
+                'discounted_ht' => $product['price_ht'] + ($product['price_ht'] * ($discount->percentage / 100)),
+                'discounted_ttc' => $product['price_ttc'] + ($product['price_ttc'] * ($discount->percentage / 100)),
             ]);
-        } else
-        {
-            $product = CartsProducts::where('product_id', $produit->id)->first();
-            $product->quantity = $product->quantity + 1;
-            $product->save();
         }
-        $sum = 0;
-        foreach ($cart->product as $prod) {
-            $sum += $prod->quantity;
-        }
-        return '<span id="nb_produit">'.$sum.'</span>';
+
+        return view('backend.catalog.discount.partial.discounted_products', [
+            'discount' =>   Discount::with('products')->findOrFail($discount->id),
+        ]);
     }
+
+    public function destroy_product(DiscountProduct $product)
+    {
+        $product->delete();
+    }
+
+
 }

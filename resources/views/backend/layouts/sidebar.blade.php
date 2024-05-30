@@ -111,6 +111,24 @@
         </li>
     @endcanany
 
+    <!-- Specific -->
+    @canany(filtrerPermission('specific'))
+        <li class="nav-item {{ Nav::isResource('specifique') }}">
+            <a class="nav-link collapsed" href="" data-toggle="collapse" data-target="#specific"
+               aria-expanded="false" aria-controls="collapseTwo">
+                <i class="fa-solid fa-fingerprint"></i> <span>Specifique</span>
+            </a>
+            <div id="specific" class="collapse {{ Nav::isResource('specifique', 'admin', $activeClass = "show") }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item {{ Nav::urlDoesContain('specifique/labels') }}" href="{{ route('backend.specific.labels.index') }}"><i
+                            class="fa-solid fa-award"></i> Labels</a>
+                    <a class="collapse-item {{ Nav::urlDoesContain('specifique/animations') }}" href="{{ route('backend.specific.animations.index') }}"><i
+                            class="fa-solid fa-certificate"></i> Animations</a>
+                </div>
+            </div>
+        </li>
+    @endcanany
+
     <!-- Settings -->
     @canany(filtrerPermission('settings'))
         <li class="nav-item {{ Nav::isResource('parametres') }}">

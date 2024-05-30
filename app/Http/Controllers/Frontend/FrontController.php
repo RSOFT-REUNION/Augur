@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Models\Catalog\Discount;
 use App\Models\Catalog\Product;
 use App\Models\Content\Pages;
 use App\Models\Settings\Informations;

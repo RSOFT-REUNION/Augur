@@ -120,7 +120,7 @@ class CartController extends FrontendBaseController
         }
     }
 
-    public function add_product(Product $produit)
+    public function add_product(Request $request, Product $produit)
     {
         $cart_id = $this->getCart();
         $cart = Carts::firstwhere('id', $cart_id);
@@ -131,12 +131,15 @@ class CartController extends FrontendBaseController
                 'price_ht' => $produit->price_ht,
                 'tva' => $produit->tva,
                 'price_ttc' => $produit->price_ttc,
-                'quantity' => 1,
+                'quantity' => $request->quantity,
             ]);
-        } else
-        {
+        } else {
             $product = CartsProducts::where('product_id', $produit->id)->first();
-            $product->quantity = $product->quantity + 1;
+            if($request->quantity){
+                $product->quantity = $product->quantity + $request->quantity;
+            } else {
+                $product->quantity = $product->quantity + 1;
+            }
             $product->save();
         }
         $sum = 0;

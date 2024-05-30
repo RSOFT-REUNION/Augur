@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Helpers\SymfonyResponseFactory;
 use App\Http\Controllers\Controller;
 use App\Models\Catalog\Category;
+use App\Models\Catalog\Discount;
 use App\Models\Content\Carousel;
 use App\Models\Content\Pages;
 use App\Models\Settings\Informations;
@@ -26,7 +27,18 @@ class FrontendBaseController extends Controller
                 $q->orderBy('name')->where('is_menu', 1)->where('active', 1);
             }])->orderBy('name')->where('is_menu', 1)->where('active', 1);
         }])->where('is_menu', 1)->where('active', 1)->get();
-        View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu, 'menu_produits' => $menu_produits]);
+
+        /*** Retroune un array de tout les produits en promotion avec l'offre la plus avantageuse ***/
+        $discountProducts = collect();
+        $discounts = Discount::currently()->with('products')->orderBy('percentage')->get();
+        foreach ($discounts as $discount) {
+            $discountPercentage = $discount->percentage;
+            foreach($discount->products as $product){
+                $discountProducts->put($product->product_id, $discount->percentage);
+            }
+        }
+
+        View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu, 'menu_produits' => $menu_produits,'discountProducts' => $discountProducts->toArray()]);
     }
 
     public function images_show(Request $request, string $path)

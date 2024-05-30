@@ -2,6 +2,7 @@
 
 namespace App\Models\Catalog;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,16 +12,32 @@ class Discount extends Model
 {
     use HasFactory;
     protected $table = 'catalog_discounts';
-    protected $fillable = ['code', 'name', 'image', 'description', 'discount_rule_id', 'start_date', 'end_date', 'active'];
+    protected $fillable = [
+        'ref_discount',
+        'name',
+        'percentage',
+        'icon',
+        'short_description',
+        'discount_type',
+        'start_date',
+        'end_date',
+        'active'
+    ];
 
-    public function details(): hasMany
+    public function products(): hasMany
     {
-        return $this->hasMany(DiscountDetail::class);
+        return $this->hasMany(DiscountProduct::class);
     }
 
-    public function rule(): BelongsTo
+    public function isCurrentlyActive()
     {
-        return $this->belongsTo(DiscountRule::class);
+        $now = Carbon::now();
+        return $this->start_date <= $now && $this->end_date >= $now;
     }
 
+    public function scopeCurrently($query)
+    {
+        $now = Carbon::now();
+        return $query->where('start_date', '<=', $now)->where('end_date', '>=', $now)->where('active', 1);
+    }
 }

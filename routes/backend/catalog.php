@@ -27,7 +27,9 @@ Route::prefix('admin/catalogue')->name('backend.catalog.')->middleware('auth:adm
     Route::group(['middleware' => ['permission:catalog.shops.create|catalog.shops.update|catalog.shops.delete']], function () {
         Route::resource('shops', ShopsController::class)->except(['show']);
     });
-    Route::group(['middleware' => ['permission:catalog.discounts.create|catalog.discounts.update|catalog.discounts.delete']], function () {
+    Route::group(['middleware' => ['permission:catalog.discounts.create|catalog.discounts.update|catalog.discounts.delete']], function () use ($idRegex) {
         Route::resource('discounts', DiscountController::class)->except(['show']);
+        Route::post('discounts/addproducts/{discount}', [DiscountController::class, 'add_products'])->name('discounts.add_products')->where(['discount' => $idRegex]);
+        Route::delete('discounts/products/{product}', [DiscountController::class, 'destroy_product'])->name('discounts.destroy_product')->where(['product' => $idRegex]);
     });
 });

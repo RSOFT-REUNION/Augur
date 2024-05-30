@@ -113,7 +113,7 @@ class ProductController extends Controller
         $validatedData['updated_by_id'] = auth()->id();
 
         $product->update($validatedData);
-        $product->labels()->sync($validatedData['labels']);
+        @$product->labels()->sync($validatedData['labels']);
         return back()->withSuccess('Produit modifié avec succès');
     }
 
