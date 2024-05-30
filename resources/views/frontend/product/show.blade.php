@@ -88,7 +88,7 @@
 
             @if(array_key_exists($product->id,$discountProducts))
                 <div class="d-flex justify-content-center mb-4">
-                    <div class="card w-75 shadow hvr-float">
+                    <div class="card w-75 shadow hvr-float bg-gray">
                         <div class="card-body position-relative">
                             <h3 class="position-absolute top-0 start-100 translate-middle"><span class="badge text-bg-danger">Promotion -{{ $discountProducts[$product->id] }} %</span></h3>
                             <div class="d-flex justify-content-end">

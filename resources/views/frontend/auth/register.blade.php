@@ -1,32 +1,33 @@
 @extends('frontend.layouts.layout')
-@section('title', __('Connexion') )
+@section('title', __('Register') )
 
 @section('main-content')
+
+    <div style="margin-top: 60px;">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-nav mt-5 p-3 rounded-3 shadow">
+                <li class="breadcrumb-item"><a href="{{ route('index') }}"><i class="fa-solid fa-home"></i></a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Register') }}</li>
+            </ol>
+        </nav>
+    </div>
+
     <div class="row row-flex">
         <div class="col-12 col-md-3 content p-5"></div>
         <div class="col-12 col-md-6 content p-5">
             <form method="POST" action="{{ route('register') }}">
                 @csrf
 
-                <h3 class="text-center mb-5">Effectuer une demande de compte</h3>
+                <h1 class="text-center mb-5">Bienvenue sur Augur</h1>
+                <p>Créez en quelques minutes votre compte pour profiter pleinement de votre Programme de Fidélité, commander en ligne en Livraison à domicile ou en Click & Collect, et encore plein d'autres fonctionnalités.</p>
 
                 <div class="form-group mb-4">
-                    <label class="form-control-label" for="name">Nom de famille : <span
+                    <label class="form-control-label" for="name">Nom : <span
                             class="small text-danger">*</span></label>
                     <input id="name" type="text" name="name"
                            class="@error('name') is-invalid @enderror form-control" required
                            value="{{ old('name') }}">
                     @error('name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="form-group mb-4">
-                    <label class="form-control-label" for="first_name">Prénom : <span class="small text-danger">*</span></label>
-                    <input id="first_name" type="text" name="first_name"
-                           class="@error('first_name') is-invalid @enderror form-control" required
-                           value="{{ old('first_name') }}">
-                    @error('first_name')
                     <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -83,13 +84,13 @@
                     <label class="form-check-label" for="newsletter">Je souhaite m'abonner à la newsletter</label>
                 </div>
 
-                <div class="form-check form-switch mb-3 pl-5">
+                <div class="form-check form-switch mb-5 pl-5">
                     <input type="checkbox" class="form-check-input" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }} required>
                     <label class="form-check-label" for="remember">J'accepte les <a href="{{ route('legalnotice') }}" target="_blank" class="blackcolor">Mentions légales</a> et les <a class="blackcolor" href="{{ route('termsofservice') }}" target="_blank">CGU</a> <span class="small text-danger">*</span></label>
                 </div>
 
                 <div class="text-center">
-                    <button class="btn btn-primary hvr-grow-shadow">
+                    <button class="btn btn-primary btn-lg hvr-grow-shadow w-100">
                         {{ __('Register') }}
                     </button>
                 </div>

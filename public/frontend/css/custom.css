@@ -109,6 +109,9 @@ a:hover {
 .blackcolor:hover {
     color: #1b2e47;
 }
+.bg-gray {
+    background-color: #f5f5f5;
+}
 h1, h2, h3, h4, h5, h6, p, a, span, table, button, input, select, label, textarea {
     font-family: Roboto Condensed, sans-serif;
 }

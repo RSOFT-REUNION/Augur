@@ -29,18 +29,16 @@ class RegisteredUserController extends FrontendBaseController
      */
     public function store(Request $request): RedirectResponse
     {
-        $request->newsletter = $request->newsletter=='on' ? 1:0;
-       $request->validate([
+        $request->newsletter = $request->newsletter == 'on' ? 1 : 0;
+        $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'first_name' => ['required', 'string', 'max:255'],
             'phone' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
             'name' => $request->name,
-            'first_name' => $request->first_name,
             'phone' => $request->phone,
             'newsletter' => $request->newsletter,
             'email' => $request->email,

@@ -126,12 +126,17 @@ class CartController extends FrontendBaseController
         $cart = Carts::firstwhere('id', $cart_id);
         if (count($cart->product()->where('product_id', $produit->id)->get()) == 0)
         {
+            if($request->quantity){
+                $proquantity = $request->quantity;
+            } else {
+                $proquantity = 1;
+            }
             $cart->product()->create([
                 'product_id' => $produit->id,
                 'price_ht' => $produit->price_ht,
                 'tva' => $produit->tva,
                 'price_ttc' => $produit->price_ttc,
-                'quantity' => $request->quantity,
+                'quantity' => $proquantity,
             ]);
         } else {
             $product = CartsProducts::where('product_id', $produit->id)->first();

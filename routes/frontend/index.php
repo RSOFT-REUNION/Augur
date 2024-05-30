@@ -19,6 +19,7 @@ Route::get('/recherche', [FrontController::class, 'search'] )->name('search');
 if (Route::current() != '/admin') {
     Route::get('/mentions-legales', [FrontController::class, 'legalnotice'])->name('legalnotice');
     Route::get('/conditions-generales-d-utilisation', [FrontController::class, 'termsofservice'])->name('termsofservice');
+    Route::get('/contactez-nous', [FrontController::class, 'contact'])->name('contact');
     Route::get('{slug}', [FrontController::class, 'pages'])->name('pages')->where(['slug' => $slugRegex]);
 }
 

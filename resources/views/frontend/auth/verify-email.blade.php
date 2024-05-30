@@ -1,7 +1,17 @@
 @extends('frontend.layouts.layout')
-@section('title', __('Connexion') )
+@section('title', __('Vérification de l\'adresse mail') )
 
 @section('main-content')
+
+    <div style="margin-top: 60px;">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-nav mt-5 p-3 rounded-3 shadow">
+                <li class="breadcrumb-item"><a href="{{ route('index') }}"><i class="fa-solid fa-home"></i></a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Vérification de l'adresse mail</li>
+            </ol>
+        </nav>
+    </div>
+
     <div class="row row-flex">
         <div class="col-12 col-md-3 content p-5"></div>
         <div class="col-12 col-md-6 content p-5">
@@ -12,12 +22,12 @@
                     <div class="form-group text-center">
                         <form method="POST" action="{{ route('verification.send') }}">
                             @csrf
-                                <button type="submit" class="btn btn-primary hvr-grow-shadow">
+                                <button type="submit" class="btn btn-primary btn-lg w-100 hvr-grow-shadow">
                                     {{ __('Resend Verification Email') }}
                                 </button>
                                 <br><br>
                         </form>
-                        <form method="POST" action="{{ route('logout') }}"> @csrf <button class="btn btn-danger mt-2">{{ __('Log Out') }}</button> </form>
+                        <form method="POST" action="{{ route('logout') }}"> @csrf <button class="btn btn-danger btn-lg mt-2">{{ __('Log Out') }}</button> </form>
                     </div>
 
         </div>

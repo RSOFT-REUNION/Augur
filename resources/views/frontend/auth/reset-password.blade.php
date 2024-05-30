@@ -1,7 +1,18 @@
 @extends('frontend.layouts.layout')
-@section('title', __('Mot de passe oublié') )
+@section('title', __('Rèinitialiser le mot de passe') )
 
 @section('main-content')
+
+    <div style="margin-top: 60px;">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-nav mt-5 p-3 rounded-3 shadow">
+                <li class="breadcrumb-item"><a href="{{ route('index') }}"><i class="fa-solid fa-home"></i></a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Rèinitialiser le mot de passe</li>
+            </ol>
+        </nav>
+    </div>
+
+
     <div class="row row-flex">
         <div class="col-12 col-md-3 content p-5"></div>
         <div class="col-12 col-md-6 content p-5">
@@ -45,7 +56,7 @@
                 </div>
 
                 <div class="text-center">
-                    <button class="btn btn-primary hvr-grow-shadow">
+                    <button class="btn btn-primary  btn-lg w-100 hvr-grow-shadow">
                         {{ __('Reset Password') }}
                     </button>
                 </div>

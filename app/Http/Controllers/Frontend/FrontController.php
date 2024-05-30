@@ -36,6 +36,11 @@ class FrontController extends FrontendBaseController
             'termsofservice' => $termsofservice,
         ]);
     }
+    public function contact()
+    {
+        return view('frontend.pages.contact');
+    }
+
 
     /*** Recherche ***/
     public function search(Request $request)

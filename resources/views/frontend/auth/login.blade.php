@@ -2,6 +2,16 @@
 @section('title', __('Connexion') )
 
 @section('main-content')
+
+    <div style="margin-top: 60px;">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-nav mt-5 p-3 rounded-3 shadow">
+                <li class="breadcrumb-item"><a href="{{ route('index') }}"><i class="fa-solid fa-home"></i></a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">{{ __('Connexion') }}</li>
+            </ol>
+        </nav>
+    </div>
+
     <div class="row row-flex">
         <div class="col-12 col-md-3 content p-5"></div>
         <div class="col-12 col-md-6 content p-5">
@@ -9,6 +19,7 @@
                 @csrf
 
                 <h3 class="text-center mb-5">Connexion à votre compte</h3>
+                <p>Renseignez votre adresse e-mail et votre mot de passe pour accéder à votre compte</p>
 
                 <div class="form-group mb-4">
                     <label class="form-control-label" for="email">Adresse e-mail : <span class="small text-danger">*</span></label>
@@ -30,28 +41,36 @@
                     @enderror
                 </div>
 
-                <div class="form-check form-switch mb-3 pl-5">
-                    <input type="checkbox" class="form-check-input" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                    <label class="form-check-label" for="remember">{{ __('Remember me') }}</label>
+                <div class="d-flex">
+                    <div class="form-check form-switch mb-3 pl-5 flex-grow-1">
+                        <input type="checkbox" class="form-check-input" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                        <label class="form-check-label" for="remember">{{ __('Remember me') }}</label>
+                    </div>
+                    @if (Route::has('password.request'))
+                        <div class="mb-3 justify-content-end">
+                            <a class="text-decoration-none blackcolor" href="{{ route('password.request') }}">
+                                <i class="fa-solid fa-lock"></i> {{ __('Forgot your password?') }}
+                            </a>
+                        </div>
+                    @endif
                 </div>
 
-                @if (Route::has('password.request'))
-                    <div class="mb-3">
-                        <a class="text-decoration-none blackcolor" href="{{ route('password.request') }}">
-                            <i class="fa-solid fa-lock"></i> {{ __('Forgot your password?') }}
-                        </a>
-                    </div>
-                @endif
-
-                <div class="form-group text-center">
-                    <button type="submit" class="btn btn-primary hvr-grow-shadow">
+                <div class="form-group text-center mb-5">
+                    <button type="submit" class="btn btn-primary btn-lg hvr-grow-shadow w-100">
                         {{ __('Login') }}
                     </button>
-                    <br><br>
-                    <a href="{{ route('register') }}" class="btn btn-lg btn-warning hvr-grow-shadow">
-                        Créer un nouveau compte
-                    </a>
                 </div>
+
+                <div class="d-flex justify-content-center mb-4">
+                    <div class="card w-75 shadow hvr-grow bg-gray">
+                        <div class="card-body text-center">
+                            <h4>Pas encore inscrit ?</h4>
+                            <a href="{{ route('register') }}" class="btn btn-lg btn-warning hvr-grow-shadow">Créer votre compte</a>
+                        </div>
+                    </div>
+                </div>
+
+
             </form>
         </div>
         <div class="col-12 col-md-3 content p-5"></div>

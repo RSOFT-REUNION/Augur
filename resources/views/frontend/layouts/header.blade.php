@@ -35,7 +35,7 @@
                         <a class="nav-link {{ Nav::urlDoesContain('animations') }}" aria-current="page" href="{{ route('animations.index') }}">Nos animations</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="#">Contact</a>
+                        <a class="nav-link" aria-current="page" href="{{ route('contact') }}">Contact</a>
                     </li>
 
                     <li class="nav-item me-2">
