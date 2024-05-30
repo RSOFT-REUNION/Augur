@@ -153,7 +153,11 @@ a.nav-link.active {
 .dropdown-item {
     color: #FFFFFF;
 }
-@media (min-width: 1024px) {
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #e9ecef;
+}
+
+@media (min-width: 990px) {
     .dropdown .dropdown-menu {
         display: block;
         opacity: 0;
@@ -169,6 +173,35 @@ a.nav-link.active {
         opacity: 1;
     }
 }
+.search-input {
+    top: 36px;
+    right: 0px;
+}
+
+
+/*** Bug FlexSlider ***/
+.flex-direction-nav a {
+    height: 50px;
+}
+
+/*** HTMX Indicator ***/
+.htmx-indicator{
+    display: none;
+    transition: opacity 500ms ease-in;
+}
+.htmx-request .htmx-indicator{
+    opacity:1;
+}
+.htmx-request.htmx-indicator{
+    display: block;
+    opacity:1;
+    z-index: 1000;
+}
+
+.htmx-request.htmx-style{
+    opacity:0.2;
+}
+
 /*** Carrousel ***/
 .carousel-control-next, .carousel-control-prev {
     width: 8%;
@@ -242,6 +275,38 @@ a.nav-link.active {
 
 .container_slider .slider_section:hover .slider_overlay {
     background-color: #000000b3
+}
+/*** Produit ***/
+.breadcrumb-nav {
+    background-color: #1b2e47;
+}
+
+/*** ***/
+.card-header {
+    background-color: #ffffff;
+    border-bottom: 0;
+}
+
+/*** Categorie ***/
+.category-container {
+    position: relative;
+    display: inline-block;
+}
+
+.category-image {
+    max-width: 100%;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.category-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.8); /* Fond blanc transparent */
 }
 
 /*** Pagination ***/

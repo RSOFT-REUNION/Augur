@@ -25,7 +25,7 @@ class FrontendBaseController extends Controller
             $q->with(['childrenCategories' => function ($q) {
                 $q->orderBy('name')->where('is_menu', 1)->where('active', 1);
             }])->orderBy('name')->where('is_menu', 1)->where('active', 1);
-        }])->orderBy('name')->where('is_menu', 1)->where('active', 1)->get();
+        }])->where('is_menu', 1)->where('active', 1)->get();
         View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu, 'menu_produits' => $menu_produits]);
     }
 

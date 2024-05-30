@@ -15,7 +15,9 @@
 
 <body>
     @include('frontend.layouts.header')
-    @include('frontend.layouts.slider')
+    @if(Route::is('index'))
+        @include('frontend.layouts.slider')
+    @endif
 
     <main class="mt-5" id="main">
         <div class="container">
@@ -26,7 +28,7 @@
 
     @include('frontend.layouts.footer')
 
-    <div id="preloader"></div>
+    <!--<div id="preloader"></div>-->
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center text-decoration-none"><i class="fa-duotone fa-arrow-up fa-fw"></i></a>
 
     @include('frontend.layouts.script')

@@ -42,12 +42,15 @@ class FrontController extends FrontendBaseController
         $products = Product::query()->with('images')
             ->where('active', 1)
             ->where('name', 'LIKE', "%{$request->input('search')}%")
-            ->orderByDesc('id')
-            ->paginate(16)->withQueryString();
+            ->orWhere('code_article', 'LIKE', "%{$request->input('search')}%")
+            ->paginate(8);
+
+        $labels = Labels::where('name', 'LIKE', "%{$request->input('search')}%")->paginate(8);
 
         return view('frontend.pages.search', [
             'search' => $request->search,
-            'products' => $products
+            'products' => $products,
+            'labels' => $labels,
         ]);
     }
 
