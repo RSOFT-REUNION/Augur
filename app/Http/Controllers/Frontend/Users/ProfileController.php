@@ -14,22 +14,20 @@ class ProfileController extends FrontendBaseController
 {
     public function index()
     {
-        return view('frontend.profile.dashboard');
+        return view('frontend.profile.partials.index');
     }
+
+
     /**
-     * Display the user's profile form.
+     * Informations
      */
-    public function edit(Request $request)
+    public function info_edit(Request $request)
     {
-        return view('frontend.profile.edit', [
+        return view('frontend.profile.partials.informations', [
             'user' => $request->user(),
         ]);
     }
-
-    /**
-     * Update the user's profile information.
-     */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function info_update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
 
@@ -39,37 +37,37 @@ class ProfileController extends FrontendBaseController
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('info.edit')->with('status', 'profile-updated');
+    }
+    public function info_newsletter(Request $request)
+    {
+        $user = User::find(Auth::user()->id);
+        if ($request->input('value') == "off") {
+            $user->newsletter = 0;
+        } elseif ($request->input('value') == "on") {
+            $user->newsletter = 1;
+        }
+        $user->save();
+
+        // Retourne une vue partielle
+        return view('frontend.profile.partials.informations');
+    }
+    /**
+     * Orders
+     */
+    public function orders_show()
+    {
+        return view('frontend.profile.partials.orders');
     }
 
     /**
-     * Delete the user's account.
+     * loyality
      */
-    public function destroy(Request $request): RedirectResponse
+    public function loyality_show()
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
+        $user = User::find(Auth::user()->id);
+        return view('frontend.profile.partials.loyalty', [
+            'user' => $user,
         ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
-    }
-
-    public function newsletter(Request $request)
-    {
-        $validated = $request->validate([
-            'newsletter' => '',
-        ]);
-        $validated['newsletter'] = $validated['newsletter']=='on' ? 1:0;
-        User::where('id', Auth::user()->id)->update($validated);
-        return view('frontend.profile.partials.newsletter');
     }
 }

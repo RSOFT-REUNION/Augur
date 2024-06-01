@@ -54,19 +54,19 @@
                         </li>
                     @endif
                     @if(Auth::user())
-                    <li class="nav-item dropdown me-2">
-                        <a class="btn btn-primary dropdown-toggle" aria-current="page" href="{{ route('dashboard') }}"> <i class="fa-duotone fa-user fa-fw"></i> {{ Auth::user()->name }} {{ Auth::user()->first_name }}</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ route('profile.edit') }}">Informations</a></li>
-                            <li><a class="dropdown-item" href="{{ route('adresse.index') }}">Mes adresses</a></li>
-                            <li><a class="dropdown-item" href="#">Mes commande</a></li>
-                            <li><form method="POST" action="{{ route('logout') }}"> @csrf <button class="btn btn-danger w-100 btn-logout mt-2">{{ __('Log Out') }}</button> </form></li>
-                        </ul>
-                    </li>
+                        <li class="nav-item me-2">
+                            <form method="POST" action="{{ route('logout') }}"> @csrf
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a type="button" href="{{ route('dashboard') }}" class="btn btn-primary"><i class="fa-duotone fa-user fa-fw"></i> Mon compte</a>
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Log Out') }}"><i class="fa-solid fa-right-from-bracket"></i></button>
+                                </div>
+                            </form>
+
+                        </li>
                     @endif
                     <li class="nav-item">
                         <a class="btn btn-warning hvr-grow-shadow" aria-current="page" href="{{ route('cart.index') }}"> <i class="fa-duotone fa-cart-shopping"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><span id="nb_produit">{{ \App\Http\Controllers\Frontend\ShoppingCart\CartController::count_product() }}</span> <span class="visually-hidden">Nombres de produits dans le panier</span></span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><span id="nb_produit">{{ \App\Http\Controllers\Frontend\ShoppingCart\CartController::count_product() }}</span> <span class="visually-hidden">Nombres de produits dans le panier</span></span>
                         </a>
                     </li>
 

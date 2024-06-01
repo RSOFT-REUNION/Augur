@@ -62,12 +62,4 @@ Route::middleware(['auth', 'verified'])->group(function ()  use ($idRegex, $slug
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
-
-    Route::get('/mon-compte', [ProfileController::class, 'index'] )->name('dashboard');
-    Route::get('/mon-compte/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/mon-compte/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/mon-compte/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::put('/mon-compte/newsletter', [ProfileController::class, 'newsletter'])->name('profile.newsletter');
-    Route::resource('/mon-compte/adresse', AddressesController::class)->except(['show']);
-    Route::put('/mon-compte/adresse/fav/{address}', [AddressesController::class, 'fav_address'])->name('address.fav_address')->where(['address' => $idRegex]);
 });

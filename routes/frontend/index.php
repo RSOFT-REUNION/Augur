@@ -6,6 +6,7 @@ $idRegex = '[0-9]+';
 $slugRegex = '[0-9a-z\-/]+';
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/profile.php';
 require __DIR__ . '/products.php';
 require __DIR__ . '/shopping_cart.php';
 require __DIR__ . '/specific.php';

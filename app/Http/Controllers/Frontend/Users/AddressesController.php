@@ -14,7 +14,7 @@ class AddressesController extends FrontendBaseController
      */
     public function index()
     {
-        return view('frontend.profile.adresse.index', [
+        return view('frontend.profile.partials.address', [
             'address' => Address::where('user_id', '=', Auth::user()->id)->get(),
         ]);
     }
@@ -25,7 +25,7 @@ class AddressesController extends FrontendBaseController
     public function create()
     {
         $adresse = new Address();
-        return view('frontend.profile.adresse.form', [
+        return view('frontend.profile.partials.address_form', [
             'adresse' => $adresse,
         ]);
     }
@@ -50,23 +50,23 @@ class AddressesController extends FrontendBaseController
         ]);
         $validated['user_id'] = Auth::user()->id;
         Address::create($validated);
-        return redirect()->route('adresse.index')->withSuccess('Adresse ajouter avec succès');
+        return redirect()->route('address.index')->withSuccess('Adresse ajouter avec succès');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Address $adresse)
+    public function edit(Address $mes_adress)
     {
-        return view('frontend.profile.adresse.form', [
-            'adresse' => $adresse,
+        return view('frontend.profile.partials.address_form', [
+            'adresse' => $mes_adress,
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Address $adresse)
+    public function update(Request $request, Address $mes_adress)
     {
         $validated = $request->validate([
             'alias' => 'required|string|min:3|max:255',
@@ -82,16 +82,16 @@ class AddressesController extends FrontendBaseController
             'favorite' => '',
         ]);
         $validated['user_id'] = Auth::user()->id;
-        Address::where('id', $adresse->id)->update($validated);
+        Address::where('id', $mes_adress->id)->update($validated);
         return back()->withSuccess('Adresse modifiée avec succès');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Address $adresse)
+    public function destroy(Address $mes_adress)
     {
-        $adresse->delete();
+        $mes_adress->delete();
         return back()->withSuccess('Adresse supprimée avec succès');
     }
 
@@ -101,7 +101,7 @@ class AddressesController extends FrontendBaseController
         $address->favorite = $address->id;
         $address->save();
         $add = Address::where('user_id', Auth::user()->id)->get();
-        return response()->view('frontend.profile.adresse.partials.address_list', [
+        return view('frontend.profile.partials.address_list', [
             'address' => $add,
         ]);
     }

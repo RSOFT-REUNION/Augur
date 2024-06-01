@@ -3,48 +3,33 @@
 
 @section('main-content')
 
-    <h3>Bonjour {{ Auth::user()->name }} {{ Auth::user()->first_name }}</h3>
+    @yield('dashboard-breadcrumb')
 
-    <form method="POST" action="{{ route('logout') }}"> @csrf <button class="btn btn-danger btn-logout mt-2 mb-4">{{ __('Log Out') }}</button> </form>
-
-    <div class="container">
-
-        <div class="row row-flex">
-            <div class="col-12 col-md-3 align-self-center text-center">
-                <a href="{{ route('profile.edit') }}" class="text-decoration-none blackcolor">
-                <section class="card p-3 w-100 hvr-shadow rounded-4">
-                    <header>
+    <div class="row">
+        <div class="col-md-3 col-12">
+            <div class="card bg-gray rounded-4">
+                <div class="card-body">
+                    <div class="text-center mb-3">
                         <i class="fa-solid fa-user-tie fa-4x mb-3"></i>
-                        <p>Informations</p>
-                    </header>
-                </section>
-                </a>
+                        <h2>Bonjour</h2>
+                        <h3>{{ Auth::user()->name }}</h3>
+                        <form method="POST" action="{{ route('logout') }}"> @csrf <button class="btn btn-danger btn-logout mt-2 mb-2 hvr-grow-shadow"><i class="fa-solid fa-right-from-bracket"></i> {{ __('Log Out') }}</button> </form>
+                    </div>
+
+                    <nav class="nav flex-column text-center">
+                        <a class="hvr-grow-shadow btn @if(\Illuminate\Support\Facades\Route::is('info.edit')) btn-secondary @else btn-outline-secondary @endif  mb-2" href="{{ route('info.edit') }}"><i class="fa-solid fa-circle-info"></i> Mes infromations</a>
+                        <a class="hvr-grow-shadow btn @if(\Illuminate\Support\Facades\Route::is('orders.show')) btn-secondary @else btn-outline-secondary @endif mb-2" href="{{ route('orders.show') }}"><i class="fa-solid fa-basket-shopping"></i> Mes commandes</a>
+                        <a class="hvr-grow-shadow btn @if(\Illuminate\Support\Facades\Route::is('loyality.show')) btn-secondary @else btn-outline-secondary @endif mb-2" href="{{ route('loyality.show') }}"><i class="fa-solid fa-star"></i> Mon programme fidélité</a>
+                        <a class="hvr-grow-shadow btn @if(\Illuminate\Support\Facades\Route::is('address.index')) btn-secondary @else btn-outline-secondary @endif mb-2" href="{{ route('address.index') }}"><i class="fa-solid fa-address-card"></i> Mes adresses</a>
+                        <!--<a class="hvr-grow-shadow btn btn-outline-secondary mb-2" href="#"><i class="fa-solid fa-gears"></i> Mes paramètres</a>-->
+                    </nav>
+                </div>
             </div>
 
-            <div class="col-12 col-md-3 align-self-center text-center">
-                <a href="{{ route('adresse.index') }}" class="text-decoration-none blackcolor">
-                    <section class="card p-3 w-100 hvr-shadow rounded-4">
-                        <header>
-                            <i class="fa-solid fa-location-dot fa-4x mb-3"></i>
-                            <p>Adresse</p>
-                        </header>
-                    </section>
-                </a>
-            </div>
-
-            <div class="col-12 col-md-3 align-self-center text-center">
-                <a href="{{ route('adresse.index') }}" class="text-decoration-none blackcolor">
-                    <section class="card p-3 w-100 hvr-shadow rounded-4">
-                        <header>
-                            <i class="fa-solid fa-calendar-week fa-4x mb-3"></i>
-                            <p>Historique de mes commandes</p>
-                        </header>
-                    </section>
-                </a>
-            </div>
         </div>
-
+        <div class="col-md-9 col-12">
+            @yield('dashboard-content')
+        </div>
     </div>
-
 
 @endsection

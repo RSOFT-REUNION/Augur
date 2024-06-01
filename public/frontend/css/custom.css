@@ -4,10 +4,10 @@
 .top-message {
     z-index: 1000;
     position: fixed;
-    width: 50%;
+    width: auto;
     left:73%;
     transform:translateX(-50%);
-    top:120px;
+    top:151px;
 }
 
 /*--------------------------------------------------------------
@@ -112,6 +112,20 @@ a:hover {
 .bg-gray {
     background-color: #f5f5f5;
 }
+.bg-warning {
+    background-color: #f5eb69 !important;
+}
+.bg-primary {
+    background-color: #1b2e47 !important;
+}
+.bg-favorite {
+    background-color: #f5f5f5 !important;
+    border: #1b2e47 solid 1px;
+}
+.text-favorite {
+    margin-top: -14px;
+    margin-left: 16px;
+}
 h1, h2, h3, h4, h5, h6, p, a, span, table, button, input, select, label, textarea {
     font-family: Roboto Condensed, sans-serif;
 }
@@ -128,6 +142,14 @@ h3 {
     font-weight: 300;
     color: #191f23;
     font-size: 30px;
+}
+.newsletter-switch {
+    margin-left: 8px !important;
+    width: 42px !important;
+    height: 22px;
+}
+.form-group {
+    margin-bottom: 15px;
 }
 /*** Logo ***/
 .logo {
