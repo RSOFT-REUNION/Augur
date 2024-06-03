@@ -22,7 +22,7 @@
     <h2 >Mes adresses</h2>
     <p>Retrouvez ici les adresses enregistrées lors de vos précédents achats sur notre site.</p>
 
-    <div class="text-end mb-3">
+    <div class="text-end mb-5">
         <a href="{{ route('address.create') }}" class="btn btn-success hvr-grow-shadow"><i class="fa-solid fa-plus"></i> Ajouter une nouvelle adresse</a>
     </div>
 

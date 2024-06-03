@@ -27,12 +27,6 @@
         <h1 class="text-center mb-5"  data-aos="flip-up">{{ $product->name }}</h1>
         <div class="position-absolute top-0" style="right: 25px;">
             <div class="d-flex justify-content-end">
-                @if(array_key_exists($product->id,$discountProducts))
-                    <!--<div class="me-3">
-                        <h3 class="position-relative"><span class="badge text-bg-danger">Promotion -{{ $discountProducts[$product->id] }} %</span>
-                        </h3>
-                    </div>-->
-                @endif
                 <div><button class="btn btn-warning rounded-5" data-bs-toggle="modal" data-bs-target="#composition"><i class="fa-solid fa-circle-info"></i></button></div>
             </div>
         </div>

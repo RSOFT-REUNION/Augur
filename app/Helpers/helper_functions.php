@@ -39,6 +39,10 @@ function getCategoryParentInfo($category)
 {
     return Category::where('id', $category)->first();
 }
+function removeStorageFromURL($path)
+{
+    return substr($path, 8);
+}
 
 function formatPriceToInteger($input) {
     return round($input * 100);
@@ -85,4 +89,57 @@ function csvToArray($filename = '', $delimiter = ';')
     }
 
     return $data;
+}
+
+/*** Fonction qui retourne les dates sur les 2 prochaines semaine ***/
+function getDaysTwoWeeks (string $region)
+{
+    // Créer un objet DateTime avec la date actuelle
+    $date = new DateTime();
+    // Ajouter 2 jours à la date actuelle
+    $date->modify('+1 days');
+    // Liste des jours que nous recherchons en anglais et leur traduction en français
+    if($region == 'nord') {
+        $targetDays = [
+            'Monday' => 'Lundi',
+            'Wednesday' => 'Mercredi',
+            'Friday' => 'Vendredi'
+        ];
+    } else {
+        $targetDays = [
+            'Tuesday' => 'Mardi',
+            'Thursday' => 'Jeudi',
+            'Saturday' => 'Samedi'
+        ];
+    }
+    $possibleDays = getDaysOverTwoWeeks($date, $targetDays);
+    return $possibleDays;
+}
+
+// Fonction pour trouver les jours possibles sur 2 semaines
+function getDaysOverTwoWeeks(DateTime $date, array $days) {
+    $results = [];
+    $interval = new DateInterval('P1D'); // Intervalle d'un jour
+    $period = new DatePeriod($date, $interval, 13); // Période de 14 jours
+    foreach ($period as $day) {
+        $dayName = $day->format('l');
+        if (array_key_exists($dayName, $days)) {
+            $results[] = [
+                'date' => $day,
+                'day' => $days[$dayName]
+            ];
+        }
+    }
+    return $results;
+}
+// Fonction pour formater une date en français
+function formatDateInFrench(DateTime $date) {
+    $formatter = new IntlDateFormatter(
+        'fr_FR',
+        IntlDateFormatter::FULL,
+        IntlDateFormatter::NONE,
+        'Europe/Paris',
+        IntlDateFormatter::GREGORIAN
+    );
+    return $formatter->format($date);
 }

@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('user_id')->nullable();
             $table->string('session_id');
+            $table->string('loyalty');
             $table->enum('status', ['En cours', 'Abandonner', 'Commander'])->default('En cours');
             $table->string('delivery_id')->nullable();
             $table->string('delivery_price')->nullable();
@@ -21,6 +22,9 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(\App\Models\Catalog\Product::class)->constrained('catalog_products');
             $table->foreignIdFor(\App\Models\Carts\Carts::class)->constrained();
+            $table->string('fav_image')->nullable();
+            $table->integer('discount_id')->nullable();
+            $table->integer('discount_percentage')->nullable();
             $table->integer('quantity')->default(1);
             $table->integer('price_ht')->default(0);
             $table->integer('tva')->default(0);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend\Users;
 
 use App\Http\Controllers\Frontend\FrontendBaseController;
 use App\Models\Users\Address;
+use App\Models\Users\Cities;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +17,7 @@ class AddressesController extends FrontendBaseController
     {
         return view('frontend.profile.partials.address', [
             'address' => Address::where('user_id', '=', Auth::user()->id)->get(),
+            'cities' => Cities::orderBy('city')->get()
         ]);
     }
 
@@ -25,8 +27,10 @@ class AddressesController extends FrontendBaseController
     public function create()
     {
         $adresse = new Address();
+        $cities = Cities::orderBy('city')->get();
         return view('frontend.profile.partials.address_form', [
             'adresse' => $adresse,
+            'cities' => $cities,
         ]);
     }
 
@@ -41,14 +45,14 @@ class AddressesController extends FrontendBaseController
             'address' => 'required|string|max:255',
             'address2' => 'max:255',
             'other' => 'max:255',
-            'postal_code' => 'required|string|max:10',
-            'city' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
+            'cities' => 'required',
+            'country' => 'nullable',
             'phone' => 'required|string|max:20',
             'other_phone' => 'max:20',
             'favorite' => '',
         ]);
         $validated['user_id'] = Auth::user()->id;
+        $validated['country'] = "La Réunion";
         Address::create($validated);
         return redirect()->route('address.index')->withSuccess('Adresse ajouter avec succès');
     }
@@ -58,8 +62,10 @@ class AddressesController extends FrontendBaseController
      */
     public function edit(Address $mes_adress)
     {
+        $cities = Cities::orderBy('city')->get();
         return view('frontend.profile.partials.address_form', [
             'adresse' => $mes_adress,
+            'cities' => $cities,
         ]);
     }
 
@@ -74,14 +80,14 @@ class AddressesController extends FrontendBaseController
             'address' => 'required|string|max:255',
             'address2' => 'max:255',
             'other' => 'max:255',
-            'postal_code' => 'required|string|max:10',
-            'city' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
+            'cities' => 'required',
+            'country' => 'nullable',
             'phone' => 'required|string|max:20',
             'other_phone' => 'max:20',
             'favorite' => '',
         ]);
         $validated['user_id'] = Auth::user()->id;
+        $validated['country'] = "La Réunion";
         Address::where('id', $mes_adress->id)->update($validated);
         return back()->withSuccess('Adresse modifiée avec succès');
     }
@@ -100,9 +106,9 @@ class AddressesController extends FrontendBaseController
         Address::where('user_id', Auth::user()->id)->update(['favorite' => '']);
         $address->favorite = $address->id;
         $address->save();
-        $add = Address::where('user_id', Auth::user()->id)->get();
         return view('frontend.profile.partials.address_list', [
-            'address' => $add,
+            'address' => Address::where('user_id', '=', Auth::user()->id)->get(),
+            'cities' => Cities::orderBy('city')->get()
         ]);
     }
 }

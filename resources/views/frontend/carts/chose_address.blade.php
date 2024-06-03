@@ -1,47 +1,75 @@
-<h3 class="mb-5 text-center">Passer la commande</h3>
+@extends('frontend.layouts.layout')
+@section('title', __('Mon Panier') )
 
-@auth
+@section('main-content')
+
+    <div style="margin-top: 60px;" class="mb-5">
+        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-nav mt-5 p-3 rounded-3 shadow">
+                <li class="breadcrumb-item"><a href="{{ route('index') }}"><i class="fa-solid fa-home"></i></a></li>
+                <li class="breadcrumb-item"><a href="{{ route('cart.index') }}">Mon panier</a></li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Mon adresse</li>
+            </ol>
+        </nav>
+    </div>
+
+
+
+    @auth
         <div class="row row-flex" id="divaddress">
-            <div class="col-12 col-md-8">
-                <h3 class="mb-5">Sélectionnez une adresse de livraison</h3>
+            <div class="col-12 col-md-9">
+                <div class="row row-flex m-3" id="address_list">
+                    <h3 class="mb-3">Adresse de livraison</h3>
 
-                <div class="row row-flex" id="address_list">
                     @forelse($address as $addres)
-                        <div class="col-12 col-md-6 mb-5">
-                            <div class="card text-center content">
-                                <div class="card-body" @if($addres->id == $addres->type_fav) style="background-color: #eeeeee;" @endif>
-                                    <h4 class="card-title">{{ $addres->alias }}</h4>
-                                    <p class="card-text">{{ $addres->first_name }} {{ $addres->last_name }}</p>
-                                    <p class="card-text">{{ $addres->address }}</p>
-                                    <p class="card-text">{{ $addres->address2 }}</p>
-                                    <p class="card-text">{{ $addres->other }}</p>
-                                    <p class="card-text">{{ $addres->city }} - {{ $addres->postal_code }}</p>
-                                    <p class="card-text">{{ $addres->country }}</p>
-                                    <p class="card-text">{{ $addres->phone }}</p>
-                                    <p class="card-text">{{ $addres->other_phone }}</p>
-                                    <form method="post">
+                        <div class="col-12 text-center mb-3 p-3">
+                            <div class="mb-4 row align-items-center position-relative rounded-4 @if($addres->id == $addres->favorite) bg-favorite rounded-4 shadow @endif" style="border: #000000 1px solid;">
+                                @if($addres->id == $addres->favorite)
+                                    <h4><span class="badge bg-primary position-absolute top-0 start-0 text-favorite">Adresse Préférée</span></h4>
+                                @endif
+
+                                <h4 class="text-center mb-4 mt-3">{{ $addres->alias }}</h4>
+                                <div class="col-md-3 col-12">
+                                    <h4>{{ $addres->name }}</h4>
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <p>
+                                        {{ $addres->address }} <br>
+                                        {{ $addres->address2 }} <br>
+                                    </p>
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <p>
+                                        @foreach($cities as $city)
+                                            @if($city->postal_code == $addres->cities)
+                                                {{ $city->postal_code }} - {{ $city->city }} <br>
+                                            @endif
+                                        @endforeach
+                                        {{ $addres->country }} <br>
+                                        Téléphone : {{ $addres->phone }}
+                                            @if($addres->other_phone)
+                                                / {{ $addres->other_phone }}
+                                            @endif
+                                    </p>
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <form action="{{ route('cart.chose_delivery') }}" method="post">
                                         @csrf
                                         <input type="hidden" name="address" value="{{ $addres->id }}">
                                         <input type="hidden" name="cart" value="{{ $cart->id }}">
-                                        <button type="submit" class="btn btn-primary"
-                                                hx-post="{{ route('cart.chose_delivery') }}"
-                                                hx-swap="outerHTML"
-                                                hx-target="#divaddress">
-                                            @if($addres->id == $addres->favorite)
-                                                <i class="fa-solid fa-star"></i>
-                                                @endif Selectionner</button>
+                                        <button type="submit" class="btn btn-primary btn-lg text-center hvr-grow-shadow" style="margin-top: -40px;"><i class="fa-solid fa-circle-arrow-right"></i>  Selectionner</button>
                                     </form>
                                 </div>
                             </div>
                         </div>
+
                     @empty
-                        <h4>Vous n'avais pas encore d'adresse</h4>
-                        <div class="text-end"><a href="{{ route('adresse.create') }}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Ajouter </a></div>
+                        @include('frontend.carts.partials.add_address')
                     @endif
 
                 </div>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-md-3">
                 @include('frontend.carts.partials.cart_summary')
             </div>
 
@@ -50,3 +78,5 @@
     @guest
         @include('frontend.auth.login')
     @endguest
+
+@endsection

@@ -57,11 +57,21 @@ class Carts extends Model
         }
         return $sum;
     }
-    public function countProductsPrice()
+    public function countProductsPrice(?int $deliver_price_ttc, ?int $loyality)
     {
         $sum = 0;
         foreach ($this->product as $prod) {
-            $sum += $prod->price_ttc * $prod->quantity;
+            if($prod->discount_id) {
+                $sum += ($prod->price_ttc * $prod->quantity) - (($prod->price_ttc * $prod->quantity) * $prod->discount_percentage) / 100;
+            } else {
+                $sum += $prod->price_ttc * $prod->quantity;
+            }
+        }
+        if($deliver_price_ttc) {
+            $sum = ($sum + ($deliver_price_ttc * 100));
+        }
+        if($loyality) {
+            $sum = ($sum - (($loyality / 100) * $sum));
         }
         return $sum;
     }

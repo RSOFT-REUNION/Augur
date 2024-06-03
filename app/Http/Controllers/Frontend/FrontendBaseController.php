@@ -9,6 +9,7 @@ use App\Models\Catalog\Discount;
 use App\Models\Content\Carousel;
 use App\Models\Content\Pages;
 use App\Models\Settings\Informations;
+use App\Models\Users\Cities;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
@@ -37,8 +38,10 @@ class FrontendBaseController extends Controller
                 $discountProducts->put($product->product_id, $discount->percentage);
             }
         }
+        $cities = Cities::orderBy('city')->get();
 
-        View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu, 'menu_produits' => $menu_produits,'discountProducts' => $discountProducts->toArray()]);
+
+        View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu, 'menu_produits' => $menu_produits,'discountProducts' => $discountProducts->toArray(), 'cities' => $cities]);
     }
 
     public function images_show(Request $request, string $path)

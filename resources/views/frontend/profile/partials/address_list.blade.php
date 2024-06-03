@@ -13,9 +13,16 @@
                 <p>
                     {{ $addres->address }} <br>
                     {{ $addres->address2 }} <br>
-                    {{ $addres->postal_code }} - {{ $addres->city }} <br>
+                    @foreach($cities as $city)
+                        @if($city->postal_code == $addres->cities)
+                            {{ $city->postal_code }} - {{ $city->city }} <br>
+                        @endif
+                    @endforeach
                     {{ $addres->country }} <br>
-                    Téléphone : {{ $addres->phone }} / {{ $addres->other_phone }}
+                    Téléphone : {{ $addres->phone }}
+                    @if($addres->other_phone)
+                        / {{ $addres->other_phone }}
+                    @endif
                 </p>
             </div>
             <div class="col-md-3">

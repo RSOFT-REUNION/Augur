@@ -1,56 +1,21 @@
-@extends('frontend.profile.dashboard')
-@section('title', __('Mes adresses') )
-
-
-@section('dashboard-breadcrumb')
-    <div style="margin-top: 60px;" class="mb-5">
-        <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-            <ol class="breadcrumb breadcrumb-nav mt-5 p-3 rounded-3 shadow">
-                <li class="breadcrumb-item"><a href="{{ route('index') }}"><i class="fa-solid fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Mon compte</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('address.index') }}">Mes adresses</a></li>
-                <li class="breadcrumb-item active text-white" aria-current="page">@if ($adresse->exists) Modification @else Ajout @endif d'une adresse</li>
-            </ol>
-        </nav>
-    </div>
-@endsection
-
-@section('dashboard-content')
-    <div class="text-end mb-4">
-        <a class="hvr-grow-shadow btn btn-warning" href="{{ route('address.index') }}"><i class="fa-solid fa-circle-left"></i> Retour</a>
-    </div>
-
-    <h2>@if ($adresse->exists) Modification @else Ajout @endif d'une adresse</h2>
-
-    <div class="p-3 w-100">
-        <form
-            action="{{ route($adresse->exists ? 'address.update' : 'address.store', $adresse) }}"
-            method="post" class="mt-6 space-y-6" enctype="multipart/form-data">
+<div class="row">
+    <div class="col-md-1 col-12"></div>
+    <div class="col-md-10 col-12">
+        <form action="{{ route('cart.chose_delivery') }}" method="post">
             @csrf
-            @method($adresse->exists ? 'put' : 'post')
-
-            <div class="form-group">
-                <label class="form-control-label" for="alias">Alias <span
-                        class="small text-danger">*</span> : </label>
-                <input id="alias" type="text" name="alias"
-                       class="@error('alias') is-invalid @enderror form-control w-50" required
-                       value="{{ old('alias', $adresse->alias) }}">
-                @error('alias')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+            <input type="hidden" name="cart" value="{{ $cart->id }}">
+            <input type="hidden" name="add_address" value="1">
 
             <div class="form-group">
                 <label class="form-control-label" for="name">Nom <span
                         class="small text-danger">*</span> : </label>
                 <input id="name" type="text" name="name"
                        class="@error('name') is-invalid @enderror form-control" required
-                       value="{{ old('name', $adresse->name) }}">
+                       value="{{ old('name') }}">
                 @error('name')
-                <div class="invalid-feedback">{{ $message }}</div>
+                    <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-
 
             <div class="row">
                 <div class="col-6">
@@ -59,7 +24,7 @@
                                 class="small text-danger">*</span> : </label>
                         <input id="address" type="text" name="address"
                                class="@error('address') is-invalid @enderror form-control" required
-                               value="{{ old('address', $adresse->address) }}">
+                               value="{{ old('address') }}">
                         @error('address')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -70,7 +35,7 @@
                         <label class="form-control-label" for="address2">Complément d'adresse : </label>
                         <input id="address2" type="text" name="address2"
                                class="@error('address2') is-invalid @enderror form-control"
-                               value="{{ old('address2', $adresse->address2) }}">
+                               value="{{ old('address2') }}">
                         @error('address2')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -81,7 +46,12 @@
                     <div class="form-group">
                         <label class="form-control-label" for="country">Pays <span
                                 class="small text-danger">*</span> : </label>
-                        <input id="country" type="text" name="country" class="form-control" value="La Réunion" disabled>
+                        <input id="country" type="text" name="country" disabled
+                               class="@error('country') is-invalid @enderror form-control" required
+                               value="La Réunion">
+                        @error('country')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-8">
@@ -90,7 +60,7 @@
                                 class="small text-danger">*</span> : </label>
                         <select class="form-select" aria-label="Default select example" name="cities" id="cities">
                             @foreach($cities  as $city)
-                                <option @if($city->postal_code == $adresse->cities) selected @endif value="{{ $city->postal_code }}">{{ $city->city .' - '. $city->postal_code }}</option>
+                                <option value="{{ $city->postal_code }}">{{ $city->city .' - '. $city->postal_code }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -102,7 +72,7 @@
                                 class="small text-danger">*</span> : </label>
                         <input id="phone" type="text" name="phone"
                                class="@error('phone') is-invalid @enderror form-control" required
-                               value="{{ old('phone', $adresse->phone) }}" placeholder="0692">
+                               value="{{ old('phone') }}" placeholder="0692">
                         @error('phone')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -113,7 +83,7 @@
                         <label class="form-control-label" for="other_phone">Autre Téléphone : </label>
                         <input id="other_phone" type="text" name="other_phone"
                                class="@error('other_phone') is-invalid @enderror form-control"
-                               value="{{ old('other_phone', $adresse->other_phone) }}">
+                               value="{{ old('other_phone') }}">
                         @error('other_phone')
                         <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -122,27 +92,14 @@
 
             </div>
 
-            <div class="form-group">
-                <label class="form-control-label" for="other">Autre informations :</label>
-                <input id="other" type="text" name="other"
-                       class="@error('other') is-invalid @enderror form-control"
-                       value="{{ old('other', $adresse->other) }}">
-                @error('other')
-                <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
-
-            <div class="d-flex gap-2 justify-content-center mt-3">
-                <button type="submit" class="btn btn-success">
-                    @if ($adresse->exists)
-                        <i class="fa-solid fa-pen-to-square"></i> Modifier
-                    @else
-                        <i class="fa-solid fa-plus"></i> Ajouter
-                    @endif
-                </button>&nbsp;&nbsp;
+            <div class=" text-center content mt-3">
+                <button type="submit" class="btn btn-primary btn-lg hvr-grow-shadow">
+                    <i class="fa-solid fa-circle-arrow-right"></i> Continuer</button>
             </div>
 
         </form>
     </div>
+    <div class="col-md-1 col-12"></div>
+</div>
 
-@endsection
+

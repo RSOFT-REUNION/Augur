@@ -1,41 +1,55 @@
-<h3 class="mb-4">Récapitulatif de commande</h3>
-@foreach($cart->product as $product)
-    <div class="card rounded-3 mb-4">
-        <div class="card-body p-4">
-            <div class="row d-flex justify-content-between align-items-center">
-                <div class="col-md-2 col-lg-2 col-xl-2">
-                    {{ $product->getFristImages($product) }}
+<div class="card bg-gray mb-4">
+    <div class="card-body  text-center">
+        <img class="w-25 mb-3" src="{{ asset('frontend/images/shopping-bags.png') }}">
+        <h3 class="text-center">Total TTC </h3>
+        <h4 class="text-center">{{ $cart->countProduct() }} article(s)</h4>
+        <h2 class="text-center mb-3">
+            {{ formatPriceToFloat($cart->countProductsPrice(@$delivery_chose->price_ttc, 0)) }} €
+        </h2>
+        <p class="text-center mb-3">Le total de la commande inclut la TVA.</p>
+    </div>
+</div>
+
+@empty($user_address)
+@else
+    <div class="card bg-gray mb-4">
+        <div class="card-body">
+            <div class="text-center">
+                <img class="w-25 mb-3" src="{{ asset('frontend/images/location.png') }}">
+            </div>
+            <h5>{{ $user_address->alias }}</h5>
+            <p>{{ $user_address->name }} -
+                {{ $user_address->address }}
+                {{ $user_address->address2 }}
+                <br>
+                @foreach($cities as $city)
+                    @if($city->postal_code == $user_address->cities)
+                        {{ $city->postal_code }} - {{ $city->city }}
+                    @endif
+                @endforeach
+                - {{ $user_address->country }}
+                <br>
+                Téléphone : {{ $user_address->phone }}
+                @if($user_address->other_phone)
+                    / {{ $user_address->other_phone }}
+                @endif
+            </p>
+        </div>
+    </div>
+@endempty
+@empty($delivery_chose)
+@else
+    <div class="card bg-gray mb-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="text-center">
+                    <img class="w-25 mb-3" src="{{ getImageUrl(('/upload/order/delivery/'.$delivery_chose->image), 100, 100) }}" alt="{{ $delivery_chose->name }}">
                 </div>
-                <div class="col-md-4 col-lg-4 col-xl-4">
-                    <p class="lead fw-normal mb-2">{{ getProductInfos($product->product_id)->name  }}</p>
-                </div>
-                <div class="col-md-3 col-lg-3 col-xl-2">
-                    <p>Quantité</p><br>
-                    <h5 class="mb-0">{{ $product->quantity }}</h5>
-                </div>
-                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                    <p>Prix TTC</p><br>
-                    <h5 class="mb-0">{{ formatPriceToFloat($product->price_ttc) }} €</h5>
+                <div class="d-flex justify-content-end">
+                    <h4 class="flex-fill">{{ $delivery_chose->name }}</h4>
+                    <p class=""><b>@if($delivery_chose->price_ttc == 0) <b>Gratuit</b> @else {{ $delivery_chose->price_ttc }} €@endif</b></p>
                 </div>
             </div>
         </div>
     </div>
-@endforeach
-
-@if(@$user_address)
-    <h5>Mon adresse de livraison : ({{ $user_address->alias }})</h5>
-    <p>{{ $user_address->first_name }} {{ $user_address->last_name }} -
-    {{ $user_address->address }}
-    {{ $user_address->address2 }}
-    {{ $user_address->city }} - {{ $user_address->postal_code }}
-    {{ $user_address->country }}
-    {{ $user_address->phone }}
-    {{ $user_address->other_phone }}</p>
-@else
-    <h5>Mon adresse de livraison :</h5>
-@endif
-
-<h5>Frais de livraison : </h5>
-
-<h5 id="sous-total" class="text-end p-3">Sous-total ({{ $cart->countProduct() }} article) : {{ formatPriceToFloat($cart->countProductsPrice()) }} €</h5>
-<p class="text-end" style="margin-top: -20px;">Le total de la commande inclut la TVA.</p>
+@endempty
