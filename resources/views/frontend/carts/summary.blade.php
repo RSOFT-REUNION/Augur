@@ -118,7 +118,7 @@
                 <div class="card-body">
                     <div class="text-center">
                         <img class="w-50 mb-3 mt-3" src="{{ asset('frontend/images/discount.png') }}">
-                        <h2 class="mx-auto"> 5 <i class="fa-solid fa-percent"></i></h2>
+                        <h2 class="mx-auto">- 5 <i class="fa-solid fa-percent"></i></h2>
                         <p><b>300</b> point de fidélité seront utilisé.</p>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
                 <div class="card-body">
                     <div class="text-center">
                         <img class="w-50 mb-3 mt-3" src="{{ asset('frontend/images/discount.png') }}">
-                        <h2 class="mx-auto"> 10 <i class="fa-solid fa-percent"></i></h2>
+                        <h2 class="mx-auto">- 10 <i class="fa-solid fa-percent"></i></h2>
                         <p><b>500</b> point de fidélité seront utilisé.</p>
                     </div>
                 </div>
@@ -138,7 +138,7 @@
                 <div class="card-body">
                     <div class="text-center">
                         <img class="w-50 mb-3 mt-3" src="{{ asset('frontend/images/discount.png') }}">
-                        <h2 class="mx-auto"> 15 <i class="fa-solid fa-percent"></i></h2>
+                        <h2 class="mx-auto">- 15 <i class="fa-solid fa-percent"></i></h2>
                         <p><b>1 000</b> point de fidélité seront utilisé.</p>
                     </div>
                 </div>
@@ -147,11 +147,16 @@
     </div>
 </div>
 
-    <h3 id="sous-total" class="text-end p-3 mt-4">Sous-total ({{ $cart->countProduct() }} article(s)) :  {{ formatPriceToFloat($cart->countProductsPrice($deliver->price_ttc, $loyality)) }} €</h3>
-    <p class="text-end" style="margin-top: -20px;">Le total de la commande inclut la TVA.</p>
+    <div class="p-3">
+        <h2 id="sous-total" class="text-end mt-4">Sous-total ({{ $cart->countProduct() }} article(s)) :  {{ formatPriceToFloat($cart->countProductsPrice($deliver->price_ttc, $loyality)) }} €</h2>
+        @if($loyality == 10)
+            <h4 class="text-end">Une remise de 10% est appliquée à un montant de {{ formatPriceToFloat($cart->countProductsPrice($deliver->price_ttc, 0)) }} €.</h4>
+        @endif
+        <p class="text-end" >Le total de la commande inclut la TVA.</p>
+    </div>
 
     <div class="text-center">
-        <img class="w-25" src="{{ asset('frontend/images/Logo_CB.png') }}">
+            <button type="submit" class="btn btn-lg btn-success hvr-grow-shadow"><i class="fa-regular fa-credit-card fa-2x"></i><br>Payer ma commande</button>
     </div>
 
 @endsection
