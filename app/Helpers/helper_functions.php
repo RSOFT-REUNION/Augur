@@ -92,6 +92,14 @@ function csvToArray($filename = '', $delimiter = ';')
 }
 
 /*** Fonction qui retourne les dates sur les 2 prochaines semaine ***/
+function getDateTimeNow()
+{
+    $tz = 'Indian/Reunion';
+    $timestamp = time();
+    $dt = new DateTime("now", new DateTimeZone($tz)); //first argument "must" be a string
+    $dt->setTimestamp($timestamp); //adjust the object to correct timestamp
+    return $dt->format('H:i');
+}
 function getDaysTwoWeeks (string $region)
 {
     // Créer un objet DateTime avec la date actuelle
