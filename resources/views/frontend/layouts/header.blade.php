@@ -58,7 +58,7 @@
                             <form method="POST" action="{{ route('logout') }}"> @csrf
                                 <div class="btn-group" role="group" aria-label="Basic example">
                                     <a type="button" href="{{ route('dashboard') }}" class="btn btn-primary"><i class="fa-duotone fa-user fa-fw"></i> Mon compte</a>
-                                    <button type="button" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Log Out') }}"><i class="fa-solid fa-right-from-bracket"></i></button>
+                                    <button type="submit" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-custom-class="custom-tooltip" data-bs-placement="bottom" data-bs-title="{{ __('Log Out') }}"><i class="fa-solid fa-right-from-bracket"></i></button>
                                 </div>
                             </form>
 
