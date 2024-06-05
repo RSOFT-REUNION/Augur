@@ -88,6 +88,20 @@ class CartController extends FrontendBaseController
             'loyality' => User::select('erp_id', 'erp_loyalty_points', 'erp_loyalty_card')->firstwhere('id', Auth::user()->id),
         ]);
     }
+    public function chosed_delivery_date(Request $request, string $delivery, string $delivery_date, string $delivery_slot)
+    {
+        /*** Inclut les points fidélité ***/
+        return view('frontend.carts.partials.delivery_index', [
+            'user_address' => Address::firstwhere('id', $request->address),
+            'user_address_fac' => Address::where('user_id', Auth::id())->where('favorite', '!=', '')->first(),
+            'cart' => Carts::with('product')->firstwhere('id', $request->cart),
+            'delivery' => Delivery::where('active', 1)->get(),
+            'delivery_chose' => Delivery::firstwhere('id', $request->deliver),
+            'delivery_date' => $delivery_date,
+            'delivery_slot' => $delivery_slot,
+            'loyality' => User::select('erp_id', 'erp_loyalty_points', 'erp_loyalty_card')->firstwhere('id', Auth::user()->id),
+        ]);
+    }
 
     public function cart_summary(Request $request)
     {
@@ -96,6 +110,8 @@ class CartController extends FrontendBaseController
             'user_address_fac' => Address::where('user_id', Auth::id())->where('favorite', '!=', '')->first(),
             'cart' => Carts::with('product')->firstwhere('id', $request->cart),
             'deliver' => Delivery::firstwhere('id', $request->delivery),
+            'delivery_date' => $request->delivery_date,
+            'delivery_slot' => $request->delivery_slot,
             'loyality' => $request->loyality,
         ]);
     }

@@ -18,4 +18,5 @@ Route::post('mon-panier/mon-adresse', [CartController::class, 'chose_address'])-
 Route::post('mon-panier/mon-adresse/create_address', [CartController::class, 'create_address'])->name('cart.create_address');
 Route::post('mon-panier/livraison', [CartController::class, 'chose_delivery'])->name('cart.chose_delivery');
 Route::post('mon-panier/livraison/{deliver}', [CartController::class, 'chosed_delivery'])->name('cart.chosed_delivery')->where(['deliver' => $idRegex]);
+Route::post('mon-panier/livraison/chosedate-{deliver}-{delivery_date}-{delivery_slot}', [CartController::class, 'chosed_delivery_date'])->name('cart.chosed_delivery_date')->where(['deliver' => $idRegex,'delivery_date' => $slugRegex,'delivery_slot' => $slugRegex]);
 Route::post('mon-panier/sommaire', [CartController::class, 'cart_summary'])->name('cart.summary');

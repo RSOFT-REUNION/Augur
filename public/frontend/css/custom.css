@@ -126,6 +126,10 @@ a:hover {
     margin-top: -14px;
     margin-left: 16px;
 }
+.slot-favorite {
+    margin-top: -14px;
+    margin-left: 20px;
+}
 h1, h2, h3, h4, h5, h6, p, a, span, table, button, input, select, label, textarea {
     font-family: Roboto Condensed, sans-serif;
 }

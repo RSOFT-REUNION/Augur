@@ -18,9 +18,7 @@
             <div class="hvr-float-shadow col-md-2 col-12 p-1 m-2" style="cursor: pointer;">
                 <div class="card content bg-primary">
                     <form action="{{ route('cart.summary') }}" method="post" class="text-center"> @csrf
-                        <input type="hidden" name="address" value="{{ @$user_address->id }}">
-                        <input type="hidden" name="cart" value="{{ @$cart->id }}">
-                        <input type="hidden" name="delivery" value="{{ @$delivery_chose->id }}">
+                        @include('frontend.carts.partials.loyality_hidden_input')
                         <input type="hidden" name="loyality" value="0">
 
                         <div class="text-center">
@@ -37,9 +35,7 @@
             <div class="hvr-float-shadow col-md-2 col-12 p-1 m-2" style="cursor: pointer;">
                 <div class="card content bg-warning">
                     <form action="{{ route('cart.summary') }}" method="post" class="text-center content"> @csrf
-                        <input type="hidden" name="address" value="{{ @$user_address->id }}">
-                        <input type="hidden" name="cart" value="{{ @$cart->id }}">
-                        <input type="hidden" name="delivery" value="{{ @$delivery_chose->id }}">
+                        @include('frontend.carts.partials.loyality_hidden_input')
                         <input type="hidden" name="loyality" value="5">
 
                         <div class=" text-center">
@@ -56,9 +52,7 @@
                 <div class="hvr-float-shadow col-md-2 col-12 p-1 m-2" style="cursor: pointer;">
                     <div class="card content bg-primary">
                         <form action="{{ route('cart.summary') }}" method="post" class="text-center"> @csrf
-                            <input type="hidden" name="address" value="{{ @$user_address->id }}">
-                            <input type="hidden" name="cart" value="{{ @$cart->id }}">
-                            <input type="hidden" name="delivery" value="{{ @$delivery_chose->id }}">
+                            @include('frontend.carts.partials.loyality_hidden_input')
                             <input type="hidden" name="loyality" value="10">
 
                             <div class="text-center">
@@ -76,9 +70,7 @@
                     <div class="hvr-float-shadow col-md-2 col-12 p-1 m-2" style="cursor: pointer;">
                         <div class="card content bg-warning">
                             <form action="{{ route('cart.summary') }}" method="post" class="text-center"> @csrf
-                                <input type="hidden" name="address" value="{{ @$user_address->id }}">
-                                <input type="hidden" name="cart" value="{{ @$cart->id }}">
-                                <input type="hidden" name="delivery" value="{{ @$delivery_chose->id }}">
+                                @include('frontend.carts.partials.loyality_hidden_input')
                                 <input type="hidden" name="loyality" value="15">
 
                                 <div class=" text-center">
@@ -99,9 +91,7 @@
         <h3 class="text-center m-4">Vous n'avez pas encore obtenu suffisamment de points</h3>
         <div class="text-center">
             <form action="{{ route('cart.summary') }}" method="post" class="text-center"> @csrf
-                <input type="hidden" name="address" value="{{ @$user_address->id }}">
-                <input type="hidden" name="cart" value="{{ @$cart->id }}">
-                <input type="hidden" name="delivery" value="{{ @$delivery_chose->id }}">
+                @include('frontend.carts.partials.loyality_hidden_input')
                 <input type="hidden" name="loyality" value="0">
 
                 <button type="submit" class="btn btn-lg btn-primary hvr-grow-shadow"><i class="fa-solid fa-list-check"></i> Récapitulatif
@@ -119,9 +109,7 @@
     </div>
     <div class="text-center">
         <form action="{{ route('cart.summary') }}" method="post" class="text-center"> @csrf
-            <input type="hidden" name="address" value="{{ @$user_address->id }}">
-            <input type="hidden" name="cart" value="{{ @$cart->id }}">
-            <input type="hidden" name="delivery" value="{{ @$delivery_chose->id }}">
+            @include('frontend.carts.partials.loyality_hidden_input')
             <input type="hidden" name="loyality" value="0">
 
         <button type="submit" class="btn btn-lg btn-primary hvr-grow-shadow"><i class="fa-solid fa-list-check"></i> Récapitulatif

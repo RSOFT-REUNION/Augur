@@ -13,23 +13,23 @@
                 @foreach($delivery as $deliver)
                     <div class="col-12 col-md-4">
                         <div
-                            class="card hvr-float-shadow w-100 position-relative @if($deliver->id == @$delivery_chose->id) bg-gray @endif"
+                            class="card hvr-float-shadow w-100 position-relative @if($deliver->id == @$delivery_chose->id) bg-primary text-white @endif"
                             style="cursor: pointer;"
-                            hx-post="{{ route('cart.chosed_delivery', $deliver->id) }}"
+                            hx-post="{{ route('cart.chosed_delivery', $deliver) }}"
                             hx-swap="outerHTML"
                             hx-target="#divdelivery"
                             hx-indicator=".htmx-indicator, .htmx-style">
 
                             @if($deliver->id == @$delivery_chose->id)
-                                <h4><span class="badge bg-primary position-absolute top-0 start-0 text-favorite">Selectionner</span>
-                                </h4>
+                                <h4><span class="badge bg-success position-absolute top-0 start-0 text-favorite"><i
+                                            class="fa-regular fa-star"></i></span></h4>
                             @endif
 
                             <div class="card-body text-center">
                                 <img class="img-fluid"
                                      src="{{ getImageUrl(('/upload/order/delivery/'.$deliver->image), 200, 200) }}"
                                      alt="{{ $deliver->name }}">
-                                <h3>{{ $deliver->name }}</h3>
+                                <h3 @if($deliver->id == @$delivery_chose->id) class="text-white" @endif>{{ $deliver->name }}</h3>
                                 <p>{{ $deliver->description }}</p>
                                 <p>Frais de livraison : @if($deliver->price_ttc == 0)
                                         <b>Gratuit</b>
@@ -47,9 +47,17 @@
         @if(@$delivery_chose)
             @if(@$delivery_chose->price_ttc == 10)
                 @if($user_address->cities == 97400 || $user_address->cities == 97438 || $user_address->cities == 97441 || $user_address->cities == 97440 || $user_address->cities == 97412 || $user_address->cities == 97470 || $user_address->cities == 97437 || $user_address->cities == 97439 || $user_address->cities == 97431)
-                    @include('frontend.carts.partials.delivery_nord-est')
+                    <div class="text-center">
+                        <img style="width: 100px;" src="{{ asset('frontend/images/24-hours.png') }}">
+                        <h3 class="mb-5">Choix souhaitez du créneau de livraison (Région Nord / Est)</h3>
+                    </div>
+                    @include('frontend.carts.partials.delivery_index_slot', array('region'=>'nord'))
                 @elseif($user_address->cities == 97425 || $user_address->cities == 97427 || $user_address->cities == 97450 || $user_address->cities == 97414 || $user_address->cities == 97430 || $user_address->cities == 97410 || $user_address->cities == 97429 || $user_address->cities == 97480 || $user_address->cities == 97442 || $user_address->cities == 97420 || $user_address->cities == 97419 || $user_address->cities == 97460 || $user_address->cities == 97434 || $user_address->cities == 97426 || $user_address->cities == 97436)
-                    @include('frontend.carts.partials.delivery_sud-ouest')
+                    <div class="text-center">
+                        <img style="width: 100px;" src="{{ asset('frontend/images/24-hours.png') }}">
+                        <h3 class="mb-5">Choix souhaitez du créneau de livraison (Région Sud / Ouest)</h3>
+                    </div>
+                    @include('frontend.carts.partials.delivery_index_slot', array('region'=>'sud'))
                 @else
                     <div class="w-75 mx-auto bg-danger rounded-4 shadow text-white p-3">
                         <div class="text-center"><i class="fa-solid fa-triangle-exclamation fa-5x"></i></div>
@@ -63,6 +71,10 @@
                         </div>
                     </div>
                 @endif
+                @if(@$delivery_date)
+                    @include('frontend.carts.chose_loyality')
+                @endif
+
             @else
                 @include('frontend.carts.chose_loyality')
             @endif

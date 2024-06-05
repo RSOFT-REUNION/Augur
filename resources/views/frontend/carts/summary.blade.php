@@ -152,6 +152,12 @@
                     </div>
                     <h4 class="flex-fill">{{ $deliver->name }}</h4>
                     <h2 class=""><b>@if($deliver->price_ttc == 0) <b>Gratuit</b> @else {{ $deliver->price_ttc }} €@endif</b></h2>
+                    @empty(!@$delivery_date)
+                        <div class="text-center">
+                            <h5>{{ formatDateInFrench($delivery_date) }} :
+                            @if($delivery_slot == 'matin') Entre 9h et 13h @elseif($delivery_slot == 'aprem') Entre 14h et 18h @endif</h5>
+                        </div>
+                    @endempty
                 </div>
             </div>
         </div>
@@ -203,8 +209,14 @@
 
     <div class="p-3">
         <h2 id="sous-total" class="text-end mt-4">Sous-total ({{ $cart->countProduct() }} article(s)) :  {{ formatPriceToFloat($cart->countProductsPrice($deliver->price_ttc, $loyality)) }} €</h2>
+        @if($loyality == 5)
+            <h4 class="text-end">Remise de 5% (Hors cout de livraison)</h4>
+        @endif
         @if($loyality == 10)
-            <h4 class="text-end">Une remise de 10% est appliquée à un montant de {{ formatPriceToFloat($cart->countProductsPrice($deliver->price_ttc, 0)) }} €.</h4>
+            <h4 class="text-end">Remise de 10% (Hors cout de livraison)</h4>
+        @endif
+        @if($loyality == 15)
+            <h4 class="text-end">Remise de 15% (Hors cout de livraison)</h4>
         @endif
         <p class="text-end" >Le total de la commande inclut la TVA.</p>
     </div>

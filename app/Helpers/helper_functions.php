@@ -100,14 +100,15 @@ function getDateTimeNow()
     $dt->setTimestamp($timestamp); //adjust the object to correct timestamp
     return $dt->format('H:i');
 }
-function getDaysTwoWeeks (string $region)
+function getDaysTwoWeeks(string $region)
 {
-    // Créer un objet DateTime avec la date actuelle
-    $date = new DateTime();
+    // Créer un objet DateTime avec la date actuelle et le fuseau horaire local
+    $timezone = new DateTimeZone('Indian/Reunion');
+    $date = new DateTime('now', $timezone);
     // Ajouter 2 jours à la date actuelle
-    $date->modify('+1 days');
+    $date->modify('+2 days');
     // Liste des jours que nous recherchons en anglais et leur traduction en français
-    if($region == 'nord') {
+    if ($region == 'nord') {
         $targetDays = [
             'Monday' => 'Lundi',
             'Wednesday' => 'Mercredi',
@@ -125,7 +126,8 @@ function getDaysTwoWeeks (string $region)
 }
 
 // Fonction pour trouver les jours possibles sur 2 semaines
-function getDaysOverTwoWeeks(DateTime $date, array $days) {
+function getDaysOverTwoWeeks(DateTime $date, array $days)
+{
     $results = [];
     $interval = new DateInterval('P1D'); // Intervalle d'un jour
     $period = new DatePeriod($date, $interval, 13); // Période de 14 jours
@@ -133,21 +135,41 @@ function getDaysOverTwoWeeks(DateTime $date, array $days) {
         $dayName = $day->format('l');
         if (array_key_exists($dayName, $days)) {
             $results[] = [
-                'date' => $day,
-                'day' => $days[$dayName]
+                'date' => $day->format('d-m-Y'), // Format de date sans fuseau horaire
+                'formatted_date' => formatDateInFrench($day->format('d-m-Y')) // Date formatée en français
             ];
         }
     }
     return $results;
 }
+
 // Fonction pour formater une date en français
-function formatDateInFrench(DateTime $date) {
+function formatDateInFrench(string $dateString)
+{
+    // Convertir la chaîne de date en objet DateTime avec le fuseau horaire Indian/Reunion
+    $date = DateTime::createFromFormat('d-m-Y', $dateString, new DateTimeZone('Indian/Reunion'));
+
+    // Vérifier si la création de l'objet DateTime a réussi
+    if ($date === false) {
+        throw new Exception("Invalid date format: $dateString");
+    }
+
+    // Créer le formateur pour afficher la date en français
     $formatter = new IntlDateFormatter(
         'fr_FR',
         IntlDateFormatter::FULL,
         IntlDateFormatter::NONE,
-        'Europe/Paris',
+        'Indian/Reunion',
         IntlDateFormatter::GREGORIAN
     );
+
     return $formatter->format($date);
 }
+
+// Fonction pour convertir une chaîne de caractères en objet DateTime
+function convertToDateTime(string $dateString): DateTime
+{
+    $timezone = new DateTimeZone('Indian/Reunion');
+    return DateTime::createFromFormat('d-m-Y', $dateString, $timezone);
+}
+
