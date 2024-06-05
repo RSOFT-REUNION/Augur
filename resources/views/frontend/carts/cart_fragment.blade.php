@@ -26,10 +26,14 @@
                 @foreach($cart->product as $product)
                     <div class="row d-flex justify-content-between align-items-center mt-3 mb-3 text-center">
                         <div class="col-md-2">
-                            <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="img-fluid" alt="{{ $product->name }}">
+                            <a href="{{ route('product.show', getProductInfos($product->product_id)->slug) }}">
+                                <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="img-fluid" alt="{{ $product->name }}">
+                            </a>
                         </div>
                         <div class="col-md-4">
-                            <p class="lead fw-normal mb-2">{{ getProductInfos($product->product_id)->name  }}</p>
+                            <a href="{{ route('product.show', getProductInfos($product->product_id)->slug) }}" class="text-black text-decoration-none">
+                                <p class="lead fw-normal mb-2">{{ getProductInfos($product->product_id)->name  }}</p>
+                            </a>
                         </div>
                         <div class="col-md-2">
                             @if($product->discount_id)
@@ -40,24 +44,19 @@
                             @endif
                         </div>
                         <div class="col-md-1">
-                            <form> @csrf
-                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
-                                        hx-post="{{ route('cart.down_quantity_product', $product->id) }}"
+                            <form method="post">  @csrf
+                                <select class="form-control text-end me-3" style="width: 70px;" name="quantity" id="quantity"
+                                        hx-post="{{ route('cart.update_quantity_product', $product->id) }}"
                                         hx-swap="outerHTML"
                                         hx-target="#divpanier">
-                                    <i class="fas fa-minus"></i>
-                                </button>
+                                    @for ($i = 1; $i <= getProductInfos($product->product_id)->stock / 1000 ; $i++)
+                                        <option value="{{ $i }}" @if($product->quantity == $i) selected @endif>{{ $i }}</option>
+                                    @endfor
+                                </select>
                             </form>
-                            <input id="quantity{{$product->id}}" name="quantity{{$product->id}}" value="{{ $product->quantity }}" type="number" min="1"
-                                   class="form-control form-control-sm" readonly/>
-                            <form> @csrf
-                                <button data-mdb-button-init data-mdb-ripple-init class="btn btn-link px-2"
-                                        hx-post="{{ route('cart.up_quantity_product', $product->id) }}"
-                                        hx-swap="outerHTML"
-                                        hx-target="#divpanier">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </form>
+                            <!--<input id="quantity{{$product->id}}" name="quantity{{$product->id}}" value="{{ $product->quantity }}" type="number" min="1"
+                                   class="form-control form-control-sm" readonly/>-->
+
                         </div>
                         <div class="col-md-2">
                             @if($product->discount_id)

@@ -99,7 +99,11 @@
                 @if($product->stock > 0)
                     <form>  @csrf
                         <div class="d-flex justify-content-center">
-                            <input type="number" class="form-control text-end me-3" style="width: 75px;" name="quantity" id="quantity" value="1">
+                            <select class="form-control text-end me-3" style="width: 75px;" name="quantity" id="quantity">
+                                @for ($i = 1; $i <= $product->stock / 1000; $i++)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
                             <button type="button" class="btn btn-primary btn-lg hvr-grow-shadow hvr-icon-buzz-out" id="add_cart"
                                     hx-post="{{ route('cart.add_product', $product) }}"
                                     hx-target="#nb_produit"

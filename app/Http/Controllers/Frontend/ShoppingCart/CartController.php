@@ -170,7 +170,7 @@ class CartController extends FrontendBaseController
         } else {
             $product = CartsProducts::where('product_id', $produit->id)->first();
             if($request->quantity){
-                $product->quantity = $product->quantity + $request->quantity;
+                $product->quantity = $request->quantity;
             } else {
                 $product->quantity = $product->quantity + 1;
             }
@@ -207,7 +207,15 @@ class CartController extends FrontendBaseController
             return 0;
         }
     }
-
+    public function update_quantity_product(Request $request, $product)
+    {
+        $product = CartsProducts::where('id', $product)->first();
+        $cart = Carts::where('id', $product->carts_id)->first();
+        $product->quantity = $request->quantity;
+        $product->save();
+        return view('frontend.carts.cart_fragment', compact('cart'))->fragment('panier_fragment');
+    }
+    /*** Plus utiliser, Peut etre utilise pour un autre site.
     public function down_quantity_product($produit)
     {
         $product = CartsProducts::where('id', $produit)->first();
@@ -224,7 +232,7 @@ class CartController extends FrontendBaseController
         if($product->quantity < $stock->stock) $product->quantity = $product->quantity + 1;
         $product->save();
         return view('frontend.carts.cart_fragment', compact('cart'))->fragment('panier_fragment');
-    }
+    } ***/
 
     public function delete_product(CartsProducts $produit)
     {
