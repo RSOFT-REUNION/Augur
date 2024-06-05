@@ -2,7 +2,7 @@
     @forelse($address as $addres)
         <div class="mb-4 row align-items-center position-relative @if($addres->id == $addres->favorite) bg-favorite rounded-4 shadow @endif">
             @if($addres->id == $addres->favorite)
-                <h4><span class="badge bg-primary position-absolute top-0 start-0 text-favorite">Adresse Préférée</span></h4>
+                <h4><span class="badge bg-primary position-absolute top-0 start-0 text-favorite">Adresse de facturation</span></h4>
             @endif
 
             <div class="col-md-3">
@@ -43,7 +43,7 @@
                                     hx-post="{{ route('address.fav_address', $addres) }}"
                                     hx-target="#address_list"
                                     hx-swap="outerHTML"
-                            ><i class="fa-regular fa-star"></i> Adresse Préférée</button>
+                            ><i class="fa-regular fa-star"></i> Adresse de facturation</button>
                         </form>
                     @endif
                 </div>

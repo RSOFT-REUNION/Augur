@@ -67,11 +67,11 @@ class Carts extends Model
                 $sum += $prod->price_ttc * $prod->quantity;
             }
         }
-        if($deliver_price_ttc) {
-            $sum = ($sum + ($deliver_price_ttc * 100));
-        }
         if($loyality) {
             $sum = ($sum - (($loyality / 100) * $sum));
+        }
+        if($deliver_price_ttc) {
+            $sum = ($sum + ($deliver_price_ttc * 100));
         }
         return $sum;
     }

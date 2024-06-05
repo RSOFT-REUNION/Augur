@@ -25,7 +25,7 @@
                         <div class="col-12 text-center mb-3 p-3">
                             <div class="mb-4 row align-items-center position-relative rounded-4 @if($addres->id == $addres->favorite) bg-favorite rounded-4 shadow @endif" style="border: #000000 1px solid;">
                                 @if($addres->id == $addres->favorite)
-                                    <h4><span class="badge bg-primary position-absolute top-0 start-0 text-favorite">Adresse Préférée</span></h4>
+                                    <h4><span class="badge bg-primary position-absolute top-0 start-0 text-favorite">Adresse de facturation</span></h4>
                                 @endif
 
                                 <h4 class="text-center mb-4 mt-3">{{ $addres->alias }}</h4>

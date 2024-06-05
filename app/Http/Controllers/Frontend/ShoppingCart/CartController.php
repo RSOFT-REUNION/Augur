@@ -71,6 +71,7 @@ class CartController extends FrontendBaseController
         }
         return view('frontend.carts.chose_delivery', [
             'user_address' => $user_address,
+            'user_address_fac' => Address::where('user_id', Auth::id())->where('favorite', '!=', '')->first(),
             'cart' => Carts::with('product')->firstwhere('id', $request->cart),
             'delivery' => Delivery::where('active', 1)->get(),
         ]);
@@ -80,6 +81,7 @@ class CartController extends FrontendBaseController
         /*** Inclut les points fidélité ***/
         return view('frontend.carts.partials.delivery_index', [
             'user_address' => Address::firstwhere('id', $request->address),
+            'user_address_fac' => Address::where('user_id', Auth::id())->where('favorite', '!=', '')->first(),
             'cart' => Carts::with('product')->firstwhere('id', $request->cart),
             'delivery' => Delivery::where('active', 1)->get(),
             'delivery_chose' => Delivery::firstwhere('id', $request->deliver),
@@ -91,6 +93,7 @@ class CartController extends FrontendBaseController
     {
         return view('frontend.carts.summary', [
             'user_address' => Address::firstwhere('id', $request->address),
+            'user_address_fac' => Address::where('user_id', Auth::id())->where('favorite', '!=', '')->first(),
             'cart' => Carts::with('product')->firstwhere('id', $request->cart),
             'deliver' => Delivery::firstwhere('id', $request->delivery),
             'loyality' => $request->loyality,

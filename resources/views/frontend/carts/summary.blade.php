@@ -62,33 +62,87 @@
         <hr>
     @endforeach
 
-<div class="row row-flex justify-content-center">
-    <div class="col-md-4 col-12">
-        <div class="card bg-gray content">
-            <div class="card-body">
-                <div class="text-center">
-                    <img class="w-25 mb-3" src="{{ asset('frontend/images/location.png') }}">
+<div class="row row-flex justify-content-center align-items-center">
+    @if($user_address->id != $user_address->favorite)
+        <div class="col-md-5 col-12">
+            <div class="card bg-gray content">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img class="mb-3" style="width: 100px;" src="{{ asset('frontend/images/location.png') }}">
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <h5>Adresse de facturation :</h5>
+                            <h5>{{ $user_address_fac->alias }}</h5>
+                            <p>{{ $user_address_fac->name }}<br>
+                                {{ $user_address_fac->address }}
+                                {{ $user_address_fac->address2 }}
+                                <br>
+                                @foreach($cities as $city)
+                                    @if($city->postal_code == $user_address_fac->cities)
+                                        {{ $city->postal_code }} - {{ $city->city }}
+                                    @endif
+                                @endforeach
+                                - {{ $user_address_fac->country }}
+                                <br>
+                                Téléphone : {{ $user_address_fac->phone }}
+                                @if($user_address_fac->other_phone)
+                                    / {{ $user_address_fac->other_phone }}
+                                @endif
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <h5>Adresse de livraison :</h5>
+                            <h5>{{ $user_address->alias }}</h5>
+                            <p>{{ $user_address->name }}<br>
+                                {{ $user_address->address }}
+                                {{ $user_address->address2 }}
+                                <br>
+                                @foreach($cities as $city)
+                                    @if($city->postal_code == $user_address->cities)
+                                        {{ $city->postal_code }} - {{ $city->city }}
+                                    @endif
+                                @endforeach
+                                - {{ $user_address->country }}
+                                <br>
+                                Téléphone : {{ $user_address->phone }}
+                                @if($user_address->other_phone)
+                                    / {{ $user_address->other_phone }}
+                                @endif
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <h5>{{ $user_address->alias }}</h5>
-                <p>{{ $user_address->name }} -
-                    {{ $user_address->address }}
-                    {{ $user_address->address2 }}
-                    <br>
-                    @foreach($cities as $city)
-                        @if($city->postal_code == $user_address->cities)
-                            {{ $city->postal_code }} - {{ $city->city }}
-                        @endif
-                    @endforeach
-                    - {{ $user_address->country }}
-                    <br>
-                    Téléphone : {{ $user_address->phone }}
-                    @if($user_address->other_phone)
-                        / {{ $user_address->other_phone }}
-                    @endif
-                </p>
             </div>
         </div>
-    </div>
+    @else
+        <div class="col-md-4 col-12">
+            <div class="card bg-gray content">
+                <div class="card-body">
+                    <div class="text-center">
+                        <img class="w-25 mb-3" src="{{ asset('frontend/images/location.png') }}">
+                    </div>
+                    <h5>{{ $user_address->alias }}</h5>
+                    <p>{{ $user_address->name }} -
+                        {{ $user_address->address }}
+                        {{ $user_address->address2 }}
+                        <br>
+                        @foreach($cities as $city)
+                            @if($city->postal_code == $user_address->cities)
+                                {{ $city->postal_code }} - {{ $city->city }}
+                            @endif
+                        @endforeach
+                        - {{ $user_address->country }}
+                        <br>
+                        Téléphone : {{ $user_address->phone }}
+                        @if($user_address->other_phone)
+                            / {{ $user_address->other_phone }}
+                        @endif
+                    </p>
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="col-md-4 col-12">
         <div class="card bg-gray content">
             <div class="card-body">
