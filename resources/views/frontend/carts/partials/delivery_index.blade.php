@@ -46,13 +46,13 @@
 
         @if(@$delivery_chose)
             @if(@$delivery_chose->price_ttc == 10)
-                @if($user_address->cities == 97400 || $user_address->cities == 97438 || $user_address->cities == 97441 || $user_address->cities == 97440 || $user_address->cities == 97412 || $user_address->cities == 97470 || $user_address->cities == 97437 || $user_address->cities == 97439 || $user_address->cities == 97431)
+                @if(getRegion($user_address->cities) == 'nord')
                     <div class="text-center">
                         <img style="width: 100px;" src="{{ asset('frontend/images/24-hours.png') }}">
                         <h3 class="mb-5">Choix souhaitez du créneau de livraison (Région Nord / Est)</h3>
                     </div>
                     @include('frontend.carts.partials.delivery_index_slot', array('region'=>'nord'))
-                @elseif($user_address->cities == 97425 || $user_address->cities == 97427 || $user_address->cities == 97450 || $user_address->cities == 97414 || $user_address->cities == 97430 || $user_address->cities == 97410 || $user_address->cities == 97429 || $user_address->cities == 97480 || $user_address->cities == 97442 || $user_address->cities == 97420 || $user_address->cities == 97419 || $user_address->cities == 97460 || $user_address->cities == 97434 || $user_address->cities == 97426 || $user_address->cities == 97436)
+                @elseif(getRegion($user_address->cities) == 'sud')
                     <div class="text-center">
                         <img style="width: 100px;" src="{{ asset('frontend/images/24-hours.png') }}">
                         <h3 class="mb-5">Choix souhaitez du créneau de livraison (Région Sud / Ouest)</h3>

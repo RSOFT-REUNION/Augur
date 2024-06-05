@@ -25,6 +25,14 @@ class CartController extends FrontendBaseController
         ]);
     }
 
+    public function select_slot(Request $request, Product $product)
+    {
+        return view('frontend.carts.partials.select_slot_modal_content', [
+            'product' => $product,
+            'chosed_cities' => $request->chosed_cities,
+        ]);
+    }
+
     public function chose_address()
     {
         $address = '';
@@ -118,7 +126,7 @@ class CartController extends FrontendBaseController
 
 
 
-    public function getCart()
+    public function getCart(Request $request = null)
     {
         $session_id = Session::getId();
         $cookie = @request()->cookie('session_id');
@@ -138,6 +146,9 @@ class CartController extends FrontendBaseController
             $cart = Carts::create([
                 'session_id' => Session::getId(),
                 'status' => 'En cours',
+                'postal_code' => $request->input('postal_code'),
+                'delivery_date' => $request->input('delivery_date'),
+                'delivery_slot' => $request->input('delivery_slot'),
             ]);
             cookie()->queue(cookie()->forever('session_id', $session_id));
             return $cart->id;
@@ -146,7 +157,7 @@ class CartController extends FrontendBaseController
 
     public function add_product(Request $request, Product $produit)
     {
-        $cart_id = $this->getCart();
+        $cart_id = $this->getCart($request);
         $cart = Carts::firstwhere('id', $cart_id);
         if (count($cart->product()->where('product_id', $produit->id)->get()) == 0)
         {

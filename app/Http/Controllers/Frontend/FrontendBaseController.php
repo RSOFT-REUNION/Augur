@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Helpers\SymfonyResponseFactory;
 use App\Http\Controllers\Controller;
+use App\Models\Carts\Carts;
 use App\Models\Catalog\Category;
 use App\Models\Catalog\Discount;
 use App\Models\Content\Carousel;
@@ -41,7 +42,7 @@ class FrontendBaseController extends Controller
         $cities = Cities::orderBy('city')->get();
 
 
-        View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu, 'menu_produits' => $menu_produits,'discountProducts' => $discountProducts->toArray(), 'cities' => $cities]);
+        View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu, 'menu_produits' => $menu_produits, 'discountProducts' => $discountProducts->toArray(), 'cities' => $cities]);
     }
 
     public function images_show(Request $request, string $path)

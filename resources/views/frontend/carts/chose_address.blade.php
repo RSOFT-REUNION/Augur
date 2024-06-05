@@ -13,8 +13,6 @@
         </nav>
     </div>
 
-
-
     @auth
         <div class="row row-flex" id="divaddress">
             <div class="col-12 col-md-9">

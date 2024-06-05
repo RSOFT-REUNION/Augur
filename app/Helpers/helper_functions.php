@@ -2,6 +2,7 @@
 
 use App\Models\Catalog\Category;
 use App\Models\Catalog\Product;
+use App\Models\Users\Cities;
 use Illuminate\Support\Facades\Storage;
 use League\Glide\Urls\UrlBuilderFactory;
 
@@ -28,7 +29,6 @@ function getImageUrl(string $image, ?int $width = null, ?int $height = null, ?st
     $urlBuilder = UrlBuilderFactory::create('/images/', config('laravel-glide.key'));
     return $urlBuilder->getUrl($image, ['w' => $width, 'h' => $height, 'fit' => $fit]);
 }
-
 
 function getProductInfos($produit)
 {
@@ -91,6 +91,11 @@ function csvToArray($filename = '', $delimiter = ';')
     return $data;
 }
 
+/*** Recupere la region avec le code potal ***/
+function getRegion(int $postal_code)
+{
+    return Cities::where('postal_code', $postal_code)->pluck('region')->first();
+}
 /*** Fonction qui retourne les dates sur les 2 prochaines semaine ***/
 function getDateTimeNow()
 {

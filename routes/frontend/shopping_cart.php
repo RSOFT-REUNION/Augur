@@ -6,6 +6,8 @@ $idRegex = '[0-9]+';
 $slugRegex = '[0-9a-z\-/]+';
 
 Route::get('mon-panier', [CartController::class, 'index'])->name('cart.index');
+Route::post('select_slot/{product}', [CartController::class, 'select_slot'])->name('cart.select_slot')->where(['product' => $idRegex]);
+
 /*** Plus utiliser, Peut etre utilise pour un autre site.
 Route::post('mon-panier/down_quantity_product/{produit}', [CartController::class, 'down_quantity_product'])->name('cart.down_quantity_product')->where(['produit' => $idRegex]);
 Route::post('mon-panier/up_quantity_product/{produit}', [CartController::class, 'up_quantity_product'])->name('cart.up_quantity_product')->where(['produit' => $idRegex]);

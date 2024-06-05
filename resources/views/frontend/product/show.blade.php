@@ -55,7 +55,9 @@
                 @endif
             @endforeach
         </div>
+
         <div class="col-md-7 col-12" data-aos="fade-left">
+
             <h4 class="text-center mb-5">{{ $product->short_description }}</h4>
             <div class="row row-cols-2 align-items-center mb-4">
                 <div class="col align-self-start">
@@ -94,6 +96,13 @@
                 </div>
             @endif
 
+            @if (Cookie::has('session_id'))
+                <!-- Le cookie session_id existe -->
+                <p>Le cookie session_id existe.</p>
+            @else
+                <!-- Le cookie session_id n'existe pas -->
+                <p>Le cookie session_id n'existe pas.</p>
+            @endif
 
             <div class="text-center mb-4">
                 @if($product->stock > 0)
@@ -104,11 +113,17 @@
                                     <option value="{{ $i }}">{{ $i }}</option>
                                 @endfor
                             </select>
-                            <button type="button" class="btn btn-primary btn-lg hvr-grow-shadow hvr-icon-buzz-out" id="add_cart"
-                                    hx-post="{{ route('cart.add_product', $product) }}"
-                                    hx-target="#nb_produit"
-                                    hx-swap="outerHTML"><i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter au panier
-                            </button>
+                            @if (Cookie::has('session_id'))
+                                <button type="button" class="btn btn-primary btn-lg hvr-grow-shadow hvr-icon-buzz-out" id="add_cart"
+                                        hx-post="{{ route('cart.add_product', $product) }}"
+                                        hx-target="#nb_produit"
+                                        hx-swap="outerHTML"><i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter au panier
+                                </button>
+                            @else
+                                <button type="button" class="btn btn-primary btn-lg hvr-grow-shadow hvr-icon-buzz-out" data-bs-toggle="modal" data-bs-target="#select_slot">
+                                    <i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter au panier
+                                </button>
+                            @endif
                         </div>
                     </form>
                 @else
@@ -126,5 +141,6 @@
 
     {!! $product->content !!}
 
+    @include('frontend.carts.partials.select_slot_modal')
 
 @endsection

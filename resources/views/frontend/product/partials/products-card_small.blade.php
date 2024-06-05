@@ -22,9 +22,15 @@
             <form>  @csrf
                 <button type="button" class="btn btn-primary btn-sm mb-3 hvr-grow" id="add_cart"
                         hx-post="{{ route('cart.add_product', $product) }}"
+                        hx-include="[name=postal_code]"
                         hx-target="#nb_produit"
-                        hx-swap="outerHTML"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier
+                        hx-swap="outerHTML">
+                    <i class="fa-solid fa-cart-plus"></i> Ajouter au panier
                 </button>
+
+                <!-- Add an input field for the postal code -->
+                <input type="text" name="postal_code" placeholder="Enter Postal Code">
+
             </form>
         @else
             <button type="button" class="btn btn-danger btn-sm mb-3" disabled>En rupture de stock</button>
