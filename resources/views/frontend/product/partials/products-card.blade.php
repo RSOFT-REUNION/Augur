@@ -39,11 +39,6 @@
                         <i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter au panier
                     </button>
                 @endif
-                <button type="button" class="btn btn-primary btn-lg mb-3 hvr-grow" id="add_cart"
-                        hx-post="{{ route('cart.add_product', $product) }}"
-                        hx-target="#nb_produit"
-                        hx-swap="outerHTML"><i class="fa-solid fa-cart-plus"></i> Ajouter au panierfffff
-                </button>
             </form>
         @else
             <button type="button" class="btn btn-danger mb-3 btn-lg" disabled>En rupture de stock</button>
