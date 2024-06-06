@@ -20,17 +20,17 @@
 
         @if($product->stock > 0)
             <form>  @csrf
-                <button type="button" class="btn btn-primary btn-sm mb-3 hvr-grow" id="add_cart"
-                        hx-post="{{ route('cart.add_product', $product) }}"
-                        hx-include="[name=postal_code]"
-                        hx-target="#nb_produit"
-                        hx-swap="outerHTML">
-                    <i class="fa-solid fa-cart-plus"></i> Ajouter au panier
-                </button>
-
-                <!-- Add an input field for the postal code -->
-                <input type="text" name="postal_code" placeholder="Enter Postal Code">
-
+                @if (Cookie::has('session_id'))
+                    <button type="button" class="btn btn-primary btn-sm mb-3 hvr-grow hvr-icon-buzz-out" id="add_cart"
+                            hx-post="{{ route('cart.add_product', $product) }}"
+                            hx-target="#nb_produit"
+                            hx-swap="outerHTML"><i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter au panier
+                    </button>
+                @else
+                    <button type="button" class="btn btn-primary btn-sm mb-3 hvr-grow hvr-icon-buzz-out" data-bs-toggle="modal" data-bs-target="#select_slot{{ $product->id }}">
+                        <i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter au panier
+                    </button>
+                @endif
             </form>
         @else
             <button type="button" class="btn btn-danger btn-sm mb-3" disabled>En rupture de stock</button>

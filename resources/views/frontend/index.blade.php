@@ -12,6 +12,9 @@
                 <div class="col-md-2 col-12 hvr-float-shadow">
                     @include('frontend.product.partials.products-card_small')
                 </div>
+                @if (!Cookie::has('session_id'))
+                    @include('frontend.carts.partials.select_slot_modal')
+                @endif
             @endforeach
         @else
             <h3>Aucun produit ne correspond</h3>

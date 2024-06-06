@@ -96,14 +96,6 @@
                 </div>
             @endif
 
-            @if (Cookie::has('session_id'))
-                <!-- Le cookie session_id existe -->
-                <p>Le cookie session_id existe.</p>
-            @else
-                <!-- Le cookie session_id n'existe pas -->
-                <p>Le cookie session_id n'existe pas.</p>
-            @endif
-
             <div class="text-center mb-4">
                 @if($product->stock > 0)
                     <form>  @csrf
@@ -120,7 +112,7 @@
                                         hx-swap="outerHTML"><i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter au panier
                                 </button>
                             @else
-                                <button type="button" class="btn btn-primary btn-lg hvr-grow-shadow hvr-icon-buzz-out" data-bs-toggle="modal" data-bs-target="#select_slot">
+                                <button type="button" class="btn btn-primary btn-lg hvr-grow-shadow hvr-icon-buzz-out" data-bs-toggle="modal" data-bs-target="#select_slot{{ $product->id }}">
                                     <i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter au panier
                                 </button>
                             @endif
@@ -141,6 +133,8 @@
 
     {!! $product->content !!}
 
-    @include('frontend.carts.partials.select_slot_modal')
+    @if (!Cookie::has('session_id'))
+        @include('frontend.carts.partials.select_slot_modal')
+    @endif
 
 @endsection

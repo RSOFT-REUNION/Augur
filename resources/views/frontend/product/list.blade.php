@@ -35,7 +35,11 @@
         <div data-aos="zoom-in">
             @include('frontend.product.partials.list_product')
         </div>
-
+        @foreach($products as $product)
+            @if (!Cookie::has('session_id'))
+                @include('frontend.carts.partials.select_slot_modal')
+            @endif
+        @endforeach
     @else
         <h1>Il n'y as aucun produits dans cette categorie</h1>
     @endif

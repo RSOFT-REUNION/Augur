@@ -1,11 +1,11 @@
-<div id="modalSlot">
+<div id="modalSlot{{ $product->id }}">
     <h4 class="text-center mb-4">Selectionnez votre ville pour connaitre les offres disponible</h4>
     <div class="d-flex justify-content-center">
         <form method="post">  @csrf
             <div class="form-group">
                 <select class="form-select" aria-label="chosed_cities" name="chosed_cities" id="chosed_cities"
                         hx-post="{{ route('cart.select_slot', ["product" => $product]) }}"
-                        hx-target="#modalSlot"
+                        hx-target="#modalSlot{{ $product->id }}"
                         hx-swap="outerHTML">
                     <option value="">Selectionnez votre ville</option>
                 @foreach($cities  as $city)

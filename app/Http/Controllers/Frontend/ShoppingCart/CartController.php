@@ -143,13 +143,21 @@ class CartController extends FrontendBaseController
                 return $cart->id;
             }
         } else {
-            $cart = Carts::create([
-                'session_id' => Session::getId(),
-                'status' => 'En cours',
-                'postal_code' => $request->input('postal_code'),
-                'delivery_date' => $request->input('delivery_date'),
-                'delivery_slot' => $request->input('delivery_slot'),
-            ]);
+            if(@$request->postal_code) {
+                $cart = Carts::create([
+                    'session_id' => Session::getId(),
+                    'status' => 'En cours',
+                    'postal_code' => $request->postal_code,
+                    'delivery_date' => $request->delivery_date,
+                    'delivery_slot' => $request->delivery_slot,
+                ]);
+            } else {
+                $cart = Carts::create([
+                    'session_id' => Session::getId(),
+                    'status' => 'En cours',
+                ]);
+            }
+
             cookie()->queue(cookie()->forever('session_id', $session_id));
             return $cart->id;
         }

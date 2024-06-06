@@ -33,7 +33,6 @@ return new class extends Migration
             ['country' => 'La Réunion', 'city' => 'Le Tampon', 'postal_code' => '97430', 'region' => 'sud'],
             ['country' => 'La Réunion', 'city' => 'Les Avirons', 'postal_code' => '97425', 'region' => 'sud'],
             ['country' => 'La Réunion', 'city' => 'Les Trois-Bassins', 'postal_code' => '97426', 'region' => 'sud'],
-            ['country' => 'La Réunion', 'city' => 'Mafate', 'postal_code' => '97419', 'region' => 'cirque'],
             ['country' => 'La Réunion', 'city' => 'Petite-Île', 'postal_code' => '97429', 'region' => 'sud'],
             ['country' => 'La Réunion', 'city' => 'Saint-André', 'postal_code' => '97440', 'region' => 'nord'],
             ['country' => 'La Réunion', 'city' => 'Saint-Benoît', 'postal_code' => '97470', 'region' => 'nord'],
