@@ -29,7 +29,12 @@
                 <h2 class="m-3">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]['discountPercentage']) / 100) }} €</h2>
             @endif
         @else
-            <h2 class="m-3">{{ formatPriceToFloat($product->price_ttc) }} €</h2>
+            @if($product->stock_unit == 'kg')
+                <h2 class="m-3">{{ formatPriceToFloat($product->price_ttc / 10) }} €</h2>
+                <p style="margin-top: -18px;">les 100 grammes</p>
+            @else
+                <h2 class="m-3">{{ formatPriceToFloat($product->price_ttc) }} €</h2>
+            @endif
         @endif
 
         @if($product->stock > 0)

@@ -13,6 +13,7 @@ use App\Models\Users\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Mauricius\LaravelHtmx\Http\HtmxResponseClientRefresh;
 
 class CartController extends FrontendBaseController
 {
@@ -162,17 +163,24 @@ class CartController extends FrontendBaseController
     {
         $cart = $this->getCartInstance();
         $existingProduct = $cart->product()->where('product_id', $produit->id)->first();
-        $produc_stock = Product::select('stock')->firstwhere('id', $produit->id);
+        $product_stock = Product::select('stock')->firstwhere('id', $produit->id);
         if ($existingProduct) {
-            // Update the quantity of the existing product
-            if($existingProduct->quantity < $produc_stock->stock / 1000) {
-                $existingProduct->quantity = $request->quantity ? $request->quantity : $existingProduct->quantity + 1;
+            if ($existingProduct->stock_unit == 'kg') {
+                if($existingProduct->quantity < $product_stock->stock) {
+                    $existingProduct->quantity = $request->quantity ? $request->quantity : $existingProduct->quantity + 100;
+                }
+            } else {
+                if($existingProduct->quantity < $product_stock->stock / 1000) {
+                    $existingProduct->quantity = $request->quantity ? $request->quantity : $existingProduct->quantity + 1;
+                }
             }
             $existingProduct->save();
         } else {
-            // Determine the quantity to add
-            $proquantity = $request->quantity ?: 1;
-
+            if ($produit->stock_unit == 'kg') {
+                $proquantity = $request->quantity ?: 100;
+            } else {
+                $proquantity = $request->quantity ?: 1;
+            }
             // Retrieve discount products
             $discountProducts = collect();
             $discounts = Discount::currently()->with('products')->orderBy('percentage')->get();
@@ -181,7 +189,6 @@ class CartController extends FrontendBaseController
                     $discountProducts->put($product->product_id, $discount);
                 }
             }
-
             // Create a new cart product entry
             $cartProductData = [
                 'fav_image' => $produit->getFirstImagesURL(),
@@ -189,6 +196,7 @@ class CartController extends FrontendBaseController
                 'price_ht' => $produit->price_ht,
                 'tva' => $produit->tva,
                 'price_ttc' => $produit->price_ttc,
+                'stock_unit' => $produit->stock_unit,
                 'quantity' => $proquantity,
             ];
 
@@ -201,9 +209,15 @@ class CartController extends FrontendBaseController
         }
 
         // Calculate the total quantity of products in the cart
-        $totalQuantity = $cart->product->sum('quantity');
-
-        return '<span id="nb_produit">' . $totalQuantity . '</span>';
+        $count = 0;
+        foreach ($cart->product as $product) {
+            if ($product->stock_unit == 'kg') {
+                $count = $count + 1;
+            } else {
+                $count = $count + $product->quantity;
+            }
+        }
+        return '<span id="nb_produit">' . $count . '</span>';
     }
 
     public static function count_product()
@@ -222,9 +236,16 @@ class CartController extends FrontendBaseController
             return 0;
         }
 
-        return $cart->product->sum('quantity');
+        $count = 0;
+        foreach ($cart->product as $product) {
+            if ($product->stock_unit == 'kg') {
+                $count = $count + 1;
+            } else {
+                $count = $count + $product->quantity;
+            }
+        }
+        return $count;
     }
-
     public function update_quantity_product(Request $request, $product)
     {
         $product = CartsProducts::findOrFail($product);
@@ -233,7 +254,7 @@ class CartController extends FrontendBaseController
         $product->quantity = $request->quantity;
         $product->save();
 
-        return view('frontend.carts.index', compact('cart'));
+        return new HtmxResponseClientRefresh();
     }
 
     public function delete_product(CartsProducts $produit)

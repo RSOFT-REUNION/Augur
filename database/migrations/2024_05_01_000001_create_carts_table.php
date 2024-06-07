@@ -31,6 +31,7 @@ return new class extends Migration {
             $table->integer('quantity')->default(1);
             $table->integer('price_ht')->default(0);
             $table->integer('tva')->default(0);
+            $table->string('stock_unit')->default('unit'); // Unité de vente. valeurs possibles: soit Unité, soit Kilogramme ou Litre pour le vrac
             $table->integer('price_ttc')->default(0);
             $table->timestamps();
         });

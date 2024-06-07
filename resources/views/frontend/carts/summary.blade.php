@@ -52,7 +52,11 @@
                 @endif
             </div>
             <div class="col-md-1">
-                <b>{{ $product->quantity }}</b>
+                @if($product->stock_unit == 'kg')
+                    <b>{{ $product->quantity }} grammes</b>
+                @else
+                    <b>{{ $product->quantity }}</b>
+                @endif
             </div>
             <div class="col-md-2">
                 @if($product->discount_id)

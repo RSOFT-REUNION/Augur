@@ -63,16 +63,22 @@
                 <div class="col align-self-start">
                     <p>
                         Ref: {{ $product->code_article }}<br>
-                        Stock : {{ formatStockToFloat($product->stock) }}<br>
-                        @if($product->stock_unit == 'unit')
+                        @if($product->stock_unit == 'kg')
+                            Stock : {{ formatStockToFloat($product->stock) }} Kg<br>
+                        @else
+                            Stock : {{ formatStockToFloat($product->stock) }}<br>
                             Poids à l'unité : {{ formatPriceToFloat($product->weight) .' '. $product->weight_unit }}
                         @endif
+
                     </p>
                 </div>
                 <div class="col">
                     @if(array_key_exists($product->id,$discountProducts))
 
-                        <h2 class="text-end text-decoration-line-through">{{ formatPriceToFloat($product->price_ttc) }} €</h2>
+                        @if($product->stock_unit == 'kg')
+                        @else
+                            <h2 class="text-end text-decoration-line-through">{{ formatPriceToFloat($product->price_ttc) }} €</h2>
+                        @endif
 
                         @if($discountProducts[$product->id]['fixed_priceTTC'])
                             @php
@@ -91,9 +97,15 @@
                         @endif
 
                     @else
-                        <p class="text-end">Prix HT: {{ formatPriceToFloat($product->price_ht) }} €<br>
-                        TVA: {{ formatPriceToFloat($product->tva) }} %</p>
-                        <h1 class="text-end">{{ formatPriceToFloat($product->price_ttc) }} €</h1>
+                        @if($product->stock_unit == 'kg')
+                            <p class="text-end">Prix HT au Kg: {{ formatPriceToFloat($product->price_ht) }} €<br>
+                                TVA: {{ formatPriceToFloat($product->tva) }} %</p>
+                            <h1 class="text-end">{{ formatPriceToFloat($product->price_ttc) }} € le Kg</h1>
+                        @else
+                            <p class="text-end">Prix HT: {{ formatPriceToFloat($product->price_ht) }} €<br>
+                            TVA: {{ formatPriceToFloat($product->tva) }} %</p>
+                            <h1 class="text-end">{{ formatPriceToFloat($product->price_ttc) }} €</h1>
+                        @endif
                     @endif
                 </div>
             </div>
@@ -128,11 +140,19 @@
                 @if($product->stock > 0)
                     <form>  @csrf
                         <div class="d-flex justify-content-center">
-                            <select class="form-control text-end me-3" style="width: 75px;" name="quantity" id="quantity">
-                                @for ($i = 1; $i <= $product->stock / 1000; $i++)
-                                    <option value="{{ $i }}">{{ $i }}</option>
-                                @endfor
-                            </select>
+                            @if($product->stock_unit == 'kg')
+                                <select class="form-control text-end me-3" style="width: 100px;" name="quantity" id="quantity">
+                                    @for ($i = 1; $i <= $product->stock / 100; $i++)
+                                        <option value="{{ $i }}00">{{ $i }}00 grames</option>
+                                    @endfor
+                                </select>
+                            @else
+                                <select class="form-control text-end me-3" style="width: 75px;" name="quantity" id="quantity">
+                                    @for ($i = 1; $i <= $product->stock / 1000; $i++)
+                                        <option value="{{ $i }}">{{ $i }}</option>
+                                    @endfor
+                                </select>
+                            @endif
                             @if (Cookie::has('session_id'))
                                 <button type="button" class="btn btn-primary btn-lg hvr-grow-shadow hvr-icon-buzz-out" id="add_cart"
                                         hx-post="{{ route('cart.add_product', $product) }}"

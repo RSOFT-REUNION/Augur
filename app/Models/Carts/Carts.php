@@ -44,18 +44,26 @@ class Carts extends Model
         $price = 0;
         foreach ($this->product as $prod) {
             if($prod->id == $product_id) {
-                $price += $prod->price_ttc * $prod->quantity;
+                if($prod->stock_unit == 'kg') {
+                    $price += $prod->price_ttc * $prod->quantity / 1000;
+                } else {
+                    $price += $prod->price_ttc * $prod->quantity;
+                }
             }
         }
         return $price;
     }
     public function countProduct()
     {
-        $sum = 0;
-        foreach ($this->product as $prod) {
-            $sum += $prod->quantity;
+        $count = 0;
+        foreach ($this->product as $product) {
+            if ($product->stock_unit == 'kg') {
+                $count = $count + 1;
+            } else {
+                $count = $count + $product->quantity;
+            }
         }
-        return $sum;
+        return $count;
     }
     public function countProductsPrice(?int $deliver_price_ttc, ?int $loyality)
     {
@@ -64,7 +72,11 @@ class Carts extends Model
             if($prod->discount_id) {
                 $sum += ($prod->price_ttc * $prod->quantity) - (($prod->price_ttc * $prod->quantity) * $prod->discount_percentage) / 100;
             } else {
-                $sum += $prod->price_ttc * $prod->quantity;
+                if($prod->stock_unit == 'kg') {
+                    $sum += $prod->price_ttc * $prod->quantity / 1000;
+                } else {
+                    $sum += $prod->price_ttc * $prod->quantity;
+                }
             }
         }
         if($loyality) {

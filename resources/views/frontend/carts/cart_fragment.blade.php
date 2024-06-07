@@ -48,13 +48,27 @@
                             @endif
                         </div>
                         <div class="col-md-1">
-                            <form action="{{ route('cart.update_quantity_product', $product->id) }}" method="post">  @csrf
-                                <input type="hidden" name="cart" value="{{ $cart->id }}">
-                                <select class="form-control text-end me-3" style="width: 70px;" name="quantity" id="quantity" onchange="this.form.submit()">
-                                    @for ($i = 1; $i <= getProductInfos($product->product_id)->stock / 1000 ; $i++)
-                                        <option value="{{ $i }}" @if($product->quantity == $i) selected @endif>{{ $i }}</option>
-                                    @endfor
-                                </select>
+                            <form method="post">  @csrf
+                                @if($product->stock_unit == 'kg')
+                                    <select class="form-control text-end me-3" style="width: 60px;" name="quantity" id="quantity"
+                                            hx-post="{{ route('cart.update_quantity_product', $product->id) }}"
+                                            hx-swap="outerHTML"
+                                            hx-target="#divpanier">
+                                        @for ($i = 1; $i <= getProductInfos($product->product_id)->stock / 100; $i++)
+                                            <option value="{{ $i }}00" @if($product->quantity == $i.'00') selected @endif>{{ $i }}00</option>
+                                        @endfor
+                                    </select>
+                                    <p class="text-center">grammes</p>
+                                @else
+                                    <select class="form-control text-end me-3" style="width: 50px;" name="quantity" id="quantity"
+                                            hx-post="{{ route('cart.update_quantity_product', $product->id) }}"
+                                            hx-swap="outerHTML"
+                                            hx-target="#divpanier">
+                                        @for ($i = 1; $i <= getProductInfos($product->product_id)->stock / 1000 ; $i++)
+                                            <option value="{{ $i }}" @if($product->quantity == $i) selected @endif>{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                @endif
                             </form>
                         </div>
                         <div class="col-md-2">
