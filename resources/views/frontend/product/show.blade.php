@@ -74,28 +74,39 @@
                 </div>
                 <div class="col">
                     @if(array_key_exists($product->id,$discountProducts))
-
                         @if($product->stock_unit == 'kg')
+                            <h2 class="text-end text-decoration-line-through">{{ formatPriceToFloat($product->price_ttc) }} € / Kg</h2>
+                            @if($discountProducts[$product->id]['fixed_priceTTC'])
+                                <p class="text-end">
+                                    Prix HT: <span class="text-decoration-line-through">{{ formatPriceToFloat($product->price_ht) }} € / Kg</span>
+                                    <b>{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC']) }} € / Kg</b>
+                                    <br>TVA: {{ formatPriceToFloat($product->tva) }} %
+                                </p>
+                            @else
+                                <p class="text-end">
+                                    Prix HT: <span class="text-decoration-line-through">{{ formatPriceToFloat($product->price_ht) }} € / Kg</span>
+                                    <b>{{ formatPriceToFloat($product->price_ht - ($product->price_ht * $discountProducts[$product->id]['discountPercentage']) / 100) }} € / Kg</b>
+                                    <br>TVA: {{ formatPriceToFloat($product->tva) }} %
+                                </p>
+                            @endif
                         @else
                             <h2 class="text-end text-decoration-line-through">{{ formatPriceToFloat($product->price_ttc) }} €</h2>
+                            @if($discountProducts[$product->id]['fixed_priceTTC'])
+                                @php
+                                    $prixPromoHT = $discountProducts[$product->id]['fixed_priceTTC'] / (1 + $product->tva / 100);
+                                @endphp
+                                <p class="text-end">
+                                    Prix HT: <span class="text-decoration-line-through">{{ formatPriceToFloat($product->price_ht) }} €</span> <b>{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC'] - $prixPromoHT) }} €</b>
+                                    <br>TVA: {{ formatPriceToFloat($product->tva) }} %
+                                </p>
+                            @else
+                                <p class="text-end">
+                                    Prix HT: <span class="text-decoration-line-through">{{ formatPriceToFloat($product->price_ht) }} €</span>
+                                    <b>{{ formatPriceToFloat($product->price_ht - ($product->price_ht * $discountProducts[$product->id]['discountPercentage']) / 100) }} €</b>
+                                    <br>TVA: {{ formatPriceToFloat($product->tva) }} %
+                                </p>
+                            @endif
                         @endif
-
-                        @if($discountProducts[$product->id]['fixed_priceTTC'])
-                            @php
-                                $prixPromoHT = $discountProducts[$product->id]['fixed_priceTTC'] / (1 + $product->tva / 100);
-                            @endphp
-                            <p class="text-end">
-                                Prix HT: <span class="text-decoration-line-through">{{ formatPriceToFloat($product->price_ht) }} €</span> <b>{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC'] - $prixPromoHT) }} €</b>
-                                <br>TVA: {{ formatPriceToFloat($product->tva) }} %
-                            </p>
-                        @else
-                            <p class="text-end">
-                                Prix HT: <span class="text-decoration-line-through">{{ formatPriceToFloat($product->price_ht) }} €</span>
-                                <b>{{ formatPriceToFloat($product->price_ht - ($product->price_ht * $discountProducts[$product->id]['discountPercentage']) / 100) }} €</b>
-                                <br>TVA: {{ formatPriceToFloat($product->tva) }} %
-                            </p>
-                        @endif
-
                     @else
                         @if($product->stock_unit == 'kg')
                             <p class="text-end">Prix HT au Kg: {{ formatPriceToFloat($product->price_ht) }} €<br>
@@ -124,12 +135,27 @@
                                 </span></h3>
                             @endif
                             <div class="d-flex justify-content-end">
-                                @if($discountProducts[$product->id]['fixed_priceTTC'])
-                                    <h1 class="text-end mt-3 text-center text-danger">{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC']) }} €</h1>
+
+                                @if($product->stock_unit == 'kg')
+                                    @if($discountProducts[$product->id]['fixed_priceTTC'])
+                                        <div class="text-center">
+                                            <h1 style="font-size: 44px;" class="mt-3 text-center text-danger">{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC'] / 10) }} €</h1>
+                                            <p style="margin-top: -12px;">les 100 grammes</p>
+                                        </div>
+                                    @else
+                                        <div class="text-center">
+                                            <h1 style="font-size: 44px;" class="mt-3 text-center text-danger">{{ formatPriceToFloat(($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]['discountPercentage']) / 100) / 10) }} €</h1>
+                                            <p style="margin-top: -12px;">les 100 grammes</p>
+                                        </div>
+                                    @endif
                                 @else
-                                    <h1 class="text-end mt-3 text-center text-danger">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]['discountPercentage']) / 100) }} €</h1>
+                                    @if($discountProducts[$product->id]['fixed_priceTTC'])
+                                        <h1 style="font-size: 44px;" class="mt-3 text-center text-danger">{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC']) }} €</h1>
+                                    @else
+                                        <h1 style="font-size: 44px;" class="mt-3 text-center text-danger">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]['discountPercentage']) / 100) }} €</h1>
+                                    @endif
                                 @endif
-                                <p class=" flex-grow-1 text-center align-self-center mt-3">Offre valable du 29 avril au 02 juin 2024</p>
+                                <p class=" flex-grow-1 text-center align-self-center mt-3">Offre valable <br>{{ ucfirst(formatDateInFrenchYmd($discountProducts[$product->id]['start_date'])) }} au {{ ucfirst(formatDateInFrenchYmd($discountProducts[$product->id]['end_date'])) }}</p>
                             </div>
                         </div>
                     </div>

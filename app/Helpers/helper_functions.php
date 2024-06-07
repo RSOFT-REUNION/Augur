@@ -170,6 +170,28 @@ function formatDateInFrench(string $dateString)
 
     return $formatter->format($date);
 }
+// Fonction pour formater une date en français
+function formatDateInFrenchYmd(string $dateString)
+{
+    // Convertir la chaîne de date en objet DateTime avec le fuseau horaire Indian/Reunion
+    $date = DateTime::createFromFormat('Y-m-d', $dateString, new DateTimeZone('Indian/Reunion'));
+
+    // Vérifier si la création de l'objet DateTime a réussi
+    if ($date === false) {
+        throw new Exception("Invalid date format: $dateString");
+    }
+
+    // Créer le formateur pour afficher la date en français
+    $formatter = new IntlDateFormatter(
+        'fr_FR',
+        IntlDateFormatter::FULL,
+        IntlDateFormatter::NONE,
+        'Indian/Reunion',
+        IntlDateFormatter::GREGORIAN
+    );
+
+    return $formatter->format($date);
+}
 
 // Fonction pour convertir une chaîne de caractères en objet DateTime
 function convertToDateTime(string $dateString): DateTime

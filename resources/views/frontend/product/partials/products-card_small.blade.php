@@ -22,11 +22,21 @@
     <div  class="card-footer text-center">
 
         @if(array_key_exists($product->id,$discountProducts))
-            <h4 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc) }} €</h4>
-            @if($discountProducts[$product->id]['fixed_priceTTC'])
-                <h2 class="m-3">{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC']) }} €</h2>
+            @if($product->stock_unit == 'kg')
+                <h4 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc / 10) }} €</h4>
+                @if($discountProducts[$product->id]['fixed_priceTTC'])
+                    <h2 style="margin-top: -15px;">{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC'] / 10) }} €</h2>
+                @else
+                    <h2 style="margin-top: -15px;">{{ formatPriceToFloat(($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]['discountPercentage']) / 100) / 10)  }} €</h2>
+                @endif
+                <p style="margin-top: -12px;">les 100 grammes</p>
             @else
-                <h2 class="m-3">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]['discountPercentage']) / 100) }} €</h2>
+                <h4 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc) }} €</h4>
+                @if($discountProducts[$product->id]['fixed_priceTTC'])
+                    <h2 style="margin-top: -15px;">{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC']) }} €</h2>
+                @else
+                    <h2 style="margin-top: -15px;">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]['discountPercentage']) / 100) }} €</h2>
+                @endif
             @endif
         @else
             @if($product->stock_unit == 'kg')

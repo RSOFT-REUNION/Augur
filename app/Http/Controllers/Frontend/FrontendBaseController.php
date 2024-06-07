@@ -37,13 +37,15 @@ class FrontendBaseController extends Controller
             foreach ($discount->products as $product) {
                 $discountProducts->put($product->product_id, [
                     'discountPercentage' => $discount->percentage,
+                    'start_date' => $discount->start_date,
+                    'end_date' => $discount->end_date,
                     'fixed_priceTTC' => $product->fixed_priceTTC,
                 ]);
             }
         }
         $cities = Cities::orderBy('city')->get();
 
-        View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu, 'menu_produits' => $menu_produits, 'discountProducts' => $discountProducts->toArray(), 'cities' => $cities]);
+        View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu, 'menu_produits' => $menu_produits,'discounts' => $discounts, 'discountProducts' => $discountProducts->toArray(), 'cities' => $cities]);
     }
 
     public function images_show(Request $request, string $path)
