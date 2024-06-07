@@ -71,9 +71,25 @@
                 </div>
                 <div class="col">
                     @if(array_key_exists($product->id,$discountProducts))
-                        <p class="text-end">Prix HT: <span class="text-decoration-line-through">{{ formatPriceToFloat($product->price_ht) }} €</span> <b>{{ formatPriceToFloat($product->price_ht - ($product->price_ht * $discountProducts[$product->id]) / 100) }} €</b><br>
-                            TVA: {{ formatPriceToFloat($product->tva) }} %</p>
+
                         <h2 class="text-end text-decoration-line-through">{{ formatPriceToFloat($product->price_ttc) }} €</h2>
+
+                        @if($discountProducts[$product->id]['fixed_priceTTC'])
+                            @php
+                                $prixPromoHT = $discountProducts[$product->id]['fixed_priceTTC'] / (1 + $product->tva / 100);
+                            @endphp
+                            <p class="text-end">
+                                Prix HT: <span class="text-decoration-line-through">{{ formatPriceToFloat($product->price_ht) }} €</span> <b>{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC'] - $prixPromoHT) }} €</b>
+                                <br>TVA: {{ formatPriceToFloat($product->tva) }} %
+                            </p>
+                        @else
+                            <p class="text-end">
+                                Prix HT: <span class="text-decoration-line-through">{{ formatPriceToFloat($product->price_ht) }} €</span>
+                                <b>{{ formatPriceToFloat($product->price_ht - ($product->price_ht * $discountProducts[$product->id]['discountPercentage']) / 100) }} €</b>
+                                <br>TVA: {{ formatPriceToFloat($product->tva) }} %
+                            </p>
+                        @endif
+
                     @else
                         <p class="text-end">Prix HT: {{ formatPriceToFloat($product->price_ht) }} €<br>
                         TVA: {{ formatPriceToFloat($product->tva) }} %</p>
@@ -86,9 +102,21 @@
                 <div class="d-flex justify-content-center mb-4">
                     <div class="card w-75 shadow hvr-float bg-gray">
                         <div class="card-body position-relative">
-                            <h3 class="position-absolute top-0 start-100 translate-middle"><span class="badge text-bg-danger">Promotion -{{ $discountProducts[$product->id] }} %</span></h3>
+                            @if($discountProducts[$product->id]['fixed_priceTTC'])
+                                <h3 class="position-absolute top-0 start-100 translate-middle"><span class="badge text-bg-danger">
+                                    Promo
+                                </span></h3>
+                            @else
+                                <h3 class="position-absolute top-0 start-100 translate-middle"><span class="badge text-bg-danger">
+                                    Promo -{{ $discountProducts[$product->id]['discountPercentage'] }} %
+                                </span></h3>
+                            @endif
                             <div class="d-flex justify-content-end">
-                                <h1 class="text-end mt-3  text-center  text-danger">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]) / 100) }} €</h1>
+                                @if($discountProducts[$product->id]['fixed_priceTTC'])
+                                    <h1 class="text-end mt-3 text-center text-danger">{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC']) }} €</h1>
+                                @else
+                                    <h1 class="text-end mt-3 text-center text-danger">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]['discountPercentage']) / 100) }} €</h1>
+                                @endif
                                 <p class=" flex-grow-1 text-center align-self-center mt-3">Offre valable du 29 avril au 02 juin 2024</p>
                             </div>
                         </div>

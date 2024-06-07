@@ -34,13 +34,14 @@ class FrontendBaseController extends Controller
         $discountProducts = collect();
         $discounts = Discount::currently()->with('products')->orderBy('percentage')->get();
         foreach ($discounts as $discount) {
-            $discountPercentage = $discount->percentage;
-            foreach($discount->products as $product){
-                $discountProducts->put($product->product_id, $discount->percentage);
+            foreach ($discount->products as $product) {
+                $discountProducts->put($product->product_id, [
+                    'discountPercentage' => $discount->percentage,
+                    'fixed_priceTTC' => $product->fixed_priceTTC,
+                ]);
             }
         }
         $cities = Cities::orderBy('city')->get();
-
 
         View::share(['infos' => $infos, 'sliders' => $sliders, 'menu' => $menu, 'menu_produits' => $menu_produits, 'discountProducts' => $discountProducts->toArray(), 'cities' => $cities]);
     }

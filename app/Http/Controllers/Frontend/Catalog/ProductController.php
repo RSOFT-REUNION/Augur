@@ -84,10 +84,16 @@ class ProductController extends FrontendBaseController
             }
         }
 
-        // Calculate the final price including discount
+        // Calculate the final price including discount or fixed_pricettc
         $products = $products->map(function ($product) use ($discountProducts) {
             $discount = $discountProducts->get($product->id, 0);
-            $product->final_price = $product->price_ttc - ($product->price_ttc * ($discount / 100));
+
+            if (isset($product->fixed_pricettc) && $product->fixed_pricettc !== null) {
+                $product->final_price = $product->fixed_pricettc;
+            } else {
+                $product->final_price = $product->price_ttc - ($product->price_ttc * ($discount / 100));
+            }
+
             return $product;
         });
 
@@ -98,19 +104,8 @@ class ProductController extends FrontendBaseController
             });
         }
 
-        /*** Filter by price range ***/
-        if ($request->price_min) {
-            $minPrice = formatPriceToInteger($request->price_min);
-            $products = $products->filter(function ($product) use ($minPrice) {
-                return $product->final_price >= $minPrice;
-            });
-        }
-        if ($request->price_max) {
-            $maxPrice = formatPriceToInteger($request->price_max);
-            $products = $products->filter(function ($product) use ($maxPrice) {
-                return $product->final_price <= $maxPrice;
-            });
-        }
+        // Sort products by final_price
+        $products = $products->sortBy('final_price');
 
         /*** Sort by final price ***/
         if ($request->has('sort')) {

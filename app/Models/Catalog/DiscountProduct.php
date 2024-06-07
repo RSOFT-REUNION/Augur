@@ -14,11 +14,7 @@ class DiscountProduct extends Model
     protected $fillable = [
         'discount_id',
         'product_id',
-        'base_ht',
-        'base_ttc',
-        'base_tva',
-        'discounted_ht',
-        'discounted_ttc',
+        'fixed_priceTTC',
         'active'
     ];
 

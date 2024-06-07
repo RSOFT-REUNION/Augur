@@ -18,11 +18,8 @@ class CartController extends FrontendBaseController
 {
     public function index()
     {
-        $cart_id = $this->getCart();
-        $cart = Carts::firstwhere('id', $cart_id);
-        return view('frontend.carts.index', [
-            'cart' => $cart,
-        ]);
+        $cart = $this->getCartInstance();
+        return view('frontend.carts.index', compact('cart'));
     }
 
     public function select_slot(Request $request, Product $product)
@@ -35,17 +32,14 @@ class CartController extends FrontendBaseController
 
     public function chose_address()
     {
-        $address = '';
-        $cart_id = $this->getCart();
-        if(Auth::check()){
-            $address = Address::where('user_id', Auth::id())->get();
-        } else {
-            route('login');
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
-        return view('frontend.carts.chose_address', [
-            'cart' => Carts::firstwhere('id', $cart_id),
-            'address' => $address,
-        ]);
+
+        $cart = $this->getCartInstance();
+        $address = Address::where('user_id', Auth::id())->get();
+
+        return view('frontend.carts.chose_address', compact('cart', 'address'));
     }
 
     public function create_address(Request $request)
@@ -61,220 +55,190 @@ class CartController extends FrontendBaseController
             'other_phone' => 'max:20',
             'favorite' => '',
         ]);
-        $validated['user_id'] = Auth::user()->id;
+
+        $validated['user_id'] = Auth::id();
         $validated['alias'] = "Mon adresse";
         $validated['country'] = "La Réunion";
+
         $user_address = Address::create($validated);
         $user_address->favorite = $user_address->id;
         $user_address->save();
+
         return $user_address;
     }
 
     public function chose_delivery(Request $request)
     {
-        if($request->add_address) {
-            $user_address = $this->create_address($request);
-        } else {
-            $user_address = Address::where('id', $request->address)->first();
-        }
+        $user_address = $request->add_address ? $this->create_address($request) : Address::findOrFail($request->address);
+
         return view('frontend.carts.chose_delivery', [
             'user_address' => $user_address,
-            'user_address_fac' => Address::where('user_id', Auth::id())->where('favorite', '!=', '')->first(),
-            'cart' => Carts::with('product')->firstwhere('id', $request->cart),
+            'user_address_fac' => Address::where('user_id', Auth::id())->whereNotNull('favorite')->first(),
+            'cart' => Carts::with('product')->findOrFail($request->cart),
             'delivery' => Delivery::where('active', 1)->get(),
         ]);
     }
+
     public function chosed_delivery(Request $request)
     {
-        /*** Inclut les points fidélité ***/
         return view('frontend.carts.partials.delivery_index', [
-            'user_address' => Address::firstwhere('id', $request->address),
-            'user_address_fac' => Address::where('user_id', Auth::id())->where('favorite', '!=', '')->first(),
-            'cart' => Carts::with('product')->firstwhere('id', $request->cart),
+            'user_address' => Address::findOrFail($request->address),
+            'user_address_fac' => Address::where('user_id', Auth::id())->whereNotNull('favorite')->first(),
+            'cart' => Carts::with('product')->findOrFail($request->cart),
             'delivery' => Delivery::where('active', 1)->get(),
-            'delivery_chose' => Delivery::firstwhere('id', $request->deliver),
-            'loyality' => User::select('erp_id', 'erp_loyalty_points', 'erp_loyalty_card')->firstwhere('id', Auth::user()->id),
+            'delivery_chose' => Delivery::findOrFail($request->deliver),
+            'loyality' => User::select('erp_id', 'erp_loyalty_points', 'erp_loyalty_card')->findOrFail(Auth::id()),
         ]);
     }
+
     public function chosed_delivery_date(Request $request, string $delivery, string $delivery_date, string $delivery_slot)
     {
-        /*** Inclut les points fidélité ***/
         return view('frontend.carts.partials.delivery_index', [
-            'user_address' => Address::firstwhere('id', $request->address),
-            'user_address_fac' => Address::where('user_id', Auth::id())->where('favorite', '!=', '')->first(),
-            'cart' => Carts::with('product')->firstwhere('id', $request->cart),
+            'user_address' => Address::findOrFail($request->address),
+            'user_address_fac' => Address::where('user_id', Auth::id())->whereNotNull('favorite')->first(),
+            'cart' => Carts::with('product')->findOrFail($request->cart),
             'delivery' => Delivery::where('active', 1)->get(),
-            'delivery_chose' => Delivery::firstwhere('id', $request->deliver),
+            'delivery_chose' => Delivery::findOrFail($request->deliver),
             'delivery_date' => $delivery_date,
             'delivery_slot' => $delivery_slot,
-            'loyality' => User::select('erp_id', 'erp_loyalty_points', 'erp_loyalty_card')->firstwhere('id', Auth::user()->id),
+            'loyality' => User::select('erp_id', 'erp_loyalty_points', 'erp_loyalty_card')->findOrFail(Auth::id()),
         ]);
     }
 
     public function cart_summary(Request $request)
     {
         return view('frontend.carts.summary', [
-            'user_address' => Address::firstwhere('id', $request->address),
-            'user_address_fac' => Address::where('user_id', Auth::id())->where('favorite', '!=', '')->first(),
-            'cart' => Carts::with('product')->firstwhere('id', $request->cart),
-            'deliver' => Delivery::firstwhere('id', $request->delivery),
+            'user_address' => Address::findOrFail($request->address),
+            'user_address_fac' => Address::where('user_id', Auth::id())->whereNotNull('favorite')->first(),
+            'cart' => Carts::with('product')->findOrFail($request->cart),
+            'deliver' => Delivery::findOrFail($request->delivery),
             'delivery_date' => $request->delivery_date,
             'delivery_slot' => $request->delivery_slot,
             'loyality' => $request->loyality,
         ]);
     }
 
-
-
-    public function getCart(Request $request = null)
+    private function getCartInstance()
     {
         $session_id = Session::getId();
-        $cookie = @request()->cookie('session_id');
-        /*** Recherche de panier ***/
-        if($cart = Carts::where('session_id', $session_id)->orwhere('session_id', $cookie)->latest()->first()) {
-            if(Auth::user()) {
-                if($cart_user = Carts::where('user_id', Auth::id())->where('status', 'En cours')->first()){
-                    return $cart_user->id;
+        $cookie = request()->cookie('session_id');
+
+        $cart = Carts::where('session_id', $session_id)
+            ->orWhere('session_id', $cookie)
+            ->latest()
+            ->first();
+
+        if ($cart) {
+            if (Auth::check()) {
+                $cart_user = Carts::where('user_id', Auth::id())->where('status', 'En cours')->first();
+                if ($cart_user) {
+                    return $cart_user;
                 }
                 $cart->update(['user_id' => Auth::id()]);
-                return $cart->id;
             } else {
                 cookie()->queue(cookie()->forever('session_id', $session_id));
-                return $cart->id;
             }
-        } else {
-            if(@$request->postal_code) {
-                $cart = Carts::create([
-                    'session_id' => Session::getId(),
-                    'status' => 'En cours',
-                    'postal_code' => $request->postal_code,
-                    'delivery_date' => $request->delivery_date,
-                    'delivery_slot' => $request->delivery_slot,
-                ]);
-            } else {
-                $cart = Carts::create([
-                    'session_id' => Session::getId(),
-                    'status' => 'En cours',
-                ]);
-            }
-
-            cookie()->queue(cookie()->forever('session_id', $session_id));
-            return $cart->id;
+            return $cart;
         }
+
+        $cart_data = [
+            'session_id' => $session_id,
+            'status' => 'En cours',
+        ];
+
+        if (request()->postal_code) {
+            $cart_data['postal_code'] = request()->postal_code;
+            $cart_data['delivery_date'] = request()->delivery_date;
+            $cart_data['delivery_slot'] = request()->delivery_slot;
+        }
+
+        $cart = Carts::create($cart_data);
+        cookie()->queue(cookie()->forever('session_id', $session_id));
+
+        return $cart;
     }
 
     public function add_product(Request $request, Product $produit)
     {
-        $cart_id = $this->getCart($request);
-        $cart = Carts::firstwhere('id', $cart_id);
-        if (count($cart->product()->where('product_id', $produit->id)->get()) == 0)
-        {
-            if($request->quantity){
-                $proquantity = $request->quantity;
-            } else {
-                $proquantity = 1;
+        $cart = $this->getCartInstance();
+        $existingProduct = $cart->product()->where('product_id', $produit->id)->first();
+        $produc_stock = Product::select('stock')->firstwhere('id', $produit->id);
+        if ($existingProduct) {
+            // Update the quantity of the existing product
+            if($existingProduct->quantity < $produc_stock->stock / 1000) {
+                $existingProduct->quantity = $request->quantity ? $request->quantity : $existingProduct->quantity + 1;
             }
-            /*** Retroune un array de tout les produits en promotion avec l'offre la plus avantageuse ***/
+            $existingProduct->save();
+        } else {
+            // Determine the quantity to add
+            $proquantity = $request->quantity ?: 1;
+
+            // Retrieve discount products
             $discountProducts = collect();
             $discounts = Discount::currently()->with('products')->orderBy('percentage')->get();
             foreach ($discounts as $discount) {
-                $discountPercentage = $discount->percentage;
-                foreach($discount->products as $product){
+                foreach ($discount->products as $product) {
                     $discountProducts->put($product->product_id, $discount);
                 }
             }
+
+            // Create a new cart product entry
+            $cartProductData = [
+                'fav_image' => $produit->getFirstImagesURL(),
+                'product_id' => $produit->id,
+                'price_ht' => $produit->price_ht,
+                'tva' => $produit->tva,
+                'price_ttc' => $produit->price_ttc,
+                'quantity' => $proquantity,
+            ];
+
             if ($discountProducts->has($produit->id)) {
-                $cart->product()->create([
-                    'fav_image' => $produit->getFirstImagesURL(),
-                    'product_id' => $produit->id,
-                    'price_ht' => $produit->price_ht,
-                    'tva' => $produit->tva,
-                    'price_ttc' => $produit->price_ttc,
-                    'quantity' => $proquantity,
-                    'discount_id' => $discountProducts->get($produit->id)->id,
-                    'discount_percentage' => $discountProducts->get($produit->id)->percentage,
-                ]);
-            } else {
-                $cart->product()->create([
-                    'fav_image' => $produit->getFirstImagesURL(),
-                    'product_id' => $produit->id,
-                    'price_ht' => $produit->price_ht,
-                    'tva' => $produit->tva,
-                    'price_ttc' => $produit->price_ttc,
-                    'quantity' => $proquantity,
-                ]);
+                $cartProductData['discount_id'] = $discountProducts->get($produit->id)->id;
+                $cartProductData['discount_percentage'] = $discountProducts->get($produit->id)->percentage;
             }
 
-        } else {
-            $product = CartsProducts::where('product_id', $produit->id)->first();
-            if($request->quantity){
-                $product->quantity = $request->quantity;
-            } else {
-                $product->quantity = $product->quantity + 1;
-            }
-            $product->save();
+            $cart->product()->create($cartProductData);
         }
-        $sum = 0;
-        foreach ($cart->product as $prod) {
-            $sum += $prod->quantity;
-        }
-        return '<span id="nb_produit">'.$sum.'</span>';
+
+        // Calculate the total quantity of products in the cart
+        $totalQuantity = $cart->product->sum('quantity');
+
+        return '<span id="nb_produit">' . $totalQuantity . '</span>';
     }
 
     public static function count_product()
     {
-        if(Auth::user()) {
-            if($cart = Carts::where('user_id', Auth::id())->where('status', 'En cours')->first()){
+        $cookie = request()->cookie('session_id');
+        if (Auth::check()) {
+            $cart = Carts::where('user_id', Auth::id())->where('status', 'En cours')->first();
+            if ($cart) {
                 cookie()->queue(cookie()->forever('session_id', $cart->session_id));
                 $cookie = $cart->session_id;
-            } else {
-                cookie()->queue(cookie()->forever('session_id', @request()->cookie('session_id')));
-                $cookie = @request()->cookie('session_id');
             }
-        } else {
-            $cookie = @request()->cookie('session_id');
         }
+
         $cart = Carts::where('session_id', $cookie)->first();
-        if($cart != null) {
-            $sum = 0;
-            foreach ($cart->product as $prod) {
-                $sum += $prod->quantity;
-            }
-            return $sum;
-        } else {
+        if (!$cart) {
             return 0;
         }
+
+        return $cart->product->sum('quantity');
     }
+
     public function update_quantity_product(Request $request, $product)
     {
-        $product = CartsProducts::where('id', $product)->first();
-        $cart = Carts::where('id', $product->carts_id)->first();
+        $product = CartsProducts::findOrFail($product);
+        $cart = Carts::findOrFail($product->carts_id);
+
         $product->quantity = $request->quantity;
         $product->save();
-        return view('frontend.carts.cart_fragment', compact('cart'))->fragment('panier_fragment');
+
+        return view('frontend.carts.index', compact('cart'));
     }
-    /*** Plus utiliser, Peut etre utilise pour un autre site.
-    public function down_quantity_product($produit)
-    {
-        $product = CartsProducts::where('id', $produit)->first();
-        $cart = Carts::where('id', $product->carts_id)->first();
-        if($product->quantity != 1) $product->quantity = $product->quantity - 1;
-        $product->save();
-        return view('frontend.carts.cart_fragment', compact('cart'))->fragment('panier_fragment');
-    }
-    public function up_quantity_product($produit)
-    {
-        $product = CartsProducts::where('id', $produit)->first();
-        $cart = Carts::where('id', $product->carts_id)->first();
-        $stock = Product::find($product->product_id, ['stock']);
-        if($product->quantity < $stock->stock) $product->quantity = $product->quantity + 1;
-        $product->save();
-        return view('frontend.carts.cart_fragment', compact('cart'))->fragment('panier_fragment');
-    } ***/
 
     public function delete_product(CartsProducts $produit)
     {
-        CartsProducts::find($produit)->each->delete();
+        $produit->delete();
         return back();
     }
 }

@@ -60,7 +60,7 @@
                                 class="small text-danger">*</span> : </label>
                         <select class="form-select" aria-label="Default select example" name="cities" id="cities">
                             @foreach($cities  as $city)
-                                <option value="{{ $city->postal_code }}">{{ $city->city .' - '. $city->postal_code }}</option>
+                                <option @if(@$cart->postal_code == $city->postal_code) selected @endif value="{{ $city->postal_code }}">{{ $city->city .' - '. $city->postal_code }}</option>
                             @endforeach
                         </select>
                     </div>

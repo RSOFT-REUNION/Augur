@@ -16,7 +16,7 @@
                         Quantité
                     </div>
                     <div class="col-md-2">
-                        Total
+                        Total TTC
                     </div>
                     <div class="col-md-1">
 
@@ -38,30 +38,33 @@
                         <div class="col-md-2">
                             @if($product->discount_id)
                                 <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc) }} €</h6>
-                                <h5 class="m-3">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[getProductInfos($product->product_id)->id]) / 100) }} €</h5>
+                                @if($discountProducts[$product->product_id]['fixed_priceTTC'])
+                                    <h5 class="m-3">{{ formatPriceToFloat($discountProducts[$product->product_id]['fixed_priceTTC']) }} €</h5>
+                                @else
+                                    <h5 class="m-3">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->product_id]['discountPercentage']) / 100) }} €</h5>
+                                @endif
                             @else
                                 <h5 class="mb-0">{{ formatPriceToFloat($product->price_ttc) }} €</h5>
                             @endif
                         </div>
                         <div class="col-md-1">
-                            <form method="post">  @csrf
-                                <select class="form-control text-end me-3" style="width: 70px;" name="quantity" id="quantity"
-                                        hx-post="{{ route('cart.update_quantity_product', $product->id) }}"
-                                        hx-swap="outerHTML"
-                                        hx-target="#divpanier">
+                            <form action="{{ route('cart.update_quantity_product', $product->id) }}" method="post">  @csrf
+                                <input type="hidden" name="cart" value="{{ $cart->id }}">
+                                <select class="form-control text-end me-3" style="width: 70px;" name="quantity" id="quantity" onchange="this.form.submit()">
                                     @for ($i = 1; $i <= getProductInfos($product->product_id)->stock / 1000 ; $i++)
                                         <option value="{{ $i }}" @if($product->quantity == $i) selected @endif>{{ $i }}</option>
                                     @endfor
                                 </select>
                             </form>
-                            <!--<input id="quantity{{$product->id}}" name="quantity{{$product->id}}" value="{{ $product->quantity }}" type="number" min="1"
-                                   class="form-control form-control-sm" readonly/>-->
-
                         </div>
                         <div class="col-md-2">
                             @if($product->discount_id)
-                                <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc) }} €</h6>
-                                <h5 class="m-3">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[getProductInfos($product->product_id)->id]) / 100) }} €</h5>
+                                <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc  * $product->quantity) }} €</h6>
+                            @if($discountProducts[$product->product_id]['fixed_priceTTC'])
+                                    <h5 class="m-3">{{ formatPriceToFloat($discountProducts[$product->product_id]['fixed_priceTTC'] * $product->quantity) }} €</h5>
+                                @else
+                                    <h5 class="m-3">{{ formatPriceToFloat(($product->price_ttc - ($product->price_ttc * $discountProducts[$product->product_id]['discountPercentage']) / 100)  * $product->quantity )   }} €</h5>
+                                @endif
                             @else
                                 <h5 class="mb-0">{{ formatPriceToFloat($cart->priceProductQuantity($product->id)) }} €</h5>
                             @endif
@@ -74,10 +77,7 @@
                 @endforeach
             </div>
             <div class="col-md-3 col-12">
-
                 @include('frontend.carts.partials.cart_summary')
-
-
                 <div class="text-center">
                     <form action="{{ route('cart.chose_address') }}" method="post"> @csrf
                         <input id="ddd" name="ddd" type="hidden">

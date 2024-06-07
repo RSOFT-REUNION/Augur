@@ -1,6 +1,16 @@
 <div class="card content">
-    @if(array_key_exists($product->id,$discountProducts))
-        <h4 class="position-relative"><span class="badge text-bg-danger position-absolute top-0 start-50 translate-middle">Promo -{{ $discountProducts[$product->id] }} %</span></h4>
+    @if(array_key_exists($product->id, $discountProducts))
+        <h4 class="position-relative">
+            @if($discountProducts[$product->id]['fixed_priceTTC'])
+                <span class="badge text-bg-danger position-absolute top-0 start-50 translate-middle">
+                    Promo
+                </span>
+            @else
+                <span class="badge text-bg-danger position-absolute top-0 start-50 translate-middle">
+                    Promo -{{ $discountProducts[$product->id]['discountPercentage'] }} %
+                </span>
+            @endif
+        </h4>
     @endif
 
     <a href="{{ route('product.show', $product->slug) }}">
@@ -13,7 +23,11 @@
 
         @if(array_key_exists($product->id,$discountProducts))
             <h4 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc) }} €</h4>
-            <h2 class="m-3">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]) / 100) }} €</h2>
+            @if($discountProducts[$product->id]['fixed_priceTTC'])
+                <h2 class="m-3">{{ formatPriceToFloat($discountProducts[$product->id]['fixed_priceTTC']) }} €</h2>
+            @else
+                <h2 class="m-3">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]['discountPercentage']) / 100) }} €</h2>
+            @endif
         @else
             <h2 class="m-3">{{ formatPriceToFloat($product->price_ttc) }} €</h2>
         @endif

@@ -12,9 +12,7 @@
         </nav>
     </div>
 
-    @fragment("panier_fragment")
-        @include('frontend.carts.cart_fragment')
-    @endfragment
+     @include('frontend.carts.cart_fragment')
 
     <div class="text-center mt-4 mb-5">
         <a href="{{ route('index')}}" class="btn btn-warning btn-lg hvr-grow-shadow"><i

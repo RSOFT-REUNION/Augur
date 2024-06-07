@@ -30,11 +30,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(\App\Models\Catalog\Discount::class)->constrained('catalog_discounts')->onDelete('cascade');
             $table->foreignIdFor(\App\Models\Catalog\Product::class)->constrained('catalog_products');
-            $table->integer('base_ht')->default(0);
-            $table->integer('base_ttc')->default(0);
-            $table->integer('base_tva')->default(0);
-            $table->integer('discounted_ht')->nullable();
-            $table->integer('discounted_ttc')->nullable();
+            $table->integer('fixed_priceTTC')->nullable();
             $table->boolean('active')->default(1);
             $table->softDeletes();
             $table->timestamps();
