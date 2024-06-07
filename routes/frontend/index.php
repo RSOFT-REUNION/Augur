@@ -9,6 +9,7 @@ require __DIR__ . '/auth.php';
 require __DIR__ . '/profile.php';
 require __DIR__ . '/products.php';
 require __DIR__ . '/shopping_cart.php';
+require __DIR__ . '/orders.php';
 require __DIR__ . '/specific.php';
 
 /*** Home ***/

@@ -11,7 +11,7 @@ class Carts extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['session_id', 'user_id', 'status', 'delivery_id' , 'delivery_price', 'total_ttc','postal_code', 'delivery_date', 'delivery_slot'];
+    protected $fillable = ['session_id', 'user_id', 'status', 'delivery_id' ,'loyality', 'delivery_price', 'total_ttc','postal_code', 'delivery_date', 'delivery_slot'];
 
     public function Product(): HasMany
     {

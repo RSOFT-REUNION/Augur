@@ -4,6 +4,7 @@ namespace App\Models\Orders;
 
 use App\Models\Catalog\Product;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class OrderProducts extends Model
@@ -21,6 +22,10 @@ class OrderProducts extends Model
         'quantity',
     ];
 
+    public function Oders(): HasMany
+    {
+        return $this->hasMany(Orders::class);
+    }
     public function product()
     {
         return $this->hasOne(Product::class);

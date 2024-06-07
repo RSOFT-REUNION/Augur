@@ -26,12 +26,34 @@ return new class extends Migration {
 
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('ref_order'); // pour le lien SAP/EBP
-            $table->enum('delivery_type', ['livraison à domicile', 'retrait en magasin'])->default('retrait en magasin');
-            $table->string('delivery_location');
             $table->foreignIdFor(Status::class)->default(1)->constrained('order_status');
             $table->foreignIdFor(\App\Models\Users\User::class)->constrained();
-            $table->string('total_ttc');
+            $table->string('ref_order'); // pour le lien SAP/EBP
+            $table->integer('total_ttc')->nullable();
+            $table->integer('delivery_id')->nullable();
+            $table->integer('delivery_price')->nullable();
+            $table->date('delivery_date')->nullable();
+            $table->string('delivery_slot')->nullable();
+            $table->integer('user_loyality_used')->nullable();
+            $table->string('user_name')->nullable();
+            $table->string('user_email')->nullable();
+            $table->string('user_delivery_address')->nullable();
+            $table->string('user_delivery_address2')->nullable();
+            $table->string('user_delivery_cities')->nullable();
+            $table->string('user_delivery_phone')->nullable();
+            $table->string('user_delivery_other_phone')->nullable();
+            $table->string('user_civilite')->nullable();
+            $table->string('user_first_name')->nullable();
+            $table->string('user_last_name')->nullable();
+            $table->date('user_birthday')->nullable();
+            $table->string('user_invoice_address')->nullable();
+            $table->string('user_invoice_address2')->nullable();
+            $table->string('user_invoice_cities')->nullable();
+            $table->string('user_invoice_phone')->nullable();
+            $table->string('user_invoice_other_phone')->nullable();
+            $table->string('user_invoice_civilite')->nullable();
+            $table->string('user_invoice_first_name')->nullable();
+            $table->string('user_invoice_last_name')->nullable();
             $table->timestamps();
         });
 

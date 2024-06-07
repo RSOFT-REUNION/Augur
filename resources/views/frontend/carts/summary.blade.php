@@ -184,7 +184,7 @@
         </div>
     </div>
     <div class="col-md-2 col-12">
-        @if($loyality == 0)
+        @if($cart->loyality == 0)
             <div class="card bg-warning content">
                 <div class="card-body">
                     <div class="text-center">
@@ -194,7 +194,7 @@
                     </div>
                 </div>
             </div>
-        @elseif($loyality == 5)
+        @elseif($cart->loyality == 5)
             <div class="card bg-warning content">
                 <div class="card-body">
                     <div class="text-center">
@@ -204,7 +204,7 @@
                     </div>
                 </div>
             </div>
-        @elseif($loyality == 10)
+        @elseif($cart->loyality == 10)
             <div class="card bg-warning content">
                 <div class="card-body">
                     <div class="text-center">
@@ -214,7 +214,7 @@
                     </div>
                 </div>
             </div>
-        @elseif($loyality == 15)
+        @elseif($cart->loyality == 15)
             <div class="card bg-warning content">
                 <div class="card-body">
                     <div class="text-center">
@@ -229,21 +229,27 @@
 </div>
 
     <div class="p-3">
-        <h2 id="sous-total" class="text-end mt-4">Sous-total ({{ $cart->countProduct() }} article(s)) :  {{ formatPriceToFloat($cart->countProductsPrice($deliver->price_ttc, $loyality)) }} €</h2>
-        @if($loyality == 5)
+        <h2 id="sous-total" class="text-end mt-4">Sous-total ({{ $cart->countProduct() }} article(s)) :  {{ formatPriceToFloat($cart->total_ttc) }} €</h2>
+        @if($cart->loyality == 5)
             <h4 class="text-end">Remise de 5% (Hors cout de livraison)</h4>
         @endif
-        @if($loyality == 10)
+        @if($cart->loyality == 10)
             <h4 class="text-end">Remise de 10% (Hors cout de livraison)</h4>
         @endif
-        @if($loyality == 15)
+        @if($cart->loyality == 15)
             <h4 class="text-end">Remise de 15% (Hors cout de livraison)</h4>
         @endif
         <p class="text-end" >Le total de la commande inclut la TVA.</p>
     </div>
 
     <div class="text-center">
+        <form action="{{ route('orders.cart_validation') }}" method="post"> @csrf
+            <input type="hidden" name="cart" value="{{ $cart->id }}">
+            <input type="hidden" name="user_address_delivery" value="{{ $user_address->id }}">
+            <input type="hidden" name="user_address_invoice" value="{{ $user_address_fac->id }}">
+            <input type="hidden" name="deliver" value="{{ $deliver->id }}">
             <button type="submit" class="btn btn-lg btn-success hvr-grow-shadow"><i class="fa-regular fa-credit-card fa-2x"></i><br>Payer ma commande</button>
+        </form>
     </div>
 
 @endsection

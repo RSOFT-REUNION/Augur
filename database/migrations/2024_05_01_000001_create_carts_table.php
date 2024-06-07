@@ -11,11 +11,11 @@ return new class extends Migration {
             $table->id();
             $table->string('user_id')->nullable();
             $table->string('session_id');
-            $table->string('loyalty');
+            $table->string('loyality');
             $table->enum('status', ['En cours', 'Abandonner', 'Commander'])->default('En cours');
+            $table->string('total_ttc')->nullable();
             $table->string('delivery_id')->nullable();
             $table->string('delivery_price')->nullable();
-            $table->string('total_ttc')->nullable();
             $table->string('postal_code')->nullable();
             $table->string('delivery_date')->nullable();
             $table->string('delivery_slot')->nullable();
@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->string('fav_image')->nullable();
             $table->integer('discount_id')->nullable();
             $table->integer('discount_percentage')->nullable();
+            $table->integer('discount_fixed_price_ttc')->nullable();
             $table->integer('quantity')->default(1);
             $table->integer('price_ht')->default(0);
             $table->integer('tva')->default(0);

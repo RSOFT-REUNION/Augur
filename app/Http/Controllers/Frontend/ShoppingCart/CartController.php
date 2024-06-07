@@ -108,14 +108,20 @@ class CartController extends FrontendBaseController
 
     public function cart_summary(Request $request)
     {
+        $deliver = Delivery::findOrFail($request->delivery);
+        $cart = $this->getCartInstance();
+        $cart->loyality = $request->loyality;
+        $cart->delivery_id = $request->delivery;
+        $cart->delivery_price = $deliver->price_ttc;
+        $cart->delivery_date = $request->delivery_date;
+        $cart->delivery_slot = $request->delivery_slot;
+        $cart->total_ttc  = $cart->countProductsPrice($deliver->price_ttc, $request->loyality);
+        $cart->save();
         return view('frontend.carts.summary', [
             'user_address' => Address::findOrFail($request->address),
             'user_address_fac' => Address::where('user_id', Auth::id())->whereNotNull('favorite')->first(),
-            'cart' => Carts::with('product')->findOrFail($request->cart),
-            'deliver' => Delivery::findOrFail($request->delivery),
-            'delivery_date' => $request->delivery_date,
-            'delivery_slot' => $request->delivery_slot,
-            'loyality' => $request->loyality,
+            'cart' => $cart,
+            'deliver' => $deliver,
         ]);
     }
 
@@ -203,8 +209,12 @@ class CartController extends FrontendBaseController
             if ($discountProducts->has($produit->id)) {
                 $cartProductData['discount_id'] = $discountProducts->get($produit->id)->id;
                 $cartProductData['discount_percentage'] = $discountProducts->get($produit->id)->percentage;
+                foreach ($discountProducts->get($produit->id)->products as $product) {
+                    if ($product->product_id == $produit->id) {
+                        $cartProductData['discount_fixed_price_ttc'] = $product->fixed_priceTTC;
+                    }
+                }
             }
-
             $cart->product()->create($cartProductData);
         }
 
@@ -249,11 +259,8 @@ class CartController extends FrontendBaseController
     public function update_quantity_product(Request $request, $product)
     {
         $product = CartsProducts::findOrFail($product);
-        $cart = Carts::findOrFail($product->carts_id);
-
         $product->quantity = $request->quantity;
         $product->save();
-
         return new HtmxResponseClientRefresh();
     }
 
