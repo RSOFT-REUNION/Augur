@@ -140,8 +140,8 @@ function getDaysOverTwoWeeks(DateTime $date, array $days)
         $dayName = $day->format('l');
         if (array_key_exists($dayName, $days)) {
             $results[] = [
-                'date' => $day->format('d-m-Y'), // Format de date sans fuseau horaire
-                'formatted_date' => formatDateInFrench($day->format('d-m-Y')) // Date formatée en français
+                'date' => $day->format('Y-m-d'), // Format de date sans fuseau horaire
+                'formatted_date' => formatDateInFrench($day->format('Y-m-d')) // Date formatée en français
             ];
         }
     }
@@ -150,28 +150,6 @@ function getDaysOverTwoWeeks(DateTime $date, array $days)
 
 // Fonction pour formater une date en français
 function formatDateInFrench(string $dateString)
-{
-    // Convertir la chaîne de date en objet DateTime avec le fuseau horaire Indian/Reunion
-    $date = DateTime::createFromFormat('d-m-Y', $dateString, new DateTimeZone('Indian/Reunion'));
-
-    // Vérifier si la création de l'objet DateTime a réussi
-    if ($date === false) {
-        throw new Exception("Invalid date format: $dateString");
-    }
-
-    // Créer le formateur pour afficher la date en français
-    $formatter = new IntlDateFormatter(
-        'fr_FR',
-        IntlDateFormatter::FULL,
-        IntlDateFormatter::NONE,
-        'Indian/Reunion',
-        IntlDateFormatter::GREGORIAN
-    );
-
-    return $formatter->format($date);
-}
-// Fonction pour formater une date en français
-function formatDateInFrenchYmd(string $dateString)
 {
     // Convertir la chaîne de date en objet DateTime avec le fuseau horaire Indian/Reunion
     $date = DateTime::createFromFormat('Y-m-d', $dateString, new DateTimeZone('Indian/Reunion'));

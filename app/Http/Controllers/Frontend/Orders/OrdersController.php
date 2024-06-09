@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Frontend\Orders;
 use App\Http\Controllers\Frontend\FrontendBaseController;
 use App\Models\Carts\Carts;
 use App\Models\Catalog\Product;
-use App\Models\Orders\Delivery;
+use App\Models\Orders\OrderProducts;
 use App\Models\Orders\Orders;
 use App\Models\Users\Address;
+use App\Models\Users\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,8 +20,8 @@ class OrdersController extends FrontendBaseController
         $order = new Orders();
         // Récuperation des informations du panier
         $cart = Carts::with('product')->findOrFail($request->cart);
-        //$cart->status = 'Commander';
-        //$cart->save();
+        $cart->status = 'Commander';
+        $cart->save();
         $order->total_ttc = $cart->total_ttc;
 
         // Récuperation des informations de la livraison
@@ -32,6 +33,9 @@ class OrdersController extends FrontendBaseController
         // Récuperation des informations de l'utilisateur
         $order->user_id = $cart->user_id;
         $order->user_loyality_used = $cart->loyality;
+        if ($cart->loyality == 5) $order->user_loyality_points_used = 300;
+        if ($cart->loyality == 10) $order->user_loyality_points_used = 500;
+        if ($cart->loyality == 15) $order->user_loyality_points_used = 1000;
 
         $address_delivery = Address::findOrFail($request->user_address_delivery);
         $order->user_name = $address_delivery->name;
@@ -61,12 +65,40 @@ class OrdersController extends FrontendBaseController
             //$order->user_invoice_first_name = $address_invoice->first_name;
             //$order->user_invoice_last_name = $address_invoice->last_name;
         }
-        dd($cart->product);
-        /// Recuperation des informations produits
-        foreach ($cart->product as $product) {
-            $product = Product::findOrFail($product->id);
-            dd($product);
+        $order->save();
+        /// Recuperation des informations produits + Mise a jour du stock
+        foreach ($cart->product as $cart_product) {
+            $orderProducts = new OrderProducts();
+            $productInfo = Product::findOrFail($cart_product->product_id);
+            $orderProducts->carts_id = $cart_product->carts_id;
+            $orderProducts->product_id = $cart_product->product_id;
+            $orderProducts->code_article = $productInfo->code_article;
+            $orderProducts->name = $productInfo->name;
+            $orderProducts->short_description = $productInfo->short_description;
+            $orderProducts->fav_image = $cart_product->fav_image;
+            $orderProducts->barcode = $productInfo->barcode;
+            $orderProducts->weight_unit = $productInfo->weight_unit;
+            $orderProducts->weight = $productInfo->weight;
+            $orderProducts->price_ht = $cart_product->price_ht;
+            $orderProducts->tva = $cart_product->tva;
+            $orderProducts->price_ttc = $cart_product->price_ttc;
+            $orderProducts->discount_id = $cart_product->discount_id;
+            $orderProducts->discount_percentage = $cart_product->discount_percentage;
+            $orderProducts->discount_fixed_price_ttc = $cart_product->discount_fixed_price_ttc;
+            $orderProducts->quantity = $cart_product->quantity;
+            $orderProducts->save();
+            // Sauvegarde de l'image
+
+            // Mise a jour stock
+            $productInfo->stock = $productInfo->stock - ($cart_product->quantity * 1000);
+            $productInfo->save();
         }
+        // Modification des points FID
+        $user = User::findOrFail(Auth::user()->id);
+        $user->erp_loyalty_points = $user->erp_loyalty_points - $order->user_loyality_points_used;
+        $user->save();
+
+
         dd($cart->product);
     }
 }

@@ -3,12 +3,13 @@
 namespace App\Models\Orders;
 
 use App\Models\Users\User;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Orders extends Model
 {
-
+    use HasUuids;
     protected $table = 'orders';
     protected $fillable = [
         'total_ttc',

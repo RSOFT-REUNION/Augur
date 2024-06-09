@@ -132,6 +132,7 @@ class CartController extends FrontendBaseController
 
         $cart = Carts::where('session_id', $session_id)
             ->orWhere('session_id', $cookie)
+            ->where('status', 'En cours')
             ->latest()
             ->first();
 

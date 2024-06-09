@@ -35,6 +35,7 @@ return new class extends Migration {
             $table->date('delivery_date')->nullable();
             $table->string('delivery_slot')->nullable();
             $table->integer('user_loyality_used')->nullable();
+            $table->integer('user_loyality_points_used')->nullable();
             $table->string('user_name')->nullable();
             $table->string('user_email')->nullable();
             $table->string('user_delivery_address')->nullable();
@@ -59,13 +60,24 @@ return new class extends Migration {
 
         Schema::create('order_products', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(\App\Models\Catalog\Product::class)->constrained('catalog_products');
-            $table->string('weight_unit')->default('kg')->nullable(); // Kilogramme ou Litre
-            $table->double('weight')->default('0.00');
-            $table->string('stock_unit')->default('unit'); // Unité de vente. valeurs possibles: Unité, ou  ou Litre, pour le vrac
-            $table->integer('price_ht')->nullable();
-            $table->integer('tva')->nullable();
+            $table->integer('carts_id');
+            $table->integer('product_id');
+            // Infor Produits
+            $table->string('code_article')->nullable(); //code EBP
+            $table->string('name');
+            $table->string('short_description')->nullable();
+            $table->integer('fav_image')->nullable();
+            $table->string('barcode')->nullable();
+            $table->string('weight_unit')->default('kg'); // Kilogramme ou Litre
+            $table->integer('weight')->default(0);
+            $table->string('stock_unit')->default('unit'); // Unité de vente. valeurs possibles: soit Unité, soit Kilogramme ou Litre pour le vrac
+            // Info prix produit
+            $table->integer('price_ht');
+            $table->enum('tva',[0, 210, 850])->default(0);
             $table->integer('price_ttc')->nullable();
+            $table->integer('discount_id')->nullable();
+            $table->integer('discount_percentage')->nullable();
+            $table->integer('discount_fixed_price_ttc')->nullable();
             $table->integer('quantity')->default(1);
             $table->softDeletes();
             $table->timestamps();

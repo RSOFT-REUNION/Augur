@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->string('delivery_id')->nullable();
             $table->string('delivery_price')->nullable();
             $table->string('postal_code')->nullable();
-            $table->string('delivery_date')->nullable();
+            $table->date('delivery_date')->nullable();
             $table->string('delivery_slot')->nullable();
             $table->timestamps();
         });

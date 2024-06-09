@@ -155,7 +155,7 @@
                                         <h1 style="font-size: 44px;" class="mt-3 text-center text-danger">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->id]['discountPercentage']) / 100) }} €</h1>
                                     @endif
                                 @endif
-                                <p class=" flex-grow-1 text-center align-self-center mt-3">Offre valable <br>{{ ucfirst(formatDateInFrenchYmd($discountProducts[$product->id]['start_date'])) }} au {{ ucfirst(formatDateInFrenchYmd($discountProducts[$product->id]['end_date'])) }}</p>
+                                <p class=" flex-grow-1 text-center align-self-center mt-3">Offre valable <br>{{ ucfirst(formatDateInFrench($discountProducts[$product->id]['start_date'])) }} au {{ ucfirst(formatDateInFrench($discountProducts[$product->id]['end_date'])) }}</p>
                             </div>
                         </div>
                     </div>
