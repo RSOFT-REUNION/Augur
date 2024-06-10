@@ -21,6 +21,16 @@ class DiscountController extends Controller
             'discounts' => Discount::orderBy('id','DESC')->get(),
         ]);
     }
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $discount = new Discount();
+        return view('backend.catalog.discount.form', [
+            'discount' => $discount,
+        ]);
+    }
 
     /**
      * Create and store a newly created resource in storage.
@@ -30,15 +40,15 @@ class DiscountController extends Controller
         $validated = $request->validate([
             'name' => 'string|unique:catalog_discounts|min:3|max:255|required',
             'percentage' => 'integer|min:1|max:100|required',
-            'icon' => 'in:star,heart,bolt,gift,snowflake,grill-hot,fish,leaf,award,head-side,meat,sparkles,bookmark,circle-euro,mug-tea,watermelon-slice,tree-palm,user-tie|required',
+            //'icon' => 'in:star,heart,bolt,gift,snowflake,grill-hot,fish,leaf,award,head-side,meat,sparkles,bookmark,circle-euro,mug-tea,watermelon-slice,tree-palm,user-tie|required',
             'start_date' => 'date|required|after_or_equal:yesterday',
             'end_date' => 'date|required|after_or_equal:start_date',
             'short_description' => 'string|max:255|nullable',
             'active' => 'nullable',
         ]);
         @$validated['active'] = $validated['active'] == 'on' ? 1 : 0;
-        Discount::create($validated);
-        return back()->withSuccess('Promotion ajoutée avec succès');
+        $discount = Discount::create($validated);
+        return to_route('backend.catalog.discounts.edit', $discount)->withSuccess('Promotion ajoutée avec succès');
     }
 
     /**
@@ -46,7 +56,7 @@ class DiscountController extends Controller
      */
     public function edit(Discount $discount)
     {
-        return view('backend.catalog.discount.edit', [
+        return view('backend.catalog.discount.form', [
             'discount' =>   $discount,
             'products_list' => Product::orderBy('id', 'DESC')->get(),
         ]);
@@ -110,6 +120,5 @@ class DiscountController extends Controller
     {
         $product->delete();
     }
-
 
 }

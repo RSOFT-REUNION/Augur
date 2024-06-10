@@ -3,44 +3,70 @@
         <thead>
         <tr>
             <th scope="col" class="text-center" style="width: 5%;">#</th>
-            <th scope="col" class="text-center">Produit</th>
+            <th scope="col" class="text-center"></th>
+            <th scope="col" class="text-center">Nom</th>
             <th scope="col" class="text-center">Prix de base</th>
             <th scope="col" class="text-center">Prix remisé</th>
-            <th scope="col" class="text-center no-sort" width="8%"><i
-                    class="fa-duotone fa-arrows-minimize"></i></th>
+            <th scope="col" class="text-center no-sort" style="width: 5%;"><i class="fa-duotone fa-arrows-minimize"></i></th>
         </tr>
         </thead>
 
+    @foreach ($discount->products as $product)
 
-        @foreach ($discount->products as $product)
             <tr id="product{{ $product->id }}">
                 <td class="text-center align-middle">{{ $product->id }}</td>
-                <td class="text-center align-middle">{{ $product->product_id.' - '.$product->product->name }}
+                <td class="text-center align-middle"><img src="{{ getProductInfos($product->id)->getFirstImagesURL(100, 100) }}"></td>
+                <td class="text-center align-middle">{{ $product->product->name }}
                 </td>
                 <td class="text-center align-middle">
-                   {{ formatPriceToFloat($product->base_ht) }} € HT <br>
-                    {{ formatPriceToFloat($product->base_ttc) }} € TTC
+                    {{ formatPriceToFloat(getProductInfos($product->id)->price_ttc) }} € TTC
                 </td>
                 <td class="text-center align-middle">
-                    {{ formatPriceToFloat($product->discounted_ht) }} € HT <br>
-                    {{ formatPriceToFloat($product->discounted_ttc) }} € TTC
-                <td class="text-center">
+                    <div class="d-flex">
+                        <div class="flex-fill">
+                            @if($product->fixed_priceTTC)
+
+                            @else
+                                {{ formatPriceToFloat(getProductInfos($product->id)->price_ttc - (getProductInfos($product->id)->price_ttc * $discount->percentage) / 100) }} € TTC @if(getProductInfos($product->id)->stock_unit == 'kg')<br>le Kg @endif
+                            @endif</div>
+                        <div class=flex-fill">
+                            <!--- Force Price TTC -->
+                            <button class="btn btn-outline-dark">Forcer le prix</button>
+                        </div>
+                    </div>
+                </td>
+
+                <td class="text-center align-middle">
+                    <form> @csrf @method('PUT')
+                        <button type="button" class="btn btn-danger"
+                                hx-delete="{{ route('backend.catalog.discounts.destroy_product', $product) }}"
+                                hx-target="#product{{ $product->id }}"
+                                hx-swap="delete"
+                                hx-indicator="#spinner{{ $product->id }}"><i class="fa-regular fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+                {{-- <td class="text-center align-middle">
+                    @if($product->fixed_priceTTC)
+
+                    @else
+                        {{ formatPriceToFloat(getProductInfos($product->id)->price_ttc - (getProductInfos($product->id)->price_ttc * $discount->percentage) / 100) }} € TTC @if(getProductInfos($product->id)->stock_unit == 'kg')<br>le Kg @endif
+                    @endif
+                <td class="text-center align-middle">
                     <form> @csrf
                         @method('PUT')
                     <button type="button" class="btn btn-danger"
                             hx-delete="{{ route('backend.catalog.discounts.destroy_product', $product) }}"
                             hx-target="#product{{ $product->id }}"
                             hx-swap="delete"
-                            hx-indicator="#spinner{{ $product->id }}"
-                    ><i class="fa-regular fa-trash"></i>
+                            hx-indicator="#spinner{{ $product->id }}"><i class="fa-regular fa-trash"></i>
                     </button>
                     </form>
-                </td>
+                </td>--}}
             </tr>
+
         @endforeach
     </table>
-
-
 
     <script>
         $('.datatable').DataTable( {
