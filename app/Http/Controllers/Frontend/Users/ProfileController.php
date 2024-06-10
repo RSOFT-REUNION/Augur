@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend\Users;
 
 use App\Http\Controllers\Frontend\FrontendBaseController;
 use App\Http\Requests\Frontend\Auth\ProfileUpdateRequest;
+use App\Models\Orders\Orders;
 use App\Models\Users\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -57,7 +58,9 @@ class ProfileController extends FrontendBaseController
      */
     public function orders_show()
     {
-        return view('frontend.profile.partials.orders');
+        return view('frontend.profile.partials.orders', [
+            'orders' => Orders::with('product')->where('user_id', Auth::user()->id)->get(),
+        ]);
     }
 
     /**

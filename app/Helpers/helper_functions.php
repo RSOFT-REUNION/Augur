@@ -177,4 +177,3 @@ function convertToDateTime(string $dateString): DateTime
     $timezone = new DateTimeZone('Indian/Reunion');
     return DateTime::createFromFormat('d-m-Y', $dateString, $timezone);
 }
-

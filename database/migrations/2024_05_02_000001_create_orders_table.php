@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Orders\Orders;
 use App\Models\Orders\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -60,13 +61,14 @@ return new class extends Migration {
 
         Schema::create('order_products', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Orders::class)->constrained();
             $table->integer('carts_id');
             $table->integer('product_id');
             // Infor Produits
             $table->string('code_article')->nullable(); //code EBP
             $table->string('name');
             $table->string('short_description')->nullable();
-            $table->integer('fav_image')->nullable();
+            $table->string('fav_image')->nullable();
             $table->string('barcode')->nullable();
             $table->string('weight_unit')->default('kg'); // Kilogramme ou Litre
             $table->integer('weight')->default(0);
@@ -82,7 +84,6 @@ return new class extends Migration {
             $table->softDeletes();
             $table->timestamps();
         });
-
 
         /*** Ajout des permisions **/
         $permissions = [

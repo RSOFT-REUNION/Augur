@@ -9,9 +9,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Orders extends Model
 {
-    use HasUuids;
     protected $table = 'orders';
     protected $fillable = [
+        'status_id',
         'total_ttc',
         'delivery_id',
         'delivery_price',
@@ -49,5 +49,25 @@ class Orders extends Model
     public function Product(): HasMany
     {
         return $this->hasMany(OrderProducts::class);
+    }
+    public function getStatus()
+    {
+        if($this->status_id == 1) {
+            echo '<span class="badge bg-warning text-dark">en attente de paiement</span>';
+        } elseif ($this->status_id == 2 ) {
+            echo '<span class="badge bg-danger">annulé</span>';
+        } elseif ($this->status_id == 3 ) {
+            echo '<span class="badge bg-success">paiement accepté</span>';
+        } elseif ($this->status_id == 4 ) {
+            echo '<span class="badge bg-primary">en cours de préparation</span>';
+        } elseif ($this->status_id == 5 ) {
+            echo '<span class="badge bg-success">prêt pour livraison</span>';
+        } elseif ($this->status_id == 6 ) {
+            echo '<span class="badge bg-info text-dark">en cours de livraison</span>';
+        } elseif ($this->status_id == 7 ) {
+            echo '<span class="badge bg-success">livré</span>';
+        } elseif ($this->status_id == 8 ) {
+            echo '<span class="badge bg-danger">remboursé</span>';
+        }
     }
 }

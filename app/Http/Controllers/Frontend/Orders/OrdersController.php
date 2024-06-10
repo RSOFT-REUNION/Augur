@@ -22,6 +22,7 @@ class OrdersController extends FrontendBaseController
         $cart = Carts::with('product')->findOrFail($request->cart);
         $cart->status = 'Commander';
         $cart->save();
+        $order->status_id = 3;
         $order->total_ttc = $cart->total_ttc;
 
         // Récuperation des informations de la livraison
@@ -70,6 +71,7 @@ class OrdersController extends FrontendBaseController
         foreach ($cart->product as $cart_product) {
             $orderProducts = new OrderProducts();
             $productInfo = Product::findOrFail($cart_product->product_id);
+            $orderProducts->orders_id = $order->id;
             $orderProducts->carts_id = $cart_product->carts_id;
             $orderProducts->product_id = $cart_product->product_id;
             $orderProducts->code_article = $productInfo->code_article;
@@ -87,8 +89,6 @@ class OrdersController extends FrontendBaseController
             $orderProducts->discount_fixed_price_ttc = $cart_product->discount_fixed_price_ttc;
             $orderProducts->quantity = $cart_product->quantity;
             $orderProducts->save();
-            // Sauvegarde de l'image
-
             // Mise a jour stock
             $productInfo->stock = $productInfo->stock - ($cart_product->quantity * 1000);
             $productInfo->save();
@@ -97,8 +97,7 @@ class OrdersController extends FrontendBaseController
         $user = User::findOrFail(Auth::user()->id);
         $user->erp_loyalty_points = $user->erp_loyalty_points - $order->user_loyality_points_used;
         $user->save();
-
-
-        dd($cart->product);
+        cookie()->queue(cookie()->forget('session_id'));
+        return to_route('index')->withSuccess('Merci pour votre commande');
     }
 }

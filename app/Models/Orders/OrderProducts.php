@@ -12,13 +12,23 @@ class OrderProducts extends Model
     use SoftDeletes;
 
     protected $fillable = [
+        'orders_id',
+        'carts_id',
         'product_id',
-        'stock_unit',
-        'weight',
+        'code_article',
+        'name',
+        'short_description',
+        'fav_image',
+        'barcode',
         'weight_unit',
+        'weight',
+        'stock_unit',
         'price_ht',
         'tva',
         'price_ttc',
+        'discount_id',
+        'discount_percentage',
+        'discount_fixed_price_ttc',
         'quantity',
     ];
 
