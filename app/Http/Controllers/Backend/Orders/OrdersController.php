@@ -54,7 +54,7 @@ class OrdersController extends Controller
     public function edit(Orders $order)
     {
         return view('backend.orders.orders.form', [
-            'orders' => $order,
+            'order' => $order,
             'status_list' => Status::all()
         ]);
     }

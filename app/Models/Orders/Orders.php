@@ -2,6 +2,7 @@
 
 namespace App\Models\Orders;
 
+use App\Models\Users\Cities;
 use App\Models\Users\User;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
@@ -53,21 +54,32 @@ class Orders extends Model
     public function getStatus()
     {
         if($this->status_id == 1) {
-            echo '<span class="badge bg-warning text-dark">en attente de paiement</span>';
+            echo '<span class="badge bg-warning text-dark">En attente de paiement</span>';
         } elseif ($this->status_id == 2 ) {
-            echo '<span class="badge bg-danger">annulé</span>';
+            echo '<span class="badge bg-danger">Annulé</span>';
         } elseif ($this->status_id == 3 ) {
-            echo '<span class="badge bg-success">paiement accepté</span>';
+            echo '<span class="badge bg-success">Paiement accepté</span>';
         } elseif ($this->status_id == 4 ) {
-            echo '<span class="badge bg-primary">en cours de préparation</span>';
+            echo '<span class="badge bg-primary">En cours de préparation</span>';
         } elseif ($this->status_id == 5 ) {
-            echo '<span class="badge bg-success">prêt pour livraison</span>';
+            echo '<span class="badge bg-success">Prêt pour livraison</span>';
         } elseif ($this->status_id == 6 ) {
-            echo '<span class="badge bg-info text-dark">en cours de livraison</span>';
+            echo '<span class="badge bg-info text-dark">En cours de livraison</span>';
         } elseif ($this->status_id == 7 ) {
-            echo '<span class="badge bg-success">livré</span>';
+            echo '<span class="badge bg-success">Livré</span>';
         } elseif ($this->status_id == 8 ) {
-            echo '<span class="badge bg-danger">remboursé</span>';
+            echo '<span class="badge bg-danger">Remboursé</span>';
         }
+    }
+    public function getDeliverName(){
+        return Delivery::where('id', $this->delivery_id)->pluck('name')->first();
+    }
+    public function getCity()
+    {
+        return Cities::where('postal_code', $this->user_delivery_cities)->pluck('city')->first();
+    }
+    public function getInvoiceCity()
+    {
+        return Cities::where('postal_code', $this->user_invoice_cities)->pluck('city')->first();
     }
 }

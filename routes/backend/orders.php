@@ -9,7 +9,7 @@ $slugRegex = '[0-9a-z\-/]+';
 
 Route::prefix('admin/commandes')->name('backend.orders.')->middleware('auth:admin')->group(function () use ($idRegex, $slugRegex) {
     Route::group(['middleware' => ['permission:orders.orders.create|orders.orders.update|orders.orders.delete']], function () {
-        Route::resource('orders', OrdersController::class)->except(['show']);
+        Route::resource('orders', OrdersController::class);
         Route::get('/details/{order}', [OrdersController::class, 'details'])->name('detail');
     });
   //  Route::group(['middleware' => ['permission:orders.invoices.create|orders.invoices.update|orders.invoices.delete']], function () {

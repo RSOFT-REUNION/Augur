@@ -121,7 +121,7 @@
                                                 </p></div>
                                             <div class="text-end col-4">Adresse de livraison :</div>
                                             <div class="text-start col-8">
-                                                {{ $order->user_civilite .' '. $order->user_name }}<br>
+                                                <p>{{ $order->user_civilite .' '. $order->user_name }}<br>
                                                 {{ $order->user_delivery_address }}<br>
                                                 @if($order->user_delivery_address2)
                                                     {{ $order->user_delivery_address2 }}<br>
