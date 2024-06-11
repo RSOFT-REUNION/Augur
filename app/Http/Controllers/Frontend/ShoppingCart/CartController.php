@@ -219,6 +219,10 @@ class CartController extends FrontendBaseController
             $cart->product()->create($cartProductData);
         }
 
+        if ($request->delivery_slot) {
+            return new HtmxResponseClientRefresh();
+        }
+
         // Calculate the total quantity of products in the cart
         $count = 0;
         foreach ($cart->product as $product) {

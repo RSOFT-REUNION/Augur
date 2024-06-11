@@ -59,17 +59,3 @@
         @endforeach
     </div>
    </form>
-
-   <script>
-       function closeModal() {
-           // Vous devrez remplacer 'modalId' par l'ID réel de votre modal
-           var modal = document.getElementById('select_slot{{ $product->id }}');
-           var modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
-
-           // Fermer le modal
-           modal.style.opacity = '0';
-           modal.style.transition = 'opacity 0.5s';
-           setTimeout(() => modal.style.display = 'none', 500);
-           modalBackdrop.remove();
-       }
-   </script>
