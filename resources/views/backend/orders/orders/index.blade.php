@@ -30,7 +30,13 @@
 
                             @foreach ($orders as $order)
                                 <tr>
-                                    <td class="text-center">{{ $order->ref_order }}</td>
+                                    <td class="text-center">
+                                        @if($order->ref_order)
+                                            {{ $order->ref_order }}
+                                        @else
+                                            {{ $order->id }}
+                                        @endif
+                                    </td>
                                     <td class="text-center">{{ $order->user_name }}</td>
                                     <td class="text-center">{{ $order->created_at->format('d-m-Y H:i') }}</td>
                                     <td class="text-center">{{ $order->getDeliverName() }}</td>

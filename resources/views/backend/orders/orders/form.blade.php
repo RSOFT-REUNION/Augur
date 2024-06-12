@@ -12,9 +12,22 @@
                             <i class="fa-duotone fa-calendar fa-3x"></i><br><h4>{{ formatDateInFrench($order->created_at->format('Y-m-d')) .' '. $order->created_at->format('H:i') }}</h4>
                         </div>
                     </div>
-                    <div class="col-3 text-success"><i class="fa-solid fa-money-check-dollar fa-3x"></i><br><h3>{{ formatPriceToFloat($order->total_ttc) }} €</h3></div>
-                    <div class="col-3 text-dark"><i class="fa-duotone fa-clipboard-list-check fa-3x mb-2"></i><br><h4>{{ $order->getStatus() }}</h4></div>
-                    <div class="col-3 text-warning"><i class="fa-duotone fa-list fa-3x "></i><br><h3>{{ count($order->product) }}</h3></div>
+                    <div class="col-2 text-success"><i class="fa-solid fa-money-check-dollar fa-3x"></i><br><h3>{{ formatPriceToFloat($order->total_ttc) }} €</h3></div>
+                    <div class="col-2 text-dark"><i class="fa-duotone fa-clipboard-list-check fa-3x mb-2"></i><br><h4>{{ $order->getStatus() }}</h4></div>
+                    <div class="col-2 text-warning"><i class="fa-duotone fa-list fa-3x "></i><br><h3>{{ count($order->product) }}</h3></div>
+                    <div class="col-2 text-danger"><img class="w-25 mb-3 mt-3" src="{{ asset('frontend/images/discount.png') }}"><br>
+                        <h5>
+                            @if($order->user_loyality_used == 0)
+                                Aucune remise
+                            @elseif($order->user_loyality_used == 5)
+                                - 5% (<b>- {{ formatPriceToFloat($order->countProductsPrice(0,0) * 5 / 100) }} €</b>)
+                            @elseif($order->user_loyality_used == 10)
+                                - 10% (<b>- {{ formatPriceToFloat($order->countProductsPrice(0,0) * 10 / 100) }} €</b>)
+                            @elseif($order->user_loyality_used == 15)
+                                - 15% (<b>- {{ formatPriceToFloat($order->countProductsPrice(0,0) * 15 / 100) }} €</b>)
+                            @endif
+                        </h5>
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,6 +96,7 @@
                             </div>
                         @endif
                     </div>
+
                 </div>
             </div>
         </div>
@@ -97,38 +111,79 @@
                 </div>
 
                 <div class="card-body">
-                        <div class="row d-flex justify-content-between align-items-center text-center">
-                            <div class="col-md-1">
+                    <div class="row d-flex justify-content-between align-items-center text-center">
+                        <div class="col-md-3">
 
-                            </div>
-                            <div class="col-md-5">
-                                Nom
+                        </div>
+                        <div class="col-md-4">
+                            Désignation
+                        </div>
+                        <div class="col-md-2">
+                            Prix TTC
+                        </div>
+                        <div class="col-md-1">
+                            Quantité
+                        </div>
+                        <div class="col-md-2">
+                            Total
+                        </div>
+                    </div>
+                    <hr>
+                    @foreach($order->product as $product)
+                        <div class="row d-flex justify-content-between align-items-center mt-3 mb-3 text-center">
+                            <div class="col-md-3">
+                                <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">
                             </div>
                             <div class="col-md-4">
-                                Quantité
+                                <p class="lead fw-normal mb-2">{{ getProductInfos($product->product_id)->name  }}</p>
                             </div>
                             <div class="col-md-2">
-                                Prix TTC
+                                @if($product->discount_id)
+                                    <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc) }} €</h6>
+                                    @if($discountProducts[$product->product_id]['fixed_priceTTC'])
+                                        <h5 class="m-3">{{ formatPriceToFloat($discountProducts[$product->product_id]['fixed_priceTTC']) }} €@if($product->stock_unit == 'kg')<br>le Kg @endif</h5>
+                                    @else
+                                        <h5 class="m-3">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->product_id]['discountPercentage']) / 100) }} €@if($product->stock_unit == 'kg')<br>le Kg @endif</h5>
+                                    @endif
+                                @else
+                                    <h5 class="mb-0">{{ formatPriceToFloat($product->price_ttc) }} €@if($product->stock_unit == 'kg')<br>le Kg @endif</h5>
+                                @endif
+                            </div>
+                            <div class="col-md-1">
+                                @if($product->stock_unit == 'kg')
+                                    <b>{{ $product->quantity }} grammes</b>
+                                @else
+                                    <b>{{ $product->quantity }}</b>
+                                @endif
+                            </div>
+                            <div class="col-md-2">
+                                @if($product->discount_id)
+                                    @if($product->stock_unit == 'kg')
+                                        <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc  * $product->quantity / 1000) }} €</h6>
+                                        @if($discountProducts[$product->product_id]['fixed_priceTTC'])
+                                            <h5 class="m-3">{{ formatPriceToFloat($discountProducts[$product->product_id]['fixed_priceTTC'] * $product->quantity / 1000) }} €</h5>
+                                        @else
+                                            <h5 class="m-3">{{ formatPriceToFloat((($product->price_ttc - ($product->price_ttc * $discountProducts[$product->product_id]['discountPercentage']) / 100)  * $product->quantity) / 1000) }} €</h5>
+                                        @endif
+                                    @else
+                                        <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc  * $product->quantity) }} €</h6>
+                                        @if($discountProducts[$product->product_id]['fixed_priceTTC'])
+                                            <h5 class="m-3">{{ formatPriceToFloat($discountProducts[$product->product_id]['fixed_priceTTC'] * $product->quantity) }} €</h5>
+                                        @else
+                                            <h5 class="m-3">{{ formatPriceToFloat(($product->price_ttc - ($product->price_ttc * $discountProducts[$product->product_id]['discountPercentage']) / 100)  * $product->quantity )   }} €</h5>
+                                        @endif
+                                    @endif
+                                @else
+                                    <h5 class="mb-0">{{ formatPriceToFloat($order->priceProductQuantity($product->id)) }} €</h5>
+                                @endif
                             </div>
                         </div>
                         <hr>
-                        @foreach($order->product as $product)
-                            <div class="row d-flex justify-content-between align-items-center text-center">
-                                <div class="col-md-1">
-                                    <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">
-                                </div>
-                                <div class="col-md-5">
-                                    {{ $product->name }}
-                                </div>
-                                <div class="col-md-4">
-                                    {{ $product->quantity }}
-                                </div>
-                                <div class="col-md-2">
-                                    <b>{{ formatPriceToFloat($product->price_ttc) }} €</b>
-                                </div>
-                            </div>
-                            <hr>
-                        @endforeach
+                    @endforeach
+
+                    <div class="mb-5">
+                        <h4 id="sous-total_produit" class="text-end mt-4">Total ({{ $order->countProduct() }} article(s)) :  {{ formatPriceToFloat($order->countProductsPrice(0,0)) }} €</h4>
+                    </div>
                 </div>
             </div>
 

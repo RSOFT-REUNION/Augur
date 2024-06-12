@@ -74,6 +74,12 @@ class Orders extends Model
     public function getDeliverName(){
         return Delivery::where('id', $this->delivery_id)->pluck('name')->first();
     }
+    public function getDeliverImage(){
+        return Delivery::where('id', $this->delivery_id)->pluck('image')->first();
+    }
+    public function getDeliverDescription(){
+        return Delivery::where('id', $this->delivery_id)->pluck('description')->first();
+    }
     public function getCity()
     {
         return Cities::where('postal_code', $this->user_delivery_cities)->pluck('city')->first();
@@ -81,5 +87,59 @@ class Orders extends Model
     public function getInvoiceCity()
     {
         return Cities::where('postal_code', $this->user_invoice_cities)->pluck('city')->first();
+    }
+
+    public function priceProductQuantity($product_id)
+    {
+        $price = 0;
+        foreach ($this->product as $prod) {
+            if($prod->id == $product_id) {
+                if($prod->stock_unit == 'kg') {
+                    $price += $prod->price_ttc * $prod->quantity / 1000;
+                } else {
+                    $price += $prod->price_ttc * $prod->quantity;
+                }
+            }
+        }
+        return $price;
+    }
+    public function countProduct()
+    {
+        $count = 0;
+        foreach ($this->product as $product) {
+            if ($product->stock_unit == 'kg') {
+                $count = $count + 1;
+            } else {
+                $count = $count + $product->quantity;
+            }
+        }
+        return $count;
+    }
+    public function countProductsPrice(?int $deliver_price_ttc, ?int $loyality)
+    {
+        $sum = 0;
+        foreach ($this->product as $prod) {
+            if($prod->discount_id) {
+                if($prod->stock_unit == 'kg') {
+                    $price = ($prod->price_ttc * $prod->quantity) - (($prod->price_ttc * $prod->quantity) * $prod->discount_percentage) / 100;
+                    $sum += $price / 1000;
+                } else {
+                    $sum += ($prod->price_ttc * $prod->quantity) - (($prod->price_ttc * $prod->quantity) * $prod->discount_percentage) / 100;
+                }
+            } else {
+                if($prod->stock_unit == 'kg') {
+                    $sum += $prod->price_ttc * $prod->quantity / 1000;
+                } else {
+                    $sum += $prod->price_ttc * $prod->quantity;
+                }
+            }
+        }
+        if($loyality) {
+            $sum = ($sum - (($loyality / 100) * $sum));
+        }
+        if($deliver_price_ttc) {
+            $sum = ($sum + ($deliver_price_ttc * 100));
+        }
+        return $sum;
     }
 }

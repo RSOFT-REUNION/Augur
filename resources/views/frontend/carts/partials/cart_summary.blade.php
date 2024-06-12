@@ -6,6 +6,9 @@
         <h2 class="text-center mb-3">
             {{ formatPriceToFloat($cart->countProductsPrice(@$delivery_chose->price_ttc, 0)) }} €
         </h2>
+        @if(@$delivery_chose->price_ttc)
+            <p class="text-center mb-3">Dont <b>{{ $delivery_chose->price_ttc }} €</b> de frais de livraison </p>
+        @endif
         <p class="text-center mb-3">Le total de la commande inclut la TVA.</p>
     </div>
 </div>
@@ -71,6 +74,7 @@
                     <h4 class="flex-fill">{{ $delivery_chose->name }}</h4>
                     <p class=""><b>@if($delivery_chose->price_ttc == 0) <b>Gratuit</b> @else {{ $delivery_chose->price_ttc }} €@endif</b></p>
                 </div>
+                <p class="text-center">{{ $delivery_chose->description }}</p>
             </div>
         </div>
     </div>

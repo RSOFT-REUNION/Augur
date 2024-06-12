@@ -3,10 +3,10 @@
 
 @section('main-content')
 
-    <form id="createForm" class="justify-content-center" action="{{ route('backend.catalog.discounts.store') }}"
+    <form id="createForm" class="justify-content-center" action="{{ route($discount->exists ? 'backend.catalog.discounts.update' : 'backend.catalog.discounts.store', $discount) }}"
           method="post" enctype="multipart/form-data">
         @csrf
-        @method('POST')
+        @method($discount->exists ? 'put' : 'post')
 
         <div class="d-flex gap-2 justify-content-end mb-3 me-5">
             <div class="form-check form-switch d-flex align-items-center">
@@ -116,77 +116,7 @@
         </div>
     </form>
 
-    @if($discount->exists)
-        <div class="row m-2">
-            <div class="col">
-                <div class="card border-left-warning shadow mb-4">
-                    <div class="card-header py-3">
-                        <div class="d-flex">
-                            <div class="flex-fill"><h6 class="m-0 font-weight-bold text-warning">Liste Produits</h6></div>
-                            <div class="p-2 flex-fill text-end">
-                                <button type="button" class="btn btn-warning btn-sm text-end"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#modal-add">
-                                    <i class="fa-solid fa-plus"></i> Ajouter des produits
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+    @include('backend.catalog.discount.partial.product_list')
 
-                    <div class="card-body">
-                        @include('backend.catalog.discount.partial.discounted_products')
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    {{-- MODAL LISTE DES PRODUITS AJOUTABLES A LA REMISE --}}
-    <div class="modal fade" id="modal-add" tabindex="-1" aria-labelledby="modal-add" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"></h5>
-                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                </div>
-                <div class="modal-body mb-3 m-2 ml-4 mr-4">
-                     <form    hx-post='{{ route('backend.catalog.discounts.add_products', $discount) }}'
-                              hx-target="#discounted_list"
-                              hx-swap="outerHTML">
-                            @csrf
-
-                            <div>
-                                <ul class="list-group list-group-flush">
-                                    @foreach($products_list as $product)
-                                        @if($discount->products->where('product_id', $product->id)->isEmpty())
-                                            <label class="list-group-item d-flex justify-content-between hvr-skew-forward">
-
-                                                <input class="form-check-input" type="checkbox" value="{{ $product }}" name="discount_products[]" id="product{{ $product->id }}">
-                                                @if($product->fav_image != null)
-                                                    <img src="{{ $product->getFirstImagesURL(100, 100) }}" style="max-height: 20px;">
-                                                @else
-                                                    <i class="fa-light fa-image-slash"></i>
-                                                @endif
-                                                <h6 >{{ $product->name }} </h6>
-                                                <h5 >{{ formatPriceToFloat($product->price_ttc) }} €</h5>
-                                            </label>
-                                        @endif
-                                    @endforeach
-                                </ul>
-                            </div>
-
-                            <div class="input-group mb-2 mt-4 justify-content-end">
-                                <button class="btn btn-success" data-bs-dismiss="modal">
-                                    <i class="fa-solid fa-plus"></i> Ajouter
-                                </button>
-                            </div>
-                        </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
 
 @endsection

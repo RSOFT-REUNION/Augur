@@ -89,6 +89,36 @@ $('.datatable').DataTable( {
     }
 } );
 
+$('#datatableproduit').DataTable( {
+    order: [],
+    "columnDefs": [ {
+        "targets"  : 'no-sort',
+        "orderable": false,
+    }],
+    language: {
+        processing:     "Traitement en cours...",
+        search:         "<i class=\"fa-solid fa-magnifying-glass\"></i>",
+        lengthMenu:    "Afficher _MENU_ &eacute;l&eacute;ments",
+        info:           "_TOTAL_ &eacute;l&eacute;ments",
+        infoEmpty:      "Affichage de l'&eacute;lement 0 &agrave; 0 sur 0 &eacute;l&eacute;ments",
+        infoFiltered:   "(filtr&eacute; de _MAX_ &eacute;l&eacute;ments au total)",
+        infoPostFix:    "",
+        loadingRecords: "Chargement en cours...",
+        zeroRecords:    "Aucun &eacute;l&eacute;ment &agrave; afficher",
+        emptyTable:     "Aucune donnée disponible dans le tableau",
+        paginate: {
+            first:      "<i class=\"fa-solid fa-backward-fast\"></i>",
+            previous:   "<i class=\"fa-solid fa-backward-step\"></i>",
+            next:       "<i class=\"fa-solid fa-forward-step\"></i>",
+            last:       "<i class=\"fa-solid fa-forward-fast\"></i>"
+        },
+        aria: {
+            sortAscending:  ": activer pour trier la colonne par ordre croissant",
+            sortDescending: ": activer pour trier la colonne par ordre décroissant"
+        }
+    }
+} );
+
 /***********
  ***********
  ***********

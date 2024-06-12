@@ -92,5 +92,4 @@ class Carts extends Model
         }
         return $sum;
     }
-
 }

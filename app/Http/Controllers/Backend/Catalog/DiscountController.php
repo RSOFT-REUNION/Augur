@@ -38,7 +38,7 @@ class DiscountController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'string|unique:catalog_discounts|min:3|max:255|required',
+            'name' => 'string|min:3|max:255|required',
             'percentage' => 'integer|min:1|max:100|required',
             //'icon' => 'in:star,heart,bolt,gift,snowflake,grill-hot,fish,leaf,award,head-side,meat,sparkles,bookmark,circle-euro,mug-tea,watermelon-slice,tree-palm,user-tie|required',
             'start_date' => 'date|required|after_or_equal:yesterday',
@@ -70,7 +70,7 @@ class DiscountController extends Controller
         $validated = $request->validate([
             'name' => 'string|min:3|max:255|required',
             'percentage' => 'integer|min:1|max:100|required',
-            'icon' => 'in:star,heart,bolt,gift,snowflake,grill-hot,fish,leaf,award,head-side,meat,sparkles,bookmark,circle-euro,mug-tea,watermelon-slice,tree-palm,user-tie|required',
+            //'icon' => 'in:star,heart,bolt,gift,snowflake,grill-hot,fish,leaf,award,head-side,meat,sparkles,bookmark,circle-euro,mug-tea,watermelon-slice,tree-palm,user-tie|required',
             'start_date' => 'date|required',
             'end_date' => 'date|required|after_or_equal:start_date',
             'short_description' => 'string|max:255|nullable',
@@ -80,7 +80,7 @@ class DiscountController extends Controller
         $discount->update($validated);
         return redirect()->route('backend.catalog.discounts.edit', [
             'discount' => $discount,
-        ]);
+        ])->withSuccess('Promotion modifiée avec succès');
     }
 
     /**
@@ -103,22 +103,35 @@ class DiscountController extends Controller
             DiscountProduct::create([
                 'discount_id' => $discount->id,
                 'product_id' => $product['id'],
-                'base_ht' => $product['price_ht'],
-                'base_ttc' => $product['price_ttc'],
-                'base_tva' => $product['tva'],
-                'discounted_ht' => $product['price_ht'] + ($product['price_ht'] * ($discount->percentage / 100)),
-                'discounted_ttc' => $product['price_ttc'] + ($product['price_ttc'] * ($discount->percentage / 100)),
             ]);
         }
-
-        return view('backend.catalog.discount.partial.discounted_products', [
+        return view('backend.catalog.discount.partial.product_list', [
             'discount' =>   Discount::with('products')->findOrFail($discount->id),
+            'products_list' => Product::orderBy('id', 'DESC')->get(),
         ]);
     }
 
-    public function destroy_product(DiscountProduct $product)
+    public function destroy_product(Request $request,Discount $discount, DiscountProduct $product)
     {
         $product->delete();
+        return view('backend.catalog.discount.partial.product_list', [
+            'discount' =>   Discount::with('products')->findOrFail($discount->id),
+            'products_list' => Product::orderBy('id', 'DESC')->get(),
+        ]);
+    }
+
+    public function force_priceTTC(DiscountProduct $product)
+    {
+        return view('backend.catalog.discount.partial.force_pricettc_form', [
+            'product' => $product,
+        ]);
+    }
+    public function update_force_priceTTC(Request $request,Discount $discount, DiscountProduct $product)
+    {
+        $product->fixed_priceTTC = $request->fixed_priceTTC * 100;
+        if ($request->fixed_priceTTC == 0) $product->fixed_priceTTC = null;
+        $product->save();
+        return to_route('backend.catalog.discounts.edit', $discount);
     }
 
 }

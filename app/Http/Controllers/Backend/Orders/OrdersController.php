@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Orders;
 
 use App\Http\Controllers\Controller;
+use App\Models\Catalog\Discount;
 use App\Models\Orders\Orders;
 use App\Models\Orders\Status;
 use Illuminate\Http\Request;
@@ -53,9 +54,23 @@ class OrdersController extends Controller
      */
     public function edit(Orders $order)
     {
+        /*** Retroune un array de tout les produits en promotion avec l'offre la plus avantageuse ***/
+        $discountProducts = collect();
+        $discounts = Discount::currently()->with('products')->orderBy('percentage')->get();
+        foreach ($discounts as $discount) {
+            foreach ($discount->products as $product) {
+                $discountProducts->put($product->product_id, [
+                    'discountPercentage' => $discount->percentage,
+                    'start_date' => $discount->start_date,
+                    'end_date' => $discount->end_date,
+                    'fixed_priceTTC' => $product->fixed_priceTTC,
+                ]);
+            }
+        }
         return view('backend.orders.orders.form', [
             'order' => $order,
-            'status_list' => Status::all()
+            'status_list' => Status::all(),
+            'discountProducts' => $discountProducts,
         ]);
     }
 

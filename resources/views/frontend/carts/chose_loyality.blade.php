@@ -24,9 +24,7 @@
                         <div class="text-center">
                             <button type="submit" class="btn">
                                 <img class="img-fluid mb-3" src="{{ asset('frontend/images/discount.png') }}">
-                                <h1 class="mx-auto text-white" style=" font-size: 42px;"> 0 <i
-                                        class="fa-solid fa-percent"></i></h1>
-                                <p class="text-white">Aucun point de fidélité ne sera utilisé.</p>
+                                <h4 class="mx-auto text-white">Je ne souhaite pas utiliser mes points</h4>
                             </button>
                         </div>
                     </form>

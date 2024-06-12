@@ -79,6 +79,7 @@ class OrdersController extends FrontendBaseController
             $orderProducts->short_description = $productInfo->short_description;
             $orderProducts->fav_image = $cart_product->fav_image;
             $orderProducts->barcode = $productInfo->barcode;
+            $orderProducts->stock_unit = $productInfo->stock_unit;
             $orderProducts->weight_unit = $productInfo->weight_unit;
             $orderProducts->weight = $productInfo->weight;
             $orderProducts->price_ht = $cart_product->price_ht;
@@ -90,14 +91,21 @@ class OrdersController extends FrontendBaseController
             $orderProducts->quantity = $cart_product->quantity;
             $orderProducts->save();
             // Mise a jour stock
-            $productInfo->stock = $productInfo->stock - ($cart_product->quantity * 1000);
-            $productInfo->save();
+            if($orderProducts->stock_unit == 'unit') {
+                $productInfo->stock = $productInfo->stock - ($cart_product->quantity * 1000);
+                $productInfo->save();
+            } elseif ($orderProducts->stock_unit == 'kg') {
+                $productInfo->stock = $productInfo->stock - $cart_product->quantity;
+                $productInfo->save();
+            }
         }
         // Modification des points FID
         $user = User::findOrFail(Auth::user()->id);
         $user->erp_loyalty_points = $user->erp_loyalty_points - $order->user_loyality_points_used;
+        $user->erp_loyalty_points = $user->erp_loyalty_points + round($cart->total_ttc / 100, 0);
         $user->save();
         cookie()->queue(cookie()->forget('session_id'));
+        // TODO : Envoie des mail
         return to_route('index')->withSuccess('Merci pour votre commande');
     }
 }

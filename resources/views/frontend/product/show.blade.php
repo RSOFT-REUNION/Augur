@@ -169,7 +169,7 @@
                             @if($product->stock_unit == 'kg')
                                 <select class="form-control text-end me-3" style="width: 100px;" name="quantity" id="quantity">
                                     @for ($i = 1; $i <= $product->stock / 100; $i++)
-                                        <option value="{{ $i }}00">{{ $i }}00 grames</option>
+                                        <option value="{{ $i }}00">{{ $i }}00 grammes</option>
                                     @endfor
                                 </select>
                             @else

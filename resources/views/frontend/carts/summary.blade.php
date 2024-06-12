@@ -83,6 +83,10 @@
         <hr>
     @endforeach
 
+    <div class="mb-5">
+        <h3 id="sous-total_produit" class="text-end mt-4">Total ({{ $cart->countProduct() }} article(s)) :  {{ formatPriceToFloat($cart->countProductsPrice(0,0)) }} €</h3>
+    </div>
+
 <div class="row row-flex justify-content-center align-items-center">
     @if($user_address->id != $user_address->favorite)
         <div class="col-md-5 col-12">
@@ -179,18 +183,20 @@
                             @if($delivery_slot == 'matin') Entre 9h et 13h @elseif($delivery_slot == 'aprem') Entre 14h et 18h @endif</h5>
                         </div>
                     @endempty
+                    <p class="text-center">{{ $deliver->description }}</p>
                 </div>
             </div>
         </div>
     </div>
+
+
     <div class="col-md-2 col-12">
         @if($cart->loyality == 0)
             <div class="card bg-warning content">
                 <div class="card-body">
                     <div class="text-center">
                         <img class="w-50 mb-3 mt-3" src="{{ asset('frontend/images/discount.png') }}">
-                        <h2 class="mx-auto"> 0 <i class="fa-solid fa-percent"></i></h2>
-                        <p>Aucun point de fidélité ne sera utilisé.</p>
+                        <h4 class="mx-auto">Je ne souhaite pas utiliser mes points</h4>
                     </div>
                 </div>
             </div>
@@ -231,15 +237,15 @@
     <div class="p-3">
         <h2 id="sous-total" class="text-end mt-4">Sous-total ({{ $cart->countProduct() }} article(s)) :  {{ formatPriceToFloat($cart->total_ttc) }} €</h2>
         @if($cart->loyality == 5)
-            <h4 class="text-end">Remise de 5% (Hors cout de livraison)</h4>
+            <h4 class="text-end">Remise de 5% (<b>- {{ formatPriceToFloat($cart->countProductsPrice(0,0) * 5 / 100) }} €</b>) <br> Hors cout de livraison</h4>
         @endif
         @if($cart->loyality == 10)
-            <h4 class="text-end">Remise de 10% (Hors cout de livraison)</h4>
+            <h4 class="text-end">Remise de 10%  (<b>- {{ formatPriceToFloat($cart->countProductsPrice(0,0) * 10 / 100) }} €</b>) <br> Hors cout de livraison</h4>
         @endif
         @if($cart->loyality == 15)
-            <h4 class="text-end">Remise de 15% (Hors cout de livraison)</h4>
+            <h4 class="text-end">Remise de 15% (<b>- {{ formatPriceToFloat($cart->countProductsPrice(0,0) * 15 / 100) }} €</b>) <br> Hors cout de livraison</h4>
         @endif
-        <p class="text-end" >Le total de la commande inclut la TVA.</p>
+        <p class="text-end" >Le total de la commande inclut la TVA et la livraison.</p>
     </div>
 
     <div class="text-center">

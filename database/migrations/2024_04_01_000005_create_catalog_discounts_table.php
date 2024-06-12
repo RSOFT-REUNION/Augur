@@ -13,7 +13,7 @@ return new class extends Migration {
         Schema::create('catalog_discounts', function (Blueprint $table) {
             $table->id();
             $table->string('ref_discount')->nullable();
-            $table->string('name')->unique();
+            $table->string('name');
             $table->longText('short_description')->nullable();
             $table->string('icon')->default('star');
             $table->date('start_date');
