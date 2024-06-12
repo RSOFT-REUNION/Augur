@@ -85,7 +85,7 @@
             <div class="row align-items-center">
                 <div class="text-center">
                     <img class="w-25 mb-3" src="{{ asset('frontend/images/24-hours.png') }}" alt="hours">
-                    <h4>{{ formatDateInFrench($delivery_date) }}</h4>
+                    <h4>{{ ucfirst(formatDateInFrench($delivery_date)) }}</h4>
                     @if($delivery_slot == 'matin')
                         <h5>Entre 9h et 13h</h5>
                     @elseif($delivery_slot == 'aprem')

@@ -338,6 +338,58 @@ a.nav-link.active {
     background-color: rgba(255, 255, 255, 0.8); /* Fond blanc transparent */
 }
 
+/*** Calendrier ***/
+.week-grid {
+    display: flex;
+    justify-content: space-between;
+    border: 1px solid #fff;
+    margin-top: -70px;
+}
+.day-column {
+    flex: 1;
+    border-left: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.day-column:first-child {
+    border-left: none;
+}
+.day-header {
+    width: 100%;
+    text-align: center;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+}
+.day-content {
+    width: 100%;
+    text-align: center;
+}
+.target-day .day-header {
+    background-color: #ddd;
+}
+.target-day {
+    background-color: #ddd;
+}
+.hour-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.hour-row {
+    width: 100%;
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 10px;
+    background-color: #f8f9fa;
+}
+.morning-session, .afternoon-session {
+    padding: 5px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+
 /*** Pagination ***/
 .page-link {
     color: #1b2e47;
