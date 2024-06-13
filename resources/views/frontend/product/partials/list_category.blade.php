@@ -4,7 +4,6 @@
                 <div class="content text-center category-container">
                     <a class="text-decoration-none text-reset" href="/nos-produits/{{ $category->slug }}">
                         <img class="category-image" src="{{ getImageUrl('/upload/catalog/category/'.$category->image, 300, 300, 'fill-max') }}" alt="{{ $category->name }}">
-                        <p class="category-title p-3 rounded-3 shadow">{{ $category->name }}</p>
                     </a>
                 </div>
             </div>
