@@ -97,4 +97,11 @@ class OrdersController extends Controller
         $order->delete();
         return back()->withSuccess('Commande supprimée avec succès');
     }
+
+    public function updateStatus(Request $request, Orders $order)
+    {
+        $order->status_id = $request->status_id;
+        $order->save();
+        return to_route('backend.orders.orders.edit', $order);
+    }
 }

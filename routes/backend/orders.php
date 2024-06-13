@@ -11,6 +11,7 @@ Route::prefix('admin/commandes')->name('backend.orders.')->middleware('auth:admi
     Route::group(['middleware' => ['permission:orders.orders.create|orders.orders.update|orders.orders.delete']], function () {
         Route::resource('orders', OrdersController::class);
         Route::get('/details/{order}', [OrdersController::class, 'details'])->name('detail');
+        Route::post('/orders/{order}/updateStatus', [OrdersController::class, 'updateStatus'])->name('updateStatus');
     });
   //  Route::group(['middleware' => ['permission:orders.invoices.create|orders.invoices.update|orders.invoices.delete']], function () {
   //      Route::resource('invoices', InvoicesController::class)->except(['show']);

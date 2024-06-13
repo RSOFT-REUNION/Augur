@@ -3,6 +3,25 @@
 
 @section('main-content')
 
+    <div class="d-flex gap-2 justify-content-end mb-3 me-5">
+        <form action="{{ route('backend.orders.updateStatus', $order) }}" method="post"> @csrf
+            <div class="d-flex gap-2 justify-content-end ">
+                <div class="form-group">
+                    <select class="m-0 form-select @error('status') is-invalid @enderror" aria-label="status_id"
+                            id="status_id" name="status_id">
+                        @foreach($status_list as $status)
+                            <option value="{{ $status->id }}" @if($status->id == $order->status_id) selected @endif> {{ $status->status }}</option>
+                        @endforeach
+                    </select>
+                    @error('status_id')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <button href="" class="btn btn-success hvr-float-shadow"><i class="fa-solid fa-floppy-disk"></i> Modifier le status</button>
+            </div>
+        </form>
+    </div>
+
     <div class="row m-2">
         <div class="col">
             <div class="card  border-left-danger shadow mb-4">
