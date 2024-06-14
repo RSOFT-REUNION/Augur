@@ -12,34 +12,54 @@
         </nav>
     </div>
 
+    <h1 class="text-center mb-5">Bienvenue sur Augur</h1>
+    <p>Créez en quelques minutes votre compte pour profiter pleinement de votre Programme de Fidélité, commander en ligne en Livraison à domicile ou en Click & Collect, et encore plein d'autres fonctionnalités.</p>
+
+
     <div class="row row-flex">
-        <div class="col-12 col-md-3 content p-5"></div>
-        <div class="col-12 col-md-6 content p-5">
+        <div class="col-12 col-md-2 content p-5"></div>
+        <div class="col-12 col-md-8 content p-5">
             <form method="POST" action="{{ route('register') }}">
                 @csrf
 
-                <h1 class="text-center mb-5">Bienvenue sur Augur</h1>
-                <p>Créez en quelques minutes votre compte pour profiter pleinement de votre Programme de Fidélité, commander en ligne en Livraison à domicile ou en Click & Collect, et encore plein d'autres fonctionnalités.</p>
-
-                <div class="form-group mb-4">
-                    <label class="form-control-label" for="name">Nom : <span
-                            class="small text-danger">*</span></label>
-                    <input id="name" type="text" name="name"
-                           class="@error('name') is-invalid @enderror form-control" required
-                           value="{{ old('name') }}">
-                    @error('name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="form-group mb-4">
-                    <label class="form-control-label" for="phone">Numéro de téléphone : <span class="small text-danger">*</span></label>
-                    <input id="phone" type="text" name="phone"
-                           class="@error('phone') is-invalid @enderror form-control" required
-                           value="{{ old('phone') }}">
-                    @error('phone')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div class="row">
+                    <div class="col-2">
+                        <div class="form-group mb-4">
+                            <label class="form-control-label" for="civility">Civilité : <span
+                                    class="small text-danger">*</span></label>
+                            <select class="form-select" aria-label="civility" name="civility" id="civility">
+                                <option value="Mr" selected>Mr</option>
+                                <option value="Mme">Mme</option>
+                            </select>
+                            @error('civility')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="form-group mb-4">
+                            <label class="form-control-label" for="last_name">Nom : <span
+                                    class="small text-danger">*</span></label>
+                            <input id="last_name" type="text" name="last_name"
+                                   class="@error('last_name') is-invalid @enderror form-control" required
+                                   value="{{ old('last_name') }}">
+                            @error('last_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-5">
+                        <div class="form-group mb-4">
+                            <label class="form-control-label" for="first_name">Prenom : <span
+                                    class="small text-danger">*</span></label>
+                            <input id="first_name" type="text" name="first_name"
+                                   class="@error('first_name') is-invalid @enderror form-control" required
+                                   value="{{ old('first_name') }}">
+                            @error('first_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
 
                 <div class="form-group mb-4">
@@ -78,6 +98,71 @@
                     </div>
                 </div>
 
+                <hr>
+
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label class="form-control-label" for="address">Adresse <span
+                                    class="small text-danger">*</span> : </label>
+                            <input id="address" type="text" name="address"
+                                   class="@error('address') is-invalid @enderror form-control" required
+                                   value="{{ old('address') }}">
+                            @error('address')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label class="form-control-label" for="address2">Complément d'adresse : </label>
+                            <input id="address2" type="text" name="address2"
+                                   class="@error('address2') is-invalid @enderror form-control"
+                                   value="{{ old('address2') }}">
+                            @error('address2')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="cities">Code postal - Ville <span
+                                    class="small text-danger">*</span> : </label>
+                            <select class="form-select" aria-label="Default select example" name="cities" id="cities">
+                                @foreach($cities  as $city)
+                                    <option value="{{ $city->postal_code }}">{{ $city->city .' - '. $city->postal_code }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group mb-4">
+                            <label class="form-control-label" for="phone">Numéro de téléphone : <span class="small text-danger">*</span></label>
+                            <input id="phone" type="text" name="phone"
+                                   class="@error('phone') is-invalid @enderror form-control" required
+                                   value="{{ old('phone') }}">
+                            @error('phone')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-control-label" for="birthday">Date de naissance <span
+                                    class="small text-danger">*</span> : </label>
+                            <input type="date" id="birthday" name="birthday"
+                                   class="@error('birthday') is-invalid @enderror form-control"
+                                   value="{{ old('birthday') }}">
+                            @error('birthday')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-check form-switch mb-3 pl-5">
                     <input type="checkbox" class="form-check-input" id="newsletter"
                            name="newsletter" {{ old('newsletter') ? 'checked' : '' }}>
@@ -97,6 +182,6 @@
 
             </form>
         </div>
-        <div class="col-12 col-md-3 content p-5"></div>
+        <div class="col-12 col-md-2 content p-5"></div>
     </div>
 @endsection

@@ -52,32 +52,77 @@
                 </button>
             </div>
         @endif
+
         <div class="row row-flex">
-            <div class="col-12 col-md-2 content"></div>
-            <div class="col-12 col-md-8 content">
+            <div class="col-12 content">
                 <form method="post" action="{{ route('info.update') }}" class="mt-6 space-y-6">
                     @csrf
                     @method('patch')
 
-                    <div class="form-group mb-4">
-                        <label class="form-control-label" for="name">Nom de famille : <span
-                                class="small text-danger">*</span></label>
-                        <input id="name" type="text" name="name"
-                               class="@error('name') is-invalid @enderror form-control" required
-                               value="{{ old('name', $user->name) }}">
-                        @error('name')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <div class="row">
+                        <div class="col-2">
+                            <div class="form-group mb-4">
+                                <label class="form-control-label" for="civility">Civilité : <span
+                                        class="small text-danger">*</span></label>
+                                <select class="form-select" aria-label="civility" name="civility" id="civility">
+                                    <option value="Mr" @if($user->civility == 'Mr') selected @endif>Mr</option>
+                                    <option value="Mme" @if($user->civility == 'Mme') selected @endif>Mme</option>
+                                </select>
+                                @error('civility')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group mb-4">
+                                <label class="form-control-label" for="last_name">Nom : <span
+                                        class="small text-danger">*</span></label>
+                                <input id="last_name" type="text" name="last_name"
+                                       class="@error('last_name') is-invalid @enderror form-control" required
+                                       value="{{ old('last_name', $user->last_name) }}">
+                                @error('last_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group mb-4">
+                                <label class="form-control-label" for="first_name">Prenom : <span
+                                        class="small text-danger">*</span></label>
+                                <input id="first_name" type="text" name="first_name"
+                                       class="@error('first_name') is-invalid @enderror form-control" required
+                                       value="{{ old('first_name', $user->first_name) }}">
+                                @error('first_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
 
-                    <div class="form-group mb-4">
-                        <label class="form-control-label" for="phone">Numéro de téléphone : <span class="small text-danger">*</span></label>
-                        <input id="phone" type="text" name="phone"
-                               class="@error('phone') is-invalid @enderror form-control" required
-                               value="{{ old('phone', $user->phone) }}">
-                        @error('phone')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group mb-4">
+                                <label class="form-control-label" for="phone">Numéro de téléphone : <span class="small text-danger">*</span></label>
+                                <input id="phone" type="text" name="phone"
+                                       class="@error('phone') is-invalid @enderror form-control" required
+                                       value="{{ old('phone', $user->phone) }}">
+                                @error('phone')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label class="form-control-label" for="birthday">Date de naissance <span
+                                        class="small text-danger">*</span> : </label>
+                                <input type="date" id="birthday" name="birthday"
+                                       class="@error('birthday') is-invalid @enderror form-control"
+                                       value="{{ old('birthday', $user->birthday) }}">
+                                @error('birthday')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group mb-4">
@@ -97,7 +142,6 @@
                 </form>
 
             </div>
-            <div class="col-12 col-md-2 content p-5"></div>
         </div>
     </div>
 
