@@ -17,9 +17,11 @@ Route::prefix('admin/catalogue')->name('backend.catalog.')->middleware('auth:adm
         Route::post('products/addimages/{product}', [ProductController::class, 'add_image'])->name('products.add_image')->where(['product' => $idRegex]);
         Route::delete('products/images/{image}', [ProductController::class, 'destroy_image'])->name('products.destroy_image')->where(['image' => $idRegex]);
         Route::put('products/images/{image}', [ProductController::class, 'fav_image'])->name('products.fav_image')->where(['image' => $idRegex]);
+        Route::post('products/import', [ProductController::class, 'import'])->name('products.import')->where(['product' => $idRegex]);
     });
     Route::group(['middleware' => ['permission:catalog.categories.create|catalog.categories.update|catalog.categories.delete']], function () {
         Route::resource('categories', CategoryController::class)->except(['show']);
+        Route::post('categories/import', [CategoryController::class, 'import'])->name('categories.import');
     });
     Route::group(['middleware' => ['permission:catalog.brands.create|catalog.brands.update|catalog.brands.delete']], function () {
         Route::resource('brands', BrandsController::class)->except(['show']);

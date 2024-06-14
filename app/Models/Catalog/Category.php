@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Category extends Model
 {
     protected $table = 'catalog_categories';
-    protected $fillable = ['name', 'description', 'slug', 'category_id', 'image', 'is_menu', 'active'];
+    protected $fillable = ['erp_id_famille', 'name', 'description', 'slug', 'category_id', 'image', 'is_menu', 'active'];
 
     public function categories(): HasMany {
         return $this->hasMany(Category::class);

@@ -167,4 +167,9 @@ class ProductController extends Controller
         ]);
     }
 
+    public function import(Request $request)
+    {
+
+    }
+
 }

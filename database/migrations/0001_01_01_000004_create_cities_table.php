@@ -24,7 +24,6 @@ return new class extends Migration
         // Insert data
         DB::table('cities')->insert([
             ['country' => 'La Réunion', 'city' => 'Bras-Panon', 'postal_code' => '97412', 'region' => 'nord'],
-            ['country' => 'La Réunion', 'city' => 'Cilaos', 'postal_code' => '97413', 'region' => 'cirque'],
             ['country' => 'La Réunion', 'city' => 'Entre-Deux', 'postal_code' => '97414', 'region' => 'sud'],
             ['country' => 'La Réunion', 'city' => "L’Étang-Salé", 'postal_code' => '97427', 'region' => 'sud'],
             ['country' => 'La Réunion', 'city' => 'La Plaine-des-Palmistes', 'postal_code' => '97431', 'region' => 'nord'],
@@ -48,7 +47,6 @@ return new class extends Migration
             ['country' => 'La Réunion', 'city' => 'Saint-Gilles', 'postal_code' => '97434', 'region' => 'sud'],
             ['country' => 'La Réunion', 'city' => 'Saint-Philippe', 'postal_code' => '97442', 'region' => 'sud'],
             ['country' => 'La Réunion', 'city' => 'Saint-Pierre', 'postal_code' => '97410', 'region' => 'sud'],
-            ['country' => 'La Réunion', 'city' => 'Salazie', 'postal_code' => '97433', 'region' => 'cirque'],
         ]);
 
     }

@@ -8,6 +8,11 @@
 
             @can('catalog.products.create')
                 <div class="d-flex gap-2 justify-content-end mb-3 me-5">
+                    <div class="d-flex gap-2 justify-content-end mb-3 me-5">
+                        <button type='button' class="btn btn-info hvr-float-shadow text-white" data-bs-toggle="modal" data-bs-target="#importModal">
+                            <i class="fa-solid fa-file-import"></i>&nbsp;Importation
+                        </button>
+                    </div>
                     <button
                         hx-target="#modal-create"
                         hx-trigger="click"
@@ -18,7 +23,25 @@
                     </button>
                 </div>
                 @include('backend.catalog.product.create',['categories' => $categories_list] )
-
+                <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Importer un fichier</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('backend.catalog.products.import') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="input-group mb-3">
+                                        <input type="file" name="csv" class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                        <button class="btn btn-primary" type="submit">Envoyer</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endcan
 
             <div class="card border-left-primary shadow mb-4">

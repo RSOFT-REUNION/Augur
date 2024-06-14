@@ -32,13 +32,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('@Amc$2024**'),
             'email_verified_at' => now(),
         ]);
-        Category::create([
-            'name' => 'Produits surgelés',
-            'slug' => 'produits-surgeles',
-            'image' => 'produits.surgeles.jpg',
-            'active' => 1,
-            'is_menu' => 1,
-        ]);
         $produit1 = Product::create([
             'name' => 'Gratin 4 légumes emmental',
             'slug' => 'gratin-4-legumes-emmental',

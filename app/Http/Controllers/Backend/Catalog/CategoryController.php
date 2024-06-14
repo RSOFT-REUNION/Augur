@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Backend\Catalog;
 
 use App\Http\Controllers\Controller;
+use App\Imports\CatalogCategoryImport;
 use App\Models\Catalog\Category;
 use App\Models\Catalog\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CategoryController extends Controller
 {
@@ -155,5 +157,11 @@ class CategoryController extends Controller
             $category->delete();
             return back()->withSuccess('Catégorie supprimée avec succès');
         }
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new CatalogCategoryImport(), $request->csv, $request->csv);
+        return back()->withSuccess('Categorie importer avec succès');
     }
 }

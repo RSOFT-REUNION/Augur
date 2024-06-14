@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->longText('content')->nullable();
             $table->longText('composition')->nullable();
             $table->string('tags')->nullable();
-            $table->string('barcode')->nullable();
+            $table->longText('barcode')->nullable();
             $table->string('weight_unit')->default('kg'); // Kilogramme ou Litre
             $table->integer('weight')->default(0);
             $table->integer('price_ht');
