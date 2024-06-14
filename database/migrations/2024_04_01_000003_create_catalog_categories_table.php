@@ -10,7 +10,8 @@ return new class extends Migration {
     {
         Schema::create('catalog_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('erp_id_famille')->nullable();
+            $table->string('name')->nullable();
             $table->longText('description')->nullable();
             $table->string('image')->nullable();
             $table->string('slug')->nullable()->unique();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Backend\Catalog;
 
 use App\Http\Controllers\Controller;
+use App\Imports\CatalogProductImport;
 use App\Models\Catalog\ProductsImages;
 use App\Models\Specific\Labels;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use App\Models\Catalog\Product;
 use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -165,6 +167,12 @@ class ProductController extends Controller
         return view('backend.catalog.product.partial.edit_imageslist', [
             'product' => $product
         ]);
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new CatalogProductImport(), $request->csv, $request->csv);
+        return back()->withSuccess('Categorie importer avec succès');
     }
 
 }
