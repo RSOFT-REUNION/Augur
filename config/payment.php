@@ -13,7 +13,7 @@ return [
         'vads_payment_config' => 'SINGLE',
         'vads_site_id' => '10868856',
         'vads_trans_date' => Carbon::now('UTC')->format('YmdHis'),
-        'vads_trans_id' => 'x2115p',
+        'vads_trans_id' => generateUniqueAn6(),
         'vads_version' => 'V2',
     ]
 ];

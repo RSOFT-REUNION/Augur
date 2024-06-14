@@ -133,12 +133,14 @@ class OrdersController extends FrontendBaseController
         $sign = getSignature($data);
         // vads_hash
         // if vads_url_check_src = PAY then cart_validation
-        return dd([
+        return to_route('index')->withSuccess('Merci pour votre commande');
+         /*   dd([
+
             'globalPOST' => $post,
             'signaturePOST' => $post['signature'],
             'request' => $data,
             'requestSignture' => $sign,
-        ]);
+        ]);*/
     }
 
 
