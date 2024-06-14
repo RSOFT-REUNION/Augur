@@ -162,6 +162,6 @@ class CategoryController extends Controller
     public function import(Request $request)
     {
         Excel::import(new CatalogCategoryImport(), $request->csv, $request->csv);
-        return back()->withSuccess('Categorie importer avec succès');
+        return back()->withSuccess('Produits importer avec succès');
     }
 }

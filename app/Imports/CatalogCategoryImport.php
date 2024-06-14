@@ -33,7 +33,7 @@ class CatalogCategoryImport implements ToCollection, WithHeadingRow
         foreach ($children_categories as $children_category)
         {
             $children_category["slug"] =  $category1Slug.'/'.Str::slug($children_category["name_sous_famille"]);
-
+            // Verifie que la categorie existe
             if ($categorie->contains('erp_id_famille', $children_category["id_sous_famille"])) {
                 $cat = $categorie->firstWhere('erp_id_famille', $children_category["id_sous_famille"]);
                 if($children_category["sysmodifieddate"] > $cat->updated_at){
@@ -72,6 +72,6 @@ class CatalogCategoryImport implements ToCollection, WithHeadingRow
                 }
             }
         }
-        Storage::disk('local')->put('/import/catalog_categories/import_'.date('Y_m_d_H_i_s').'.txt', $logtxt);
+        Storage::disk('local')->put('/import/catalog/categories/import_'.date('Y_m_d_H_i_s').'.txt', $logtxt);
     }
 }
