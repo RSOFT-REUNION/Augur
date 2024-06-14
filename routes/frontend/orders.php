@@ -6,4 +6,6 @@ use Illuminate\Support\Facades\Route;
 $idRegex = '[0-9]+';
 $slugRegex = '[0-9a-z\-/]+';
 
-Route::post('/cart_validation', [OrdersController::class, 'cart_validation'])->name('orders.cart_validation');
+//Route::post('/cart_validation', [OrdersController::class, 'cart_validation'])->name('orders.cart_validation');
+Route::post('/send_payment', [OrdersController::class, 'sendPaymentRequest'])->name('orders.send_payment');
+Route::post('/retour-paiement', [OrdersController::class, 'getPaymentReturn'])->name('orders.return_payment');

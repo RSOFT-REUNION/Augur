@@ -249,7 +249,7 @@
     </div>
 
     <div class="text-center">
-        <form action="{{ route('orders.cart_validation') }}" method="post"> @csrf
+        <form action="{{ route('orders.send_payment') }}" method="post"> @csrf
             <input type="hidden" name="cart" value="{{ $cart->id }}">
             <input type="hidden" name="user_address_delivery" value="{{ $user_address->id }}">
             <input type="hidden" name="user_address_invoice" value="{{ $user_address_fac->id }}">
