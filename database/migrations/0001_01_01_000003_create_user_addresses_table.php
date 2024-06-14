@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(\App\Models\Users\User::class)->constrained();
             $table->string('alias');
-            $table->string('name')->nullable();
+            $table->enum('civility', ['Mr', 'Mme'])->default('Mr');
+            $table->string('last_name')->nullable();
+            $table->string('first_name')->nullable();
             $table->string('address')->nullable();
             $table->string('address2')->nullable();
             $table->string('other')->nullable();
             $table->string('cities')->nullable();
-            $table->string('country')->nullable();
+            $table->string('country')->default('La Réunion');
             $table->string('phone')->nullable();
             $table->string('other_phone')->nullable();
             $table->enum('type', ['Facturation et livraison', 'Facturation', 'Livraison'])->default('Facturation et livraison');

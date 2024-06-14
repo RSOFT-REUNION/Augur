@@ -41,7 +41,9 @@ class AddressesController extends FrontendBaseController
     {
         $validated = $request->validate([
             'alias' => 'required|string|min:3|max:255',
-            'name' => 'required|string|max:255',
+            'civility' => ['required'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'address' => 'required|string|max:255',
             'address2' => 'max:255',
             'other' => 'max:255',
@@ -76,7 +78,9 @@ class AddressesController extends FrontendBaseController
     {
         $validated = $request->validate([
             'alias' => 'required|string|min:3|max:255',
-            'name' => 'required|string|max:255',
+            'civility' => ['required'],
+            'first_name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
             'address' => 'required|string|max:255',
             'address2' => 'max:255',
             'other' => 'max:255',

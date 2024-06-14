@@ -12,8 +12,8 @@
         </nav>
     </div>
 
-    <div class="row row-flex">
-        <div class="col-12 col-md-3 content p-5"></div>
+    <div class="row row-flex align-items-center">
+        <div class="col-12 col-md-1 content p-5"></div>
         <div class="col-12 col-md-6 content p-5">
             <form method="POST" action="{{ route('login') }}">
                 @csrf
@@ -61,18 +61,11 @@
                     </button>
                 </div>
 
-                <div class="d-flex justify-content-center mb-4">
-                    <div class="card w-75 shadow hvr-grow bg-gray">
-                        <div class="card-body text-center">
-                            <h4>Pas encore inscrit ?</h4>
-                            <a href="{{ route('register') }}" class="btn btn-lg btn-warning hvr-grow-shadow">Créer votre compte</a>
-                        </div>
-                    </div>
-                </div>
-
-
             </form>
         </div>
-        <div class="col-12 col-md-3 content p-5"></div>
+        <div class="col-12 col-md-4 content p-5 text-center">
+            <h2 class="mb-3">Pas encore inscrit ?</h2>
+            <a href="{{ route('register') }}" class="btn btn-lg btn-warning hvr-grow-shadow">Créer votre compte</a>
+        </div>
     </div>
 @endsection
