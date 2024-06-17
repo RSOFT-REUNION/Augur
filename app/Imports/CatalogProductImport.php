@@ -23,8 +23,8 @@ class CatalogProductImport implements ToCollection, WithHeadingRow
             $import_product["slug"] =  Str::slug($import_product["name"]);
             $import_product["active"] =  1;
 
-            if ($import_product["code_sous_famille"] == 'NULL') {
-                if ($import_product["code_famille"] == 'NULL') {
+            if (empty($import_product["code_sous_famille"])) {
+                if (empty($import_product["code_famille"])) {
                     $i++;
                     $logtxt .= $import_product["code_article"].' - '.$import_product["name"].' : NA PAS ETE IMPORTER'.PHP_EOL;
                     continue;

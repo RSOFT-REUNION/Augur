@@ -13,11 +13,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Importer un fichier CSV</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Importer un fichier</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('backend.clients.client.importcsv') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('backend.clients.client.import') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="input-group mb-3">
                             <input type="file" name="csv" class="form-control" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
@@ -46,6 +46,7 @@
                                 <th scope="col" class="text-center" style="width: 5%;">#</th>
                                 <th scope="col" class="text-center">Nom</th>
                                 <th scope="col" class="text-center">Adresse Mail</th>
+                                <th scope="col" class="text-center">PointFID</th>
                                 <th scope="col" class="text-center no-sort" style="width: 5%;"><i class="fa-duotone fa-envelope-open-text"></i></th>
                                 <th scope="col" class="text-center no-sort" style="width: 5%;"><i class="fa-duotone fa-shield-check"></i></th>
                                 <th scope="col" class="text-center no-sort" style="width: 10%;"><i
@@ -58,6 +59,7 @@
                                     <td class="text-center">{{ $client->id }}</td>
                                     <td>{{ $client->name }}</td>
                                     <td>{{ $client->email }}</td>
+                                    <td>{{ $client->erp_loyalty_points }}</td>
                                     <td class="text-center">{{ $client->checkNewsletter($client->newsletter) }}</td>
                                     <td class="text-center">{{ $client->checkEmailVerified($client->email_verified_at) }}</td>
                                     <td class="text-center">

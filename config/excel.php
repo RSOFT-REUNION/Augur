@@ -127,7 +127,7 @@ return [
             'enclosure'        => '"',
             'escape_character' => '\\',
             'contiguous'       => false,
-            'input_encoding'   => 'ISO-8859-1',
+            'input_encoding'   => 'UTF-8',
         ],
 
         /*
