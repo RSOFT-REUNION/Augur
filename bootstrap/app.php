@@ -30,7 +30,8 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
         $middleware->validateCsrfTokens(except: [
             'paiement.systempay.fr/*',
-            'https://augur.rsoft.re/return_payment'
+            'https://augur.rsoft.re/return_payment',
+            'https://www.augur.re/return_payment',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
