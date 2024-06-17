@@ -25,6 +25,8 @@ class CatalogProductImport implements ToCollection, WithHeadingRow
 
             if ($import_product["code_sous_famille"] == 'NULL') {
                 if ($import_product["code_famille"] == 'NULL') {
+                    $i++;
+                    $logtxt .= $import_product["code_article"].' - '.$import_product["name"].' : NA PAS ETE IMPORTER'.PHP_EOL;
                     continue;
                 }
                 $categorieid = $categorie->firstWhere('erp_id_famille', $import_product["code_famille"])->id;
@@ -54,11 +56,24 @@ class CatalogProductImport implements ToCollection, WithHeadingRow
             if ($products->contains('code_article', $import_product["code_article"])) {
                 $product = $products->firstWhere('code_article', $import_product["code_article"]);
                 if($import_product["sysmodifieddate"] > $product->updated_at){
+                    $product->name = $import_product["name"];
+                    $product->slug = $import_product["slug"];
+                    $product->short_description = $import_product["short_description"];
+                    $product->composition = $import_product["composition"];
+                    $product->weight = $import_product["weight"];
+                    $product->wieght_unit = $import_product["wieght_unit"];
+                    $product->price_ht = $import_product["price_ht"];
+                    $product->tva = $import_product["tva"];
+                    $product->price_ttc = $import_product["price_ttc"];
+                    $product->stock_unit = $import_product["stock_unit"];
+                    $product->stock = $import_product["stock"];
+                    $product->barcode = $import_product["barcode"];
+                    $product->save();
                     $i++;
-                    $logtxt .= $import_product["name"].' : a ete mise a jour'.PHP_EOL;
+                    $logtxt .= $import_product["code_article"].' - '.$import_product["name"].' : a ete mise a jour'.PHP_EOL;
                 } else {
                     $i++;
-                    $logtxt .= $import_product["name"].' : exist deja'.PHP_EOL;
+                    $logtxt .= $import_product["code_article"].' - '.$import_product["name"].' : exist deja'.PHP_EOL;
                 }
             }
             else {
