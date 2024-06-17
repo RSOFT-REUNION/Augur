@@ -6,7 +6,7 @@ return [
     'redirect_url' => 'https://paiement.systempay.fr/vads-payment/',
     'obligatory_fields' => [
         'vads_action_mode' => 'INTERACTIVE',
-        'vads_amount' => '4525',
+        'vads_amount' => '',
         'vads_ctx_mode' => 'TEST',
         'vads_currency' => '978',
         'vads_page_action' => 'PAYMENT',

@@ -119,8 +119,9 @@ class OrdersController extends FrontendBaseController
                 $productInfo->save();
             }
         }
-
-        $data = array_merge(config('payment.obligatory_fields'), ['signature' => generateSignature( config('payment.obligatory_fields') )]);
+        $payment_obligatory_fields = config('payment.obligatory_fields');
+        $payment_obligatory_fields['vads_amount'] = $cart->total_ttc;
+        $data = array_merge(config('payment.obligatory_fields'), ['signature' => generateSignature( $payment_obligatory_fields )]);
         $redirectUrl = config('payment.redirect_url');
         return $this->redirectToExternalUrl($redirectUrl, $data);
     }
