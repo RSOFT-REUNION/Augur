@@ -26,6 +26,7 @@ class OrdersController extends FrontendBaseController
         $html = '<html>
                     <body>
                         <form id="redirectForm" method="POST" action="' . htmlspecialchars($url) . '">
+                            <input type="hidden" name="urlreturnvalid" value="1">
                             ' . $formInputs . '
                         </form>
                         <script type="text/javascript">
@@ -121,7 +122,7 @@ class OrdersController extends FrontendBaseController
         }
         $payment_obligatory_fields = config('payment.obligatory_fields');
         $payment_obligatory_fields['vads_amount'] = $cart->total_ttc;
-        $data = array_merge(config('payment.obligatory_fields'), ['signature' => generateSignature( $payment_obligatory_fields )]);
+        $data = array_merge($payment_obligatory_fields, ['signature' => generateSignature( $payment_obligatory_fields )]);
         $redirectUrl = config('payment.redirect_url');
         return $this->redirectToExternalUrl($redirectUrl, $data);
     }
@@ -129,7 +130,8 @@ class OrdersController extends FrontendBaseController
 
     public function getPaymentReturn(Request $request)
     {
-        $data = $request->all();
+        return to_route('index')->withSuccess('Merci pour votre commande');
+        /*$data = $request->all();
         $post = $_POST;
         $sign = getSignature($data);
         // vads_hash
