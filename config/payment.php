@@ -14,6 +14,5 @@ return [
         'vads_trans_date' => Carbon::now('UTC')->format('YmdHis'),
         'vads_trans_id' => generateUniqueAn6(),
         'vads_version' => 'V2',
-        'vads_retrun_mode' => 'GET',
     ]
 ];

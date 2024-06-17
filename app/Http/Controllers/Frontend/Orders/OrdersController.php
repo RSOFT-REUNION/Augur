@@ -128,8 +128,10 @@ class OrdersController extends FrontendBaseController
     }
 
 
-    public function getPaymentReturn()
+    public function getPaymentReturn(Request $request)
     {
+        echo 'ok';
+        dd($request->all());
         return to_route('index')->withSuccess('Merci pour votre commande');
         /*$data = $request->all();
         $post = $_POST;
