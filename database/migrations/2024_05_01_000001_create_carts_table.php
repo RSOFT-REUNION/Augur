@@ -11,6 +11,7 @@ return new class extends Migration {
             $table->id();
             $table->string('user_id')->nullable();
             $table->string('session_id');
+            $table->string('payment_id')->nullable();
             $table->string('loyality');
             $table->enum('status', ['En cours', 'Abandonner', 'Commander'])->default('En cours');
             $table->string('total_ttc')->nullable();
@@ -19,6 +20,8 @@ return new class extends Migration {
             $table->string('postal_code')->nullable();
             $table->date('delivery_date')->nullable();
             $table->string('delivery_slot')->nullable();
+            $table->string('user_address_delivery')->nullable();
+            $table->string('user_address_invoice')->nullable();
             $table->timestamps();
         });
         Schema::create('carts_product', function (Blueprint $table) {

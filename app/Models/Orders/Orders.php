@@ -12,33 +12,41 @@ class Orders extends Model
 {
     protected $table = 'orders';
     protected $fillable = [
-        'status_id',
+        'erp_ref_order',
+        'payment_id',
+        'order_status',
         'total_ttc',
+
+        'user_id',
+        'user_name',
+        'user_email',
+        'user_birthday',
+        'user_loyality_used',
+        'user_loyality_points_used',
+
         'delivery_id',
         'delivery_price',
         'delivery_date',
         'delivery_slot',
-        'user_id',
-        'user_loyality_used',
-        'user_name',
-        'user_email',
+
+        'user_delivery_civilite',
+        'user_delivery_first_name',
+        'user_delivery_last_name',
+
         'user_delivery_address',
         'user_delivery_address2',
         'user_delivery_cities',
         'user_delivery_phone',
         'user_delivery_other_phone',
-        'user_civilite',
-        'user_first_name',
-        'user_last_name',
-        'user_birthday',
+
+        'user_invoice_civilite',
+        'user_invoice_first_name',
+        'user_invoice_last_name',
         'user_invoice_address',
         'user_invoice_address2',
         'user_invoice_cities',
         'user_invoice_phone',
         'user_invoice_other_phone',
-        'user_invoice_civilite',
-        'user_invoice_first_name',
-        'user_invoice_last_name',
     ];
 
     public function User() {
