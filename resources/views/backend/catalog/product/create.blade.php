@@ -52,7 +52,7 @@
                             </div>
                         </div>
 
-                        {{-- IMAGES --}}
+                        {{-- IMAGES
                         <div class="col-4">
                             <div class="input-group mb-3">
                                 <label class="input-group-text col justify-content-center hvr-border-fade" style="cursor:pointer; border-radius: 3px;" for="images">
@@ -80,7 +80,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
-                        </div>
+                        </div>--}}
                     </div>
 
                     {{-- CATEGORIE --}}

@@ -8,10 +8,10 @@
     <div class="htmx-style">
 
         <div class="row d-flex mb-4 align-items-center">
-            <div class="col-md-1 align-items-center">
+            <div class="col-md-2 align-items-center">
                 <h5>{{ $products->total() }} Produits</h5>
             </div>
-            <div class="col-md-11 align-items-center">
+            <div class="col-md-10 align-items-center">
                 @include('frontend.product.partials.list_product-filtre')
             </div>
         </div>

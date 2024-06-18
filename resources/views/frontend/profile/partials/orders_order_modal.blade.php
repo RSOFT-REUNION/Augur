@@ -30,7 +30,8 @@
                 @foreach($order->product as $product)
                     <div class="row d-flex justify-content-between align-items-center mt-3 mb-3 text-center">
                         <div class="col-md-3">
-                            <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">
+                            <img src="{{ getImageUrl('/upload/catalog/products/'.$product->code_article.'.jpg', 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">
+                            {{-- <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">--}}
                         </div>
                         <div class="col-md-4">
                             <p class="lead fw-normal mb-2">{{ getProductInfos($product->product_id)->name  }}</p>
