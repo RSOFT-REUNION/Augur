@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Backend\Catalog;
 
 use App\Http\Controllers\Controller;
+use App\Imports\CatalogDiscountImport;
+use App\Imports\CatalogDiscountProductsImport;
 use App\Models\Catalog\Discount;
 use App\Models\Catalog\DiscountProduct;
 use App\Models\Catalog\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DiscountController extends Controller
 {
@@ -132,6 +135,13 @@ class DiscountController extends Controller
         if ($request->fixed_priceTTC == 0) $product->fixed_priceTTC = null;
         $product->save();
         return to_route('backend.catalog.discounts.edit', $discount);
+    }
+
+    public function import(Request $request)
+    {
+        Excel::import(new CatalogDiscountImport(), $request->discount_list, $request->discount_list);
+        Excel::import(new CatalogDiscountProductsImport(), $request->discount_products, $request->discount_products);
+        return back()->withSuccess('Promotion importer avec succès');
     }
 
 }

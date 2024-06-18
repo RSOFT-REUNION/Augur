@@ -15,20 +15,24 @@
 
 <body>
     @include('frontend.layouts.header')
-    @if(Route::is('index'))
-        @include('frontend.layouts.slider')
-    @endif
 
-    <main class="mt-5" id="main">
-        <div class="container">
-            @include('frontend.layouts.flash')
-            @yield('main-content')
-        </div>
-    </main>
+        @if(Route::is('index'))
+            <div style="margin-top: 95px;">
+                @include('frontend.layouts.slider')
+            </div>
+            <main id="main" class="mb-5">
+        @else
+            <main id="main" style="margin-top: 150px;">
+        @endif
 
-    @include('frontend.layouts.footer')
+            <div class="container">
+                @include('frontend.layouts.flash')
+                @yield('main-content')
+            </div>
+        </main>
 
-    <!--<div id="preloader"></div>-->
+        @include('frontend.layouts.footer')
+    <div id="preloader"></div>
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center text-decoration-none"><i class="fa-duotone fa-arrow-up fa-fw"></i></a>
 
     @include('frontend.layouts.script')

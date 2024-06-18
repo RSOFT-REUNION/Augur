@@ -83,3 +83,25 @@ AOS.init();
 /*** Enable tooltips ***/
 const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+/*** minus plus input ***/
+$(document).ready(function() {
+    $('.minus').click(function () {
+        var $input = $(this).parent().find('input');
+        var min = parseInt($input.attr('min'));
+        var count = parseInt($input.val()) - 1;
+        count = count < min ? min : count;
+        $input.val(count);
+        $input.change();
+        return false;
+    });
+    $('.plus').click(function () {
+        var $input = $(this).parent().find('input');
+        var max = parseInt($input.attr('max'));
+        var count = parseInt($input.val()) + 1;
+        count = count > max ? max : count;
+        $input.val(count);
+        $input.change();
+        return false;
+    });
+});

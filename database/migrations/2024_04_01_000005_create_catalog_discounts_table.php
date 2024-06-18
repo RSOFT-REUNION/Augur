@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('icon')->default('star');
             $table->date('start_date');
             $table->date('end_date');
-            $table->integer('percentage')->default(10);
+            $table->integer('percentage')->default(5);
             $table->string('discount_type')->nullable()->default('prix TTC');
             $table->boolean('active')->default(1);
             $table->softDeletes();
@@ -30,6 +30,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(\App\Models\Catalog\Discount::class)->constrained('catalog_discounts')->onDelete('cascade');
             $table->foreignIdFor(\App\Models\Catalog\Product::class)->constrained('catalog_products');
+            $table->string('code_article')->nullable(); //code EBP
             $table->integer('fixed_priceTTC')->nullable();
             $table->boolean('active')->default(1);
             $table->softDeletes();
