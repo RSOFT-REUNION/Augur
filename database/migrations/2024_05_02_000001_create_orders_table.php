@@ -28,14 +28,13 @@ return new class extends Migration {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->string('erp_ref_order'); // pour le lien SAP/EBP
-            $table->integer('payment_id')->nullable();
+            $table->string('payment_id')->nullable();
             $table->foreignIdFor(Status::class)->default(1)->constrained('order_status');
             $table->integer('total_ttc')->nullable();
 
             $table->foreignIdFor(\App\Models\Users\User::class)->constrained();
             $table->string('user_name')->nullable();
             $table->string('user_email')->nullable();
-            $table->date('user_birthday')->nullable();
             $table->integer('user_loyality_used')->nullable();
             $table->integer('user_loyality_points_used')->nullable();
 

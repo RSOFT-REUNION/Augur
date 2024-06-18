@@ -168,26 +168,26 @@
             </div>
         </div>
     @endif
-    <div class="col-md-4 col-12">
-        <div class="card bg-gray content">
-            <div class="card-body">
-                <div class="row align-items-center text-center">
-                    <div class="text-center">
-                        <img class="w-25 mb-3 mt-3" src="{{ getImageUrl(('/upload/order/delivery/'.$deliver->image), 100, 100) }}" alt="{{ $deliver->name }}">
-                    </div>
-                    <h4 class="flex-fill">{{ $deliver->name }}</h4>
-                    <h2 class=""><b>@if($deliver->price_ttc == 0) <b>Gratuit</b> @else {{ $deliver->price_ttc }} €@endif</b></h2>
-                    @empty(!@$delivery_date)
+        <div class="col-md-4 col-12">
+            <div class="card bg-gray content">
+                <div class="card-body">
+                    <div class="row align-items-center text-center">
                         <div class="text-center">
-                            <h5>{{ formatDateInFrench($delivery_date) }} :
-                            @if($delivery_slot == 'matin') Entre 9h et 13h @elseif($delivery_slot == 'aprem') Entre 14h et 18h @endif</h5>
+                            <img class="w-25 mb-3 mt-3" src="{{ getImageUrl(('/upload/order/delivery/'.$deliver->image), 100, 100) }}" alt="{{ $deliver->name }}">
                         </div>
-                    @endempty
-                    <p class="text-center">{{ $deliver->description }}</p>
+                        <h4 class="flex-fill">{{ $deliver->name }}</h4>
+                        <h2 class=""><b>@if($deliver->price_ttc == 0) <b>Gratuit</b> @else {{ $deliver->price_ttc }} €@endif</b></h2>
+                        @empty(!@$cart->delivery_date)
+                            <div class="text-center">
+                                <h5>{{ formatDateInFrench($cart->delivery_date) }} :
+                                    @if($cart->delivery_slot == 'matin') Entre 9h et 13h @elseif($cart->delivery_slot == 'aprem') Entre 14h et 18h @endif</h5>
+                            </div>
+                        @endempty
+                        <p class="text-center">{{ $deliver->description }}</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
     <div class="col-md-2 col-12">
