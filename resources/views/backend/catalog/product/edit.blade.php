@@ -104,10 +104,13 @@
                     <div class="card-header py-3">
                         <h6 class="m-0 font-weight-bold text-warning">Images</h6>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body text-center">
+                        <img src="{{ getImageUrl('/upload/catalog/products/'.$product->code_article.'.jpg', 250, 250) }}" alt="{{ $product->name  }}">
+                        {{--
                         <iframe width="100%" height="600px" style="overflow:hidden;"
                                 src=" {{ route('backend.catalog.products.list_image', $product) }}">
                         </iframe>
+                        --}}
                     </div>
                 </div>
             </div>

@@ -14,7 +14,8 @@
     @endif
 
     <a href="{{ route('product.show', $product->slug) }}">
-        <img src="{{ $product->getFirstImagesURL(300, 300, 'fill-max') }}" class="d-block w-100 rounded-5" alt="{{ $product->name }}">
+        <img src="{{ getImageUrl('/upload/catalog/products/'.$product->code_article.'.jpg', 300, 300, 'fill-max') }}" class="d-block w-100 rounded-5" alt="{{ $product->name  }}">
+        {{-- <img src="{{ $product->getFirstImagesURL(300, 300, 'fill-max') }}" class="d-block w-100 rounded-5" alt="{{ $product->name }}"> --}}
     </a>
     <div class="card-body">
         <h6 class="card-title text-center"><b>{{ $product->name }}</b></h6>

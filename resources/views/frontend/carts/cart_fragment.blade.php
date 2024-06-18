@@ -27,7 +27,8 @@
                     <div class="row d-flex justify-content-between align-items-center mt-3 mb-3 text-center">
                         <div class="col-md-2">
                             <a href="{{ route('product.show', getProductInfos($product->product_id)->slug) }}">
-                                <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="img-fluid" alt="{{ $product->name }}">
+                                <img src="{{ getImageUrl('/upload/catalog/products/'.getProductInfos($product->product_id)->code_article.'.jpg', 200, 200, 'fill-max') }}" class="img-fluid" alt="{{ $product->name }}">
+                                {{-- <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="img-fluid" alt="{{ $product->name }}">--}}
                             </a>
                         </div>
                         <div class="col-md-4">
