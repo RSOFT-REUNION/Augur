@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Frontend\AnimationsController;
+use App\Http\Controllers\Frontend\Catalog\ShopsController;
 use App\Http\Controllers\Frontend\LabelsController;
 use Illuminate\Support\Facades\Route;
 $idRegex = '[0-9]+';
@@ -12,3 +13,6 @@ Route::get('/nos-labels/{label}-{slug}', [LabelsController::class, 'show'] )->na
 
 /*** Animation ***/
 Route::get('/nos-animations', [AnimationsController::class, 'index'] )->name('animations.index');
+
+/*** Magasin ***/
+Route::get('/nos-magasins', [ShopsController::class, 'index'] )->name('shops.index');

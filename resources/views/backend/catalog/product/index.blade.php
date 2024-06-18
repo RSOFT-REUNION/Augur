@@ -63,7 +63,7 @@
                                 <th scope="col" class="text-center">TVA</th>
                                 <th scope="col" class="text-center">Prix TTC</th>
                                 <th scope="col" class="text-center">Stock</th>
-                                <th scope="col" class="text-center">Actif</th>
+                                <th scope="col" class="text-center">Activé</th>
                                 <th scope="col" class="text-center" style="width: 8%;"><i
                                         class="fa-duotone fa-arrows-minimize"></i></th>
                             </tr>
@@ -84,7 +84,7 @@
                                     <td class="text-center align-middle">{{ formatPriceToFloat($product->tva) }} %</td>
                                     <td class="text-center align-middle">{{ formatPriceToFloat($product->price_ttc) }} €</td>
                                     <td class="text-center align-middle">{{ $product->getStockQuantity($product) }}</td>
-                                    <td class="text-center align-middle">{{ $product->active == 1 ? 'Actif' : 'Inactif' }}</td>
+                                    <td class="text-center align-middle">{{ getActive($product->active) }}</td>
 
                                     <td class="text-center align-middle">
                                         @can('catalog.products.update')

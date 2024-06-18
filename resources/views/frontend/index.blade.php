@@ -6,7 +6,7 @@
     {!! $page->content !!}
 
     <div class="row row-flex mb-5">
-        <h4 class="mb-4">Affiche 6 produits aleatoire</h4>
+        <h4 class="mb-4">Découvrez nos produits</h4>
         @if(count($products_random) > 0)
             @foreach($products_random as $product)
                 <div class="col-md-2 col-12 hvr-float-shadow">
