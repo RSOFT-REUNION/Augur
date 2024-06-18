@@ -48,8 +48,8 @@ class OrdersController extends FrontendBaseController
 
         // génération de l'id de transaction pour référencer le paiement
         $cart->payment_id = $payment_id;
-        $cart->status = 'En cours'; // rajouter 'en attente de paiement' dans les enums et si pas en conflit avec les autres fonctionnalités
-        $cart->update();
+        $cart->status = 'en cours'; // rajouter 'en attente de paiement' dans les enums et si pas en conflit avec les autres fonctionnalités
+        $cart->save();
         return $cart;
     }
 
@@ -72,8 +72,9 @@ class OrdersController extends FrontendBaseController
     {
 
         if ($request->vads_auth_result == 00) {
-
+            cookie()->queue(cookie()->forget('session_id'));
             return $this->cart_validation($request->vads_trans_id);
+
         } else {
             return 'Erreur';
         }
@@ -86,15 +87,13 @@ class OrdersController extends FrontendBaseController
 
         // Récuperation des informations du panier
         $cart = Carts::with('product')->where('payment_id', '=', $payment_id)->first();
-        $order = new Orders;
-        $user = User::where('id', '=', $cart->user_id)->first();
 
+        $order = new Orders;
+        $user = User::findOrFail($cart->user_id);
 
         $order->status_id = 3; // 'paiement accepté'
         $order->total_ttc = $cart->total_ttc;
         $order->payment_id = $cart->payment_id;
-        $cart->status = 'Commander';
-        $cart->update();
 
         // Récuperation des informations de l'utilisateur
         $order->user_id = $cart->user_id;
@@ -175,7 +174,10 @@ class OrdersController extends FrontendBaseController
         $user->erp_loyalty_points = $user->erp_loyalty_points - $order->user_loyality_points_used;
         $user->erp_loyalty_points = $user->erp_loyalty_points + round($cart->total_ttc / 100, 0);
         $user->save();
-        cookie()->queue(cookie()->forget('session_id'));
-        return 'ok';
+
+        $cart->status = 'Commander';
+        $cart->save();
+
+        return $payment_id;
     }
 }
