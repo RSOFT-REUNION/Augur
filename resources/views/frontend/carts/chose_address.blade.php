@@ -28,7 +28,7 @@
 
                                 <h4 class="text-center mb-4 mt-3">{{ $addres->alias }}</h4>
                                 <div class="col-md-3 col-12">
-                                    <h4>{{ $addres->name }}</h4>
+                                    <h4>{{ $addres->first_name.' '.$addres->last_name }}</h4>
                                 </div>
                                 <div class="col-md-3 col-12">
                                     <p>

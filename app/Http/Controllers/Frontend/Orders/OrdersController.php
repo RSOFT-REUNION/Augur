@@ -38,8 +38,7 @@ class OrdersController extends FrontendBaseController
         return response($html);
     }
 
-    public function sendPaymentRequest(Request $request)
-    {
+    public function updateCart(Request $request, $payment_id) {
         $cart = Carts::with('product')->findOrFail($request->cart);
 
         // Sauvegarde des informations de la livraison
@@ -48,40 +47,65 @@ class OrdersController extends FrontendBaseController
         $cart->user_address_invoice = $request->user_address_invoice;
 
         // génération de l'id de transaction pour référencer le paiement
-        $cart->payment_id = generateUniqueAn6();
+        $cart->payment_id = $payment_id;
+        $cart->status = 'En cours'; // rajouter 'en attente de paiement' dans les enums et si pas en conflit avec les autres fonctionnalités
         $cart->update();
+        return $cart;
+    }
+
+    public function sendPaymentRequest(Request $request)
+    {
+        $payment_id = generateUniqueAn6();
+        $cart = $this->updateCart($request, $payment_id);
 
         $redirectUrl = config('payment.redirect_url');
         $payment_obligatory_fields = config('payment.obligatory_fields');
-        $payment_obligatory_fields['vads_trans_id'] = $cart->payment_id;
+        $payment_obligatory_fields['vads_trans_id'] = $payment_id;
         $payment_obligatory_fields['vads_amount'] = $cart->total_ttc;
         $data = array_merge($payment_obligatory_fields, ['signature' => generateSignature( $payment_obligatory_fields )]);
 
         return $this->redirectToExternalUrl($redirectUrl, $data);
     }
 
+
     public function getPaymentReturn(Request $request)
     {
-        if ($request->vads_auth_result = 00) {
 
-            $this->cart_validation($request->vads_trans_id);
-            return to_route('index')->withSuccess('Merci pour votre commande');
+        if ($request->vads_auth_result == 00) {
+
+            return $this->cart_validation($request->vads_trans_id);
         } else {
-            return to_route('index')->withError('Commande non effectué');
+            return 'Erreur';
         }
     }
+
 
     // Enregistrement des toutes les informations de la commande
     public function cart_validation($payment_id)
     {
+
         // Récuperation des informations du panier
         $cart = Carts::with('product')->where('payment_id', '=', $payment_id)->first();
         $order = new Orders;
+        $user = User::where('id', '=', $cart->user_id)->first();
 
-        $cart->status = 'Commander';
-        $cart->update();
+
         $order->status_id = 3; // 'paiement accepté'
         $order->total_ttc = $cart->total_ttc;
+        $order->payment_id = $cart->payment_id;
+        $cart->status = 'Commander';
+        $cart->update();
+
+        // Récuperation des informations de l'utilisateur
+        $order->user_id = $cart->user_id;
+
+        $order->user_name = $user->name;
+        $order->user_email = $user->email;
+
+        $order->user_loyality_used = $cart->loyality;
+        if ($cart->loyality == 5) $order->user_loyality_points_used = 300;
+        if ($cart->loyality == 10) $order->user_loyality_points_used = 500;
+        if ($cart->loyality == 15) $order->user_loyality_points_used = 1000;
 
         // Récuperation des informations de la livraison
         $order->delivery_id = $cart->delivery_id;
@@ -89,29 +113,21 @@ class OrdersController extends FrontendBaseController
         $order->delivery_date = $cart->delivery_date;
         $order->delivery_slot = $cart->delivery_slot;
 
-        // Récuperation des informations de l'utilisateur
-        $order->user_id = $cart->user_id;
-        $order->user_loyality_used = $cart->loyality;
-        if ($cart->loyality == 5) $order->user_loyality_points_used = 300;
-        if ($cart->loyality == 10) $order->user_loyality_points_used = 500;
-        if ($cart->loyality == 15) $order->user_loyality_points_used = 1000;
-
+        /*** Champs pour l'adresse de livraison ***/
         $address_delivery = Address::findOrFail($cart->user_address_delivery);
-        $order->user_name = $address_delivery->first_name.' '.$address_delivery->last_name;
-        $order->user_email = Auth::user()->email;
+        $order->user_delivery_civilite = $address_delivery->civilite;
+        $order->user_delivery_first_name = $address_delivery->first_name;
+        $order->user_delivery_last_name = $address_delivery->last_name;
         $order->user_delivery_address = $address_delivery->address;
         $order->user_delivery_address2 = $address_delivery->address2;
         $order->user_delivery_cities = $address_delivery->cities;
         $order->user_delivery_phone = $address_delivery->phone;
         $order->user_delivery_other_phone = $address_delivery->other_phone;
-        /*** Champ pas encore present ***/
-        $order->user_civilite = $address_delivery->civilite;
-        $order->user_first_name = $address_delivery->first_name;
-        $order->user_last_name = $address_delivery->last_name;
-        $order->user_birthday = $address_delivery->birthday;
 
+        /*** Champs pour l'adresse de facturation ***/
         if($cart->user_address_invoice != $cart->user_address_delivery) {
             $address_invoice = Address::findOrFail($cart->user_address_invoice);
+            $order->user_invoice_civilite = $address_invoice->civilite;
             $order->user_invoice_first_name = $address_invoice->first_name;
             $order->user_invoice_last_name = $address_invoice->last_name;
             $order->user_invoice_address = $address_invoice->address;
@@ -119,10 +135,6 @@ class OrdersController extends FrontendBaseController
             $order->user_invoice_cities = $address_invoice->cities;
             $order->user_invoice_phone = $address_invoice->phone;
             $order->user_invoice_other_phone = $address_invoice->other_phone;
-            /*** Champ pas encore present ***/
-            $order->user_civilite = $address_delivery->civilite;
-            $order->user_invoice_first_name = $address_invoice->first_name;
-            $order->user_invoice_last_name = $address_invoice->last_name;
         }
         $order->save();
         /// Recuperation des informations produits + Mise a jour du stock
@@ -157,11 +169,13 @@ class OrdersController extends FrontendBaseController
                 $productInfo->save();
             }
         }
+
         // Modification des points FID
-        $user = User::findOrFail(Auth::user()->id);
+        $user = User::findOrFail($cart->user_id);
         $user->erp_loyalty_points = $user->erp_loyalty_points - $order->user_loyality_points_used;
         $user->erp_loyalty_points = $user->erp_loyalty_points + round($cart->total_ttc / 100, 0);
         $user->save();
         cookie()->queue(cookie()->forget('session_id'));
+        return 'ok';
     }
 }
