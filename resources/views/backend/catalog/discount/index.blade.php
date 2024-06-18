@@ -5,12 +5,40 @@
 
     <div class="row m-2">
         <div class="col">
-
-            @can('catalog.discount.create')
                 <div class="d-flex gap-2 justify-content-end mb-3 me-5">
-                    <a href="{{ route('backend.catalog.discounts.create') }}" class="btn btn-success hvr-float-shadow"><i class="fa-solid fa-plus"></i> Ajouter une promotion</a>
+                    @can('catalog.discount.import')
+                        <button type='button' class="btn btn-info hvr-float-shadow text-white" data-bs-toggle="modal" data-bs-target="#importModal">
+                            <i class="fa-solid fa-file-import"></i>&nbsp;Importation
+                        </button>
+                        <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Importer un fichier</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('backend.catalog.discounts.import') }}" method="POST" enctype="multipart/form-data">
+                                            @csrf
+                                            <label for="discount_list" class="form-label">Liste des promotions</label>
+                                            <input type="file" name="discount_list" class="form-control mb-3" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+
+                                            <label for="discount_products" class="form-label">Produits des promotions</label>
+                                            <input type="file" name="discount_products" class="form-control mb-3" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+
+                                            <div class="text-center">
+                                                <button class="btn btn-primary" type="submit">Envoyer</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endcan
+                    @can('catalog.discount.create')
+                        <a href="{{ route('backend.catalog.discounts.create') }}" class="btn btn-success hvr-float-shadow"><i class="fa-solid fa-plus"></i> Ajouter une promotion</a>
+                    @endcan
                 </div>
-            @endcan
 
             <div class="card border-left-primary shadow mb-4">
                 <div class="card-header py-3">

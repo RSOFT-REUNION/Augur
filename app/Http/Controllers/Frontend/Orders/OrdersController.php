@@ -60,17 +60,16 @@ class OrdersController extends FrontendBaseController
         return $this->redirectToExternalUrl($redirectUrl, $data);
     }
 
-
     public function getPaymentReturn(Request $request)
     {
         if ($request->vads_auth_result = 00) {
+
             $this->cart_validation($request->vads_trans_id);
             return to_route('index')->withSuccess('Merci pour votre commande');
         } else {
             return to_route('index')->withError('Commande non effectué');
         }
     }
-
 
     // Enregistrement des toutes les informations de la commande
     public function cart_validation($payment_id)
@@ -164,7 +163,5 @@ class OrdersController extends FrontendBaseController
         $user->erp_loyalty_points = $user->erp_loyalty_points + round($cart->total_ttc / 100, 0);
         $user->save();
         cookie()->queue(cookie()->forget('session_id'));
-        // TODO : Envoie des mail
-        return to_route('index')->withSuccess('Merci pour votre commande');
     }
 }

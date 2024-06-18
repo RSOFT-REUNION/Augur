@@ -34,5 +34,6 @@ Route::prefix('admin/catalogue')->name('backend.catalog.')->middleware('auth:adm
         Route::post('discounts/addproducts/{discount}', [DiscountController::class, 'add_products'])->name('discounts.add_products')->where(['discount' => $idRegex]);
         Route::post('discounts/products/destroy_product/{discount}-{product}', [DiscountController::class, 'destroy_product'])->name('discounts.destroy_product');
         Route::post('discounts/products/update_force_priceTTC/{discount}-{product}', [DiscountController::class, 'update_force_priceTTC'])->name('discounts.update_force_priceTTC');
+        Route::post('discounts/import', [DiscountController::class, 'import'])->name('discounts.import');
     });
 });

@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg" aria-label="Augur Navbar"  style="border-top: #1b2e47 20px solid;">
+<nav class="navbar navbar-expand-lg fixed-top shadow-lg" aria-label="Augur Navbar"  style="border-top: #1b2e47 20px solid; background-color: #ffffff;">
     <div class="container pt-3">
         <a class="navbar-brand" href="/"><img class="logo hvr-wobble-to-bottom-right" src="{{ asset('/frontend/images/logo/logo_icon_jaune.png') }}" alt="logo"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2">

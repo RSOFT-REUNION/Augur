@@ -14,6 +14,7 @@ class DiscountProduct extends Model
     protected $fillable = [
         'discount_id',
         'product_id',
+        'code_article',
         'fixed_priceTTC',
         'active'
     ];

@@ -50,13 +50,18 @@
         @if($product->stock > 0)
             <form>  @csrf
                 @if (Cookie::has('session_id'))
-                    <button type="button" class="btn btn-primary btn-sm mb-3 hvr-grow hvr-icon-buzz-out" id="add_cart"
-                            hx-post="{{ route('cart.add_product', $product) }}"
-                            hx-target="#nb_produit"
-                            hx-swap="outerHTML"><i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter au panier
-                    </button>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text minus" style="cursor: pointer;" >-</span>
+                        <input type="number" name="quantity" id="quantity" class="form-control w-25" min="1" max="{{ $product->stock / 1000 }}" value="1">
+                        <span class="input-group-text plus"  style="cursor: pointer;">+</span>
+                        <span type="button" class="btn btn-primary btn-lg hvr-grow hvr-icon-buzz-out" id="add_cart"
+                              hx-post="{{ route('cart.add_product', $product) }}"
+                              hx-target="#nb_produit"
+                              hx-swap="outerHTML"><i class="fa-solid fa-cart-plus hvr-icon"></i>
+                        </span>
+                    </div>
                 @else
-                    <button type="button" class="btn btn-primary btn-sm mb-3 hvr-grow hvr-icon-buzz-out" data-bs-toggle="modal" data-bs-target="#select_slot{{ $product->id }}">
+                    <button type="button" class="btn btn-primary mb-3 hvr-grow hvr-icon-buzz-out" data-bs-toggle="modal" data-bs-target="#select_slot{{ $product->id }}">
                         <i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter au panier
                     </button>
                 @endif
