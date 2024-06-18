@@ -12,6 +12,7 @@ use App\Models\Users\Address;
 use App\Models\Users\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class OrdersController extends FrontendBaseController
 {
@@ -73,11 +74,33 @@ class OrdersController extends FrontendBaseController
 
         if ($request->vads_auth_result == 00) {
             cookie()->queue(cookie()->forget('session_id'));
+            $this->exportOrderInfos($request->vads_trans_id);
             return $this->cart_validation($request->vads_trans_id);
 
         } else {
             return 'Erreur';
         }
+    }
+
+    public function exportOrderInfos($payment_id) {
+        $order = Order::where('payment_id', '=', $payment_id)->first();
+        $list = [$order->toArray()];
+
+        // Ajoutez des en-têtes pour chaque colonne dans le téléchargement CSV
+        array_unshift($list, array_keys($list[0]));
+
+        $callback = function() use ($list) {
+            $FH = fopen('php://output', 'w');
+            foreach ($list as $row) {
+                fputcsv($FH, $row);
+            }
+            fclose($FH);
+        };
+
+        $csv = response()->stream($callback, 200)->getContent();
+
+        // Utilisez le système de fichiers pour stocker le fichier CSV
+        Storage::disk('local')->put('ExportFileName.csv', $csv);
     }
 
 
