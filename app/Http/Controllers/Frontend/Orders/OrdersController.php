@@ -48,7 +48,7 @@ class OrdersController extends FrontendBaseController
 
         // génération de l'id de transaction pour référencer le paiement
         $cart->payment_id = $payment_id;
-        $cart->status = 'Commander';
+        $cart->status = 'En cours'; // rajouter 'en attente de paiement' dans les enums et si pas en conflit avec les autres fonctionnalités
         $cart->update();
         return $cart;
     }
@@ -70,9 +70,10 @@ class OrdersController extends FrontendBaseController
 
     public function getPaymentReturn(Request $request)
     {
+
         if ($request->vads_auth_result == 00) {
-            $test = $this->cart_validation($request->vads_trans_id);
-            return $test;
+
+            return $this->cart_validation($request->vads_trans_id);
         } else {
             return 'Erreur';
         }
@@ -80,27 +81,27 @@ class OrdersController extends FrontendBaseController
 
 
     // Enregistrement des toutes les informations de la commande
-    public function cart_validation(Request $request)
+    public function cart_validation($payment_id)
     {
-        $payment_id = generateUniqueAn6();
-
-        $this->updateCart($request, $request->cart, $payment_id);
 
         // Récuperation des informations du panier
         $cart = Carts::with('product')->where('payment_id', '=', $payment_id)->first();
         $order = new Orders;
+        $user = User::where('id', '=', $cart->user_id)->first();
 
-        //$order = Orders::with('product')->where('payment_id', '=', $payment_id)->first();
 
         $order->status_id = 3; // 'paiement accepté'
         $order->total_ttc = $cart->total_ttc;
         $order->payment_id = $cart->payment_id;
+        $cart->status = 'Commander';
+        $cart->update();
 
         // Récuperation des informations de l'utilisateur
         $order->user_id = $cart->user_id;
-        $order->user_name = Auth::user()->name;
 
-        $order->user_email = Auth::user()->email;
+        $order->user_name = $user->name;
+        $order->user_email = $user->email;
+
         $order->user_loyality_used = $cart->loyality;
         if ($cart->loyality == 5) $order->user_loyality_points_used = 300;
         if ($cart->loyality == 10) $order->user_loyality_points_used = 500;
@@ -136,7 +137,6 @@ class OrdersController extends FrontendBaseController
             $order->user_invoice_other_phone = $address_invoice->other_phone;
         }
         $order->save();
-
         /// Recuperation des informations produits + Mise a jour du stock
         foreach ($cart->product as $cart_product) {
             $orderProducts = new OrderProducts();
@@ -169,12 +169,13 @@ class OrdersController extends FrontendBaseController
                 $productInfo->save();
             }
         }
+
         // Modification des points FID
-        $user = User::findOrFail(Auth::user()->id);
+        $user = User::findOrFail($cart->user_id);
         $user->erp_loyalty_points = $user->erp_loyalty_points - $order->user_loyality_points_used;
         $user->erp_loyalty_points = $user->erp_loyalty_points + round($cart->total_ttc / 100, 0);
         $user->save();
         cookie()->queue(cookie()->forget('session_id'));
-
+        return 'ok';
     }
 }
