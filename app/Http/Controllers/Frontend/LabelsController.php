@@ -9,9 +9,8 @@ class LabelsController extends FrontendBaseController
 {
     public function index()
     {
-        $labels = Labels::paginate(16);
         return view('frontend.specific.labels.index', [
-            'labels' => $labels,
+            'labels' => Labels::orderby('name')->paginate(16),
         ]);
     }
     public function show(Labels $label)
