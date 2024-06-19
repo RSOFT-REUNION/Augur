@@ -8,7 +8,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-nav mt-5 p-3 rounded-3 shadow">
                 <li class="breadcrumb-item"><a href="{{ route('index') }}"><i class="fa-solid fa-home"></i></a></li>
-                <li class="breadcrumb-item"><a href="{{ route('product.fisrt_category_list') }}">Nos Produits</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('product.first_category_list') }}">Nos Produits</a></li>
                 @if(@getCategoryParentInfo($product->category->category_id))
                     @if(@getCategoryParentInfo(getCategoryParentInfo($product->category->category_id)->category_id) != null)
                         <li class="breadcrumb-item"><a href="/nos-produits/{{ getCategoryParentInfo(getCategoryParentInfo($product->category->category_id)->category_id)->slug }}">{{ getCategoryParentInfo(getCategoryParentInfo($product->category->category_id)->category_id)->name }}</a></li>

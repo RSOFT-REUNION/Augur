@@ -200,8 +200,7 @@ a.nav-link.active {
 
 @media (min-width: 990px) {
     .dropdown .dropdown-menu {
-        display: block;
-        opacity: 0;
+        display: none;
         -webkit-transition: all 300ms ease-in;
         -moz-transition: all 300ms ease-in;
         -ms-transition: all 300ms ease-in;
@@ -211,7 +210,6 @@ a.nav-link.active {
 
     .dropdown:hover .dropdown-menu {
         display: block;
-        opacity: 1;
     }
 }
 .search-input {

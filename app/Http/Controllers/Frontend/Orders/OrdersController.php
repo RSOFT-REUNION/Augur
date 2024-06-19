@@ -218,4 +218,10 @@ class OrdersController extends FrontendBaseController
 
         return $payment_id;
     }
+
+    public function orderValidated()
+    {
+        return view('frontend.orders.validated');
+    }
+
 }

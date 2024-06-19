@@ -11,10 +11,10 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ProductController extends FrontendBaseController
 {
-    public function fisrt_category_list()
+    public function first_category_list()
     {
-        return view('frontend.product.fisrt_category_list', [
-            'fisrt_category' => Category::whereNull('category_id')->where('active', 1)->limit(4)->get(),
+        return view('frontend.product.first_category_list', [
+            'first_category_list' => Category::whereNull('category_id')->where('active', 1)->limit(4)->get(),
         ]);
     }
 

@@ -20,7 +20,7 @@
     </div>
 
     <div class="container_slider">
-        @foreach($fisrt_category as $category)
+        @foreach($first_category_list as $category)
             <div id="{{ $category->id }}" role="button" class="slider_section" style="background-image: url('{{ getImageUrl('/upload/catalog/category/'.$category->image, 800, 800) }}')">
                 <div class="slider_content">
                     <p><a href="{{ route('product.list', $category->slug) }}" class="text-decoration-none text-white">{{ $category->name }}</a></p>

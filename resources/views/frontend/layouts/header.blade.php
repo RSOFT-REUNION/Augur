@@ -20,7 +20,7 @@
 
                     <!--- Menu des produits -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="{{ route('product.fisrt_category_list') }}">Nos Produits</a>
+                        <a class="nav-link dropdown-toggle" href="{{ route('product.first_category_list') }}">Nos Produits</a>
                         <ul class="dropdown-menu">
                             @foreach($menu_produits as $category)
                                 <li><a class="dropdown-item" href="/nos-produits/{{ $category->slug }}">{{ $category->name }}</a></li>
