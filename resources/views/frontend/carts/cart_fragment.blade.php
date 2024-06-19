@@ -39,10 +39,10 @@
                         <div class="col-md-2">
                             @if($product->discount_id)
                                 <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc) }} €</h6>
-                                @if($discountProducts[$product->product_id]['fixed_priceTTC'])
-                                    <h5 class="m-3">{{ formatPriceToFloat($discountProducts[$product->product_id]['fixed_priceTTC']) }} € @if($product->stock_unit == 'kg')<br>le Kg @endif</h5>
+                                @if(@$discountProducts[$product->product_id]['fixed_priceTTC'])
+                                    <h5 class="m-3">{{ formatPriceToFloat(@$discountProducts[$product->product_id]['fixed_priceTTC']) }} € @if($product->stock_unit == 'kg')<br>le Kg @endif</h5>
                                 @else
-                                    <h5 class="m-3">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * $discountProducts[$product->product_id]['discountPercentage']) / 100) }} € @if($product->stock_unit == 'kg')<br>le Kg @endif</h5>
+                                    <h5 class="m-3">{{ formatPriceToFloat($product->price_ttc - ($product->price_ttc * @$discountProducts[$product->product_id]['discountPercentage']) / 100) }} € @if($product->stock_unit == 'kg')<br>le Kg @endif</h5>
                                 @endif
                             @else
                                 <h5 class="mb-0">{{ formatPriceToFloat($product->price_ttc) }} € @if($product->stock_unit == 'kg')<br>le Kg @endif</h5>
@@ -76,17 +76,17 @@
                             @if($product->discount_id)
                                 @if($product->stock_unit == 'kg')
                                     <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc  * $product->quantity / 1000) }} €</h6>
-                                    @if($discountProducts[$product->product_id]['fixed_priceTTC'])
-                                        <h5 class="m-3">{{ formatPriceToFloat(($discountProducts[$product->product_id]['fixed_priceTTC'] * $product->quantity) / 1000) }} €</h5>
+                                    @if(@$discountProducts[$product->product_id]['fixed_priceTTC'])
+                                        <h5 class="m-3">{{ formatPriceToFloat((@$discountProducts[$product->product_id]['fixed_priceTTC'] * $product->quantity) / 1000) }} €</h5>
                                     @else
-                                        <h5 class="m-3">{{ formatPriceToFloat((($product->price_ttc - ($product->price_ttc * $discountProducts[$product->product_id]['discountPercentage']) / 100)  * $product->quantity ) / 1000)   }} €</h5>
+                                        <h5 class="m-3">{{ formatPriceToFloat((($product->price_ttc - ($product->price_ttc * @$discountProducts[$product->product_id]['discountPercentage']) / 100)  * $product->quantity ) / 1000)   }} €</h5>
                                     @endif
                                 @else
                                     <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc  * $product->quantity) }} €</h6>
-                                    @if($discountProducts[$product->product_id]['fixed_priceTTC'])
+                                    @if(@$discountProducts[$product->product_id]['fixed_priceTTC'])
                                         <h5 class="m-3">{{ formatPriceToFloat($discountProducts[$product->product_id]['fixed_priceTTC'] * $product->quantity) }} €</h5>
                                     @else
-                                        <h5 class="m-3">{{ formatPriceToFloat(($product->price_ttc - ($product->price_ttc * $discountProducts[$product->product_id]['discountPercentage']) / 100)  * $product->quantity )   }} €</h5>
+                                        <h5 class="m-3">{{ formatPriceToFloat(($product->price_ttc - ($product->price_ttc * @$discountProducts[$product->product_id]['discountPercentage']) / 100)  * $product->quantity )   }} €</h5>
                                     @endif
                                 @endif
                             @else
