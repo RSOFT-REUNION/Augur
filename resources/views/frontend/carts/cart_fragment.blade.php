@@ -2,27 +2,29 @@
     @if(count($cart->product) > 0)
         <div class="row">
             <div class="col-md-9 col-12">
-                <div class="row d-flex justify-content-between align-items-center text-center">
-                    <div class="col-md-2">
+                <div class="d-none d-lg-block">
+                    <div class="row d-flex justify-content-between align-items-center text-center">
+                        <div class="col-md-2">
 
-                    </div>
-                    <div class="col-md-4">
-                        Désignation
-                    </div>
-                    <div class="col-md-2">
-                        Prix TTC
-                    </div>
-                    <div class="col-md-1">
-                        Quantité
-                    </div>
-                    <div class="col-md-2">
-                        Total TTC
-                    </div>
-                    <div class="col-md-1">
+                        </div>
+                        <div class="col-md-4">
+                            Désignation
+                        </div>
+                        <div class="col-md-2">
+                            Prix TTC
+                        </div>
+                        <div class="col-md-1">
+                            Quantité
+                        </div>
+                        <div class="col-md-2">
+                            Total TTC
+                        </div>
+                        <div class="col-md-1">
 
+                        </div>
                     </div>
+                    <hr>
                 </div>
-                <hr>
                 @foreach($cart->product as $product)
                     <div class="row d-flex justify-content-between align-items-center mt-3 mb-3 text-center">
                         <div class="col-md-2">
@@ -36,7 +38,7 @@
                                 <p class="lead fw-normal mb-2">{{ getProductInfos($product->product_id)->name  }}</p>
                             </a>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 mb-3">
                             @if($product->discount_id)
                                 <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc) }} €</h6>
                                 @if(@$discountProducts[$product->product_id]['fixed_priceTTC'])
@@ -48,10 +50,12 @@
                                 <h5 class="mb-0">{{ formatPriceToFloat($product->price_ttc) }} € @if($product->stock_unit == 'kg')<br>le Kg @endif</h5>
                             @endif
                         </div>
-                        <div class="col-md-1">
+                        <div class="col-md-1 text-center mb-3">
+                            <label class="d-lg-none"><b>Quantité :</b></label>
                             <form method="post">  @csrf
                                 @if($product->stock_unit == 'kg')
-                                    <select class="form-control text-end me-3" style="width: 60px;" name="quantity" id="quantity"
+                                    <div class="d-flex justify-content-center">
+                                    <select class="form-control text-end me-3 text-center" style="width: 100px;" name="quantity" id="quantity"
                                             hx-post="{{ route('cart.update_quantity_product', $product->id) }}"
                                             hx-swap="outerHTML"
                                             hx-target="#divpanier">
@@ -59,20 +63,23 @@
                                             <option value="{{ $i }}00" @if($product->quantity == $i.'00') selected @endif>{{ $i }}00</option>
                                         @endfor
                                     </select>
+                                    </div>
                                     <p class="text-center">grammes</p>
                                 @else
-                                    <select class="form-control text-end me-3" style="width: 50px;" name="quantity" id="quantity"
-                                            hx-post="{{ route('cart.update_quantity_product', $product->id) }}"
-                                            hx-swap="outerHTML"
-                                            hx-target="#divpanier">
-                                        @for ($i = 1; $i <= getProductInfos($product->product_id)->stock / 1000 ; $i++)
-                                            <option value="{{ $i }}" @if($product->quantity == $i) selected @endif>{{ $i }}</option>
-                                        @endfor
-                                    </select>
+                                    <div class="d-flex justify-content-center">
+                                        <select class="form-control text-end me-3" style="width: 50px;" name="quantity" id="quantity"
+                                                hx-post="{{ route('cart.update_quantity_product', $product->id) }}"
+                                                hx-swap="outerHTML"
+                                                hx-target="#divpanier">
+                                            @for ($i = 1; $i <= getProductInfos($product->product_id)->stock / 1000 ; $i++)
+                                                <option value="{{ $i }}" @if($product->quantity == $i) selected @endif>{{ $i }}</option>
+                                            @endfor
+                                        </select>
+                                    </div>
                                 @endif
                             </form>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 mb-3">
                             @if($product->discount_id)
                                 @if($product->stock_unit == 'kg')
                                     <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc  * $product->quantity / 1000) }} €</h6>

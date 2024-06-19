@@ -36,7 +36,7 @@
                                         {{ $addres->address2 }} <br>
                                     </p>
                                 </div>
-                                <div class="col-md-3 col-12">
+                                <div class="col-md-3 col-12 mb-4">
                                     <p>
                                         @foreach($cities as $city)
                                             @if($city->postal_code == $addres->cities)

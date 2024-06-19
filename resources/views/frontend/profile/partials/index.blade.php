@@ -37,7 +37,7 @@
     @endif
 
     <div class="row row-flex">
-        <div class="col-md-3 col-12">
+        <div class="col-md-3 col-12 mb-4">
             <div class="card bg-gray rounded-4 hvr-grow-shadow w-100">
                 <a href="{{ route('info.edit') }}">
                     <div class="card-body text-center text-black">
@@ -47,7 +47,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-3 col-12">
+        <div class="col-md-3 col-12 mb-4">
             <div class="card bg-gray rounded-4 hvr-grow-shadow w-100">
                 <a href="{{ route('orders.show') }}">
                     <div class="card-body text-center text-black">
@@ -57,7 +57,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-3 col-12">
+        <div class="col-md-3 col-12 mb-4">
             <div class="card bg-gray rounded-4 hvr-grow-shadow w-100">
                 <a href="{{ route('loyality.show') }}">
                     <div class="card-body text-center text-black">
@@ -67,7 +67,7 @@
                 </a>
             </div>
         </div>
-        <div class="col-md-3 col-12">
+        <div class="col-md-3 col-12 mb-4">
             <div class="card bg-gray rounded-4 hvr-grow-shadow w-100">
                 <a href="{{ route('address.index') }}">
                     <div class="card-body text-center text-black">

@@ -6,7 +6,7 @@
     @yield('dashboard-breadcrumb')
 
     <div class="row">
-        <div class="col-md-3 col-12">
+        <div class="col-md-3 col-12 mb-4">
             <div class="card bg-gray rounded-4">
                 <div class="card-body">
                     <div class="text-center mb-3">

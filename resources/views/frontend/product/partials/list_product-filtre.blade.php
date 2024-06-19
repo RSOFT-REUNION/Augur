@@ -2,7 +2,7 @@
     <div class="col">
 
     </div>
-    <div class="col me-3">
+    <div class="col me-3 mb-3">
         <!--- Filtre Promotion --->
         <div class="form-check form-switch d-flex justify-content-center align-items-center" style="margin-top: 4px;">
             @if(request()->query('discount') == 'on')
@@ -19,7 +19,7 @@
             <label class="form-check-label" for="discount" style="margin-top: 6px;">Promotions</label>
         </div>
     </div>
-    <div class="col">
+    <div class="col mb-3">
         <!--- Filtre Stock --->
         <div class="form-check form-switch d-flex justify-content-center align-items-center" style="margin-top: 4px;">
             @if(request()->query('stock') == 'on')

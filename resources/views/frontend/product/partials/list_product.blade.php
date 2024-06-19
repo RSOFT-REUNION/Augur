@@ -9,7 +9,7 @@
 
         <div class="row d-flex mb-4 align-items-center">
             <div class="col-md-2 align-items-center">
-                <h5>{{ $products->total() }} Produits</h5>
+                <h5 class="d-none d-lg-block">{{ $products->total() }} Produits</h5>
             </div>
             <div class="col-md-10 align-items-center">
                 @include('frontend.product.partials.list_product-filtre')

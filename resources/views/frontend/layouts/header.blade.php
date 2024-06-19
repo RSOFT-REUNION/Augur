@@ -38,7 +38,7 @@
                         <a class="nav-link" aria-current="page" href="{{ route('contact') }}">Contact</a>
                     </li>
 
-                    <li class="nav-item me-2">
+                    <li class="nav-item me-2 d-none d-lg-block">
                         <div class="dropdown btn btn-secondary hvr-grow-shadow">
                             <i class="fa-solid fa-magnifying-glass" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside"></i>
                             <form class="dropdown-menu p-0 search-input" role="search" method="get" action="{{ route('search') }}">
@@ -49,12 +49,12 @@
 
 
                     @if(Auth::guest())
-                        <li class="nav-item me-2">
+                        <li class="nav-item me-2 mb-3">
                             <a class="btn btn-primary hvr-grow-shadow" aria-current="page" href="{{ route('dashboard') }}"> <i class="fa-duotone fa-user fa-fw"></i> Mon compte</a>
                         </li>
                     @endif
                     @if(Auth::user())
-                        <li class="nav-item me-2">
+                        <li class="nav-item me-2 mb-3">
                             <form method="POST" action="{{ route('logout') }}"> @csrf
                                 <div class="btn-group" role="group" aria-label="Basic example">
                                     <a type="button" href="{{ route('dashboard') }}" class="btn btn-primary"><i class="fa-duotone fa-user fa-fw"></i> Mon compte</a>
@@ -64,8 +64,8 @@
 
                         </li>
                     @endif
-                    <li class="nav-item">
-                        <a class="btn btn-warning hvr-grow-shadow" aria-current="page" href="{{ route('cart.index') }}"> <i class="fa-duotone fa-cart-shopping"></i>
+                    <li class="nav-item mb-3">
+                        <a class="btn btn-warning hvr-grow-shadow" aria-current="page" href="{{ route('cart.index') }}"> <span>Mon panier</span> <i class="fa-duotone fa-cart-shopping"></i>
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"><span id="nb_produit">{{ \App\Http\Controllers\Frontend\ShoppingCart\CartController::count_product() }}</span> <span class="visually-hidden">Nombres de produits dans le panier</span></span>
                         </a>
                     </li>
