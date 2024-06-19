@@ -12,35 +12,37 @@
         </nav>
     </div>
 
-    <div class="row d-flex justify-content-between align-items-center text-center">
-        <div class="col-md-3">
+    <div class="d-none d-lg-block">
+        <div class="row d-flex justify-content-between align-items-center text-center">
+            <div class="col-md-3">
 
+            </div>
+            <div class="col-md-4">
+                Désignation
+            </div>
+            <div class="col-md-2">
+                Prix TTC
+            </div>
+            <div class="col-md-1">
+                Quantité
+            </div>
+            <div class="col-md-2">
+                Total
+            </div>
         </div>
-        <div class="col-md-4">
-            Désignation
-        </div>
-        <div class="col-md-2">
-            Prix TTC
-        </div>
-        <div class="col-md-1">
-            Quantité
-        </div>
-        <div class="col-md-2">
-            Total
-        </div>
+
+        <hr>
     </div>
-
-    <hr>
     @foreach($cart->product as $product)
         <div class="row d-flex justify-content-between align-items-center mt-3 mb-3 text-center">
-            <div class="col-md-3">
+            <div class="col-md-3 mb-2">
                 <img src="{{ getImageUrl('/upload/catalog/products/'.getProductInfos($product->product_id)->code_article.'.jpg', 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">
                 {{-- <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">--}}
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4 mb-2">
                 <p class="lead fw-normal mb-2">{{ getProductInfos($product->product_id)->name  }}</p>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 mb-2">
                 @if($product->discount_id)
                     <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc) }} €</h6>
                     @if($discountProducts[$product->product_id]['fixed_priceTTC'])
@@ -52,14 +54,14 @@
                     <h5 class="mb-0">{{ formatPriceToFloat($product->price_ttc) }} €@if($product->stock_unit == 'kg')<br>le Kg @endif</h5>
                 @endif
             </div>
-            <div class="col-md-1">
+            <div class="col-md-1 mb-2">
                 @if($product->stock_unit == 'kg')
-                    <b>{{ $product->quantity }} grammes</b>
+                    <label class="d-lg-none"><b>Quantité : </b></label> {{ $product->quantity }} grammes
                 @else
-                    <b>{{ $product->quantity }}</b>
+                    <label class="d-lg-none"><b>Quantité : </b></label> {{ $product->quantity }}
                 @endif
             </div>
-            <div class="col-md-2">
+            <div class="col-md-2 mb-2">
                 @if($product->discount_id)
                     @if($product->stock_unit == 'kg')
                         <h6 class="text-decoration-line-through text-danger">{{ formatPriceToFloat($product->price_ttc  * $product->quantity / 1000) }} €</h6>
@@ -90,7 +92,7 @@
 
 <div class="row row-flex justify-content-center align-items-center">
     @if($user_address->id != $user_address->favorite)
-        <div class="col-md-5 col-12">
+        <div class="col-md-5 col-12 mb-3">
             <div class="card bg-gray content">
                 <div class="card-body">
                     <div class="text-center">
@@ -142,7 +144,7 @@
             </div>
         </div>
     @else
-        <div class="col-md-4 col-12">
+        <div class="col-md-4 col-12 mb-3">
             <div class="card bg-gray content">
                 <div class="card-body">
                     <div class="text-center">
@@ -169,7 +171,7 @@
             </div>
         </div>
     @endif
-        <div class="col-md-4 col-12">
+        <div class="col-md-4 col-12 mb-3">
             <div class="card bg-gray content">
                 <div class="card-body">
                     <div class="row align-items-center text-center">
@@ -191,7 +193,7 @@
         </div>
 
 
-    <div class="col-md-2 col-12">
+    <div class="col-md-2 col-12 mb-3">
         @if($cart->loyality == 0)
             <div class="card bg-warning content">
                 <div class="card-body">

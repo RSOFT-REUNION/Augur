@@ -92,7 +92,7 @@
                 @include('frontend.carts.partials.loyality_hidden_input')
                 <input type="hidden" name="loyality" value="0">
 
-                <button type="submit" class="btn btn-lg btn-primary hvr-grow-shadow"><i class="fa-solid fa-list-check"></i> Récapitulatif
+                <button type="submit" class="btn btn-lg btn-primary hvr-grow-shadow mb-4"><i class="fa-solid fa-list-check"></i> Récapitulatif
                     de ma commande</button>
             </form>
         </div>
@@ -110,7 +110,7 @@
             @include('frontend.carts.partials.loyality_hidden_input')
             <input type="hidden" name="loyality" value="0">
 
-        <button type="submit" class="btn btn-lg btn-primary hvr-grow-shadow"><i class="fa-solid fa-list-check"></i> Récapitulatif
+        <button type="submit" class="btn btn-lg btn-primary hvr-grow-shadow mb-4"><i class="fa-solid fa-list-check"></i> Récapitulatif
             de ma commande</button>
         </form>
     </div>

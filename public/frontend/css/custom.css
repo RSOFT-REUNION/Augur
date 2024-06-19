@@ -448,3 +448,13 @@ button.btn-close {
 .footer-bottom {
     background-color: #f5eb69;
 }
+
+
+/***
+
+Responcive
+
+ */
+.offcanvas-body {
+    text-align: center;
+}
