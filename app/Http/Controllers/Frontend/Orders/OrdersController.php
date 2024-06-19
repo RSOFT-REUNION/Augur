@@ -106,7 +106,7 @@ class OrdersController extends FrontendBaseController
         $callback = function() use ($list, &$csvContent) {
             $FH = fopen('php://temp', 'r+');
             foreach ($list as $row) {
-                fputcsv($FH, $row);
+                fputcsv($FH, $row, ';');
             }
             rewind($FH);
             $csvContent = stream_get_contents($FH);

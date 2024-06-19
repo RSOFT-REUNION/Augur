@@ -10,8 +10,10 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Rules\NoSemicolon;
 
 class RegisteredUserController extends FrontendBaseController
 {
@@ -33,15 +35,15 @@ class RegisteredUserController extends FrontendBaseController
         $request->newsletter = $request->newsletter == 'on' ? 1 : 0;
         $request->validate([
             'civility' => ['required'],
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'address' => ['required', 'string', 'max:255'],
-            'address2' => ['required', 'string', 'max:255'],
-            'cities' => ['required', 'string', 'max:255'],
-            'phone' => ['required', 'string', 'max:255'],
-            'birthday' => ['required', 'date', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'first_name' => ['required', 'string', 'max:255', new NoSemicolon],
+            'last_name' => ['required', 'string', 'max:255', new NoSemicolon],
+            'address' => ['required', 'string', 'max:255', new NoSemicolon],
+            'address2' => ['required', 'string', 'max:255', new NoSemicolon],
+            'cities' => ['required', 'string', 'max:255', new NoSemicolon],
+            'phone' => ['required', 'string', 'max:255', new NoSemicolon],
+            'birthday' => ['required', 'date', 'max:255', new NoSemicolon],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class, new NoSemicolon],
+            'password' => ['required', 'confirmed', Rules\Password::defaults(), new NoSemicolon],
         ]);
 
         $user = User::create([
@@ -55,6 +57,10 @@ class RegisteredUserController extends FrontendBaseController
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+
+       if($user){
+            $this->exportUserInfos($user->id);
+       }
 
         /* Creation de l'adresse */
         $adresse = Address::create([
@@ -77,4 +83,35 @@ class RegisteredUserController extends FrontendBaseController
 
         return redirect(route('dashboard', absolute: false));
     }
+
+
+    public function exportUserInfos($user_id) {
+        $user = User::where('id', '=', $user_id)->first();
+        $list = [$user->toArray()];
+
+        $filename = 'export_'.date('Y_m_d_H_i_s').'_user_'.$user->id.'.csv';
+
+        // Ajoutez des en-têtes pour chaque colonne dans le téléchargement CSV
+        array_unshift($list, array_keys($list[0]));
+
+        // Générer le contenu CSV
+        $csvContent = '';
+        $callback = function() use ($list, &$csvContent) {
+            $FH = fopen('php://temp', 'r+');
+            foreach ($list as $row) {
+                fputcsv($FH, $row, ';');
+            }
+            rewind($FH);
+            $csvContent = stream_get_contents($FH);
+            fclose($FH);
+        };
+
+        $callback();
+
+        // Utilisez le système de fichiers pour stocker le fichier CSV
+        Storage::disk('local')->put('exports/users/'.$filename, $csvContent);
+    }
+
 }
+
+
