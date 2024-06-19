@@ -17,6 +17,42 @@ use Illuminate\Support\Facades\Storage;
 class OrdersController extends FrontendBaseController
 {
 
+    public function sendPaymentRequest(Request $request)
+    {
+         /** Génère le numéro de transaction **/
+        $payment_id = generateUniqueAn6();
+        $payment_data = config('payment.obligatory_fields');
+        $payment_data['vads_trans_id'] = $payment_id;
+
+        /** Informations sur le panier **/
+        $cart = Carts::findOrFail($request->cart);
+        $payment_data['vads_nb_products'] = $cart->countProduct();
+        $payment_data['vads_amount'] = $cart->total_ttc;
+        $payment_data['vads_pretax_amount'] = $cart->total_ht;
+        $cart->update([
+            'delivery_id' => $request->deliver,
+            'user_address_delivery' => $request->user_address_delivery,
+            'user_address_invoice' => $request->user_address_invoice,
+            'payment_id' => $payment_id,
+        ]);
+
+        /** Informations sur l'acheteur **/
+        $user = User::findOrFail($cart->user_id);
+        $payment_data['vads_cust_id'] = $user->id;
+        $payment_data['vads_cust_name'] = $user->name;
+        $payment_data['vads_cust_first_name'] = $user->first_name;
+        $payment_data['vads_cust_last_name'] = $user->last_name;
+        $payment_data['vads_cust_email'] = $user->email;
+        $payment_data['vads_cust_phone'] = $user->phone;
+
+        /** Toujours générer la signature en dernier **/
+        $payment_data['signature'] = generateSignature( $payment_data );
+
+        return $this->redirectToExternalUrl(config('payment.redirect_url'), $payment_data);
+    }
+
+
+
     private function redirectToExternalUrl($url, $data)
     {
         $formInputs = '';
@@ -38,36 +74,7 @@ class OrdersController extends FrontendBaseController
 
         return response($html);
     }
-
-    public function updateCart(Request $request, $payment_id) {
-        $cart = Carts::with('product')->findOrFail($request->cart);
-
-        // Sauvegarde des informations de la livraison
-        $cart->delivery_id = $request->deliver;
-        $cart->user_address_delivery = $request->user_address_delivery;
-        $cart->user_address_invoice = $request->user_address_invoice;
-
-        // génération de l'id de transaction pour référencer le paiement
-        $cart->payment_id = $payment_id;
-        $cart->status = 'en cours'; // rajouter 'en attente de paiement' dans les enums et si pas en conflit avec les autres fonctionnalités
-        $cart->save();
-        return $cart;
-    }
-
-    public function sendPaymentRequest(Request $request)
-    {
-        $payment_id = generateUniqueAn6();
-        $cart = $this->updateCart($request, $payment_id);
-
-        $redirectUrl = config('payment.redirect_url');
-        $payment_obligatory_fields = config('payment.obligatory_fields');
-        $payment_obligatory_fields['vads_trans_id'] = $payment_id;
-        $payment_obligatory_fields['vads_amount'] = $cart->total_ttc;
-        $data = array_merge($payment_obligatory_fields, ['signature' => generateSignature( $payment_obligatory_fields )]);
-
-        return $this->redirectToExternalUrl($redirectUrl, $data);
-    }
-
+    
 
     public function getPaymentReturn(Request $request)
     {
@@ -81,7 +88,7 @@ class OrdersController extends FrontendBaseController
 
             if ($order) {
                 // Call the export function only if the order exists
-                $this->exportOrderInfos($request->vads_trans_id);
+                $this->exportOrderCSV($request->vads_trans_id);
                 return 'Order '.$request->vads_trans_id.' created and exported successfully';
             } else {
                 // Handle the error if the order was not created successfully
@@ -92,7 +99,7 @@ class OrdersController extends FrontendBaseController
         }
     }
 
-    public function exportOrderInfos($payment_id) {
+    public function exportOrderCSV($payment_id) {
         $order = Orders::where('payment_id', '=', $payment_id)->first();
         $list = [$order->toArray()];
 

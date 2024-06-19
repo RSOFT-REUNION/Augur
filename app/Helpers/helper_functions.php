@@ -233,38 +233,29 @@ function formatDateInFrenchShort(string $dateString, string $dateFormat = 'Y-m-d
     return $formatter->format($date);
 }
 
+// Fonction pour convertir une chaîne de caractères en objet DateTime
+function convertToDateTime(string $dateString): DateTime
+{
+    $timezone = new DateTimeZone('Indian/Reunion');
+    return DateTime::createFromFormat('d-m-Y', $dateString, $timezone);
+}
+
+
+
+
+/****
+*****
+* SYSTEM PAY
+*****
+****/
 function generateSignature($data) {
     ksort($data); // Trie les champs par ordre alphabétique
     $concatenatedValues = implode('+', array_values($data));
-    $key = '7LbLUNEcCTUVzJII'; // Remplacez par votre clé de test ou de production
+    $key = 'payment.key.'.config('payment.obligatory_fields.vads_ctx_mode');
+    $key = config($key); // clé de test ou de production
     $message = $concatenatedValues . '+' . $key;
     $signature = base64_encode(hash_hmac('sha256', $message, $key, true));
     return $signature;
-}
-
-function getSignature ($params)
-{
-    /**
-     * Fonction qui calcule la signature.
-     * $params : tableau contenant les champs reçus dans l'IPN.
-     * $key : clé de TEST ou de PRODUCTION
-     */
-    //Initialisation de la variable qui contiendra la chaine à chiffrer
-    $contenu_signature = "";
-    //Tri des champs par ordre alphabétique
-    ksort($params);
-    foreach($params as $nom=>$valeur){
-        //Récupération des champs vads_
-        if(substr($nom,0,5)=='vads_'){
-            //Concaténation avec le séparateur "+"
-            $contenu_signature .= $valeur."+";
-        }
-    }
-    //Ajout de la clé en fin de chaine
-    $contenu_signature .= '7LbLUNEcCTUVzJII';
-    //Encodage base64 de la chaine chiffrée avec l'algorithme HMAC-SHA-256
-    $sign = base64_encode(hash_hmac('sha256',$contenu_signature, $key, true));
-    return$sign;
 }
 
 function generateUniqueAn6()
@@ -282,13 +273,6 @@ function generateUniqueAn6()
     $hash = substr(hash('sha256', $uniqueString), 0, 6);
 
     return strtoupper($hash); // Convertir en majuscule pour l'alphanumérique
-}
-
-// Fonction pour convertir une chaîne de caractères en objet DateTime
-function convertToDateTime(string $dateString): DateTime
-{
-    $timezone = new DateTimeZone('Indian/Reunion');
-    return DateTime::createFromFormat('d-m-Y', $dateString, $timezone);
 }
 
 
