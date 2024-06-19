@@ -41,9 +41,9 @@ class ShopsController extends Controller
             'address' => 'string|nullable',
             'postal_code' => 'string|nullable',
             'city' => 'string|nullable',
-            'description' => 'max:255|string|nullable',
+            'description' => 'string|nullable',
             'schedules' => 'string|nullable',
-            'visibility' => 'required|string',
+            'visibility' => 'nullable',
             'image' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'active' => '',
         ]);
@@ -77,9 +77,9 @@ class ShopsController extends Controller
             'address' => 'string|nullable',
             'postal_code' => 'string|nullable',
             'city' => 'string|nullable',
-            'description' => 'max:255|string|nullable',
+            'description' => 'string|nullable',
             'schedules' => 'string|nullable',
-            'visibility' => 'required|string',
+            'visibility' => 'nullable',
             'image' => 'image|nullable|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'active' => '',
         ]);

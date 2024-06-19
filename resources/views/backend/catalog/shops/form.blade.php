@@ -141,6 +141,7 @@
                                 @enderror
                             </div>
 
+                            {{--
                             <div class="form-group">
                                 <label class="form-control-label" for="visibility">Visibilité <span class="small text-danger">*</span></label>
                                 <select name="visibility" id="visibility" class="@error('visibility') is-invalid @enderror form-control" required>
@@ -150,7 +151,7 @@
                                 @error('visibility')
                                 <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                            </div>
+                            </div>--}}
                         </div>
                     </div>
                 </div>
