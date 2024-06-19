@@ -89,7 +89,8 @@ $(document).ready(function() {
     $('.minus').click(function () {
         var $input = $(this).parent().find('input');
         var min = parseInt($input.attr('min'));
-        var count = parseInt($input.val()) - 1;
+        var step = parseInt($input.attr('step')) || 1; // Default to 1 if step is not specified
+        var count = parseInt($input.val()) - step;
         count = count < min ? min : count;
         $input.val(count);
         $input.change();
@@ -98,7 +99,8 @@ $(document).ready(function() {
     $('.plus').click(function () {
         var $input = $(this).parent().find('input');
         var max = parseInt($input.attr('max'));
-        var count = parseInt($input.val()) + 1;
+        var step = parseInt($input.attr('step')) || 1; // Default to 1 if step is not specified
+        var count = parseInt($input.val()) + step;
         count = count > max ? max : count;
         $input.val(count);
         $input.change();
