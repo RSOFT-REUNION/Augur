@@ -61,16 +61,29 @@
         @if($product->stock > 0)
             <form>  @csrf
                 @if (Cookie::has('session_id'))
-                    <div class="input-group mb-3 w-75 mx-auto">
-                        <span class="input-group-text minus" >-</span>
-                        <input type="number" name="quantity" id="quantity" class="form-control w-25" min="1" max="{{ $product->stock / 1000 }}" value="1">
-                        <span class="input-group-text plus">+</span>
-                        <span type="button" class="btn btn-primary btn-lg hvr-grow hvr-icon-buzz-out" id="add_cart"
-                                hx-post="{{ route('cart.add_product', $product) }}"
-                                hx-target="#nb_produit"
-                                hx-swap="outerHTML"><i class="fa-solid fa-cart-plus hvr-icon"></i>
+                    @if($product->stock_unit == 'kg')
+                        <div class="input-group mb-2 w-75 mx-auto"  style="cursor: pointer;">
+                            <span class="input-group-text minus" >-</span>
+                            <input type="number" name="quantity" id="quantity" class="form-control w-25" min="1" max="{{ $product->stock }}" value="100" step="100">
+                            <span class="input-group-text plus">+</span>
+                        </div>
+                        <span type="button" class="btn btn-primary hvr-grow hvr-icon-buzz-out" id="add_cart"
+                              hx-post="{{ route('cart.add_product', $product) }}"
+                              hx-target="#nb_produit"
+                              hx-swap="outerHTML"><i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter
                         </span>
-                    </div>
+                    @else
+                        <div class="input-group mb-2 w-75 mx-auto"  style="cursor: pointer;">
+                            <span class="input-group-text minus" >-</span>
+                            <input type="number" name="quantity" id="quantity" class="form-control w-25" min="1" max="{{ $product->stock / 1000 }}" value="1">
+                            <span class="input-group-text plus">+</span>
+                        </div>
+                        <span type="button" class="btn btn-primary hvr-grow hvr-icon-buzz-out" id="add_cart"
+                              hx-post="{{ route('cart.add_product', $product) }}"
+                              hx-target="#nb_produit"
+                              hx-swap="outerHTML"><i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter
+                        </span>
+                    @endif
                 @else
                     <button type="button" class="btn btn-primary btn-lg mb-3 hvr-grow hvr-icon-buzz-out" data-bs-toggle="modal" data-bs-target="#select_slot{{ $product->id }}">
                         <i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter au panier

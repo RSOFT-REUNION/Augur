@@ -20,6 +20,7 @@ class CartController extends FrontendBaseController
 {
     public function index()
     {
+        $this->update_cart_product();
         $cart = $this->getCartInstance();
         return view('frontend.carts.index', compact('cart'));
     }
@@ -167,6 +168,39 @@ class CartController extends FrontendBaseController
         return $cart;
     }
 
+    public function update_cart_product()
+    {
+        $cart = $this->getCartInstance();
+        foreach ($cart->product as $product) {
+            $productinfo = Product::firstwhere('id', $product->product_id);
+            $discountProducts = collect();
+            $discounts = Discount::currently()->with('products')->orderBy('percentage')->get();
+            foreach ($discounts as $discount) {
+                foreach ($discount->products as $productdiscount) {
+                    $discountProducts->put($productdiscount->product_id, $discount);
+                }
+            }
+            if ($discountProducts->has($product->product_id)) {
+                $product->discount_id = $discountProducts->get($product->product_id)->id;
+                $product->discount_percentage = $discountProducts->get($product->product_id)->percentage;
+                foreach ($discountProducts->get($product->product_id)->products as $productdiscount) {
+                    if ($productdiscount->product_id == $product->product_id) {
+                        $product->discount_fixed_price_ttc = $productdiscount->fixed_priceTTC;
+                    }
+                }
+            } else {
+                $product->discount_id = null;
+                $product->discount_percentage = null;
+                $product->discount_fixed_price_ttc = null;
+            }
+            $product->price_ht = $productinfo->price_ht;
+            $product->tva = $productinfo->tva;
+            $product->price_ttc = $productinfo->price_ttc;
+            $product->stock_unit = $productinfo->stock_unit;
+            $product->save();
+        }
+    }
+
     public function add_product(Request $request, Product $produit)
     {
         $cart = $this->getCartInstance();
@@ -216,6 +250,10 @@ class CartController extends FrontendBaseController
                         $cartProductData['discount_fixed_price_ttc'] = $product->fixed_priceTTC;
                     }
                 }
+            }  else {
+                $cartProductData['discount_id'] = null;
+                $cartProductData['discount_percentage'] = null;
+                $cartProductData['discount_fixed_price_ttc'] = null;
             }
             $cart->product()->create($cartProductData);
         }
