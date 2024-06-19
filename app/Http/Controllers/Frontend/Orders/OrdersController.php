@@ -74,35 +74,50 @@ class OrdersController extends FrontendBaseController
 
         if ($request->vads_auth_result == 00) {
             cookie()->queue(cookie()->forget('session_id'));
-            $this->exportOrderInfos($request->vads_trans_id);
-            return $this->cart_validation($request->vads_trans_id);
 
+            $this->cart_validation($request->vads_trans_id);
+            // Ensure the order has been created before calling exportOrderInfos
+            $order = Orders::where('payment_id', '=', $request->vads_trans_id)->first();
+
+            if ($order) {
+                // Call the export function only if the order exists
+                $this->exportOrderInfos($request->vads_trans_id);
+                return 'Order '.$request->vads_trans_id.' created and exported successfully';
+            } else {
+                // Handle the error if the order was not created successfully
+                return response()->json(['error' => 'Order creation failed'], 500);
+            }
         } else {
             return 'Erreur';
         }
     }
 
     public function exportOrderInfos($payment_id) {
-        $order = Order::where('payment_id', '=', $payment_id)->first();
+        $order = Orders::where('payment_id', '=', $payment_id)->first();
         $list = [$order->toArray()];
+
+        $filename = 'export_order_'.date('Y_m_d_H_i_s').'_transaction_'.$order->payment_id.'.csv';
 
         // Ajoutez des en-têtes pour chaque colonne dans le téléchargement CSV
         array_unshift($list, array_keys($list[0]));
 
-        $callback = function() use ($list) {
-            $FH = fopen('php://output', 'w');
+        // Générer le contenu CSV
+        $csvContent = '';
+        $callback = function() use ($list, &$csvContent) {
+            $FH = fopen('php://temp', 'r+');
             foreach ($list as $row) {
                 fputcsv($FH, $row);
             }
+            rewind($FH);
+            $csvContent = stream_get_contents($FH);
             fclose($FH);
         };
 
-        $csv = response()->stream($callback, 200)->getContent();
+        $callback();
 
         // Utilisez le système de fichiers pour stocker le fichier CSV
-        Storage::disk('local')->put('ExportFileName.csv', $csv);
+        Storage::disk('local')->put('exports/orders/'.$filename, $csvContent);
     }
-
 
     // Enregistrement des toutes les informations de la commande
     public function cart_validation($payment_id)
