@@ -38,7 +38,7 @@ class RegisteredUserController extends FrontendBaseController
             'first_name' => ['required', 'string', 'max:255', new NoSemicolon],
             'last_name' => ['required', 'string', 'max:255', new NoSemicolon],
             'address' => ['required', 'string', 'max:255', new NoSemicolon],
-            'address2' => ['required', 'string', 'max:255', new NoSemicolon],
+            'address2' => ['nullable', 'string', 'max:255', new NoSemicolon],
             'cities' => ['required', 'string', 'max:255', new NoSemicolon],
             'phone' => ['required', 'string', 'max:255', new NoSemicolon],
             'birthday' => ['required', 'date', 'max:255', new NoSemicolon],
@@ -58,9 +58,7 @@ class RegisteredUserController extends FrontendBaseController
             'password' => Hash::make($request->password),
         ]);
 
-       if($user){
-            $this->exportUserInfos($user->id);
-       }
+
 
         /* Creation de l'adresse */
         $adresse = Address::create([
@@ -77,6 +75,10 @@ class RegisteredUserController extends FrontendBaseController
         $adresse->favorite = $adresse->id;
         $adresse->save();
 
+        if($user && $adresse){
+            $this->exportUserInfos($user->id);
+        }
+
         event(new Registered($user));
 
         Auth::login($user);
@@ -87,18 +89,27 @@ class RegisteredUserController extends FrontendBaseController
 
     public function exportUserInfos($user_id) {
         $user = User::where('id', '=', $user_id)->first();
-        $list = [$user->toArray()];
+        $address = Address::where('user_id', '=', $user->id)->first();
 
+        $Userkeys = ['id', 'civility', 'name', 'last_name', 'first_name', 'phone', 'email', 'birthday'];
+        $Addresskeys = ['address', 'address2', 'cities'];
+
+        $filteredUserList =  array_intersect_key($user->toArray(), array_flip($Userkeys));
+        $filteredAddressList = array_intersect_key($address->toArray(), array_flip($Addresskeys));
+
+        $filteredList = [$filteredUserList+$filteredAddressList];
+
+        //dd($filteredList);
         $filename = 'export_'.date('Y_m_d_H_i_s').'_user_'.$user->id.'.csv';
 
         // Ajoutez des en-têtes pour chaque colonne dans le téléchargement CSV
-        array_unshift($list, array_keys($list[0]));
+        array_unshift($filteredList, array_keys($filteredList[0]));
 
         // Générer le contenu CSV
         $csvContent = '';
-        $callback = function() use ($list, &$csvContent) {
+        $callback = function() use ($filteredList, &$csvContent) {
             $FH = fopen('php://temp', 'r+');
-            foreach ($list as $row) {
+            foreach ($filteredList as $row) {
                 fputcsv($FH, $row, ';');
             }
             rewind($FH);
