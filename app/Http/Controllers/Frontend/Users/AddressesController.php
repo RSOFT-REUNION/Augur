@@ -7,6 +7,7 @@ use App\Models\Users\Address;
 use App\Models\Users\Cities;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Rules\NoSemicolon;
 
 class AddressesController extends FrontendBaseController
 {
@@ -40,23 +41,23 @@ class AddressesController extends FrontendBaseController
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'alias' => 'required|string|min:3|max:255',
-            'civility' => ['required'],
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'address' => 'required|string|max:255',
-            'address2' => 'max:255',
-            'other' => 'max:255',
-            'cities' => 'required',
-            'country' => 'nullable',
-            'phone' => 'required|string|max:20',
-            'other_phone' => 'max:20',
+            'alias' => ['required', 'string', 'min:3', 'max:255', new NoSemicolon],
+            'civility' => ['required', new NoSemicolon],
+            'first_name' => ['required', 'string', 'max:255', new NoSemicolon],
+            'last_name' => ['required', 'string', 'max:255', new NoSemicolon],
+            'address' => ['required', 'string', 'max:255', new NoSemicolon],
+            'address2' => ['max:255', new NoSemicolon],
+            'other' => ['max:255', new NoSemicolon],
+            'cities' => ['required', new NoSemicolon],
+            'country' => ['nullable', new NoSemicolon],
+            'phone' => ['required', 'string', 'max:20', new NoSemicolon],
+            'other_phone' => ['max:20', new NoSemicolon],
             'favorite' => '',
         ]);
         $validated['user_id'] = Auth::user()->id;
         $validated['country'] = "La Réunion";
         Address::create($validated);
-        return redirect()->route('address.index')->withSuccess('Adresse ajouter avec succès');
+        return redirect()->route('address.index')->withSuccess('Adresse ajouté avec succès');
     }
 
     /**
@@ -77,17 +78,17 @@ class AddressesController extends FrontendBaseController
     public function update(Request $request, Address $mes_adress)
     {
         $validated = $request->validate([
-            'alias' => 'required|string|min:3|max:255',
-            'civility' => ['required'],
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'address' => 'required|string|max:255',
-            'address2' => 'max:255',
-            'other' => 'max:255',
-            'cities' => 'required',
-            'country' => 'nullable',
-            'phone' => 'required|string|max:20',
-            'other_phone' => 'max:20',
+            'alias' => ['required', 'string', 'min:3', 'max:255', new NoSemicolon],
+            'civility' => ['required', new NoSemicolon],
+            'first_name' => ['required', 'string', 'max:255', new NoSemicolon],
+            'last_name' => ['required', 'string', 'max:255', new NoSemicolon],
+            'address' => ['required', 'string', 'max:255', new NoSemicolon],
+            'address2' => ['max:255', new NoSemicolon],
+            'other' => ['max:255', new NoSemicolon],
+            'cities' => ['required', new NoSemicolon],
+            'country' => ['nullable', new NoSemicolon],
+            'phone' => ['required', 'string', 'max:20', new NoSemicolon],
+            'other_phone' => ['max:20', new NoSemicolon],
             'favorite' => '',
         ]);
         $validated['user_id'] = Auth::user()->id;
