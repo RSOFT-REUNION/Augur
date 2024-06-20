@@ -240,6 +240,7 @@ class OrdersController extends FrontendBaseController
 
     public function orderValidated()
     {
+        cookie()->queue(cookie()->forget('session_id'));
         return view('frontend.orders.validated');
     }
 
