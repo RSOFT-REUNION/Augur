@@ -171,8 +171,7 @@ class ProductController extends Controller
 
     public function import(Request $request)
     {
-        Excel::import(new CatalogProductImport(), $request->csv, $request->csv);
+        Excel::import(new CatalogProductImport(), $request->csv);
         return back()->withSuccess('Categorie importer avec succès');
     }
-
 }
