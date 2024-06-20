@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Frontend\Orders;
 use App\Http\Controllers\Frontend\FrontendBaseController;
 use App\Models\Carts\Carts;
 use App\Models\Catalog\Product;
+use App\Models\Orders\Delivery;
 use App\Models\Orders\OrderProducts;
 use App\Models\Orders\Orders;
 use App\Models\Users\Address;
@@ -37,9 +38,11 @@ class OrdersController extends FrontendBaseController
             'payment_id' => $payment_id,
         ]);
 
+        // pour rajouter des champs voir le dictionnaire https://paiement.systempay.fr/doc/fr-FR/form-payment/reference/sitemap.html
         /** Informations sur l'acheteur **/
         $user = User::findOrFail($cart->user_id);
         $payment_data['vads_cust_id'] = $user->id;
+        $payment_data['vads_cust_title'] = $user->civility;
         $payment_data['vads_cust_name'] = $user->name;
         $payment_data['vads_cust_first_name'] = $user->first_name;
         $payment_data['vads_cust_last_name'] = $user->last_name;
@@ -48,7 +51,7 @@ class OrdersController extends FrontendBaseController
 
         /** Traitement des redirections après tentative de paiement **/
         $payment_data['vads_redirect_error_timeout'] = 1;
-        $payment_data['vads_redirect_success_timeout'] = 10;
+        $payment_data['vads_redirect_success_timeout'] = 3;
         $payment_data['vads_url_cancel'] = route('orders.failed');
         $payment_data['vads_url_error'] = route('orders.failed');
         $payment_data['vads_url_refused'] = route('orders.failed');
@@ -246,7 +249,7 @@ class OrdersController extends FrontendBaseController
             'user_address' => Address::findOrFail($cart->user_address_delivery),
             'user_address_fac' => Address::findOrFail($cart->user_address_invoice),
             'cart' => $cart,
-            'deliver' => $cart->delivery_id,
+            'deliver' => Delivery::where('id', '=', $cart->delivery_id)->first(),
             'error_message' => 'Quelque chose ne s\'est pas passé comme prévu lors du paiement. Veuillez réessayer.'
         ]);
     }

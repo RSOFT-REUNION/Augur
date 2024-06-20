@@ -2,6 +2,8 @@
 
 use Carbon\Carbon;
 
+
+// le dictionnaire de clé https://paiement.systempay.fr/doc/fr-FR/form-payment/reference/sitemap.html
 return [
     'redirect_url' => 'https://paiement.systempay.fr/vads-payment/',
     'key' => [
