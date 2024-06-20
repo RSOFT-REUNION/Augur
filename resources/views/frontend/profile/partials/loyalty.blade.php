@@ -33,7 +33,7 @@
                              0
                         @endif Points</h1>
                 @else
-                    <h2>Vous n'avais pas encore de carte</h2>
+                    <h2>Vous n'avez pas encore de carte</h2>
                     <i class="fa-solid fa-credit-card fa-4x m-3"></i>
                     <p>Rendez-vous en magasin afin d'en créer une</p>
                 @endif
@@ -50,9 +50,9 @@
 
     <h4><i class="fa-solid fa-pen-to-square"></i> Comment ça marche ?</h4>
     <p>
-        <i class="fa-solid fa-caret-right"></i>Créez votre compte client gratuitement et récuperer votre carte directement en magasin, connectez-vous pour rejoindre le programme de fidélité.<br>
+        <i class="fa-solid fa-caret-right"></i>Créez votre compte client gratuitement et récuperez votre carte directement en magasin, connectez-vous pour rejoindre le programme de fidélité.<br>
         <i class="fa-solid fa-caret-right"></i>Cumulez des points à chaque achat et retrouvez-les dans votre compte client.<br>
-        <i class="fa-solid fa-caret-right"></i>Vous recevez un coupon de remise valable sur l’ensemble de nos produits.<br>
+        <i class="fa-solid fa-caret-right"></i>Vous recevrez un coupon de remise valable sur l’ensemble de nos produits.<br>
     </p>
 
     <h4>N’attendez plus, rejoignez notre programme de fidélité et profitez de ces avantages exclusifs ! <i class="fa-solid fa-heart"></i></h4>

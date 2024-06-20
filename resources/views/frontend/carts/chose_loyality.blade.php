@@ -100,7 +100,7 @@
 
 @else
     <div class="d-flex mb-5">
-        <div class="p-2 flex-fill"><h3>Vous n'avais pas encore de carte</h3></div>
+        <div class="p-2 flex-fill"><h3>Vous n'avez pas encore de carte</h3></div>
         <div class="p-2 flex-fill">
             <h4 class="text-end"><b>0</b> Points disponible</h4>
         </div>

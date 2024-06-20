@@ -52,6 +52,6 @@
 
 
     @empty
-        <h4 class="text-center">Vous n'avais pas encore d'adresse</h4>
+        <h4 class="text-center">Vous n'avez pas encore d'adresse</h4>
     @endif
 </div>
