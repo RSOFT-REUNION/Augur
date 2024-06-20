@@ -12,7 +12,7 @@
         </nav>
     </div>
 
-    @if ($error_message)
+    @if ($error_message->exists())
         <div class="text-center">
             <button type="button" class="btn btn-danger mb-3 btn-lg" disabled>{{ $error_message }}</button>
         </div>
