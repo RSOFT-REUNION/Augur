@@ -22,7 +22,7 @@ class OrdersController extends FrontendBaseController
     {
          /** Génère le numéro de transaction **/
         $payment_id = generateUniqueAn6();
-        $payment_data = config('payment.vads_fields');
+        $payment_data = config('payment.obligatory_fields');
         $payment_data['vads_trans_id'] = $payment_id;
 
         /** Informations sur le panier **/
@@ -47,10 +47,12 @@ class OrdersController extends FrontendBaseController
         $payment_data['vads_cust_phone'] = $user->phone;
 
         /** Traitement des redirections après tentative de paiement **/
-        $payment_data['vads_url_cancel'] = route('frontend.orders.failed');
-        $payment_data['vads_url_error'] = route('frontend.orders.failed');
-        $payment_data['vads_url_refused'] = route('frontend.orders.failed');
-        $payment_data[ 'vads_url_success'] = route('frontend.orders.success');
+        $payment_data['vads_redirect_error_timeout'] = 1;
+        $payment_data['vads_redirect_success_timeout'] = 10;
+        $payment_data['vads_url_cancel'] = route('orders.failed');
+        $payment_data['vads_url_error'] = route('orders.failed');
+        $payment_data['vads_url_refused'] = route('orders.failed');
+        $payment_data[ 'vads_url_success'] = route('orders.success');
 
         /** Toujours générer la signature en dernier **/
         $payment_data['signature'] = generateSignature( $payment_data );
@@ -87,13 +89,14 @@ class OrdersController extends FrontendBaseController
     {
 
         if ($request->vads_auth_result == 00) {
+            cookie()->queue(cookie()->forget('session_id'));
+
             $this->cart_validation($request->vads_trans_id);
             // Ensure the order has been created before calling exportOrderInfos
             $order = Orders::where('payment_id', '=', $request->vads_trans_id)->first();
 
             if ($order) {
                 // Call the export function only if the order exists
-                //cookie()->queue(cookie()->forget('session_id'));
                 Cookie::queue(Cookie::forget('session_id'));
                 $this->exportOrderCSV($request->vads_trans_id);
                 return 'Order '.$request->vads_trans_id.' created and exported successfully';
@@ -136,7 +139,6 @@ class OrdersController extends FrontendBaseController
     // Enregistrement des toutes les informations de la commande
     public function cart_validation($payment_id)
     {
-
         // Récuperation des informations du panier
         $cart = Carts::with('product')->where('payment_id', '=', $payment_id)->first();
 
@@ -238,7 +240,7 @@ class OrdersController extends FrontendBaseController
         return view('frontend.orders.validated');
     }
 
-    public function paymentFailedOrAbandonned() {
+    public function orderFailed() {
         $cart = Carts::where('user_id', Auth::id())->orderBy('updated_at', 'desc')->first();
         return view('frontend.carts.summary', [
             'user_address' => Address::findOrFail($cart->user_address_delivery),
@@ -248,5 +250,4 @@ class OrdersController extends FrontendBaseController
             'error_message' => 'Quelque chose ne s\'est pas passé comme prévu lors du paiement. Veuillez réessayer.'
         ]);
     }
-
 }
