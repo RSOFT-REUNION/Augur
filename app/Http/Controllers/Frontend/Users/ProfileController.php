@@ -59,7 +59,7 @@ class ProfileController extends FrontendBaseController
     public function orders_show()
     {
         return view('frontend.profile.partials.orders', [
-            'orders' => Orders::with('product')->where('user_id', Auth::user()->id)->get(),
+            'orders' => Orders::with('product')->where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->get(),
         ]);
     }
 
