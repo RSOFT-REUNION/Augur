@@ -124,6 +124,7 @@ class CartController extends FrontendBaseController
             'user_address_fac' => Address::where('user_id', Auth::id())->whereNotNull('favorite')->first(),
             'cart' => $cart,
             'deliver' => $deliver,
+            'error_message' => null,
         ]);
     }
 
