@@ -55,7 +55,7 @@
                                         @csrf
                                         <input type="hidden" name="address" value="{{ $addres->id }}">
                                         <input type="hidden" name="cart" value="{{ $cart->id }}">
-                                        <button type="submit" class="btn btn-primary btn-lg text-center hvr-grow-shadow" style="margin-top: -40px;"><i class="fa-solid fa-circle-arrow-right"></i>  Selectionner</button>
+                                        <button type="submit" class="btn btn-primary btn-lg text-center hvr-grow-shadow" style="margin-top: -40px;"><i class="fa-solid fa-circle-arrow-right"></i>  Sélectionner</button>
                                     </form>
                                 </div>
                             </div>
