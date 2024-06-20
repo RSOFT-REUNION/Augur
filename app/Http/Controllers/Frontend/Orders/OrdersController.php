@@ -245,7 +245,7 @@ class OrdersController extends FrontendBaseController
             'user_address_fac' => Address::findOrFail($cart->user_address_invoice),
             'cart' => $cart,
             'deliver' => $cart->delivery_id,
-            'message' => 'Quelque chose ne s\'est pas passé comme prévu lors du paiement. Veuillez réessayer.'
+            'error_message' => 'Quelque chose ne s\'est pas passé comme prévu lors du paiement. Veuillez réessayer.'
         ]);
     }
 

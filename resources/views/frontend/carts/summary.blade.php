@@ -12,6 +12,12 @@
         </nav>
     </div>
 
+    @if ($error_message)
+        <div class="text-center">
+            <button type="button" class="btn btn-danger mb-3 btn-lg" disabled>{{ $error_message }}</button>
+        </div>
+    @endif
+
     <div class="d-none d-lg-block">
         <div class="row d-flex justify-content-between align-items-center text-center">
             <div class="col-md-3">
@@ -251,11 +257,8 @@
         <p class="text-end" >Le total de la commande inclut la TVA et la livraison.</p>
     </div>
 
-    @if ($message)
-        <div class="">
-            <p class="" >{{ $message }}</p>
-        </div>
-    @endif
+
+
 
 
     <div class="text-center">
