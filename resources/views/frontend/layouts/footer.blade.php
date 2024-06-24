@@ -33,9 +33,9 @@
             <div class="d-flex mb-3">
                 <div class="me-auto p-2">&copy; 2023 - {{ now()->year }} | AÜGUR | Développé par <strong><a href="http://www.rsoft.re/" target="_blank" class="text-decoration-none blackcolor">RSOFT RÉUNION</a></strong></div>
                 <div>
-                    <a href="" target="_blank" class="me-2 hvr-float-shadow blackcolor"><i class="fa-brands fa-linkedin fa-2x"></i></a>
-                    <a href="" target="_blank" class="me-2 hvr-float-shadow blackcolor"><i class="fa-brands fa-instagram fa-2x"></i></a>
-                    <a href="" target="_blank" class="hvr-float-shadow blackcolor"><i class="fa-brands fa-square-facebook fa-2x"></i></a>
+                    <a href="https://re.linkedin.com/company/aügur-les-surgelés?trk=public_post_feedactor-name" target="_blank" class="me-2 hvr-float-shadow blackcolor"><i class="fa-brands fa-linkedin fa-2x"></i></a>
+                    <a href="https://www.instagram.com/augur97410" target="_blank" class="me-2 hvr-float-shadow blackcolor"><i class="fa-brands fa-instagram fa-2x"></i></a>
+                    <a href="https://m.facebook.com/profile.php?id=100094263253564&refid=13&__tn__=%2Cg" target="_blank" class="hvr-float-shadow blackcolor"><i class="fa-brands fa-square-facebook fa-2x"></i></a>
                 </div>
             </div>
         </div>
