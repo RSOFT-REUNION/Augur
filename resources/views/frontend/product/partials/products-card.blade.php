@@ -14,7 +14,11 @@
     @endif
 
     <a href="{{ route('product.show', $product->slug) }}">
-        <img src="{{ getImageUrl('/upload/catalog/products/'.$product->code_article.'.jpg', 300, 300, 'fill-max') }}" class="d-block w-100 rounded-5" alt="{{ $product->name  }}">
+        @if(Storage::disk('public')->exists('/upload/catalog/products/'.$product->code_article.'.jpg'))
+            <img src="{{ getImageUrl('/upload/catalog/products/'.$product->code_article.'.jpg', 300, 300, 'fill-max') }}" class="d-block w-100 rounded-5" alt="{{ $product->name  }}">
+        @else
+            <img src="{{ asset('frontend/images/no-image.png') }}" class="d-block w-100 rounded-5" alt="{{ $product->name  }}">
+        @endif
         {{-- <img src="{{ $product->getFirstImagesURL(300, 300, 'fill-max') }}" class="d-block w-100 rounded-5" alt="{{ $product->name }}"> --}}
     </a>
     <div class="card-body">
@@ -70,7 +74,9 @@
                         <span type="button" class="btn btn-primary hvr-grow hvr-icon-buzz-out" id="add_cart"
                               hx-post="{{ route('cart.add_product', $product) }}"
                               hx-target="#nb_produit"
-                              hx-swap="outerHTML"><i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter
+                              hx-swap="outerHTML"
+                              hx-trigger="click"
+                              hx-on="htmx:afterOnLoad: showAlert()"><i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter
                         </span>
                     @else
                         <div class="input-group mb-2 w-75 mx-auto"  style="cursor: pointer;">
@@ -81,7 +87,9 @@
                         <span type="button" class="btn btn-primary hvr-grow hvr-icon-buzz-out" id="add_cart"
                               hx-post="{{ route('cart.add_product', $product) }}"
                               hx-target="#nb_produit"
-                              hx-swap="outerHTML"><i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter
+                              hx-swap="outerHTML"
+                              hx-trigger="click"
+                              hx-on="htmx:afterOnLoad: showAlert()"><i class="fa-solid fa-cart-plus hvr-icon"></i> Ajouter
                         </span>
                     @endif
                 @else

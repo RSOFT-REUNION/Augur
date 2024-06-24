@@ -107,3 +107,35 @@ $(document).ready(function() {
         return false;
     });
 });
+
+
+function showAlert() {
+    const box = document.getElementById('flashMessage');
+    box.innerHTML = `<div class="alert alert-success fade show top-message"><i class="fa-solid fa-check"></i> Le produit a bien été ajouté au panier.</div>`;
+    // Cacher automatiquement l'alerte après 3 secondes
+    window.setTimeout(function () {
+        // Cible uniquement l'alerte spécifique que vous venez de montrer
+        const alertBox = box.querySelector('.top-message');
+        if (alertBox) {
+            $(alertBox).fadeTo(500, 0).slideUp(500, function () {
+                $(this).remove();
+            });
+        }
+    }, 2000);
+
+    const nb_produit = document.getElementById('nb_produit');
+
+    fetch('/cart/count-product')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            nb_produit.innerHTML = data.count;
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}

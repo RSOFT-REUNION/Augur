@@ -42,8 +42,12 @@
     @foreach($cart->product as $product)
         <div class="row d-flex justify-content-between align-items-center mt-3 mb-3 text-center">
             <div class="col-md-3 mb-2">
-                <img src="{{ getImageUrl('/upload/catalog/products/'.getProductInfos($product->product_id)->code_article.'.jpg', 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">
-                {{-- <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">--}}
+                @if(Storage::disk('public')->exists('/upload/catalog/products/'.getProductInfos($product->product_id)->code_article.'.jpg'))
+                    <img src="{{ getImageUrl('/upload/catalog/products/'.getProductInfos($product->product_id)->code_article.'.jpg', 200, 200, 'fill-max') }}" class="img-fluid" alt="{{ getProductInfos($product->product_id)->name  }}">
+                @else
+                    <img src="{{ asset('frontend/images/no-image.png') }}" class="d-block w-100 rounded-5" alt="{{ getProductInfos($product->product_id)->name  }}">
+                @endif
+                    {{-- <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">--}}
             </div>
             <div class="col-md-4 mb-2">
                 <p class="lead fw-normal mb-2">{{ getProductInfos($product->product_id)->name  }}</p>

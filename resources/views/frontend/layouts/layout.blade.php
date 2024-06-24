@@ -34,6 +34,7 @@
         @include('frontend.layouts.footer')
     <div id="preloader"></div>
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center text-decoration-none"><i class="fa-duotone fa-arrow-up fa-fw"></i></a>
+    <div id="flashMessage">&nbsp;</div>
 
     @include('frontend.layouts.script')
 </body>
