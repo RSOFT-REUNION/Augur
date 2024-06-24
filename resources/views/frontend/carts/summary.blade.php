@@ -257,10 +257,6 @@
         <p class="text-end" >Le total de la commande inclut la TVA et la livraison.</p>
     </div>
 
-
-
-
-
     <div class="text-center">
         <form action="{{ route('orders.send_payment') }}" method="post"> @csrf
             <input type="hidden" name="cart" value="{{ $cart->id }}">

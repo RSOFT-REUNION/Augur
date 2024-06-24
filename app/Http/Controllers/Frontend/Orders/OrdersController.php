@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend\Orders;
 
 
 use App\Http\Controllers\Frontend\FrontendBaseController;
+use App\Mail\NewOrderMail;
 use App\Models\Carts\Carts;
 use App\Models\Catalog\Product;
 use App\Models\Orders\Delivery;
@@ -13,6 +14,7 @@ use App\Models\Users\Address;
 use App\Models\Users\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cookie;
 
@@ -234,6 +236,18 @@ class OrdersController extends FrontendBaseController
 
         $cart->status = 'Commander';
         $cart->save();
+
+        //envoie du mail
+        $mailData = [
+            'order_id' => $order->id,
+            'payment_id' => $order->payment_id,
+            'name' => $order->user_delivery_first_name . ' ' . $order->user_delivery_last_name,
+            'email' => $order->user_email,
+            'total_product' => count($cart->product),
+            'total_ttc' => formatPriceToFloat($order->total_ttc),
+        ];
+        Mail::send(new NewOrderMail($mailData));
+
         Cookie::queue(Cookie::forget('session_id'));
         return $payment_id;
     }
@@ -254,4 +268,5 @@ class OrdersController extends FrontendBaseController
             'error_message' => 'Quelque chose ne s\'est pas passé comme prévu lors du paiement. Veuillez réessayer.'
         ]);
     }
+
 }
