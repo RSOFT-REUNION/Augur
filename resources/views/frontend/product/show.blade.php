@@ -49,8 +49,11 @@
 
     <div class="row">
         <div class="col-md-5 col-12" data-aos="fade-up-right">
-            <img src="{{ getImageUrl('/upload/catalog/products/'.$product->code_article.'.jpg', 600, 600, 'fill-max') }}" class="img-fluid" alt="{{ $product->name }}">
-            {{-- @foreach($product->images as $image)
+            @if(Storage::disk('public')->exists('/upload/catalog/products/'.$product->code_article.'.jpg'))
+                <img src="{{ getImageUrl('/upload/catalog/products/'.$product->code_article.'.jpg', 300, 300, 'fill-max') }}" class="d-block w-100 rounded-5" alt="{{ $product->name  }}">
+            @else
+                <img src="{{ asset('frontend/images/no-image.png') }}" class="d-block w-100 rounded-5" alt="{{ $product->name  }}">
+            @endif            {{-- @foreach($product->images as $image)
                 @if($image->id == $product->fav_image)
                     <img src="{{ $image->getImageUrl() }}" class="img-fluid" alt="{{ $product->name }}">
                 @endif
