@@ -7,7 +7,7 @@
         <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-nav mt-5 p-3 rounded-3 shadow">
                 <li class="breadcrumb-item"><a href="{{ route('index') }}"><i class="fa-solid fa-home"></i></a></li>
-                <li class="breadcrumb-item active text-white" aria-current="page">Commande validé</li>
+                <li class="breadcrumb-item active text-white" aria-current="page">Commande validée</li>
             </ol>
         </nav>
     </div>
@@ -16,7 +16,7 @@
     <h3 class="text-center mb-5">Merci d'avoir passé votre commande chez Aügur!</h3>
 
     <div class="text-center">
-        <a class="hvr-grow-shadow btn btn-warning btn-lg mb-2" href="{{ route('orders.show') }}"><i class="fa-solid fa-basket-shopping"></i> Mes commandes</a>
+        <a class="hvr-grow-shadow btn btn-warning btn-lg mb-2" href="{{ route('orders.show') }}"><i class="fa-solid fa-basket-shopping"></i> Consulter mes commandes</a>
     </div>
 
 @endsection
