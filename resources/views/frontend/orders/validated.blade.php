@@ -1,5 +1,5 @@
 @extends('frontend.layouts.layout')
-@section('title', __('Commande valider') )
+@section('title', __('Commande validée') )
 
 @section('main-content')
 

@@ -42,12 +42,7 @@
     @foreach($cart->product as $product)
         <div class="row d-flex justify-content-between align-items-center mt-3 mb-3 text-center">
             <div class="col-md-3 mb-2">
-                @if(Storage::disk('public')->exists('/upload/catalog/products/'.getProductInfos($product->product_id)->code_article.'.jpg'))
-                    <img src="{{ getImageUrl('/upload/catalog/products/'.getProductInfos($product->product_id)->code_article.'.jpg', 200, 200, 'fill-max') }}" class="img-fluid" alt="{{ getProductInfos($product->product_id)->name  }}">
-                @else
-                    <img src="{{ asset('frontend/images/no-image.png') }}" class="d-block w-100 rounded-5" alt="{{ getProductInfos($product->product_id)->name  }}">
-                @endif
-                    {{-- <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">--}}
+                <img src="{{ getImageUrl(removeStorageFromURL($product->fav_image), 200, 200, 'fill-max') }}" class="w-50" alt="{{ $product->name }}">
             </div>
             <div class="col-md-4 mb-2">
                 <p class="lead fw-normal mb-2">{{ getProductInfos($product->product_id)->name  }}</p>
@@ -219,7 +214,7 @@
                     <div class="text-center">
                         <img class="w-50 mb-3 mt-3" src="{{ asset('frontend/images/discount.png') }}">
                         <h2 class="mx-auto">- 5 <i class="fa-solid fa-percent"></i></h2>
-                        <p><b>300</b> point de fidélité seront utilisé.</p>
+                        <p><b>300</b> points de fidélité seront utilisés.</p>
                     </div>
                 </div>
             </div>
@@ -229,7 +224,7 @@
                     <div class="text-center">
                         <img class="w-50 mb-3 mt-3" src="{{ asset('frontend/images/discount.png') }}">
                         <h2 class="mx-auto">- 10 <i class="fa-solid fa-percent"></i></h2>
-                        <p><b>500</b> point de fidélité seront utilisé.</p>
+                        <p><b>500</b> points de fidélité seront utilisés.</p>
                     </div>
                 </div>
             </div>
@@ -239,7 +234,7 @@
                     <div class="text-center">
                         <img class="w-50 mb-3 mt-3" src="{{ asset('frontend/images/discount.png') }}">
                         <h2 class="mx-auto">- 15 <i class="fa-solid fa-percent"></i></h2>
-                        <p><b>1 000</b> point de fidélité seront utilisé.</p>
+                        <p><b>1 000</b> points de fidélité seront utilisés.</p>
                     </div>
                 </div>
             </div>
@@ -250,19 +245,26 @@
     <div class="p-3">
         <h2 id="sous-total" class="text-end mt-4">Sous-total ({{ $cart->countProduct() }} article(s)) :  {{ formatPriceToFloat($cart->total_ttc) }} €</h2>
         @if($cart->loyality == 5)
-            <h4 class="text-end">Remise de 5% (<b>- {{ formatPriceToFloat($cart->countProductsPrice(0,0) * 5 / 100) }} €</b>) <br> Hors cout de livraison</h4>
+            <h4 class="text-end">Remise de 5% (<b>- {{ formatPriceToFloat($cart->countProductsPrice(0,0) * 5 / 100) }} €</b>) <br> Hors coûts de livraison</h4>
         @endif
         @if($cart->loyality == 10)
-            <h4 class="text-end">Remise de 10%  (<b>- {{ formatPriceToFloat($cart->countProductsPrice(0,0) * 10 / 100) }} €</b>) <br> Hors cout de livraison</h4>
+            <h4 class="text-end">Remise de 10%  (<b>- {{ formatPriceToFloat($cart->countProductsPrice(0,0) * 10 / 100) }} €</b>) <br> Hors coûts de livraison</h4>
         @endif
         @if($cart->loyality == 15)
-            <h4 class="text-end">Remise de 15% (<b>- {{ formatPriceToFloat($cart->countProductsPrice(0,0) * 15 / 100) }} €</b>) <br> Hors cout de livraison</h4>
+            <h4 class="text-end">Remise de 15% (<b>- {{ formatPriceToFloat($cart->countProductsPrice(0,0) * 15 / 100) }} €</b>) <br> Hors coûts de livraison</h4>
         @endif
         <p class="text-end" >Le total de la commande inclut la TVA et la livraison.</p>
     </div>
 
+
+
+
+
     <div class="text-center">
-        <form action="{{ route('orders.send_payment') }}" method="post"> @csrf
+        <form action="{{ route('orders.cart_validation', 'PAYMENT_TEST') }}" method="post"> @csrf
+            <input type="hidden" name="payment_id" value="PAYMENT_TEST">
+
+            {{-- Renvoit vers la plateforme de payement <form action="{{ route('orders.send_payment') }}" method="post"> @csrf --}}
             <input type="hidden" name="cart" value="{{ $cart->id }}">
             <input type="hidden" name="user_address_delivery" value="{{ $user_address->id }}">
             <input type="hidden" name="user_address_invoice" value="{{ $user_address_fac->id }}">

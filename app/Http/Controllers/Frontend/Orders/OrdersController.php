@@ -15,6 +15,7 @@ use App\Models\Users\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cookie;
 
@@ -142,8 +143,21 @@ class OrdersController extends FrontendBaseController
     }
 
     // Enregistrement des toutes les informations de la commande
-    public function cart_validation($payment_id)
+    public function cart_validation(Request $request, ?string $payment_id  = 'PAYMENT_TEST')
     {
+        $payment_test = false;
+        if($payment_id == 'PAYMENT_TEST') {
+            $payment_test = true;
+            $payment_id = generateUniqueAn6();
+            $cart = Carts::findOrFail($request->cart);
+            $cart->update([
+                'delivery_id' => $request->deliver,
+                'user_address_delivery' => $request->user_address_delivery,
+                'user_address_invoice' => $request->user_address_invoice,
+                'payment_id' => $payment_id,
+            ]);
+        }
+
         // Récuperation des informations du panier
         $cart = Carts::with('product')->where('payment_id', '=', $payment_id)->first();
 
@@ -202,7 +216,7 @@ class OrdersController extends FrontendBaseController
             $orderProducts->orders_id = $order->id;
             $orderProducts->carts_id = $cart_product->carts_id;
             $orderProducts->product_id = $cart_product->product_id;
-            $orderProducts->code_article = $productInfo->code_article;
+            $orderProducts->erp_id = $productInfo->erp_id;
             $orderProducts->name = $productInfo->name;
             $orderProducts->short_description = $productInfo->short_description;
             $orderProducts->fav_image = $cart_product->fav_image;
@@ -246,10 +260,18 @@ class OrdersController extends FrontendBaseController
             'total_product' => count($cart->product),
             'total_ttc' => formatPriceToFloat($order->total_ttc),
         ];
-        Mail::send(new NewOrderMail($mailData));
 
+        $session_id = $request->session()->regenerate();
         Cookie::queue(Cookie::forget('session_id'));
-        return $payment_id;
+        cookie()->queue(cookie()->forever('session_id', $session_id));
+
+        if($payment_test == false) {
+            Mail::send(new NewOrderMail($mailData));
+            return $payment_id;
+        } else {
+            return to_route('orders.success');
+        }
+
     }
 
     public function orderValidated()

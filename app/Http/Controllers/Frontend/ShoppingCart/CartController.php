@@ -21,7 +21,7 @@ class CartController extends FrontendBaseController
     public function index()
     {
         $this->update_cart_product();
-        $cart = $this->getCartInstance();
+        $cart = Carts::getCartInstance();
         return view('frontend.carts.index', compact('cart'));
     }
 
@@ -36,10 +36,10 @@ class CartController extends FrontendBaseController
     public function chose_address()
     {
         if (!Auth::check()) {
-            return redirect()->route('login');
+            return redirect()->route('login', ['page' => 'cart']);
         }
 
-        $cart = $this->getCartInstance();
+        $cart = Carts::getCartInstance();
         $address = Address::where('user_id', Auth::id())->get();
 
         return view('frontend.carts.chose_address', compact('cart', 'address'));
@@ -111,7 +111,7 @@ class CartController extends FrontendBaseController
     public function cart_summary(Request $request)
     {
         $deliver = Delivery::findOrFail($request->delivery);
-        $cart = $this->getCartInstance();
+        $cart = Carts::getCartInstance();
         $cart->loyality = $request->loyality;
         $cart->delivery_id = $request->delivery;
         $cart->delivery_price = $deliver->price_ttc;
@@ -128,50 +128,9 @@ class CartController extends FrontendBaseController
         ]);
     }
 
-    private function getCartInstance()
-    {
-        $session_id = Session::getId();
-        $cookie = request()->cookie('session_id');
-
-        $cart = Carts::where('session_id', $session_id)
-            ->orWhere('session_id', $cookie)
-            ->where('status', 'En cours')
-            ->latest()
-            ->first();
-
-        if ($cart) {
-            if (Auth::check()) {
-                $cart_user = Carts::where('user_id', Auth::id())->where('status', 'En cours')->first();
-                if ($cart_user) {
-                    return $cart_user;
-                }
-                $cart->update(['user_id' => Auth::id()]);
-            } else {
-                cookie()->queue(cookie()->forever('session_id', $session_id));
-            }
-            return $cart;
-        }
-
-        $cart_data = [
-            'session_id' => $session_id,
-            'status' => 'En cours',
-        ];
-
-        if (request()->postal_code) {
-            $cart_data['postal_code'] = request()->postal_code;
-            $cart_data['delivery_date'] = request()->delivery_date;
-            $cart_data['delivery_slot'] = request()->delivery_slot;
-        }
-
-        $cart = Carts::create($cart_data);
-        cookie()->queue(cookie()->forever('session_id', $session_id));
-
-        return $cart;
-    }
-
     public function update_cart_product()
     {
-        $cart = $this->getCartInstance();
+        $cart = Carts::getCartInstance();
         foreach ($cart->product as $product) {
             $productinfo = Product::firstwhere('id', $product->product_id);
             $discountProducts = collect();
@@ -204,7 +163,7 @@ class CartController extends FrontendBaseController
 
     public function add_product(Request $request, Product $produit)
     {
-        $cart = $this->getCartInstance();
+        $cart = Carts::getCartInstance();
         $existingProduct = $cart->product()->where('product_id', $produit->id)->first();
         $product_stock = Product::select('stock')->firstwhere('id', $produit->id);
         if ($existingProduct) {
@@ -259,38 +218,15 @@ class CartController extends FrontendBaseController
             $cart->product()->create($cartProductData);
         }
 
-        if ($request->delivery_slot) {
-            return new HtmxResponseClientRefresh();
-        }
+        return view('frontend.layouts.partials.cart_modal', [
+            'cart' => $cart,
+        ]);
 
-        // Calculate the total quantity of products in the cart
-        $count = 0;
-        foreach ($cart->product as $product) {
-            if ($product->stock_unit == 'kg') {
-                $count = $count + 1;
-            } else {
-                $count = $count + $product->quantity;
-            }
-        }
-        return '<span id="nb_produit">' . $count . '</span>';
     }
 
     public static function count_product()
     {
-        $cookie = request()->cookie('session_id');
-        if (Auth::check()) {
-            $cart = Carts::where('user_id', Auth::id())->where('status', 'En cours')->first();
-            if ($cart) {
-                cookie()->queue(cookie()->forever('session_id', $cart->session_id));
-                $cookie = $cart->session_id;
-            }
-        }
-
-        $cart = Carts::where('session_id', $cookie)->first();
-        if (!$cart) {
-            return 0;
-        }
-
+        $cart = Carts::getCartInstance();
         $count = 0;
         foreach ($cart->product as $product) {
             if ($product->stock_unit == 'kg') {
@@ -301,6 +237,21 @@ class CartController extends FrontendBaseController
         }
         return $count;
     }
+
+    public static function count_product_json()
+    {
+        $cart = Carts::getCartInstance();
+        $count = 0;
+        foreach ($cart->product as $product) {
+            if ($product->stock_unit == 'kg') {
+                $count = $count + 1;
+            } else {
+                $count = $count + $product->quantity;
+            }
+        }
+        return response()->json(['count' => $count]);
+    }
+
     public function update_quantity_product(Request $request, $product)
     {
         $product = CartsProducts::findOrFail($product);
@@ -312,6 +263,6 @@ class CartController extends FrontendBaseController
     public function delete_product(CartsProducts $produit)
     {
         $produit->delete();
-        return back();
+        return back()->withsuccess('Le produit a bien été retiré au panier.');
     }
 }
